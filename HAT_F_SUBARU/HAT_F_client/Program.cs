@@ -36,6 +36,14 @@ namespace HatFClient
         [STAThread]
         static void Main()
         {
+            // TODO 利率異常チェック条件を個人ごとではなく部署ごとに設定可能にする
+            // 暫定的に条件値を固定し編集不可とする
+            Properties.Settings.Default.interestrate_rate_over = 50.ToString();
+            Properties.Settings.Default.interestrate_rate_under = string.Empty;
+            Properties.Settings.Default.interestrate_suryo_over = 100.ToString();
+            Properties.Settings.Default.interestrate_uri_kin_over = 1000000.ToString();
+            Properties.Settings.Default.interestrate_uri_tan_zero = true;
+
             if (Properties.Settings.Default.IsUpgrade == false)
             {
                 Properties.Settings.Default.Upgrade();

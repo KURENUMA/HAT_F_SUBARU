@@ -149,8 +149,8 @@ namespace HatFClient.Views.Order
             set => txtroRiritsu.Text = value.HasValue ? string.Format("{0:#,0.0}", value) : string.Empty;
         }
 
-    /// <summary>利率エラー</summary>
-    [Browsable(false)]
+        /// <summary>利率エラー</summary>
+        [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool ProfitError
         {
@@ -265,6 +265,22 @@ namespace HatFClient.Views.Order
             get => txtTAX_FLG.Text;
             set => txtTAX_FLG.Text = value;
         }
+
+        /// <summary>K単価フラグがONになった時点の売上単価</summary>
+        private decimal? _uriKTanka;
+
+        /// <summary>売上単価のK単価フラグ</summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public bool UriTanIsKTanka
+        {
+            get => lblKTanka.Visible;
+            set
+            {
+                _uriKTanka = value ? UriTan : _uriKTanka;
+                lblKTanka.Visible = value;
+            }
+        }
         #endregion
 
         /// <summary>商品コードのサジェスト有効</summary>
@@ -286,6 +302,7 @@ namespace HatFClient.Views.Order
                 cmbSyohinSuggest.SuggestSelected += CmbSyohinSuggest_SuggestSelected;
                 cmbSyohinSuggest.SuggetItemRecived += CmbSyohinSuggest_SuggetItemRecived;
                 cmbSyohinSuggest.SelectCanceled += CmbSyohinSuggest_SelectCanceled;
+                decURI_TAN.Validated += DecURI_TAN_Validated;
             }
         }
 
@@ -366,12 +383,12 @@ namespace HatFClient.Views.Order
 
                 DateTime currentDateTime = DateTime.Now;
                 _lastTextChangedDateTime = currentDateTime;
-                
+
                 // 連続打鍵の待機
                 await Task.Delay(_suggestWait);
-                
+
                 // 次の打鍵があったらやらない
-                if (_lastTextChangedDateTime <= currentDateTime) 
+                if (_lastTextChangedDateTime <= currentDateTime)
                 {
                     // 商品コード欄にフォーカスが残っているときだけサジェスト展開
                     if (txtSYOHIN_CD.Focused)
@@ -462,6 +479,15 @@ namespace HatFClient.Views.Order
                 NoTankaWariai = null;
             }
         }
+
+        /// <summary>売上単価の入力完了</summary>
+        /// <param name="sender">イベント発生元</param>
+        /// <param name="e">イベント情報</param>
+        private void DecURI_TAN_Validated(object sender, EventArgs e)
+        {
+            UriTanIsKTanka = (UriTan == _uriKTanka);
+        }
+
         #endregion
 
         #region << 分類・バラ数 >>

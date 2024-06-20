@@ -59,6 +59,7 @@ namespace HatFClient.Views.Order
             this.numSURYO = new HatFClient.CustomControls.TextBoxNum();
             this.txtSYOHIN_CD = new HatFClient.CustomControls.TextBoxChar();
             this.txtSYOBUN_CD = new HatFClient.CustomControls.TextBoxChar();
+            this.lblKTanka = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dateNOUKI)).BeginInit();
             this.SuspendLayout();
             // 
@@ -68,7 +69,7 @@ namespace HatFClient.Views.Order
             this.btnSiireBikou.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnSiireBikou.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.btnSiireBikou.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnSiireBikou.Location = new System.Drawing.Point(1159, 34);
+            this.btnSiireBikou.Location = new System.Drawing.Point(1159, 32);
             this.btnSiireBikou.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnSiireBikou.Name = "btnSiireBikou";
             this.btnSiireBikou.Size = new System.Drawing.Size(54, 30);
@@ -82,7 +83,7 @@ namespace HatFClient.Views.Order
             this.btnSearch.BackgroundImage = global::HatFClient.Properties.Resources.transparency_search_icon;
             this.btnSearch.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnSearch.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.btnSearch.Location = new System.Drawing.Point(318, 6);
+            this.btnSearch.Location = new System.Drawing.Point(318, 3);
             this.btnSearch.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(27, 26);
@@ -93,7 +94,7 @@ namespace HatFClient.Views.Order
             // 
             // txtSiireBikou
             // 
-            this.txtSiireBikou.Location = new System.Drawing.Point(1159, 37);
+            this.txtSiireBikou.Location = new System.Drawing.Point(1159, 36);
             this.txtSiireBikou.Name = "txtSiireBikou";
             this.txtSiireBikou.Size = new System.Drawing.Size(16, 23);
             this.txtSiireBikou.TabIndex = 141;
@@ -120,6 +121,7 @@ namespace HatFClient.Views.Order
             this.cmbSyohinSuggest.Location = new System.Drawing.Point(114, 32);
             this.cmbSyohinSuggest.MinimumSearchKeywordLength = 1;
             this.cmbSyohinSuggest.Name = "cmbSyohinSuggest";
+            this.cmbSyohinSuggest.PairControl = null;
             this.cmbSyohinSuggest.Size = new System.Drawing.Size(447, 23);
             this.cmbSyohinSuggest.SuggestItemFetchingEnabled = true;
             this.cmbSyohinSuggest.TabIndex = 142;
@@ -150,7 +152,7 @@ namespace HatFClient.Views.Order
             this.dateNOUKI.LoopPosition = false;
             this.dateNOUKI.MaxLength = 8;
             this.dateNOUKI.Name = "dateNOUKI";
-            this.dateNOUKI.Size = new System.Drawing.Size(104, 21);
+            this.dateNOUKI.Size = new System.Drawing.Size(104, 23);
             this.dateNOUKI.TabIndex = 111;
             this.dateNOUKI.Tag = null;
             this.dateNOUKI.VisibleButtons = C1.Win.C1Input.DropDownControlButtonFlags.DropDown;
@@ -223,7 +225,7 @@ namespace HatFClient.Views.Order
             this.decURI_KAKE.Location = new System.Drawing.Point(114, 36);
             this.decURI_KAKE.MaxLength = 5;
             this.decURI_KAKE.Name = "decURI_KAKE";
-            this.decURI_KAKE.Size = new System.Drawing.Size(106, 23);
+            this.decURI_KAKE.Size = new System.Drawing.Size(51, 23);
             this.decURI_KAKE.TabIndex = 115;
             this.decURI_KAKE.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -321,10 +323,10 @@ namespace HatFClient.Views.Order
             // decURI_TAN
             // 
             this.decURI_TAN.ImeMode = System.Windows.Forms.ImeMode.Disable;
-            this.decURI_TAN.Location = new System.Drawing.Point(222, 36);
+            this.decURI_TAN.Location = new System.Drawing.Point(171, 36);
             this.decURI_TAN.MaxLength = 13;
             this.decURI_TAN.Name = "decURI_TAN";
-            this.decURI_TAN.Size = new System.Drawing.Size(124, 23);
+            this.decURI_TAN.Size = new System.Drawing.Size(105, 23);
             this.decURI_TAN.TabIndex = 116;
             this.decURI_TAN.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.decURI_TAN.Validated += new System.EventHandler(this.CalcPer_Validated);
@@ -417,11 +419,24 @@ namespace HatFClient.Views.Order
             this.txtSYOBUN_CD.TextChanged += new System.EventHandler(this.ForTabOrder_TextChanged);
             this.txtSYOBUN_CD.Validated += new System.EventHandler(this.TxtShobunCd_Validated);
             // 
+            // lblKTanka
+            // 
+            this.lblKTanka.AutoSize = true;
+            this.lblKTanka.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lblKTanka.ForeColor = System.Drawing.Color.Blue;
+            this.lblKTanka.Location = new System.Drawing.Point(282, 40);
+            this.lblKTanka.Name = "lblKTanka";
+            this.lblKTanka.Size = new System.Drawing.Size(31, 15);
+            this.lblKTanka.TabIndex = 145;
+            this.lblKTanka.Text = "Ｋ単";
+            this.lblKTanka.Visible = false;
+            // 
             // JH_Main_Detail
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.Controls.Add(this.lblKTanka);
             this.Controls.Add(this.lblDEL_FLG);
             this.Controls.Add(this.cmbSyohinSuggest);
             this.Controls.Add(this.dateNOUKI);
@@ -490,5 +505,6 @@ namespace HatFClient.Views.Order
         public CustomControls.C1DateInputEx dateNOUKI;
         public CustomControls.ComboBoxSuggest cmbSyohinSuggest;
         public System.Windows.Forms.Label lblDEL_FLG;
+        private System.Windows.Forms.Label lblKTanka;
     }
 }

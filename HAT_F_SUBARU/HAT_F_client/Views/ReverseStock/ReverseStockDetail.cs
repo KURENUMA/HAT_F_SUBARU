@@ -264,7 +264,7 @@ namespace HatFClient.Views.template
                             SalesRowNo = r.売上行番号, // 売上行番号
                             DenNo = r.伝票番号, // 伝票番号
                             ProdCode = r.商品コード, // 商品コード
-                            Quantity = r.数量, // 売上数量
+　　　　　　　　            Quantity = r.現在数量, // 売上数量
                             ReturnRequestQuantity = r.返品依頼数量, // 返品依頼数量
                             SellUnitPrice = r.単価, // 売上単価
                             StockUnitPrice = r.在庫単価, // 在庫単価 TODO

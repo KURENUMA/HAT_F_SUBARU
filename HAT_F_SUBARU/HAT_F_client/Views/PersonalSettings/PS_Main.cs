@@ -45,8 +45,9 @@ namespace HatFClient.Views.PersonalSettings
             }
             txtRateOver.Text = Properties.Settings.Default.interestrate_rate_over;
             txtRateUnder.Text = Properties.Settings.Default.interestrate_rate_under;
-            txtSuryo.Text = Properties.Settings.Default.interestrate_suryo_over;
-            txtUriKin.Text = Properties.Settings.Default.interestrate_uri_kin_over;
+            txtSuryo.Text = HatFComParts.DoFormatN0(Properties.Settings.Default.interestrate_suryo_over);
+            txtUriKin.Text = HatFComParts.DoFormatN0(Properties.Settings.Default.interestrate_uri_kin_over);
+            chkUriTanZero.Checked = Properties.Settings.Default.interestrate_uri_tan_zero;
         }
 
         /// <summary>受発注タブのラジオボタンに応じて画面を更新する</summary>
@@ -115,6 +116,7 @@ namespace HatFClient.Views.PersonalSettings
             Properties.Settings.Default.interestrate_rate_under = txtRateUnder.Text.Replace(",", string.Empty);
             Properties.Settings.Default.interestrate_suryo_over = txtSuryo.Text.Replace(",", string.Empty);
             Properties.Settings.Default.interestrate_uri_kin_over = txtUriKin.Text.Replace(",", string.Empty);
+            Properties.Settings.Default.interestrate_uri_tan_zero = chkUriTanZero.Checked;
             Properties.Settings.Default.Save();
             DialogHelper.InformationMessage(this, "個人設定を保存しました。");
             DialogResult = DialogResult.OK;

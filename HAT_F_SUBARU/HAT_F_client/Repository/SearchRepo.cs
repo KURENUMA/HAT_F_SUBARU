@@ -290,12 +290,14 @@ namespace HatFClient.Repository
         /// <param name="suryoUnder">基本検索条件[数量がX個以下]</param>
         /// <param name="uriKinOver">基本検索条件[売上金額がX円以上]</param>
         /// <param name="uriKinUnder">基本検索条件[売上金額がX円以下]</param>
+        /// <param name="uriTanZero">基本検索条件[売上金額がゼロ円]</param>
         /// <param name="searchItems">詳細検索条件</param>
         /// <returns>利率異常一覧</returns>
         public Task<ApiResponse<List<ViewInterestRateBeforeFix>>> SearchInterestRateBeforeFixesAsync(
             decimal? profitOver, decimal? profitUnder,
             int? suryoOver, int? suryoUnder,
             decimal? uriKinOver, decimal? uriKinUnder,
+            bool uriTanZero,
             List<FilterCriteria> searchItems)
         {
             return Program.HatFApiClient.PostAsync<List<ViewInterestRateBeforeFix>>(ApiResources.HatF.Client.InterestRateBeforeFix,
@@ -306,6 +308,7 @@ namespace HatFClient.Repository
                     {nameof(suryoOver), suryoOver},
                     {nameof(suryoUnder), suryoUnder},
                     {nameof(uriKinOver), uriKinUnder},
+                    {nameof(uriTanZero), uriTanZero},
                 },
                 JsonConvert.SerializeObject(searchItems.Select(f => f.AsFilterOption()).ToList()));
         }
@@ -317,12 +320,14 @@ namespace HatFClient.Repository
         /// <param name="suryoUnder">基本検索条件[数量がX個以下]</param>
         /// <param name="uriKinOver">基本検索条件[売上金額がX円以上]</param>
         /// <param name="uriKinUnder">基本検索条件[売上金額がX円以下]</param>
+        /// <param name="uriTanZero">基本検索条件[売上金額がゼロ円]</param>
         /// <param name="searchItems">詳細検索条件</param>
         /// <returns>利率異常一覧</returns>
         public Task<ApiResponse<List<ViewInterestRateFixed>>> SearchInterestRateFixedAsync(
             decimal? profitOver, decimal? profitUnder,
             int? suryoOver, int? suryoUnder,
             decimal? uriKinOver, decimal? uriKinUnder,
+            bool uriTanZero,
             List<FilterCriteria> searchItems)
         {
             return Program.HatFApiClient.PostAsync<List<ViewInterestRateFixed>>(ApiResources.HatF.Client.InterestRateFixed,
@@ -333,6 +338,7 @@ namespace HatFClient.Repository
                     {nameof(suryoOver), suryoOver},
                     {nameof(suryoUnder), suryoUnder},
                     {nameof(uriKinOver), uriKinUnder},
+                    {nameof(uriTanZero), uriTanZero},
                 },
                 JsonConvert.SerializeObject(searchItems.Select(f => f.AsFilterOption()).ToList()));
         }

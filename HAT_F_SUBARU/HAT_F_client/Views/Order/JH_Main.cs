@@ -172,7 +172,7 @@ namespace HatFClient.Views.Order
             this.chkHeaderBunrui.Checked = false;
             var headerSyohinChecked = chkHeaderSyouhin.Checked;
             this.chkHeaderSyouhin.Checked = false;
-            using(new Scope(() => chkHeaderSyouhin.Checked = headerSyohinChecked))
+            using (new Scope(() => chkHeaderSyouhin.Checked = headerSyohinChecked))
             {
                 if (boolNewFlg)
                 {
@@ -326,7 +326,7 @@ namespace HatFClient.Views.Order
         private void BtnFnc01_Click(object sender, System.EventArgs e)
         {
             this.btnFnc01.Focus();
-            if(!DialogHelper.YesNoQuestion(this, "新規入力しますか？"))
+            if (!DialogHelper.YesNoQuestion(this, "新規入力しますか？"))
             {
                 return;
             }
@@ -839,7 +839,7 @@ namespace HatFClient.Views.Order
             }
 
             // 現在が最終ページで、明細部分に何も入力されていない場合、ページを削除する
-            if (txtroFooterPageNo.Text == txtroFooterPageCount.Text && 
+            if (txtroFooterPageNo.Text == txtroFooterPageCount.Text &&
                 strDenSort == strDenSortAddPage &&
                 !BoolChkDetailDataInput())
             {
@@ -2850,7 +2850,7 @@ namespace HatFClient.Views.Order
                     if (btnFooterF4.Enabled)
                     {
                         // F4によりドロップダウンが展開されるので無効化する
-                        if(ActiveControl is ComboBox)
+                        if (ActiveControl is ComboBox)
                         {
                             e.Handled = true;
                         }
@@ -2904,7 +2904,7 @@ namespace HatFClient.Views.Order
                     if (btnKakunin.Enabled)
                     {
                         // PageDownによりドロップダウンの下の方が選択されるため無効化する
-                        if(ActiveControl is ComboBox)
+                        if (ActiveControl is ComboBox)
                         {
                             e.Handled = true;
                         }
@@ -3967,9 +3967,9 @@ namespace HatFClient.Views.Order
             }
 
             // 在庫数チェック
-            foreach(var row in Enumerable.Range(1,6).Select(i => GetUcName(i)))
+            foreach (var row in Enumerable.Range(1, 6).Select(i => GetUcName(i)))
             {
-                if(row.Bara.HasValue && row.Zaikosuu.HasValue && row.Zaikosuu < row.Bara)
+                if (row.Bara.HasValue && row.Zaikosuu.HasValue && row.Zaikosuu < row.Bara)
                 {
                     WorkOnErrorDetail(row.Name, row.numBARA, ref focusBox, ref intIdx, "BT036", ref strMessage);
                 }
@@ -4171,6 +4171,7 @@ namespace HatFClient.Views.Order
             var rateUnderCondition = HatFComParts.DoParseDecimal(Properties.Settings.Default.interestrate_rate_under);
             var suryoCondition = HatFComParts.DoParseInt(Properties.Settings.Default.interestrate_suryo_over);
             var uriKinCondition = HatFComParts.DoParseInt(Properties.Settings.Default.interestrate_uri_kin_over);
+            var uriTanZeroCondition = Properties.Settings.Default.interestrate_uri_tan_zero;
             var rowCount = 1;
 
             // 利率
@@ -4181,7 +4182,7 @@ namespace HatFClient.Views.Order
                 var uriTan = HatFComParts.DoParseDecimal(row["UriTan"].ToString());
                 var siiTan = HatFComParts.DoParseDecimal(row["SiiTan"].ToString());
                 var interestRate = (uriTan.HasValue && siiTan.HasValue && uriTan != 0) ? (uriTan - siiTan) / uriTan * 100 : null;
-                if (!interestRate.HasValue && 
+                if (!interestRate.HasValue &&
                     !ContinueWarning($"{rowCount}行目の利率に異常があります。", canContinue))
                 {
                     return false;
@@ -4193,6 +4194,12 @@ namespace HatFClient.Views.Order
                 }
                 if (rateUnderCondition.HasValue && interestRate <= rateUnderCondition &&
                     !ContinueWarning($"{rowCount}行目の利率が{rateUnderCondition}%以下です。", canContinue))
+                {
+                    return false;
+                }
+                // 単価がゼロ
+                if (uriTanZeroCondition && uriTan == 0 &&
+                    !ContinueWarning($"{rowCount}行目の単価が0円です。", canContinue))
                 {
                     return false;
                 }
@@ -5025,7 +5032,7 @@ namespace HatFClient.Views.Order
             {
                 return false;
             }
-            if(!await ValidateByServerAsync())
+            if (!await ValidateByServerAsync())
             {
                 return false;
             }
@@ -5050,7 +5057,7 @@ namespace HatFClient.Views.Order
                     // APIエラーは即時失敗
                     return false;
                 }
-                if(!companys.Value.Any())
+                if (!companys.Value.Any())
                 {
                     HatFComParts.ShowMessageAreaError(txtroNote, "仕入先情報が存在しません。");
                     HatFComParts.SetColorOnErrorControl(txtSHIRESAKI_CD);
@@ -5320,7 +5327,7 @@ namespace HatFClient.Views.Order
             result.Details?
                 .Select((d, i) => (d, i))
                 .ToList()
-                .ForEach(x => SyncCompleteDetailsRow(ucRows[x.i], request.Details[x.i] , x.d));
+                .ForEach(x => SyncCompleteDetailsRow(ucRows[x.i], request.Details[x.i], x.d));
         }
         /// <summary>
         /// 明細行補完処理
@@ -5328,7 +5335,7 @@ namespace HatFClient.Views.Order
         /// <param name="row">明細行コントロール</param>
         /// <param name="request">要求</param>
         /// <param name="result">明細行補完結果</param>
-        private void SyncCompleteDetailsRow(JH_Main_Detail row,CompleteDetailsRequestDetail request, CompleteDetailsResultDetail result)
+        private void SyncCompleteDetailsRow(JH_Main_Detail row, CompleteDetailsRequestDetail request, CompleteDetailsResultDetail result)
         {
             var detailRow = GetCurDetail(row.txtroRowNo.Text);
 
@@ -5337,39 +5344,36 @@ namespace HatFClient.Views.Order
             row.Zaikosuu = result.Stock;
             // バラ数が入力できない状況なら入力済みのバラ数を無視する
             row.Bara = row.numBARA.Enabled ? row.Bara ?? result.Bara : result.Bara;
-            // Urikake:売掛金
-            if (result.Urikake.HasValue)
+            // 売上単価、掛率
+            if (!row.Urikake.HasValue && !row.UriTan.HasValue)
             {
-                row.Urikake = result.Urikake;
+                row.Urikake = result.Urikake ?? row.Urikake;
+                row.UriTan = result.UriageTanka ?? row.UriTan;
+                row.UriTanIsKTanka = result.HasUriageKTanka;
             }
-            // UriageTanka:売上単価
-            if (result.UriageTanka.HasValue)
-            {
-                row.UriTan = result.UriageTanka;
-            }
-            // UriageKingaku:売上金額
             if (detailRow != null)
             {
                 detailRow["UriKin"] = (object)result.UriageKingaku ?? DBNull.Value;
             }
-            // SiireKake:仕入れ掛け金
-            if (result.SiireKake.HasValue)
+
+            // 仕入単価、掛率
+            if (!row.SiiKake.HasValue && !row.SiiTan.HasValue)
             {
-                row.SiiKake = result.SiireKake;
-            }
-            // 以下の条件を満たす場合、仕入回答単価の値を仕入単価として採用する
-            // ・手配中・回答待ち状態
-            // ・回答単価入力あり
-            // ・仕入単価入力なし
-            if(GetCurrentHattyuJotai() == JHOrderState.Ordered && 
-                result.ShiireKaitouTanka.HasValue && 
-                !request.ShiireTanka.HasValue)
-            {
-                row.SiiTan = result.ShiireKaitouTanka;
-            }
-            else
-            {
-                row.SiiTan = result.SiireTanka;
+                row.SiiKake = result.SiireKake ?? row.SiiKake;
+                // 以下の条件を満たす場合、仕入回答単価の値を仕入単価として採用する
+                // ・手配中・回答待ち状態
+                // ・回答単価入力あり
+                // ・仕入単価入力なし
+                if (GetCurrentHattyuJotai() == JHOrderState.Ordered &&
+                    result.ShiireKaitouTanka.HasValue &&
+                    !request.ShiireTanka.HasValue)
+                {
+                    row.SiiTan = result.ShiireKaitouTanka;
+                }
+                else
+                {
+                    row.SiiTan = result.SiireTanka;
+                }
             }
             // SiireKingaku:仕入金額
             if (detailRow != null)

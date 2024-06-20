@@ -187,5 +187,17 @@ namespace HatFClient.Properties {
                 this["interestrate_uri_kin_over"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool interestrate_uri_tan_zero {
+            get {
+                return ((bool)(this["interestrate_uri_tan_zero"]));
+            }
+            set {
+                this["interestrate_uri_tan_zero"] = value;
+            }
+        }
     }
 }

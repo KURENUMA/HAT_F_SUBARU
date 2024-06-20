@@ -44,5 +44,8 @@
     <Setting Name="interestrate_uri_kin_over" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="interestrate_uri_tan_zero" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

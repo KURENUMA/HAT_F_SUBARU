@@ -69,8 +69,9 @@ namespace HatFClient.Views.Sales
             // 個人設定による検索条件を表示
             txtRateOver.Text = Settings.Default.interestrate_rate_over;
             txtRateUnder.Text = Settings.Default.interestrate_rate_under;
-            txtSuryoOver.Text = Settings.Default.interestrate_suryo_over;
-            txtUriKinOver.Text = Settings.Default.interestrate_uri_kin_over;
+            txtSuryoOver.Text = HatFComParts.DoFormatN0(Settings.Default.interestrate_suryo_over);
+            txtUriKinOver.Text = HatFComParts.DoFormatN0(Settings.Default.interestrate_uri_kin_over);
+            chkUriTanZero.Checked = Settings.Default.interestrate_uri_tan_zero;
 
             // 検索実行
             await SyncDataAsync(_filters);
@@ -94,6 +95,8 @@ namespace HatFClient.Views.Sales
             var suryoOver = HatFComParts.DoParseInt(txtSuryoOver.Text);
             // 金額
             var uriKinOver = HatFComParts.DoParseDecimal(txtUriKinOver.Text);
+            // ゼロ円
+            var uriTanZero = chkUriTanZero.Checked;
 
             // 検索
             var result = await ApiHelper.FetchAsync(this, () =>
@@ -102,6 +105,7 @@ namespace HatFClient.Views.Sales
                     profitOver, profitUnder,
                     suryoOver, null,
                     uriKinOver, null,
+                    uriTanZero,
                     criterias);
             });
             if (result.Failed)

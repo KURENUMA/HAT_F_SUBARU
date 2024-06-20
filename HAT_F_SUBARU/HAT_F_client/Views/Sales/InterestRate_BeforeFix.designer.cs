@@ -39,6 +39,10 @@
             this.txtComment = new C1.Win.C1Input.C1TextBox();
             this.grdDetail = new C1.Win.C1FlexGrid.C1FlexGrid();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txtRateUnder = new HatFClient.CustomControls.TextBoxNum();
+            this.txtUriKinOver = new HatFClient.CustomControls.TextBoxNum();
+            this.txtSuryoOver = new HatFClient.CustomControls.TextBoxNum();
+            this.txtRateOver = new HatFClient.CustomControls.TextBoxNum();
             this.label5 = new System.Windows.Forms.Label();
             this.lblConditionUriKin = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -46,10 +50,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.lblConditionRate = new System.Windows.Forms.Label();
-            this.txtRateUnder = new HatFClient.CustomControls.TextBoxNum();
-            this.txtUriKinOver = new HatFClient.CustomControls.TextBoxNum();
-            this.txtSuryoOver = new HatFClient.CustomControls.TextBoxNum();
-            this.txtRateOver = new HatFClient.CustomControls.TextBoxNum();
+            this.chkUriTanZero = new System.Windows.Forms.CheckBox();
             this.grpList.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdList)).BeginInit();
             this.grpDetail.SuspendLayout();
@@ -80,7 +81,7 @@
             this.txtCondition.Multiline = true;
             this.txtCondition.Name = "txtCondition";
             this.txtCondition.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtCondition.Size = new System.Drawing.Size(396, 112);
+            this.txtCondition.Size = new System.Drawing.Size(396, 140);
             this.txtCondition.TabIndex = 1;
             // 
             // grpList
@@ -88,9 +89,9 @@
             this.grpList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.grpList.Controls.Add(this.grdList);
-            this.grpList.Location = new System.Drawing.Point(18, 124);
+            this.grpList.Location = new System.Drawing.Point(18, 153);
             this.grpList.Name = "grpList";
-            this.grpList.Size = new System.Drawing.Size(544, 551);
+            this.grpList.Size = new System.Drawing.Size(544, 522);
             this.grpList.TabIndex = 3;
             this.grpList.TabStop = false;
             this.grpList.Text = "売上一覧";
@@ -108,7 +109,7 @@
             this.grdList.Name = "grdList";
             this.grdList.Rows.Count = 1;
             this.grdList.SelectionMode = C1.Win.C1FlexGrid.SelectionModeEnum.Row;
-            this.grdList.Size = new System.Drawing.Size(521, 515);
+            this.grdList.Size = new System.Drawing.Size(521, 486);
             this.grdList.TabIndex = 0;
             // 
             // grpDetail
@@ -120,9 +121,9 @@
             this.grpDetail.Controls.Add(this.btnSave);
             this.grpDetail.Controls.Add(this.txtComment);
             this.grpDetail.Controls.Add(this.grdDetail);
-            this.grpDetail.Location = new System.Drawing.Point(575, 124);
+            this.grpDetail.Location = new System.Drawing.Point(575, 153);
             this.grpDetail.Name = "grpDetail";
-            this.grpDetail.Size = new System.Drawing.Size(625, 551);
+            this.grpDetail.Size = new System.Drawing.Size(625, 522);
             this.grpDetail.TabIndex = 4;
             this.grpDetail.TabStop = false;
             this.grpDetail.Text = "明細";
@@ -131,7 +132,7 @@
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 384);
+            this.label1.Location = new System.Drawing.Point(6, 355);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(40, 15);
             this.label1.TabIndex = 1;
@@ -140,7 +141,7 @@
             // btnSave
             // 
             this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSave.Location = new System.Drawing.Point(499, 521);
+            this.btnSave.Location = new System.Drawing.Point(499, 492);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(120, 24);
             this.btnSave.TabIndex = 3;
@@ -154,7 +155,7 @@
             this.txtComment.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtComment.ImeMode = System.Windows.Forms.ImeMode.On;
-            this.txtComment.Location = new System.Drawing.Point(9, 402);
+            this.txtComment.Location = new System.Drawing.Point(9, 373);
             this.txtComment.MaxLength = 1000;
             this.txtComment.Multiline = true;
             this.txtComment.Name = "txtComment";
@@ -175,12 +176,13 @@
             this.grdDetail.Name = "grdDetail";
             this.grdDetail.Rows.Count = 1;
             this.grdDetail.SelectionMode = C1.Win.C1FlexGrid.SelectionModeEnum.Row;
-            this.grdDetail.Size = new System.Drawing.Size(604, 340);
+            this.grdDetail.Size = new System.Drawing.Size(604, 311);
             this.grdDetail.TabIndex = 0;
             this.grdDetail.CellChecked += new C1.Win.C1FlexGrid.RowColEventHandler(this.grdDetail_CellChecked);
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.chkUriTanZero);
             this.groupBox1.Controls.Add(this.txtRateUnder);
             this.groupBox1.Controls.Add(this.txtUriKinOver);
             this.groupBox1.Controls.Add(this.txtSuryoOver);
@@ -194,15 +196,59 @@
             this.groupBox1.Controls.Add(this.lblConditionRate);
             this.groupBox1.Location = new System.Drawing.Point(18, 5);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(544, 113);
+            this.groupBox1.Size = new System.Drawing.Size(544, 142);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "基本検索条件";
             // 
+            // txtRateUnder
+            // 
+            this.txtRateUnder.Enabled = false;
+            this.txtRateUnder.ImeMode = System.Windows.Forms.ImeMode.Off;
+            this.txtRateUnder.Location = new System.Drawing.Point(244, 21);
+            this.txtRateUnder.MaxLength = 10;
+            this.txtRateUnder.Name = "txtRateUnder";
+            this.txtRateUnder.Size = new System.Drawing.Size(54, 23);
+            this.txtRateUnder.TabIndex = 3;
+            this.txtRateUnder.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // txtUriKinOver
+            // 
+            this.txtUriKinOver.Enabled = false;
+            this.txtUriKinOver.ImeMode = System.Windows.Forms.ImeMode.Off;
+            this.txtUriKinOver.Location = new System.Drawing.Point(107, 79);
+            this.txtUriKinOver.MaxLength = 3;
+            this.txtUriKinOver.Name = "txtUriKinOver";
+            this.txtUriKinOver.Size = new System.Drawing.Size(103, 23);
+            this.txtUriKinOver.TabIndex = 9;
+            this.txtUriKinOver.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // txtSuryoOver
+            // 
+            this.txtSuryoOver.Enabled = false;
+            this.txtSuryoOver.ImeMode = System.Windows.Forms.ImeMode.Off;
+            this.txtSuryoOver.Location = new System.Drawing.Point(107, 50);
+            this.txtSuryoOver.MaxLength = 3;
+            this.txtSuryoOver.Name = "txtSuryoOver";
+            this.txtSuryoOver.Size = new System.Drawing.Size(54, 23);
+            this.txtSuryoOver.TabIndex = 6;
+            this.txtSuryoOver.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // txtRateOver
+            // 
+            this.txtRateOver.Enabled = false;
+            this.txtRateOver.ImeMode = System.Windows.Forms.ImeMode.Off;
+            this.txtRateOver.Location = new System.Drawing.Point(107, 21);
+            this.txtRateOver.MaxLength = 10;
+            this.txtRateOver.Name = "txtRateOver";
+            this.txtRateOver.Size = new System.Drawing.Size(54, 23);
+            this.txtRateOver.TabIndex = 1;
+            this.txtRateOver.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(167, 82);
+            this.label5.Location = new System.Drawing.Point(216, 83);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(43, 15);
             this.label5.TabIndex = 10;
@@ -211,7 +257,7 @@
             // lblConditionUriKin
             // 
             this.lblConditionUriKin.AutoSize = true;
-            this.lblConditionUriKin.Location = new System.Drawing.Point(14, 82);
+            this.lblConditionUriKin.Location = new System.Drawing.Point(14, 83);
             this.lblConditionUriKin.Name = "lblConditionUriKin";
             this.lblConditionUriKin.Size = new System.Drawing.Size(87, 15);
             this.lblConditionUriKin.TabIndex = 8;
@@ -220,7 +266,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(167, 55);
+            this.label4.Location = new System.Drawing.Point(167, 54);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(43, 15);
             this.label4.TabIndex = 7;
@@ -229,7 +275,7 @@
             // lblConditionSuryo
             // 
             this.lblConditionSuryo.AutoSize = true;
-            this.lblConditionSuryo.Location = new System.Drawing.Point(14, 55);
+            this.lblConditionSuryo.Location = new System.Drawing.Point(14, 54);
             this.lblConditionSuryo.Name = "lblConditionSuryo";
             this.lblConditionSuryo.Size = new System.Drawing.Size(87, 15);
             this.lblConditionSuryo.TabIndex = 5;
@@ -262,45 +308,16 @@
             this.lblConditionRate.TabIndex = 0;
             this.lblConditionRate.Text = "行単位での利率";
             // 
-            // txtRateUnder
+            // chkUriTanZero
             // 
-            this.txtRateUnder.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.txtRateUnder.Location = new System.Drawing.Point(244, 22);
-            this.txtRateUnder.MaxLength = 10;
-            this.txtRateUnder.Name = "txtRateUnder";
-            this.txtRateUnder.Size = new System.Drawing.Size(54, 23);
-            this.txtRateUnder.TabIndex = 3;
-            this.txtRateUnder.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // txtUriKinOver
-            // 
-            this.txtUriKinOver.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.txtUriKinOver.Location = new System.Drawing.Point(107, 79);
-            this.txtUriKinOver.MaxLength = 3;
-            this.txtUriKinOver.Name = "txtUriKinOver";
-            this.txtUriKinOver.Size = new System.Drawing.Size(54, 23);
-            this.txtUriKinOver.TabIndex = 9;
-            this.txtUriKinOver.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // txtSuryoOver
-            // 
-            this.txtSuryoOver.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.txtSuryoOver.Location = new System.Drawing.Point(107, 51);
-            this.txtSuryoOver.MaxLength = 3;
-            this.txtSuryoOver.Name = "txtSuryoOver";
-            this.txtSuryoOver.Size = new System.Drawing.Size(54, 23);
-            this.txtSuryoOver.TabIndex = 6;
-            this.txtSuryoOver.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // txtRateOver
-            // 
-            this.txtRateOver.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.txtRateOver.Location = new System.Drawing.Point(107, 22);
-            this.txtRateOver.MaxLength = 10;
-            this.txtRateOver.Name = "txtRateOver";
-            this.txtRateOver.Size = new System.Drawing.Size(54, 23);
-            this.txtRateOver.TabIndex = 1;
-            this.txtRateOver.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.chkUriTanZero.AutoSize = true;
+            this.chkUriTanZero.Enabled = false;
+            this.chkUriTanZero.Location = new System.Drawing.Point(107, 110);
+            this.chkUriTanZero.Name = "chkUriTanZero";
+            this.chkUriTanZero.Size = new System.Drawing.Size(115, 19);
+            this.chkUriTanZero.TabIndex = 11;
+            this.chkUriTanZero.Text = "売上単価がゼロ円";
+            this.chkUriTanZero.UseVisualStyleBackColor = true;
             // 
             // InterestRate_BeforeFix
             // 
@@ -356,5 +373,6 @@
         private CustomControls.TextBoxNum txtSuryoOver;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.CheckBox chkUriTanZero;
     }
 }

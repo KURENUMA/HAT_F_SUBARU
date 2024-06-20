@@ -48,6 +48,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.tabInterestRate = new System.Windows.Forms.TabPage();
+            this.chkUriTanZero = new System.Windows.Forms.CheckBox();
             this.txtUriKin = new HatFClient.CustomControls.TextBoxNum();
             this.txtSuryo = new HatFClient.CustomControls.TextBoxNum();
             this.txtRateUnder = new HatFClient.CustomControls.TextBoxNum();
@@ -57,6 +58,7 @@
             this.label12 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -287,6 +289,7 @@
             // 
             // tabInterestRate
             // 
+            this.tabInterestRate.Controls.Add(this.chkUriTanZero);
             this.tabInterestRate.Controls.Add(this.txtUriKin);
             this.tabInterestRate.Controls.Add(this.txtSuryo);
             this.tabInterestRate.Controls.Add(this.txtRateUnder);
@@ -296,6 +299,7 @@
             this.tabInterestRate.Controls.Add(this.label12);
             this.tabInterestRate.Controls.Add(this.label15);
             this.tabInterestRate.Controls.Add(this.label2);
+            this.tabInterestRate.Controls.Add(this.label16);
             this.tabInterestRate.Controls.Add(this.label13);
             this.tabInterestRate.Controls.Add(this.label11);
             this.tabInterestRate.Controls.Add(this.label1);
@@ -306,23 +310,36 @@
             this.tabInterestRate.TabIndex = 1;
             this.tabInterestRate.Text = "利率異常チェック";
             // 
+            // chkUriTanZero
+            // 
+            this.chkUriTanZero.AutoSize = true;
+            this.chkUriTanZero.Enabled = false;
+            this.chkUriTanZero.Location = new System.Drawing.Point(49, 200);
+            this.chkUriTanZero.Name = "chkUriTanZero";
+            this.chkUriTanZero.Size = new System.Drawing.Size(115, 19);
+            this.chkUriTanZero.TabIndex = 9;
+            this.chkUriTanZero.Text = "売上単価がゼロ円";
+            this.chkUriTanZero.UseVisualStyleBackColor = true;
+            // 
             // txtUriKin
             // 
             this.txtUriKin.BackColor = System.Drawing.SystemColors.Window;
+            this.txtUriKin.Enabled = false;
             this.txtUriKin.Font = new System.Drawing.Font("Meiryo UI", 10.2F);
             this.txtUriKin.ForeColor = System.Drawing.SystemColors.WindowText;
             this.txtUriKin.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.txtUriKin.Location = new System.Drawing.Point(48, 203);
+            this.txtUriKin.Location = new System.Drawing.Point(48, 273);
             this.txtUriKin.Name = "txtUriKin";
-            this.txtUriKin.Size = new System.Drawing.Size(140, 25);
-            this.txtUriKin.TabIndex = 9;
+            this.txtUriKin.Size = new System.Drawing.Size(121, 25);
+            this.txtUriKin.TabIndex = 11;
             this.txtUriKin.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // txtSuryo
             // 
+            this.txtSuryo.Enabled = false;
             this.txtSuryo.Font = new System.Drawing.Font("Meiryo UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtSuryo.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.txtSuryo.Location = new System.Drawing.Point(48, 125);
+            this.txtSuryo.Location = new System.Drawing.Point(48, 120);
             this.txtSuryo.Name = "txtSuryo";
             this.txtSuryo.Size = new System.Drawing.Size(65, 25);
             this.txtSuryo.TabIndex = 6;
@@ -330,6 +347,7 @@
             // 
             // txtRateUnder
             // 
+            this.txtRateUnder.Enabled = false;
             this.txtRateUnder.Font = new System.Drawing.Font("Meiryo UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtRateUnder.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.txtRateUnder.Location = new System.Drawing.Point(210, 45);
@@ -341,6 +359,7 @@
             // txtRateOver
             // 
             this.txtRateOver.BackColor = System.Drawing.Color.Yellow;
+            this.txtRateOver.Enabled = false;
             this.txtRateOver.Font = new System.Drawing.Font("Meiryo UI", 10.2F, System.Drawing.FontStyle.Bold);
             this.txtRateOver.ForeColor = System.Drawing.SystemColors.HotTrack;
             this.txtRateOver.ImeMode = System.Windows.Forms.ImeMode.Off;
@@ -364,17 +383,17 @@
             // 
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Meiryo UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label14.Location = new System.Drawing.Point(194, 206);
+            this.label14.Location = new System.Drawing.Point(175, 276);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(50, 18);
-            this.label14.TabIndex = 10;
+            this.label14.TabIndex = 12;
             this.label14.Text = "円以上";
             // 
             // label12
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Meiryo UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label12.Location = new System.Drawing.Point(119, 128);
+            this.label12.Location = new System.Drawing.Point(119, 123);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(50, 18);
             this.label12.TabIndex = 7;
@@ -384,11 +403,11 @@
             // 
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("Meiryo UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label15.Location = new System.Drawing.Point(6, 247);
+            this.label15.Location = new System.Drawing.Point(6, 317);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(410, 18);
-            this.label15.TabIndex = 11;
-            this.label15.Text = "以上の条件をすべて満たす売上が利率異常チェック画面に表示されます。";
+            this.label15.Size = new System.Drawing.Size(433, 18);
+            this.label15.TabIndex = 13;
+            this.label15.Text = "以上のいずれかの条件を満たす売上が利率異常チェック画面に表示されます。";
             // 
             // label2
             // 
@@ -400,21 +419,31 @@
             this.label2.TabIndex = 2;
             this.label2.Text = "％以上または";
             // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Font = new System.Drawing.Font("Meiryo UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label16.Location = new System.Drawing.Point(6, 163);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(145, 18);
+            this.label16.TabIndex = 8;
+            this.label16.Text = "■行単位での売上単価";
+            // 
             // label13
             // 
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Meiryo UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label13.Location = new System.Drawing.Point(6, 169);
+            this.label13.Location = new System.Drawing.Point(6, 239);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(131, 18);
-            this.label13.TabIndex = 8;
+            this.label13.TabIndex = 10;
             this.label13.Text = "■行単位での売上額";
             // 
             // label11
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Meiryo UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label11.Location = new System.Drawing.Point(6, 91);
+            this.label11.Location = new System.Drawing.Point(6, 86);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(117, 18);
             this.label11.TabIndex = 5;
@@ -493,5 +522,7 @@
         private CustomControls.TextBoxNum txtSuryo;
         private CustomControls.TextBoxNum txtRateUnder;
         private CustomControls.TextBoxNum txtRateOver;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.CheckBox chkUriTanZero;
     }
 }
