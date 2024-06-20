@@ -1,0 +1,1414 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0CC6ECB7-7F09-45DD-A27F-6A271A8F236A}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>HatFClient</RootNamespace>
+    <AssemblyName>HatFClient</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <LangVersion>10.0</LangVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\SUBARU.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=10.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.10.1.1\lib\net461\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.4.8, Version=4.8.20231.596, Culture=neutral, PublicKeyToken=944ae1ea0e47ca04, processorArchitecture=MSIL" />
+    <Reference Include="C1.Win.C1Command.4.8, Version=4.8.20231.596, Culture=neutral, PublicKeyToken=e808566f358766d8" />
+    <Reference Include="C1.Win.C1FlexGrid.4.8, Version=4.8.20231.596, Culture=neutral, PublicKeyToken=79882d576c6336da, processorArchitecture=MSIL" />
+    <Reference Include="C1.Win.C1FlexGrid.ImportExport.4.8, Version=4.8.20231.596, Culture=neutral, PublicKeyToken=79882d576c6336da, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\Program Files (x86)\ComponentOne\WinForms Edition\bin\v4.8\C1.Win.C1FlexGrid.ImportExport.4.8.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.C1Input.4.8, Version=4.8.20231.596, Culture=neutral, PublicKeyToken=7e7ff60f0c214f9a, processorArchitecture=MSIL" />
+    <Reference Include="C1.Win.C1Schedule.4.8, Version=4.8.20231.596, Culture=neutral, PublicKeyToken=79882d576c6336da, processorArchitecture=MSIL" />
+    <Reference Include="C1.Win.Calendar.4.8, Version=4.8.20231.596, Culture=neutral, PublicKeyToken=79882d576c6336da, processorArchitecture=MSIL" />
+    <Reference Include="ClosedXML, Version=0.102.2.0, Culture=neutral, PublicKeyToken=fd1eb21b62ae805b, processorArchitecture=MSIL">
+      <HintPath>..\packages\ClosedXML.0.102.2\lib\netstandard2.0\ClosedXML.dll</HintPath>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.16.0.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
+      <HintPath>..\packages\DocumentFormat.OpenXml.2.16.0\lib\net46\DocumentFormat.OpenXml.dll</HintPath>
+    </Reference>
+    <Reference Include="ExcelNumberFormat, Version=1.1.0.0, Culture=neutral, PublicKeyToken=23c6f5d73be07eca, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExcelNumberFormat.1.1.0\lib\net20\ExcelNumberFormat.dll</HintPath>
+    </Reference>
+    <Reference Include="Irony, Version=1.0.11.0, Culture=neutral, PublicKeyToken=ca48ace7223ead47, processorArchitecture=MSIL">
+      <HintPath>..\packages\Irony.NetCore.1.0.11\lib\net461\Irony.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationInsights, Version=2.22.0.997, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.2.22.0\lib\net46\Microsoft.ApplicationInsights.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.7.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.TimeProvider, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.TimeProvider.8.0.0\lib\net462\Microsoft.Bcl.TimeProvider.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.2.1.1\lib\netstandard2.0\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="NetOffice, Version=1.9.5.0, Culture=neutral, PublicKeyToken=297f57b43ae7c1de, processorArchitecture=MSIL">
+      <HintPath>..\packages\NetOfficeFw.Core.1.9.5\lib\net462\NetOffice.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Newtone.ResizeKit.Win.ResizeKitNET, Version=2.0.4.20002, Culture=neutral, PublicKeyToken=d2e7153ca94cf058, processorArchitecture=MSIL" />
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="OfficeApi, Version=1.9.5.0, Culture=neutral, PublicKeyToken=297f57b43ae7c1de, processorArchitecture=MSIL">
+      <HintPath>..\packages\NetOfficeFw.Office.1.9.5\lib\net462\OfficeApi.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="OutlookApi, Version=1.9.5.0, Culture=neutral, PublicKeyToken=297f57b43ae7c1de, processorArchitecture=MSIL">
+      <HintPath>..\packages\NetOfficeFw.Outlook.1.9.5\lib\net462\OutlookApi.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Polly, Version=8.0.0.0, Culture=neutral, PublicKeyToken=c8a3ffc3f8f825cc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Polly.8.3.1\lib\net472\Polly.dll</HintPath>
+    </Reference>
+    <Reference Include="Polly.Core, Version=8.0.0.0, Culture=neutral, PublicKeyToken=c8a3ffc3f8f825cc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Polly.Core.8.3.1\lib\net472\Polly.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationFramework" />
+    <Reference Include="RestSharp, Version=110.2.0.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.110.2.0\lib\net471\RestSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp.Serializers.NewtonsoftJson, Version=110.2.0.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.Serializers.NewtonsoftJson.110.2.0\lib\net471\RestSharp.Serializers.NewtonsoftJson.dll</HintPath>
+    </Reference>
+    <Reference Include="SixLabors.Fonts, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d998eea7b14cab13, processorArchitecture=MSIL">
+      <HintPath>..\packages\SixLabors.Fonts.1.0.0\lib\netstandard2.0\SixLabors.Fonts.dll</HintPath>
+    </Reference>
+    <Reference Include="stdole, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>..\packages\stdole.7.0.3300\lib\net10\stdole.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ComponentModel.Annotations.4.5.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.8.0.0\lib\net462\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing.Design" />
+    <Reference Include="System.IO, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.4.3.0\lib\net462\System.IO.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.Packaging, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Packaging.6.0.0\lib\net461\System.IO.Packaging.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Management" />
+    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http, Version=4.1.1.3, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.Http.4.3.4\lib\net46\System.Net.Http.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.4.3.0\lib\net462\System.Runtime.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.0\lib\net463\System.Security.Cryptography.Algorithms.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Encoding.4.3.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Primitives.4.3.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.0\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Text.RegularExpressions, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.RegularExpressions.4.3.1\lib\net463\System.Text.RegularExpressions.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Text.Encodings.Web, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encodings.Web.7.0.0\lib\net462\System.Text.Encodings.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Json, Version=7.0.0.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Json.7.0.2\lib\net462\System.Text.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="UIAutomationTypes" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="XLParser, Version=1.5.2.0, Culture=neutral, PublicKeyToken=63397e1e46bb91b4, processorArchitecture=MSIL">
+      <HintPath>..\packages\XLParser.1.5.2\lib\net461\XLParser.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Common\ApiResult.cs" />
+    <Compile Include="Common\ApiHelper.cs" />
+    <Compile Include="Common\AppLauncher.cs" />
+    <Compile Include="Common\ApplicationHelper.cs" />
+    <Compile Include="Common\ApplicationInsightsHelper.cs" />
+    <Compile Include="Common\ApprovalResult.cs" />
+    <Compile Include="Common\ApprovalStatus.cs" />
+    <Compile Include="Common\BlobStrageUtil.cs" />
+    <Compile Include="Common\ColorUtil.cs" />
+    <Compile Include="Common\DataHelper.cs" />
+    <Compile Include="Common\DateTimeUtil.cs" />
+    <Compile Include="Common\DialogHelper.cs" />
+    <Compile Include="Common\EnumUtil.cs" />
+    <Compile Include="Common\FileHelper.cs" />
+    <Compile Include="Common\FormHelper.cs" />
+    <Compile Include="Common\FormStyleHelper.cs" />
+    <Compile Include="Common\FormTextFormatting.cs" />
+    <Compile Include="Common\GridStyleHelper.cs" />
+    <Compile Include="Common\HatFAppConfig.cs" />
+    <Compile Include="Common\HatFAppDataPath.cs" />
+    <Compile Include="Common\HatFConfigReader.cs" />
+    <Compile Include="Common\HatFTheme.cs" />
+    <Compile Include="Common\LogLevelFilter.cs" />
+    <Compile Include="Common\DetailOrderState.cs" />
+    <Compile Include="Common\HeaderOrderState.cs" />
+    <Compile Include="Common\GuiUtil.cs" />
+    <Compile Include="Common\HatFComParts.cs" />
+    <Compile Include="Common\ModelHelper.cs" />
+    <Compile Include="Common\MethodResult.cs" />
+    <Compile Include="Common\Scope.cs" />
+    <Compile Include="Common\SimpleProgressForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Common\SimpleProgressForm.Designer.cs">
+      <DependentUpon>SimpleProgressForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Common\RoleController.cs" />
+    <Compile Include="Common\Utils.cs" />
+    <Compile Include="Common\WaitCursor.cs" />
+    <Compile Include="Constants\ApiResources.cs" />
+    <Compile Include="Constants\EpukoParameter.cs" />
+    <Compile Include="CustomControls\ApprovalControls.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomControls\ApprovalControls.Designer.cs">
+      <DependentUpon>ApprovalControls.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControls\BlobStrage\BlobStrageForm.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomControls\BlobStrage\BlobStrageForm.Designer.cs">
+      <DependentUpon>BlobStrageForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControls\C1DateInputEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CustomControls\C1DateInputEx.Designer.cs">
+      <DependentUpon>C1DateInputEx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControls\CheckBoxEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CustomControls\CheckBoxEx.Designer.cs">
+      <DependentUpon>CheckBoxEx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControls\ComboBoxEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CustomControls\ComboBoxEx.Designer.cs">
+      <DependentUpon>ComboBoxEx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControls\ComboBoxPayDate.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CustomControls\ComboBoxPayDate.Designer.cs">
+      <DependentUpon>ComboBoxPayDate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControls\ComboBoxSuggest.cs" />
+    <Compile Include="CustomControls\ComboBoxSuggest.Designer.cs">
+      <DependentUpon>ComboBoxSuggest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControls\FilterCriteriaControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomControls\FilterCriteriaControl.Designer.cs">
+      <DependentUpon>FilterCriteriaControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControls\GridPattern\GridPatternUI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomControls\GridPattern\GridPatternUI.Designer.cs">
+      <DependentUpon>GridPatternUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControls\Grids\DefaultGrid.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomControls\Grids\DefaultGrid.Designer.cs">
+      <DependentUpon>DefaultGrid.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControls\Grids\TemplateGrid.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomControls\Grids\TemplateGrid.Designer.cs">
+      <DependentUpon>TemplateGrid.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControls\Grids\DefaultGridPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomControls\Grids\DefaultGridPage.Designer.cs">
+      <DependentUpon>DefaultGridPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControls\Grids\TemplateGridPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomControls\Grids\TemplateGridPage.Designer.cs">
+      <DependentUpon>TemplateGridPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControls\Grids\DefaultGridUpdate.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomControls\Grids\DefaultGridUpdate.Designer.cs">
+      <DependentUpon>DefaultGridUpdate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControls\Grids\TemplateGridUpdate.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomControls\Grids\TemplateGridUpdate.Designer.cs">
+      <DependentUpon>TemplateGridUpdate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControls\NoFocusedButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CustomControls\NoFocusedButton.Designer.cs">
+      <DependentUpon>NoFocusedButton.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControls\Pagination.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomControls\Pagination.Designer.cs">
+      <DependentUpon>Pagination.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControls\TextBoxChar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CustomControls\TextBoxChar.Designer.cs">
+      <DependentUpon>TextBoxChar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControls\TextBoxCharSize1.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CustomControls\TextBoxCharSize1.Designer.cs">
+      <DependentUpon>TextBoxCharSize1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControls\TextBoxDeci.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CustomControls\TextBoxDeci.Designer.cs">
+      <DependentUpon>TextBoxDeci.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControls\TextBoxNum.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CustomControls\TextBoxNum.Designer.cs">
+      <DependentUpon>TextBoxNum.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControls\TextBoxPer.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CustomControls\TextBoxPer.Designer.cs">
+      <DependentUpon>TextBoxPer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControls\TextBoxReadOnly.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CustomControls\TextBoxReadOnly.Designer.cs">
+      <DependentUpon>TextBoxReadOnly.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControls\GridPattern\PatternInfo.cs" />
+    <Compile Include="Extensions\DataRowExtension.cs" />
+    <Compile Include="Extensions\StringExtension.cs" />
+    <Compile Include="Extensions\TypeExtensions.cs" />
+    <Compile Include="HatApi\ApiClient.cs" />
+    <Compile Include="HatApi\HatFApiClient.cs" />
+    <Compile Include="HatApi\IkkankaApiClient.cs" />
+    <Compile Include="HatApi\Models\Hat\LoginResult.cs" />
+    <Compile Include="HatApi\Models\Hat\UserInfo.cs" />
+    <Compile Include="HatApi\Models\Hat\ZaikoInfo.cs" />
+    <Compile Include="Common\UrlUtil.cs" />
+    <Compile Include="Common\ExcelReportUtil.cs" />
+    <Compile Include="Helpers\TemplateHelpers.cs" />
+    <Compile Include="Mappers\FosJyuchuHMapper.cs" />
+    <Compile Include="Models\CodeName.cs" />
+    <Compile Include="Models\JsonResources.cs" />
+    <Compile Include="Models\KeyName.cs" />
+    <Compile Include="Models\Prefecture.cs" />
+    <Compile Include="Models\UserPreferenceConfig.cs" />
+    <Compile Include="Models\ViewInvoice.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\BlobRepo.cs" />
+    <Compile Include="Repository\BlobStrageRepo.cs" />
+    <Compile Include="Repository\EmployeeRepo.cs" />
+    <Compile Include="Repository\PurchaseRepo.cs" />
+    <Compile Include="CustomControls\GridPattern\GridPatternRepo.cs" />
+    <Compile Include="Shared\ColumnMappingConfig.cs" />
+    <Compile Include="Shared\GridOrderManager.cs" />
+    <Compile Include="ValueObject\JHOrderState.cs" />
+    <Compile Include="ValueObject\ValueObjectBase.cs" />
+    <Compile Include="ViewModels\FilterCriteria.cs" />
+    <Compile Include="ViewModels\IGridManager.cs" />
+    <Compile Include="ViewModels\GridManagerBase.cs" />
+    <Compile Include="ViewModels\SourceConvertingGridManagerBase.cs" />
+    <Compile Include="ViewModels\TemplateGridManager.cs" />
+    <Compile Include="ViewModels\TemplateGridManagerPage.cs" />
+    <Compile Include="ViewModels\TemplateGridManagerUpdate.cs" />
+    <Compile Include="Views\BlobStorage\BlobStorageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\BlobStorage\BlobStorageForm.Designer.cs">
+      <DependentUpon>BlobStorageForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BlobStorage\FormProgress.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\BlobStorage\FormProgress.Designer.cs">
+      <DependentUpon>FormProgress.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Construction\ConstructionDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Construction\ConstructionDetail.Designer.cs">
+      <DependentUpon>ConstructionDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Construction\ConstructionList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Construction\ConstructionList.Designer.cs">
+      <DependentUpon>ConstructionList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Construction\NewConstructionDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Construction\NewConstructionDetail.Designer.cs">
+      <DependentUpon>NewConstructionDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CorrectionDelivery\CorrectionDeliveryList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\CorrectionDelivery\CorrectionDeliveryList.Designer.cs">
+      <DependentUpon>CorrectionDeliveryList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CorrectionDelivery\CorrectionDeliveryDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\CorrectionDelivery\CorrectionDeliveryDetail.Designer.cs">
+      <DependentUpon>CorrectionDeliveryDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Correction\SalesCorrectionList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Correction\SalesCorrectionList.Designer.cs">
+      <DependentUpon>SalesCorrectionList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CreditNote\CreditNoteList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\CreditNote\CreditNoteList.Designer.cs">
+      <DependentUpon>CreditNoteList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CreditNote\CreditNote.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\CreditNote\CreditNote.Designer.cs">
+      <DependentUpon>CreditNote.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Delivery\InternalDelivery.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Delivery\InternalDelivery.Designer.cs">
+      <DependentUpon>InternalDelivery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Invoice\InvoicedAmountList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Invoice\InvoicedAmountList.Designer.cs">
+      <DependentUpon>InvoicedAmountList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Invoice\InvoicedAmountDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Invoice\InvoicedAmountDetail.Designer.cs">
+      <DependentUpon>InvoicedAmountDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Invoice\InvoiceDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Invoice\InvoiceDetail.Designer.cs">
+      <DependentUpon>InvoiceDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Invoice\InvoiceList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Invoice\InvoiceList.Designer.cs">
+      <DependentUpon>InvoiceList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MasterEdit\ME_PasswordSetting.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\MasterEdit\ME_PasswordSetting.Designer.cs">
+      <DependentUpon>ME_PasswordSetting.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReturnReceiving\ReturnReceivingDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\ReturnReceiving\ReturnReceivingDetail.Designer.cs">
+      <DependentUpon>ReturnReceivingDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Purchase\PU_Edit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Purchase\PU_Edit.Designer.cs">
+      <DependentUpon>PU_Edit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReturnReceiving\ReturnReceivings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\ReturnReceiving\ReturnReceivings.Designer.cs">
+      <DependentUpon>ReturnReceivings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReverseStock\SalesRefundDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\ReverseStock\SalesRefundDetail.Designer.cs">
+      <DependentUpon>SalesRefundDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Search\AdvancedSearchEventArgs.cs" />
+    <Compile Include="Views\Search\FrmAdvancedSearch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Search\FrmAdvancedSearch.Designer.cs">
+      <DependentUpon>FrmAdvancedSearch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Warehousing\WH_Inventory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Warehousing\WH_Inventory.Designer.cs">
+      <DependentUpon>WH_Inventory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MasterEdit\ME_CustomersMst.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\MasterEdit\ME_CustomersMst.Designer.cs">
+      <DependentUpon>ME_CustomersMst.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MasterEdit\ME_DestinaitonsMst.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\MasterEdit\ME_DestinaitonsMst.Designer.cs">
+      <DependentUpon>ME_DestinaitonsMst.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MasterEdit\ME_CustomersMstDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\MasterEdit\ME_CustomersMstDetail.Designer.cs">
+      <DependentUpon>ME_CustomersMstDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MasterEdit\ME_DestinaitonsMstDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\MasterEdit\ME_DestinaitonsMstDetail.Designer.cs">
+      <DependentUpon>ME_DestinaitonsMstDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MasterSearch\MS_Customer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\MasterSearch\MS_Customer.Designer.cs">
+      <DependentUpon>MS_Customer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MasterSearch\MS_Employee.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\MasterSearch\MS_Employee.Designer.cs">
+      <DependentUpon>MS_Employee.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Order\Orders_Main.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Order\Orders_Main.designer.cs">
+      <DependentUpon>Orders_Main.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MasterEdit\ME_CompanysMst.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\MasterEdit\ME_CompanysMst.Designer.cs">
+      <DependentUpon>ME_CompanysMst.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MasterEdit\ME_SupplierDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\MasterEdit\ME_SupplierDetail.Designer.cs">
+      <DependentUpon>ME_SupplierDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MasterEdit\ME_CompanysMstDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\MasterEdit\ME_CompanysMstDetail.Designer.cs">
+      <DependentUpon>ME_CompanysMstDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MasterEdit\ME_Supplier.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\MasterEdit\ME_Supplier.Designer.cs">
+      <DependentUpon>ME_Supplier.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MasterEdit\ME_SupplierViewModel.cs" />
+    <Compile Include="Views\MasterEdit\ME_EmployeeDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\MasterEdit\ME_EmployeeDetail.Designer.cs">
+      <DependentUpon>ME_EmployeeDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MasterEdit\ME_Employee.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\MasterEdit\ME_Employee.Designer.cs">
+      <DependentUpon>ME_Employee.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Purchase\Purchase_Receiving.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Purchase\Purchase_Receiving.Designer.cs">
+      <DependentUpon>Purchase_Receiving.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Purchase\Purchase_ReceivingCheck.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Purchase\Purchase_ReceivingCheck.Designer.cs">
+      <DependentUpon>Purchase_ReceivingCheck.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Sales\CheckableInterestRateFixed.cs" />
+    <Compile Include="Views\Sales\CheckableInterestRateBeforeFix.cs" />
+    <Compile Include="Views\Sales\InterestRate_Fixed.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Sales\InterestRate_Fixed.designer.cs">
+      <DependentUpon>InterestRate_Fixed.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Sales\InterestRate_BeforeFix.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Sales\InterestRate_BeforeFix.designer.cs">
+      <DependentUpon>InterestRate_BeforeFix.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Sales\ReadySales_Main.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Sales\ReadySales_Main.Designer.cs">
+      <DependentUpon>ReadySales_Main.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Search\FilterHelper.cs" />
+    <Compile Include="Views\Search\GenSearchVisiblityAttribute.cs" />
+    <Compile Include="Views\Sales\SalesEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Sales\SalesEdit.Designer.cs">
+      <DependentUpon>SalesEdit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Search\SearchDropDownInfo.cs" />
+    <Compile Include="Views\Warehousing\WH_InventoryAmazonImport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Warehousing\WH_InventoryAmazonImport.Designer.cs">
+      <DependentUpon>WH_InventoryAmazonImport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Warehousing\WH_StockRefill.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Warehousing\WH_StockRefill.Designer.cs">
+      <DependentUpon>WH_StockRefill.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Warehousing\WH_StockRefillSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Warehousing\WH_StockRefillSettings.Designer.cs">
+      <DependentUpon>WH_StockRefillSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Warehousing\WH_ShippingsViewModel.cs" />
+    <Compile Include="Views\Warehousing\WH_ShippingsDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Warehousing\WH_ShippingsDetail.Designer.cs">
+      <DependentUpon>WH_ShippingsDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Warehousing\WH_ReceivingsDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Warehousing\WH_ReceivingsDetail.Designer.cs">
+      <DependentUpon>WH_ReceivingsDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Warehousing\WH_ReceivingsDetailUpdate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Warehousing\WH_ReceivingsDetailUpdate.Designer.cs">
+      <DependentUpon>WH_ReceivingsDetailUpdate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReverseStock\ReverseStockDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\ReverseStock\ReverseStockDetail.Designer.cs">
+      <DependentUpon>ReverseStockDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReverseStock\ReverseStockList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\ReverseStock\ReverseStockList.Designer.cs">
+      <DependentUpon>ReverseStockList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Warehousing\WH_Receivings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Warehousing\WH_Receivings.Designer.cs">
+      <DependentUpon>WH_Receivings.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="CustomControls\ApprovalControls.resx">
+      <DependentUpon>ApprovalControls.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomControls\BlobStrage\BlobStrageForm.resx">
+      <DependentUpon>BlobStrageForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="Views\Warehousing\WH_Shippings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Warehousing\WH_Shippings.Designer.cs">
+      <DependentUpon>WH_Shippings.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="CustomControls\FilterCriteriaControl.resx">
+      <DependentUpon>FilterCriteriaControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomControls\Grids\DefaultGrid.resx">
+      <DependentUpon>DefaultGrid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomControls\Grids\TemplateGrid.resx">
+      <DependentUpon>TemplateGrid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomControls\Grids\DefaultGridPage.resx">
+      <DependentUpon>DefaultGridPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomControls\Grids\TemplateGridPage.resx">
+      <DependentUpon>TemplateGridPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomControls\Grids\DefaultGridUpdate.resx">
+      <DependentUpon>DefaultGridUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomControls\Grids\TemplateGridUpdate.resx">
+      <DependentUpon>TemplateGridUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Construction\ConstructionDetail.resx">
+      <DependentUpon>ConstructionDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="Views\Cooperate\ContactEmail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Cooperate\ContactEmail.Designer.cs">
+      <DependentUpon>ContactEmail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FormFactory.cs" />
+    <EmbeddedResource Include="Views\Construction\ConstructionList.resx">
+      <DependentUpon>ConstructionList.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="Views\Order\JH_Main_Detail_SB.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Order\JH_Main_Detail_SB.Designer.cs">
+      <DependentUpon>JH_Main_Detail_SB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Order\JH_Main_Detail_Total.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Order\JH_Main_Detail_Total.Designer.cs">
+      <DependentUpon>JH_Main_Detail_Total.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HatF_HattyuJyoutai.cs" />
+    <Compile Include="Models\HatF_ErrorMessage_Button.cs" />
+    <Compile Include="Models\HatF_ErrorMessage_FocusOut.cs" />
+    <Compile Include="Models\HatF_PaymentDay.cs" />
+    <Compile Include="Models\HatF_PaymentMonth.cs" />
+    <Compile Include="Models\HatF_PaymentClassification.cs" />
+    <Compile Include="Models\HatF_InvoiceConfirmation.cs" />
+    <Compile Include="Models\HatF_OrderFlag.cs" />
+    <Compile Include="Models\HatF_ErrorMessage.cs" />
+    <Compile Include="Repository\HatF_InvoiceConfirmationRepo.cs" />
+    <Compile Include="Repository\HatF_PaymentDayRepo.cs" />
+    <Compile Include="Repository\HatF_PaymentMonthRepo.cs" />
+    <Compile Include="Repository\HatF_PaymentClassificationRepo.cs" />
+    <Compile Include="Repository\SupplierInvoicesRepo.cs" />
+    <Compile Include="Views\BillingList\BillingList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\BillingList\BillingList.Designer.cs">
+      <DependentUpon>BillingList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BillingList\BillingSheet.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\BillingList\BillingSheet.Designer.cs">
+      <DependentUpon>BillingSheet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Estimate\MT_Main_Save.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Estimate\MT_Main_Save.Designer.cs">
+      <DependentUpon>MT_Main_Save.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Order\JH_Main_Save.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Order\JH_Main_Save.Designer.cs">
+      <DependentUpon>JH_Main_Save.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Order\JH_Main.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Order\JH_Main.Designer.cs">
+      <DependentUpon>JH_Main.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Order\JH_Main_Detail.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\Order\JH_Main_Detail.Designer.cs">
+      <DependentUpon>JH_Main_Detail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Soap\FakeHttpWebRequest.cs" />
+    <Compile Include="Soap\FakeHttpWebResponse.cs" />
+    <Compile Include="Soap\SoapClient.cs" />
+    <Compile Include="Soap\XmlHelper.cs" />
+    <Compile Include="Views\Purchase\PU_BillingList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Purchase\PU_BillingList.Designer.cs">
+      <DependentUpon>PU_BillingList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Sales\FixedSales_Main.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Sales\FixedSales_Main.designer.cs">
+      <DependentUpon>FixedSales_Main.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Purchase\PU_AmountCheck.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Purchase\PU_AmountCheck.Designer.cs">
+      <DependentUpon>PU_AmountCheck.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Search\CriteriaHelper.cs" />
+    <Compile Include="Views\Search\C_Search.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Search\C_Search.Designer.cs">
+      <DependentUpon>C_Search.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Estimate\MT_Main.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Estimate\MT_Main.Designer.cs">
+      <DependentUpon>MT_Main.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Search\NM_Search.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Search\NM_Search.Designer.cs">
+      <DependentUpon>NM_Search.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\ClientRepo.cs" />
+    <Compile Include="Repository\HatF_HattyuJyoutaiRepo.cs" />
+    <Compile Include="Repository\HatF_ErrorMessageFocusOutRepo.cs" />
+    <Compile Include="Repository\HatF_ErrorMessageButtonRepo.cs" />
+    <Compile Include="Repository\HatF_OrderFlagRepo.cs" />
+    <Compile Include="Repository\LoginRepo.cs" />
+    <Compile Include="Repository\MasterEditRepo.cs" />
+    <Compile Include="Repository\ProductStockRepo.cs" />
+    <Compile Include="Repository\SearchRepo.cs" />
+    <Compile Include="Views\Search\U_Search.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Search\U_Search.Designer.cs">
+      <DependentUpon>U_Search.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Order\JH_Search_Jyutyu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Order\JH_Search_Jyutyu.Designer.cs">
+      <DependentUpon>JH_Search_Jyutyu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Login.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Login.Designer.cs">
+      <DependentUpon>Login.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Menu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Menu.Designer.cs">
+      <DependentUpon>Menu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Estimate\MT_Search.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Estimate\MT_Search.Designer.cs">
+      <DependentUpon>MT_Search.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\FosJyuchuRepo.cs" />
+    <Compile Include="Views\MasterEdit\ME_Editor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\MasterEdit\ME_Editor.Designer.cs">
+      <DependentUpon>ME_Editor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MasterEdit\ME_Menu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\MasterEdit\ME_Menu.Designer.cs">
+      <DependentUpon>ME_Menu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MasterSearch\MS_Genba.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\MasterSearch\MS_Genba.Designer.cs">
+      <DependentUpon>MS_Genba.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MasterSearch\MS_KeyMan.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\MasterSearch\MS_KeyMan.Designer.cs">
+      <DependentUpon>MS_KeyMan.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MasterSearch\MS_Koujiten.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\MasterSearch\MS_Koujiten.Designer.cs">
+      <DependentUpon>MS_Koujiten.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MasterSearch\MS_Yuban.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\MasterSearch\MS_Yuban.Designer.cs">
+      <DependentUpon>MS_Yuban.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MasterSearch\MS_Tokui.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\MasterSearch\MS_Tokui.Designer.cs">
+      <DependentUpon>MS_Tokui.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MasterSearch\MS_Syohin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\MasterSearch\MS_Syohin.Designer.cs">
+      <DependentUpon>MS_Syohin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MasterSearch\MS_ShiresakiBunrui.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\MasterSearch\MS_ShiresakiBunrui.Designer.cs">
+      <DependentUpon>MS_ShiresakiBunrui.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MasterSearch\MS_Shiresaki.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\MasterSearch\MS_Shiresaki.Designer.cs">
+      <DependentUpon>MS_Shiresaki.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PersonalSettings\PS_Main.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\PersonalSettings\PS_Main.Designer.cs">
+      <DependentUpon>PS_Main.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PriceBatch\PB_Main.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\PriceBatch\PB_Main.Designer.cs">
+      <DependentUpon>PB_Main.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ProductStock\ProductStock_Main.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\ProductStock\ProductStock_Main.Designer.cs">
+      <DependentUpon>ProductStock_Main.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Order\Temp_Save.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Order\Temp_Save.Designer.cs">
+      <DependentUpon>Temp_Save.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControls\GridPattern\GridPatternEditDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomControls\GridPattern\GridPatternEditDialog.designer.cs">
+      <DependentUpon>GridPatternEditDialog.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Common\SimpleProgressForm.resx">
+      <DependentUpon>SimpleProgressForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomControls\GridPattern\GridPatternUI.resx">
+      <DependentUpon>GridPatternUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomControls\Pagination.resx">
+      <DependentUpon>Pagination.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Construction\NewConstructionDetail.resx">
+      <DependentUpon>NewConstructionDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\CorrectionDelivery\CorrectionDeliveryList.resx">
+      <DependentUpon>CorrectionDeliveryList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\CorrectionDelivery\CorrectionDeliveryDetail.resx">
+      <DependentUpon>CorrectionDeliveryDetail.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Correction\SalesCorrectionList.resx">
+      <DependentUpon>SalesCorrectionList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\CreditNote\CreditNoteList.resx">
+      <DependentUpon>CreditNoteList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\CreditNote\CreditNote.resx">
+      <DependentUpon>CreditNote.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Delivery\InternalDelivery.resx">
+      <DependentUpon>InternalDelivery.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Invoice\InvoicedAmountList.resx">
+      <DependentUpon>InvoicedAmountList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Invoice\InvoicedAmountDetail.resx">
+      <DependentUpon>InvoicedAmountDetail.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Invoice\InvoiceDetail.resx">
+      <DependentUpon>InvoiceDetail.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Invoice\InvoiceList.resx">
+      <DependentUpon>InvoiceList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MasterEdit\ME_CompanysMst.resx">
+      <DependentUpon>ME_CompanysMst.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MasterEdit\ME_CustomersMst.resx">
+      <DependentUpon>ME_CustomersMst.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MasterEdit\ME_DestinaitonsMst.resx">
+      <DependentUpon>ME_DestinaitonsMst.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MasterEdit\ME_CustomersMstDetail.resx">
+      <DependentUpon>ME_CustomersMstDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MasterEdit\ME_DestinaitonsMstDetail.resx">
+      <DependentUpon>ME_DestinaitonsMstDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MasterEdit\ME_PasswordSetting.resx">
+      <DependentUpon>ME_PasswordSetting.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MasterEdit\ME_SupplierDetail.resx">
+      <DependentUpon>ME_SupplierDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MasterEdit\ME_CompanysMstDetail.resx">
+      <DependentUpon>ME_CompanysMstDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MasterEdit\ME_Employee.resx">
+      <DependentUpon>ME_Employee.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MasterEdit\ME_Supplier.resx">
+      <DependentUpon>ME_Supplier.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MasterEdit\ME_EmployeeDetail.resx">
+      <DependentUpon>ME_EmployeeDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MasterSearch\MS_Customer.resx">
+      <DependentUpon>MS_Customer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MasterSearch\MS_Employee.resx">
+      <DependentUpon>MS_Employee.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Order\JH_Main.resx">
+      <DependentUpon>JH_Main.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Order\JH_Main_Detail.resx">
+      <DependentUpon>JH_Main_Detail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Order\JH_Main_Detail_Total.resx">
+      <DependentUpon>JH_Main_Detail_Total.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\BillingList\BillingList.resx">
+      <DependentUpon>BillingList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\BillingList\BillingSheet.resx">
+      <DependentUpon>BillingSheet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Order\Orders_Main.resx">
+      <DependentUpon>Orders_Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Purchase\Purchase_Receiving.resx">
+      <DependentUpon>Purchase_Receiving.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Purchase\Purchase_ReceivingCheck.resx">
+      <DependentUpon>Purchase_ReceivingCheck.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Purchase\PU_BillingList.resx">
+      <DependentUpon>PU_BillingList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\ReturnReceiving\ReturnReceivingDetail.resx">
+      <DependentUpon>ReturnReceivingDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Purchase\PU_Edit.resx">
+      <DependentUpon>PU_Edit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\ReturnReceiving\ReturnReceivings.resx">
+      <DependentUpon>ReturnReceivings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\ReverseStock\SalesRefundDetail.resx">
+      <DependentUpon>SalesRefundDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\ReverseStock\ReverseStockDetail.resx">
+      <DependentUpon>ReverseStockDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\ReverseStock\ReverseStockList.resx">
+      <DependentUpon>ReverseStockList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Sales\FixedSales_Main.resx">
+      <DependentUpon>FixedSales_Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Purchase\PU_AmountCheck.resx">
+      <DependentUpon>PU_AmountCheck.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Sales\InterestRate_Fixed.resx">
+      <DependentUpon>InterestRate_Fixed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Sales\InterestRate_BeforeFix.resx">
+      <DependentUpon>InterestRate_BeforeFix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Sales\ReadySales_Main.resx">
+      <DependentUpon>ReadySales_Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Sales\SalesEdit.resx">
+      <DependentUpon>SalesEdit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Search\C_Search.resx">
+      <DependentUpon>C_Search.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Order\JH_Main_Detail_SB.resx">
+      <DependentUpon>JH_Main_Detail_SB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Estimate\MT_Main_Save.resx">
+      <DependentUpon>MT_Main_Save.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Order\JH_Main_Save.resx">
+      <DependentUpon>JH_Main_Save.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Estimate\MT_Main.resx">
+      <DependentUpon>MT_Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Search\FrmAdvancedSearch.resx">
+      <DependentUpon>FrmAdvancedSearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Search\NM_Search.resx">
+      <DependentUpon>NM_Search.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Search\U_Search.resx">
+      <DependentUpon>U_Search.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Order\JH_Search_Jyutyu.resx">
+      <DependentUpon>JH_Search_Jyutyu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Login.resx">
+      <DependentUpon>Login.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Menu.resx">
+      <DependentUpon>Menu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Estimate\MT_Search.resx">
+      <DependentUpon>MT_Search.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\licenses.licx" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HatFClient.gclicx" />
+    <EmbeddedResource Include="Views\MasterEdit\ME_Editor.resx">
+      <DependentUpon>ME_Editor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MasterEdit\ME_Menu.resx">
+      <DependentUpon>ME_Menu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MasterSearch\MS_Genba.resx">
+      <DependentUpon>MS_Genba.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MasterSearch\MS_KeyMan.resx">
+      <DependentUpon>MS_KeyMan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MasterSearch\MS_Koujiten.resx">
+      <DependentUpon>MS_Koujiten.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MasterSearch\MS_Yuban.resx">
+      <DependentUpon>MS_Yuban.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MasterSearch\MS_Tokui.resx">
+      <DependentUpon>MS_Tokui.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MasterSearch\MS_Syohin.resx">
+      <DependentUpon>MS_Syohin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MasterSearch\MS_ShiresakiBunrui.resx">
+      <DependentUpon>MS_ShiresakiBunrui.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MasterSearch\MS_Shiresaki.resx">
+      <DependentUpon>MS_Shiresaki.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\PersonalSettings\PS_Main.resx">
+      <DependentUpon>PS_Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\PriceBatch\PB_Main.resx">
+      <DependentUpon>PB_Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\ProductStock\ProductStock_Main.resx">
+      <DependentUpon>ProductStock_Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Order\Temp_Save.resx">
+      <DependentUpon>Temp_Save.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Warehousing\WH_Inventory.resx">
+      <DependentUpon>WH_Inventory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Warehousing\WH_InventoryAmazonImport.resx">
+      <DependentUpon>WH_InventoryAmazonImport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Warehousing\WH_StockRefill.resx">
+      <DependentUpon>WH_StockRefill.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Warehousing\WH_StockRefillSettings.resx">
+      <DependentUpon>WH_StockRefillSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Warehousing\WH_ShippingsDetail.resx">
+      <DependentUpon>WH_ShippingsDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Warehousing\WH_ReceivingsDetail.resx">
+      <DependentUpon>WH_ReceivingsDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Warehousing\WH_ReceivingsDetailUpdate.resx">
+      <DependentUpon>WH_ReceivingsDetailUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Warehousing\WH_Receivings.resx">
+      <DependentUpon>WH_Receivings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Warehousing\WH_Shippings.resx">
+      <DependentUpon>WH_Shippings.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include=".editorconfig" />
+    <None Include="app.manifest" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <None Include="Resources\HatF_NoSalesFlg.json" />
+    <None Include="Resources\HatF_CloseDate.json" />
+    <None Include="Resources\HatF_CustArFlag.json" />
+    <None Include="Resources\HatF_PayMonths.json" />
+    <None Include="Resources\HatF_SalesAdjustmentCategory.json" />
+    <None Include="Resources\HatF_SupplierType.json" />
+    <None Include="Resources\HatF_HattyuJyoutai.json" />
+    <None Include="Resources\HatF_ErrorMessage_Button.json" />
+    <None Include="Resources\HatF_ErrorMessage_FocusOut.json" />
+    <None Include="Resources\HatF_InvoiceConfirmation.json" />
+    <None Include="Resources\HatF_OrderFlag.json" />
+    <None Include="Resources\HatF_PaymentClassification.json" />
+    <None Include="Resources\HatF_PaymentDay.json" />
+    <None Include="Resources\HatF_PaymentMonth.json" />
+    <None Include="Resources\master_meta_data.json" />
+    <None Include="Resources\HatF_PayMethodType.json" />
+    <None Include="Resources\HatF_PayDates.json" />
+    <None Include="Resources\image_2024_5_28.png" />
+    <None Include="Resources\SUBARU.ico" />
+    <Content Include="Template\Excels\発注書マッピング20240302.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="Resources\prefectures.json" />
+    <None Include="Template\Excels\出荷指示書.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Template\Excels\棚卸記入用紙.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.8">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.8 %28x86 および x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\transparency_notes_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\transparency_search_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\transparency_notes_icon_red.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\menu_hatena_illust.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="CustomModels\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DatasourceLoader\Dma.DatasourceLoader.csproj">
+      <Project>{9d8ad1e4-6c73-45a3-914a-5bc9e3545b48}</Project>
+      <Name>Dma.DatasourceLoader</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HatFApiModels\HatFApiModels.csproj">
+      <Project>{ff2b591c-a88c-4c36-a1ea-869ba0ea959c}</Project>
+      <Name>HatFApiModels</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="Microsoft.Office.Core">
+      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>8</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="Microsoft.Office.Interop.Excel">
+      <Guid>{00020813-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>9</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="VBIDE">
+      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>5</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

@@ -1,0 +1,142 @@
+[
+  {
+    "name": "DIV_BIN",
+    "logical_name": "便区分",
+    "columns": [
+      {
+        "name": "DELETED",
+        "logical_name": "削除済",
+        "primary_key": false,
+        "unique": false,
+        "max_length": 1,
+        "min_length": 1,
+        "number_only": true,
+        "visible": true,
+        "check_box": true,
+        "auto_upper_case": false
+      },
+      {
+        "name": "BIN_CD",
+        "logical_name": "便コード",
+        "primary_key": true,
+        "unique": true,
+        "max_length": 5,
+        "min_length": 3,
+        "number_only": false,
+        "visible": true,
+        "check_box": false,
+        "auto_upper_case": true
+      },
+      {
+        "name": "BIN_NAME",
+        "logical_name": "便名称",
+        "primary_key": false,
+        "unique": true,
+        "max_length": 50,
+        "min_length": 1,
+        "number_only": false,
+        "visible": true,
+        "check_box": false,
+        "auto_upper_case": false
+      }
+    ]
+  },
+  {
+    "name": "DIV_FARE",
+    "logical_name": "運賃区分",
+    "columns": [
+      {
+        "name": "DELETED",
+        "logical_name": "削除済",
+        "primary_key": false,
+        "unique": false,
+        "max_length": 1,
+        "min_length": 1,
+        "number_only": true,
+        "visible": true,
+        "check_box": true,
+        "auto_upper_case": false
+      },
+      {
+        "name": "FARE_CD",
+        "logical_name": "運賃コード",
+        "primary_key": true,
+        "unique": true,
+        "max_length": 1,
+        "min_length": 1,
+        "number_only": true,
+        "visible": true,
+        "check_box": false,
+        "auto_upper_case": true
+      },
+      {
+        "name": "FARE_NAME",
+        "logical_name": "運賃名称",
+        "primary_key": false,
+        "unique": true,
+        "max_length": 50,
+        "min_length": 1,
+        "number_only": false,
+        "visible": true,
+        "check_box": false,
+        "auto_upper_case": false
+      }
+    ]
+  },
+
+
+  {
+    "name": "DIV_STOCK_LOCATION",
+    "logical_name": "在庫置場(ロケーション)",
+    "columns": [
+      {
+        "name": "DELETED",
+        "logical_name": "削除済",
+        "primary_key": false,
+        "unique": false,
+        "max_length": 1,
+        "min_length": 1,
+        "number_only": true,
+        "visible": true,
+        "check_box": true,
+        "auto_upper_case": false
+      },
+      {
+        "name": "DIV_STOCK_WH_CODE",
+        "logical_name": "倉庫コード",
+        "primary_key": true,
+        "unique": false,
+        "max_length": 3,
+        "min_length": 1,
+        "number_only": true,
+        "visible": true,
+        "check_box": false,
+        "auto_upper_case": true
+      },
+      {
+        "name": "DIV_STOCK_LOCATION_CODE",
+        "logical_name": "在庫置場コード",
+        "primary_key": true,
+        "unique": false,
+        "max_length": 10,
+        "min_length": 1,
+        "number_only": true,
+        "visible": true,
+        "check_box": false,
+        "auto_upper_case": true
+      },
+      {
+        "name": "DIV_STOCK_LOCATION_NAME",
+        "logical_name": "在庫置場名",
+        "primary_key": false,
+        "unique": true,
+        "max_length": 50,
+        "min_length": 1,
+        "number_only": false,
+        "visible": true,
+        "check_box": false,
+        "auto_upper_case": false
+      }
+    ]
+  }
+]

@@ -1,0 +1,206 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>10.0</LangVersion>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <Nullable>disable</Nullable>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn>1701;1702;1591</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <NoWarn>1701;1702;1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\HAT_F_api\CustomModels\ApiArgumentWrapper.cs" Link="CustomModels\ApiArgumentWrapper.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\ApiErrorResponse.cs" Link="CustomModels\ApiErrorResponse.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\ApiOkResponse.cs" Link="CustomModels\ApiOkResponse.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\ApiResponse.cs" Link="CustomModels\ApiResponse.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\ApiResultType.cs" Link="CustomModels\ApiResultType.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\ApprovalRequest.cs" Link="CustomModels\ApprovalRequest.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\ApprovalSuite.cs" Link="CustomModels\ApprovalSuite.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\BlobFileInfo.cs" Link="CustomModels\BlobFileInfo.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\CheckCreditResult.cs" Link="CustomModels\CheckCreditResult.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\ClientInit.cs" Link="CustomModels\ClientInit.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\CompleteDetailsRequest.cs" Link="CustomModels\CompleteDetailsRequest.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\CompleteDetailsRequestDetail.cs" Link="CustomModels\CompleteDetailsRequestDetail.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\CompleteDetailsRequestPage.cs" Link="CustomModels\CompleteDetailsRequestPage.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\CompleteDetailsResult.cs" Link="CustomModels\CompleteDetailsResult.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\CompleteDetailsResultDetail.cs" Link="CustomModels\CompleteDetailsResultDetail.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\CompleteDetailsResultPage.cs" Link="CustomModels\CompleteDetailsResultPage.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\CompleteHeaderRequest.cs" Link="CustomModels\CompleteHeaderRequest.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\CompleteHeaderResult.cs" Link="CustomModels\CompleteHeaderResult.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\CriteriaDefinitionAttribute.cs" Link="CustomModels\CriteriaDefinitionAttribute.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\CustomersMstEx.cs" Link="CustomModels\CustomersMstEx.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\DestinationsMstEx.cs" Link="CustomModels\DestinationsMstEx.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\Errors.cs" Link="CustomModels\Errors.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\FosJyuchuPage.cs" Link="CustomModels\FosJyuchuPage.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\FosJyuchuPages.cs" Link="CustomModels\FosJyuchuPages.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\FosJyuchuSearch.cs" Link="CustomModels\FosJyuchuSearch.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\FosJyuchuSearchCondition.cs" Link="CustomModels\FosJyuchuSearchCondition.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\GenbaCode.cs" Link="CustomModels\GenbaCode.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\HatFLoginRequest.cs" Link="CustomModels\HatFLoginRequest.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\HatFLoginResult.cs" Link="CustomModels\HatFLoginResult.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\HatFUserRole.cs" Link="CustomModels\HatFUserRole.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\InterestRateCheckBeforeFixParameter.cs" Link="CustomModels\InterestRateCheckBeforeFixParameter.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\InterestRateCheckBeforeFixResult.cs" Link="CustomModels\InterestRateCheckBeforeFixResult.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\InterestRateCheckFixedParameter.cs" Link="CustomModels\InterestRateCheckFixedParameter.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\InterestRateCheckFixedResult.cs" Link="CustomModels\InterestRateCheckFixedResult.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\Keyman.cs" Link="CustomModels\Keyman.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\Koujiten.cs" Link="CustomModels\Koujiten.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\MasterTable.cs" Link="CustomModels\MasterTable.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\MasterTableColumn.cs" Link="CustomModels\MasterTableColumn.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\OptionData.cs" Link="CustomModels\OptionData.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\Product.cs" Link="CustomModels\Product.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\ProductStock.cs" Link="CustomModels\ProductStock.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\ProductStockSummary.cs" Link="CustomModels\ProductStockSummary.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\PurchaseBillingDetail.cs" Link="CustomModels\PurchaseBillingDetail.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\PurchaseSalesCorrection.cs" Link="CustomModels\PurchaseSalesCorrection.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\SalesReturn.cs" Link="CustomModels\SalesReturn.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\SearchGenbaResult.cs" Link="CustomModels\SearchGenbaResult.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\StockInventoryAmazon.cs" Link="CustomModels\StockInventoryAmazon.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\Supplier.cs" Link="CustomModels\Supplier.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\SupplierCategory.cs" Link="CustomModels\SupplierCategory.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\SupplierInvoices.cs" Link="CustomModels\SupplierInvoices.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\Torihiki.cs" Link="CustomModels\Torihiki.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\ValidationError.cs" Link="CustomModels\ValidationError.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\ViewConstructionSearchCondition.cs" Link="Models\ViewConstructionSearchCondition.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\ViewInterestRateBeforeFixSearchCondition.cs" Link="Models\ViewInterestRateBeforeFixSearchCondition.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\ViewInterestRateFixedSearchCondition.cs" Link="Models\ViewInterestRateFixedSearchCondition.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\ViewInvoiceSearchCondition.cs" Link="Models\ViewInvoiceSearchCondition.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\ViewPurchaseBillingDetailCondition.cs" Link="Models\ViewPurchaseBillingDetailCondition.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\ViewReadySalesSearchCondition.cs" Link="Models\ViewReadySalesSearchCondition.cs" />
+    <Compile Include="..\HAT_F_api\Models\AmounCheckLock.cs" Link="Models\AmounCheckLock.cs" />
+    <Compile Include="..\HAT_F_api\Models\Announcement.cs" Link="Models\Announcement.cs" />
+    <Compile Include="..\HAT_F_api\Models\Approval.cs" Link="Models\Approval.cs" />
+    <Compile Include="..\HAT_F_api\Models\ApprovalProcedure.cs" Link="Models\ApprovalProcedure.cs" />
+    <Compile Include="..\HAT_F_api\Models\ApprovalTarget.cs" Link="Models\ApprovalTarget.cs" />
+    <Compile Include="..\HAT_F_api\Models\BankAcutMst.cs" Link="Models\BankAcutMst.cs" />
+    <Compile Include="..\HAT_F_api\Models\CompanysMst.cs" Link="Models\CompanysMst.cs" />
+    <Compile Include="..\HAT_F_api\Models\ComSyohinMst.cs" Link="Models\ComSyohinMst.cs" />
+    <Compile Include="..\HAT_F_api\Models\Construction.cs" Link="Models\Construction.cs" />
+    <Compile Include="..\HAT_F_api\Models\ConstructionDetail.cs" Link="Models\ConstructionDetail.cs" />
+    <Compile Include="..\HAT_F_api\Models\ConstructionLock.cs" Link="Models\ConstructionLock.cs" />
+    <Compile Include="..\HAT_F_api\Models\CustomersMst.cs" Link="Models\CustomersMst.cs" />
+    <Compile Include="..\HAT_F_api\Models\DeptMst.cs" Link="Models\DeptMst.cs" />
+    <Compile Include="..\HAT_F_api\Models\DestinationsMst.cs" Link="Models\DestinationsMst.cs" />
+    <Compile Include="..\HAT_F_api\Models\DivAuth.cs" Link="Models\DivAuth.cs" />
+    <Compile Include="..\HAT_F_api\Models\DivBin.cs" Link="Models\DivBin.cs" />
+    <Compile Include="..\HAT_F_api\Models\DivDelivery.cs" Link="Models\DivDelivery.cs" />
+    <Compile Include="..\HAT_F_api\Models\DivDenpyo.cs" Link="Models\DivDenpyo.cs" />
+    <Compile Include="..\HAT_F_api\Models\DivEmployee.cs" Link="Models\DivEmployee.cs" />
+    <Compile Include="..\HAT_F_api\Models\DivFare.cs" Link="Models\DivFare.cs" />
+    <Compile Include="..\HAT_F_api\Models\DivGenba.cs" Link="Models\DivGenba.cs" />
+    <Compile Include="..\HAT_F_api\Models\DivHachu.cs" Link="Models\DivHachu.cs" />
+    <Compile Include="..\HAT_F_api\Models\DivInvoiceIssue.cs" Link="Models\DivInvoiceIssue.cs" />
+    <Compile Include="..\HAT_F_api\Models\DivKman.cs" Link="Models\DivKman.cs" />
+    <Compile Include="..\HAT_F_api\Models\DivKoujiten.cs" Link="Models\DivKoujiten.cs" />
+    <Compile Include="..\HAT_F_api\Models\DivNohin.cs" Link="Models\DivNohin.cs" />
+    <Compile Include="..\HAT_F_api\Models\DivOpsSyohin.cs" Link="Models\DivOpsSyohin.cs" />
+    <Compile Include="..\HAT_F_api\Models\DivOrder.cs" Link="Models\DivOrder.cs" />
+    <Compile Include="..\HAT_F_api\Models\DivShiresaki.cs" Link="Models\DivShiresaki.cs" />
+    <Compile Include="..\HAT_F_api\Models\DivSlip.cs" Link="Models\DivSlip.cs" />
+    <Compile Include="..\HAT_F_api\Models\DivSoko.cs" Link="Models\DivSoko.cs" />
+    <Compile Include="..\HAT_F_api\Models\DivStockLocation.cs" Link="Models\DivStockLocation.cs" />
+    <Compile Include="..\HAT_F_api\Models\DivTaxRate.cs" Link="Models\DivTaxRate.cs" />
+    <Compile Include="..\HAT_F_api\Models\DivTokui.cs" Link="Models\DivTokui.cs" />
+    <Compile Include="..\HAT_F_api\Models\DivUnchin.cs" Link="Models\DivUnchin.cs" />
+    <Compile Include="..\HAT_F_api\Models\DivUriage.cs" Link="Models\DivUriage.cs" />
+    <Compile Include="..\HAT_F_api\Models\DivUserRole.cs" Link="Models\DivUserRole.cs" />
+    <Compile Include="..\HAT_F_api\Models\Employee.cs" Link="Models\Employee.cs" />
+    <Compile Include="..\HAT_F_api\Models\FosJyuchuD.cs" Link="Models\FosJyuchuD.cs" />
+    <Compile Include="..\HAT_F_api\Models\FosJyuchuH.cs" Link="Models\FosJyuchuH.cs" />
+    <Compile Include="..\HAT_F_api\Models\FosJyuchuSearchResult.cs" Link="Models\FosJyuchuSearchResult.cs" />
+    <Compile Include="..\HAT_F_api\Models\HatOrderNoSequence.cs" Link="Models\HatOrderNoSequence.cs" />
+    <Compile Include="..\HAT_F_api\Models\InterestRateCheckBeforeFix.cs" Link="Models\InterestRateCheckBeforeFix.cs" />
+    <Compile Include="..\HAT_F_api\Models\InterestRateCheckFixed.cs" Link="Models\InterestRateCheckFixed.cs" />
+    <Compile Include="..\HAT_F_api\Models\Invoice.cs" Link="Models\Invoice.cs" />
+    <Compile Include="..\HAT_F_api\Models\InvoiceDetail.cs" Link="Models\InvoiceDetail.cs" />
+    <Compile Include="..\HAT_F_api\Models\KTankaPurchase.cs" Link="Models\KTankaPurchase.cs" />
+    <Compile Include="..\HAT_F_api\Models\KTankaSale.cs" Link="Models\KTankaSale.cs" />
+    <Compile Include="..\HAT_F_api\Models\PayeeMst.cs" Link="Models\PayeeMst.cs" />
+    <Compile Include="..\HAT_F_api\Models\PostAddress.cs" Link="Models\PostAddress.cs" />
+    <Compile Include="..\HAT_F_api\Models\ProductCategory.cs" Link="Models\ProductCategory.cs" />
+    <Compile Include="..\HAT_F_api\Models\ProductSupplier.cs" Link="Models\ProductSupplier.cs" />
+    <Compile Include="..\HAT_F_api\Models\Pu.cs" Link="Models\Pu.cs" />
+    <Compile Include="..\HAT_F_api\Models\PuBilling.cs" Link="Models\PuBilling.cs" />
+    <Compile Include="..\HAT_F_api\Models\PuDetail.cs" Link="Models\PuDetail.cs" />
+    <Compile Include="..\HAT_F_api\Models\PuImport.cs" Link="Models\PuImport.cs" />
+    <Compile Include="..\HAT_F_api\Models\ReturningProduct.cs" Link="Models\ReturningProduct.cs" />
+    <Compile Include="..\HAT_F_api\Models\ReturningProductsDetail.cs" Link="Models\ReturningProductsDetail.cs" />
+    <Compile Include="..\HAT_F_api\Models\Sale.cs" Link="Models\Sale.cs" />
+    <Compile Include="..\HAT_F_api\Models\SalesAdjustment.cs" Link="Models\SalesAdjustment.cs" />
+    <Compile Include="..\HAT_F_api\Models\SalesDetail.cs" Link="Models\SalesDetail.cs" />
+    <Compile Include="..\HAT_F_api\Models\SalesEditLock.cs" Link="Models\SalesEditLock.cs" />
+    <Compile Include="..\HAT_F_api\Models\Stock.cs" Link="Models\Stock.cs" />
+    <Compile Include="..\HAT_F_api\Models\StockHistory.cs" Link="Models\StockHistory.cs" />
+    <Compile Include="..\HAT_F_api\Models\StockInventory.cs" Link="Models\StockInventory.cs" />
+    <Compile Include="..\HAT_F_api\Models\StockLocation.cs" Link="Models\StockLocation.cs" />
+    <Compile Include="..\HAT_F_api\Models\StockRefill.cs" Link="Models\StockRefill.cs" />
+    <Compile Include="..\HAT_F_api\Models\StockRefillOrder.cs" Link="Models\StockRefillOrder.cs" />
+    <Compile Include="..\HAT_F_api\Models\StockRefillOrderDetail.cs" Link="Models\StockRefillOrderDetail.cs" />
+    <Compile Include="..\HAT_F_api\Models\StockReserve.cs" Link="Models\StockReserve.cs" />
+    <Compile Include="..\HAT_F_api\Models\SupplierMst.cs" Link="Models\SupplierMst.cs" />
+    <Compile Include="..\HAT_F_api\Models\TitleDefaultRole.cs" Link="Models\TitleDefaultRole.cs" />
+    <Compile Include="..\HAT_F_api\Models\TotoContract.cs" Link="Models\TotoContract.cs" />
+    <Compile Include="..\HAT_F_api\Models\UserAssignedRole.cs" Link="Models\UserAssignedRole.cs" />
+    <Compile Include="..\HAT_F_api\Models\UserAuthentication.cs" Link="Models\UserAuthentication.cs" />
+    <Compile Include="..\HAT_F_api\Models\ViewConstruction.cs" Link="Models\ViewConstruction.cs" />
+    <Compile Include="..\HAT_F_api\Models\ViewConstructionDetail.cs" Link="Models\ViewConstructionDetail.cs" />
+    <Compile Include="..\HAT_F_api\Models\ViewCorrectionDelivery.cs" Link="Models\ViewCorrectionDelivery.cs" />
+    <Compile Include="..\HAT_F_api\Models\ViewCorrectionDeliveryDetail.cs" Link="Models\ViewCorrectionDeliveryDetail.cs" />
+    <Compile Include="..\HAT_F_api\Models\ViewFixedSale.cs" Link="Models\ViewFixedSale.cs" />
+    <Compile Include="..\HAT_F_api\Models\ViewInterestRateBeforeFix.cs" Link="Models\ViewInterestRateBeforeFix.cs" />
+    <Compile Include="..\HAT_F_api\Models\ViewInterestRateFixed.cs" Link="Models\ViewInterestRateFixed.cs" />
+    <Compile Include="..\HAT_F_api\Models\ViewInternalDelivery.cs" Link="Models\ViewInternalDelivery.cs" />
+    <Compile Include="..\HAT_F_api\Models\ViewInvoice.cs" Link="Models\ViewInvoice.cs" />
+    <Compile Include="..\HAT_F_api\Models\ViewInvoiceBatch.cs" Link="Models\ViewInvoiceBatch.cs" />
+    <Compile Include="..\HAT_F_api\Models\ViewInvoicedAmount.cs" Link="Models\ViewInvoicedAmount.cs" />
+    <Compile Include="..\HAT_F_api\Models\ViewInvoiceDetail.cs" Link="Models\ViewInvoiceDetail.cs" />
+    <Compile Include="..\HAT_F_api\Models\ViewJyuchuSale.cs" Link="Models\ViewJyuchuSale.cs" />
+    <Compile Include="..\HAT_F_api\Models\ViewOrder.cs" Link="Models\ViewOrder.cs" />
+    <Compile Include="..\HAT_F_api\Models\ViewProductStock.cs" Link="Models\ViewProductStock.cs" />
+    <Compile Include="..\HAT_F_api\Models\ViewPurchaseBilling.cs" Link="Models\ViewPurchaseBilling.cs" />
+    <Compile Include="..\HAT_F_api\Models\ViewPurchaseBillingDetail.cs" Link="Models\ViewPurchaseBillingDetail.cs" />
+    <Compile Include="..\HAT_F_api\Models\ViewPurchaseReceiving.cs" Link="Models\ViewPurchaseReceiving.cs" />
+    <Compile Include="..\HAT_F_api\Models\ViewPurchaseReceivingDetail.cs" Link="Models\ViewPurchaseReceivingDetail.cs" />
+    <Compile Include="..\HAT_F_api\Models\ViewPurchaseSalesCorrection.cs" Link="Models\ViewPurchaseSalesCorrection.cs" />
+    <Compile Include="..\HAT_F_api\Models\ViewReadySale.cs" Link="Models\ViewReadySale.cs" />
+    <Compile Include="..\HAT_F_api\Models\ViewReadySalesBatch.cs" Link="Models\ViewReadySalesBatch.cs" />
+    <Compile Include="..\HAT_F_api\Models\ViewReturnReceipt.cs" Link="Models\ViewReturnReceipt.cs" />
+    <Compile Include="..\HAT_F_api\Models\ViewSalesAdjustment.cs" Link="Models\ViewSalesAdjustment.cs" />
+    <Compile Include="..\HAT_F_api\Models\ViewSalesCorrection.cs" Link="Models\ViewSalesCorrection.cs" />
+    <Compile Include="..\HAT_F_api\Models\ViewSalesCorrectionDetail.cs" Link="Models\ViewSalesCorrectionDetail.cs" />
+    <Compile Include="..\HAT_F_api\Models\ViewSalesRefundDetail.cs" Link="Models\ViewSalesRefundDetail.cs" />
+    <Compile Include="..\HAT_F_api\Models\ViewSalesReturn.cs" Link="Models\ViewSalesReturn.cs" />
+    <Compile Include="..\HAT_F_api\Models\ViewSalesReturnDetail.cs" Link="Models\ViewSalesReturnDetail.cs" />
+    <Compile Include="..\HAT_F_api\Models\ViewSalesReturnReceipt.cs" Link="Models\ViewSalesReturnReceipt.cs" />
+    <Compile Include="..\HAT_F_api\Models\ViewSalesReturnReceiptDetail.cs" Link="Models\ViewSalesReturnReceiptDetail.cs" />
+    <Compile Include="..\HAT_F_api\Models\ViewStockInventory.cs" Link="Models\ViewStockInventory.cs" />
+    <Compile Include="..\HAT_F_api\Models\ViewStockRefill.cs" Link="Models\ViewStockRefill.cs" />
+    <Compile Include="..\HAT_F_api\Models\ViewWarehousingReceiving.cs" Link="Models\ViewWarehousingReceiving.cs" />
+    <Compile Include="..\HAT_F_api\Models\ViewWarehousingReceivingDetail.cs" Link="Models\ViewWarehousingReceivingDetail.cs" />
+    <Compile Include="..\HAT_F_api\Models\ViewWarehousingShipping.cs" Link="Models\ViewWarehousingShipping.cs" />
+    <Compile Include="..\HAT_F_api\Models\ViewWarehousingShippingDetail.cs" Link="Models\ViewWarehousingShippingDetail.cs" />
+    <Compile Include="..\HAT_F_api\Models\Warehousing.cs" Link="Models\Warehousing.cs" />
+    <Compile Include="..\HAT_F_api\Models\WhMst.cs" Link="Models\WhMst.cs" />
+    <Compile Include="..\HAT_F_api\StateCodes\DenState.cs" Link="StateCodes\DenState.cs" />
+    <Compile Include="..\HAT_F_api\StateCodes\DetailOrderState.cs" Link="StateCodes\DetailOrderState.cs" />
+    <Compile Include="..\HAT_F_api\StateCodes\HeaderOrderState.cs" Link="StateCodes\HeaderOrderState.cs" />
+    <Compile Include="..\HAT_F_api\StateCodes\MoveFlg.cs" Link="StateCodes\MoveFlg.cs" />
+    <Compile Include="..\HAT_F_api\StateCodes\OrderFlag.cs" Link="StateCodes\OrderFlag.cs" />
+    <Compile Include="..\HAT_F_api\StateCodes\DelFlg.cs" Link="StateCodes\DelFlg.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="CustomModels\" />
+    <Folder Include="Models\" />
+    <Folder Include="StateCodes\" />
+  </ItemGroup>
+
+</Project>

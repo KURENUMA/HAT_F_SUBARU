@@ -1,0 +1,22 @@
+[
+	{
+		"key": "0",
+		"name": "未確認",
+		"color": "Yellow"
+	},
+	{
+		"key": "1",
+		"name": "確認済",
+		"color": "LightBlue"
+	},
+	{
+		"key": "2",
+		"name": "編集中",
+		"color": "LightGreen"
+	},
+	{
+		"key": "3",
+		"name": "違算",
+		"color": "Pink"
+	}
+]

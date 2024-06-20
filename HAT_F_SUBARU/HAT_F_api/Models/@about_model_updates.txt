@@ -1,0 +1,3 @@
+﻿パッケージ マネージャー コンソールで以下のコマンドを実行してModels、DbContextを更新します
+ユーザー シークレット等にDB接続文字列を "ConnectionStrings:DBConnectString" で保持しておいてください
+Scaffold-DbContext 'Name=ConnectionStrings:DBConnectString' Microsoft.EntityFrameworkCore.SqlServer -force -OutputDir Models -Context HatFContext

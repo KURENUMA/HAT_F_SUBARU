@@ -1,0 +1,310 @@
+[
+    {
+        "name": "DIV_SOKO",
+        "logical_name": "DIV_倉庫",
+        "columns": [
+            {
+                "name": "SOKO_CD",
+                "logical_name": "倉庫コード",
+                "primary_key": true,
+                "unique": false,
+                "max_length": 2,
+                "number_only": true
+            },
+            {
+                "name": "SOKO_NAME",
+                "logical_name": "倉庫名",
+                "primary_key": false,
+                "unique": true,
+                "max_length": 30,
+                "number_only": false
+            }
+        ]
+    },
+    {
+        "name": "DIV_BIN",
+        "logical_name": "DIV_便",
+        "columns": [
+            {
+                "name": "BIN_CD",
+                "logical_name": "便コード",
+                "primary_key": true,
+                "unique": false,
+                "max_length": 5,
+                "number_only": true
+            },
+            {
+                "name": "BIN_NAME",
+                "logical_name": "便名",
+                "primary_key": false,
+                "unique": false,
+                "max_length": 20,
+                "number_only": false
+            }
+        ]
+    },
+    {
+        "name": "DIV_EMPLOYEE",
+        "logical_name": "DIV_従業員",
+        "columns": [
+            {
+                "name": "EMPLOYEE_CD",
+                "logical_name": "従業員コード",
+                "primary_key": true,
+                "unique": false,
+                "max_length": 4,
+                "number_only": true
+            },
+            {
+                "name": "EMPLOYEE_NAME",
+                "logical_name": "従業員名",
+                "primary_key": false,
+                "unique": false,
+                "max_length": 20,
+                "number_only": false
+            }
+        ]
+    },
+    {
+        "name": "DIV_GENBA",
+        "logical_name": "DIV_現場",
+        "columns": [
+            {
+                "name": "GENBA_CD",
+                "logical_name": "現場コード",
+                "primary_key": true,
+                "unique": true,
+                "max_length": 3,
+                "number_only": true
+            },
+            {
+                "name": "GENBA_NAME",
+                "logical_name": "現場名",
+                "primary_key": false,
+                "unique": false,
+                "max_length": 50,
+                "number_only": false
+            }
+        ]
+    },
+    {
+        "name": "DIV_KMAN",
+        "logical_name": "DIV_キーマン",
+        "columns": [
+            {
+                "name": "KMAN_CD",
+                "logical_name": "キーマンコード",
+                "primary_key": true,
+                "unique": true,
+                "max_length": 2,
+                "number_only": true
+            },
+            {
+                "name": "KMAN_NAME",
+                "logical_name": "キーマン名",
+                "primary_key": false,
+                "unique": false,
+                "max_length": 20,
+                "number_only": false
+            }
+        ]
+    },
+    {
+        "name": "DIV_KOUJITEN",
+        "logical_name": "DIV_工事店",
+        "columns": [
+            {
+                "name": "KOUJITEN_CD",
+                "logical_name": "工事店コード",
+                "primary_key": true,
+                "unique": true,
+                "max_length": 10,
+                "number_only": true
+            },
+            {
+                "name": "KOUJITEN_NAME",
+                "logical_name": "工事店名",
+                "primary_key": false,
+                "unique": false,
+                "max_length": 60,
+                "number_only": false
+            }
+        ]
+    },
+    {
+        "name": "DIV_OPS_SYOHIN",
+        "logical_name": "DIV_OPS商品",
+        "columns": [
+            {
+                "name": "OPS_SYOHIN_CD",
+                "logical_name": "OPS商品コード",
+                "primary_key": true,
+                "unique": true,
+                "max_length": 60,
+                "number_only": false
+            },
+            {
+                "name": "OPS_SYOHIN_NAME",
+                "logical_name": "OPS商品名",
+                "primary_key": false,
+                "unique": false,
+                "max_length": 40,
+                "number_only": false
+            }
+        ]
+    },
+    {
+        "name": "DIV_SHIRESAKI",
+        "logical_name": "DIV_仕入先",
+        "columns": [
+            {
+                "name": "SHIRESAKI_CD",
+                "logical_name": "仕入先コード",
+                "primary_key": true,
+                "unique": true,
+                "max_length": 6,
+                "number_only": true
+            },
+            {
+                "name": "SHIRESAKI_NAME",
+                "logical_name": "仕入先名",
+                "primary_key": false,
+                "unique": false,
+                "max_length": 60,
+                "number_only": false
+            }
+        ]
+    },
+    {
+        "name": "DIV_TOKUI",
+        "logical_name": "DIV_得意先",
+        "columns": [
+            {
+                "name": "TOKUI_CD",
+                "logical_name": "得意先コード",
+                "primary_key": true,
+                "unique": true,
+                "max_length": 6,
+                "number_only": true
+            },
+            {
+                "name": "TOKUI_NAME",
+                "logical_name": "得意先名",
+                "primary_key": false,
+                "unique": false,
+                "max_length": 60,
+                "number_only": false
+            }
+        ]
+    },
+    {
+        "name": "DIV_DENPYO",
+        "logical_name": "DIV_伝票",
+        "columns": [
+            {
+                "name": "DENPYO_CD",
+                "logical_name": "伝票コード",
+                "primary_key": true,
+                "unique": true,
+                "max_length": 2,
+                "number_only": true
+            },
+            {
+                "name": "DENPYO_NAME",
+                "logical_name": "伝票名",
+                "primary_key": false,
+                "unique": false,
+                "max_length": 50,
+                "number_only": false
+            }
+        ]
+    },
+    {
+        "name": "DIV_HACHU",
+        "logical_name": "DIV_発注",
+        "columns": [
+            {
+                "name": "HACHU_CD",
+                "logical_name": "発注コード",
+                "primary_key": true,
+                "unique": true,
+                "max_length": 1,
+                "number_only": true
+            },
+            {
+                "name": "HACHU_NAME",
+                "logical_name": "発注名",
+                "primary_key": false,
+                "unique": false,
+                "max_length": 50,
+                "number_only": false
+            }
+        ]
+    },
+    {
+        "name": "DIV_NOHIN",
+        "logical_name": "DIV_納品",
+        "columns": [
+            {
+                "name": "NOHIN_CD",
+                "logical_name": "納品コード",
+                "primary_key": true,
+                "unique": true,
+                "max_length": 1,
+                "number_only": true
+            },
+            {
+                "name": "NOHIN_NAME",
+                "logical_name": "納品名",
+                "primary_key": false,
+                "unique": false,
+                "max_length": 50,
+                "number_only": false
+            }
+        ]
+    },
+    {
+        "name": "DIV_UNCHIN",
+        "logical_name": "DIV_運賃",
+        "columns": [
+            {
+                "name": "UNCHIN_CD",
+                "logical_name": "運賃コード",
+                "primary_key": true,
+                "unique": true,
+                "max_length": 1,
+                "number_only": true
+            },
+            {
+                "name": "UNCHIN_NAME",
+                "logical_name": "運賃名",
+                "primary_key": false,
+                "unique": false,
+                "max_length": 50,
+                "number_only": false
+            }
+        ]
+    },
+    {
+        "name": "DIV_URIAGE",
+        "logical_name": "DIV_売上",
+        "columns": [
+            {
+                "name": "URIAGE_CD",
+                "logical_name": "売上コード",
+                "primary_key": true,
+                "unique": true,
+                "max_length": 2,
+                "number_only": true
+            },
+            {
+                "name": "URIAGE_NAME",
+                "logical_name": "売上名",
+                "primary_key": false,
+                "unique": false,
+                "max_length": 50,
+                "number_only": false
+            }
+        ]
+    }
+]

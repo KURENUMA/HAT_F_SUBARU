@@ -1,0 +1,50 @@
+[
+  {
+    "key": "1",
+    "name": "発注前",
+    "style": "AddStyle1",
+    "color": "LightYellow"
+  },
+  {
+    "key": "2",
+    "name": "手配中・回答待",
+    "style": "AddStyle2",
+    "color": "LightGreen"
+  },
+  {
+    "key": "3",
+    "name": "ACOS済",
+    "style": "AddStyle3",
+    "color": "White"
+  },
+  {
+    "key": "4",
+    "name": "削除",
+    "style": "AddStyle4",
+    "color": "White"
+  },
+  {
+    "key": "5",
+    "name": "逸注",
+    "style": "AddStyle5",
+    "color": "White"
+  },
+  {
+    "key": "6",
+    "name": "請書処理済",
+    "style": "AddStyle6",
+    "color": "White"
+  },
+  {
+    "key": "7",
+    "name": "手配済み",
+    "style": "AddStyle2",
+    "color": "LightGreen"
+  },
+  {
+    "key": "N",
+    "name": "その他",
+    "style": "AddStyleN",
+    "color": "White"
+  }
+]

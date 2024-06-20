@@ -1,0 +1,48 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="HatFClient.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="login_id" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="login_pass" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="login_flg" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="login_user" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="personal_on" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="personal_note" Type="System.String" Scope="User">
+      <Value Profile="(Default)">納品書No_[伝票番号] ご注文No_[客先注番]</Value>
+    </Setting>
+    <Setting Name="IsUpgrade" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="jh_main_height" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">968</Value>
+    </Setting>
+    <Setting Name="jh_main_width" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1287</Value>
+    </Setting>
+    <Setting Name="EPUKO_URL" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://10.7.2.1:88/Service.asmx</Value>
+    </Setting>
+    <Setting Name="interestrate_rate_under" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="interestrate_rate_over" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="interestrate_suryo_over" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="interestrate_uri_kin_over" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+  </Settings>
+</SettingsFile>
