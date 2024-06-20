@@ -53,51 +53,39 @@ namespace HAT_F_api.Services
         /// <param name="suryoUnder">基本検索条件[数量がX個以下]</param>
         /// <param name="uriKinOver">基本検索条件[売上金額がX円以上]</param>
         /// <param name="uriKinUnder">基本検索条件[売上金額がX円以下]</param>
+        /// <param name="uriTanZero">基本検索条件[単価がゼロ円]</param>
         /// <param name="searchItems">検索条件</param>
-        /// <returns></returns>
+        /// <returns>利率異常一覧</returns>
         public IQueryable<ViewInterestRateBeforeFix> GetViewInterestRateBeforeFixesQuery(
-                [FromQuery] decimal? profitOver, [FromQuery] decimal? profitUnder,
-                [FromQuery] int? suryoOver, [FromQuery] int? suryoUnder,
-                [FromQuery] decimal? uriKinOver, [FromQuery] decimal? uriKinUnder,
-                [FromBody] List<GenSearchItem> searchItems)
+                decimal? profitOver, decimal? profitUnder,
+                int? suryoOver, int? suryoUnder,
+                decimal? uriKinOver, decimal? uriKinUnder,
+                bool uriTanZero,
+                List<GenSearchItem> searchItems)
         {
-            var query = GenSearchUtil.DoGenSearch(_hatFContext.ViewInterestRateBeforeFixes, searchItems);
-            // 利率がX%以上または利率がX%以下
-            if (profitOver.HasValue && profitUnder.HasValue)
-            {
-                query = query.Where(x => (profitOver <= x.利率) || (x.利率 <= profitUnder));
-            }
-            else
-            {
-                // X%以上だけが設定されている場合
-                query = profitOver.HasValue ? query.Where(x => profitOver <= x.利率) : query;
-                // X%以下だけが設定されている場合
-                query = profitUnder.HasValue ? query.Where(x => x.利率 <= profitUnder) : query;
-            }
-            // 数量がX個以上または数量がX個以下
-            if (suryoOver.HasValue && suryoUnder.HasValue)
-            {
-                query = query.Where(x => (suryoOver <= x.数量) || (x.数量 <= suryoUnder));
-            }
-            else
-            {
-                // X個以上だけが設定されている場合
-                query = suryoOver.HasValue ? query.Where(x => suryoOver <= x.数量) : query;
-                // X個以下だけが設定されている場合
-                query = suryoUnder.HasValue ? query.Where(x => x.数量 <= suryoUnder) : query;
-            }
-            // 金額がX円以上または金額がX円以下
-            if (uriKinOver.HasValue && uriKinUnder.HasValue)
-            {
-                query = query.Where(x => (uriKinOver <= x.売上額) || (x.売上額 <= uriKinUnder));
-            }
-            else
-            {
-                // X円以上だけが設定されている場合
-                query = uriKinOver.HasValue ? query.Where(x => uriKinOver <= x.売上額) : query;
-                // X円以下だけが設定されている場合
-                query = uriKinUnder.HasValue ? query.Where(x => x.売上額 <= uriKinUnder) : query;
-            }
+            var query = GenSearchUtil.DoGenSearch(_hatFContext.ViewInterestRateBeforeFixes, searchItems)
+                .Where(x =>
+                    // 利率がX%以上または利率がX%以下
+                    ((profitOver.HasValue && profitUnder.HasValue) && (profitOver <= x.利率 || x.利率 <= profitUnder)) ||
+                    // X%以上だけが設定されている場合
+                    ((profitOver.HasValue && !profitUnder.HasValue) && (profitOver <= x.利率)) ||
+                    // X%以下だけが設定されている場合
+                    ((!profitOver.HasValue && profitUnder.HasValue) && (x.利率 <= profitUnder)) || 
+                    // 数量がX個以上または数量がX個以下
+                    ((suryoOver.HasValue && suryoUnder.HasValue) && (suryoOver <= x.数量) || (x.数量 <= suryoUnder)) ||
+                    // X個以上だけが設定されている場合
+                    ((suryoOver.HasValue && !suryoUnder.HasValue) && (suryoOver <= x.数量)) || 
+                    // X個以下だけが設定されている場合
+                    ((!suryoOver.HasValue && suryoUnder.HasValue) && (x.数量 <= suryoUnder)) ||  
+                    // 金額がX円以上または金額がX円以下
+                    ((uriKinOver.HasValue && uriKinUnder.HasValue) && (uriKinOver <= x.売上額 || x.売上額 <= uriKinUnder)) ||
+                   // X円以上だけが設定されている場合
+                    ((uriKinOver.HasValue && !uriKinUnder.HasValue) && (uriKinOver <= x.売上額)) ||
+                    // X円以下だけが設定されている場合
+                    ((!uriKinOver.HasValue && uriKinUnder.HasValue) && (x.売上額 <= uriKinUnder)) || 
+                    // 単価がゼロ
+                    (uriTanZero && x.売上単価 == 0)
+                );
             return query;
         }
 
@@ -108,51 +96,39 @@ namespace HAT_F_api.Services
         /// <param name="suryoUnder">基本検索条件[数量がX個以下]</param>
         /// <param name="uriKinOver">基本検索条件[売上金額がX円以上]</param>
         /// <param name="uriKinUnder">基本検索条件[売上金額がX円以下]</param>
+        /// <param name="uriTanZero">基本検索条件[単価がゼロ円]</param>
         /// <param name="searchItems">検索条件</param>
-        /// <returns></returns>
+        /// <returns>利率異常一覧</returns>
         public IQueryable<ViewInterestRateFixed> GetViewInterestRateFixedQuery(
-                [FromQuery] decimal? profitOver, [FromQuery] decimal? profitUnder,
-                [FromQuery] int? suryoOver, [FromQuery] int? suryoUnder,
-                [FromQuery] decimal? uriKinOver, [FromQuery] decimal? uriKinUnder,
-                [FromBody] List<GenSearchItem> searchItems)
+                decimal? profitOver, decimal? profitUnder,
+                int? suryoOver, int? suryoUnder,
+                decimal? uriKinOver, decimal? uriKinUnder,
+                bool uriTanZero,
+                List<GenSearchItem> searchItems)
         {
-            var query = GenSearchUtil.DoGenSearch(_hatFContext.ViewInterestRateFixeds, searchItems);
-            // 利率がX%以上または利率がX%以下
-            if (profitOver.HasValue && profitUnder.HasValue)
-            {
-                query = query.Where(x => (profitOver <= x.利率) || (x.利率 <= profitUnder));
-            }
-            else
-            {
-                // X%以上だけが設定されている場合
-                query = profitOver.HasValue ? query.Where(x => profitOver <= x.利率) : query;
-                // X%以下だけが設定されている場合
-                query = profitUnder.HasValue ? query.Where(x => x.利率 <= profitUnder) : query;
-            }
-            // 数量がX個以上または数量がX個以下
-            if (suryoOver.HasValue && suryoUnder.HasValue)
-            {
-                query = query.Where(x => (suryoOver <= x.数量) || (x.数量 <= suryoUnder));
-            }
-            else
-            {
-                // X個以上だけが設定されている場合
-                query = suryoOver.HasValue ? query.Where(x => suryoOver <= x.数量) : query;
-                // X個以下だけが設定されている場合
-                query = suryoUnder.HasValue ? query.Where(x => x.数量 <= suryoUnder) : query;
-            }
-            // 金額がX円以上または金額がX円以下
-            if (uriKinOver.HasValue && uriKinUnder.HasValue)
-            {
-                query = query.Where(x => (uriKinOver <= x.販売額) || (x.販売額 <= uriKinUnder));
-            }
-            else
-            {
-                // X円以上だけが設定されている場合
-                query = uriKinOver.HasValue ? query.Where(x => uriKinOver <= x.販売額) : query;
-                // X円以下だけが設定されている場合
-                query = uriKinUnder.HasValue ? query.Where(x => x.販売額 <= uriKinUnder) : query;
-            }
+            var query = GenSearchUtil.DoGenSearch(_hatFContext.ViewInterestRateFixeds, searchItems)
+                .Where(x =>
+                    // 利率がX%以上または利率がX%以下
+                    ((profitOver.HasValue && profitUnder.HasValue) && (profitOver <= x.利率 || x.利率 <= profitUnder)) ||
+                    // X%以上だけが設定されている場合
+                    ((profitOver.HasValue && !profitUnder.HasValue) && (profitOver <= x.利率)) ||
+                    // X%以下だけが設定されている場合
+                    ((!profitOver.HasValue && profitUnder.HasValue) && (x.利率 <= profitUnder)) ||
+                    // 数量がX個以上または数量がX個以下
+                    ((suryoOver.HasValue && suryoUnder.HasValue) && (suryoOver <= x.数量) || (x.数量 <= suryoUnder)) ||
+                    // X個以上だけが設定されている場合
+                    ((suryoOver.HasValue && !suryoUnder.HasValue) && (suryoOver <= x.数量)) ||
+                    // X個以下だけが設定されている場合
+                    ((!suryoOver.HasValue && suryoUnder.HasValue) && (x.数量 <= suryoUnder)) ||
+                    // 金額がX円以上または金額がX円以下
+                    ((uriKinOver.HasValue && uriKinUnder.HasValue) && (uriKinOver <= x.販売額 || x.販売額 <= uriKinUnder)) ||
+                    // X円以上だけが設定されている場合
+                    ((uriKinOver.HasValue && !uriKinUnder.HasValue) && (uriKinOver <= x.販売額)) ||
+                    // X円以下だけが設定されている場合
+                    ((!uriKinOver.HasValue && uriKinUnder.HasValue) && (x.販売額 <= uriKinUnder)) ||
+                    // 単価がゼロ
+                    (uriTanZero && x.販売単価 == 0)
+                );
             return query;
         }
 
@@ -668,12 +644,12 @@ namespace HAT_F_api.Services
         /// <returns>クエリ</returns>
         public async Task<List<ViewSalesReturn>> GetSalesReturnAsync()
         {
-            
+
             var query = await _hatFContext.ViewSalesReturns
-                                            .GroupBy(x => new { x.Hat注文番号, x.伝票番号 })
+                                            .GroupBy(x => new { x.Hat注文番号, x.伝票番号, DispId = x.承認ステータス区分 == 6 ? x.返品id : null })
                                             .OrderBy(x => x.Key.Hat注文番号)
                                             .ThenBy(x => x.Key.伝票番号)
-                                            .Select(x => x.OrderByDescending(id => id.承認要求番号).First())
+                                            .Select(x => x.OrderByDescending(id => id.返品id).First())
                                             .ToListAsync();
 
             return query;
@@ -685,12 +661,49 @@ namespace HAT_F_api.Services
         /// <returns>クエリ</returns>
         public async Task<List<ViewSalesReturnDetail>> GetSalesReturnDetailAsync(string hatOrderNo, string denNo)
         {
+
             return await _hatFContext.ViewSalesReturnDetails
                                         .Where(x => string.IsNullOrEmpty(hatOrderNo) || x.Hat注文番号 == hatOrderNo)
                                         .Where(x => string.IsNullOrEmpty(denNo) || x.伝票番号 == denNo)
                                         .OrderBy(x => x.伝票番号)
                                         .ThenBy(x => x.売上番号)
-                                        .ThenBy(x => x.売上行番号).ToListAsync();
+                                        .ThenBy(x => x.売上行番号)
+                                        .GroupJoin(_hatFContext.SalesDetails.GroupBy(x => new { x.OriginalSalesNo, x.OriginalRowNo })
+                                                                                        .Select(x => new
+                                                                                        {
+                                                                                            OriginalSalesNo = x.Key.OriginalSalesNo,
+                                                                                            OriginalRowNo = x.Key.OriginalRowNo,
+                                                                                            Quantity = x.Sum(x => x.Quantity)
+                                                                                        }
+                                                                                        ),
+                                                                                    view => new { salesNo = view.売上番号, rowNo = view.売上行番号 },
+                                                                                    sales => new { salesNo = sales.OriginalSalesNo, rowNo = (short)sales.OriginalRowNo },
+                                                                                    (view, sales) => new { View = view, Sales = sales }
+                                        ).SelectMany(x => x.Sales.DefaultIfEmpty(),
+                                        (x, detail) => new ViewSalesReturnDetail()
+                                        {
+                                            Hat注文番号 = x.View.Hat注文番号,
+                                            伝票番号 = x.View.伝票番号,
+                                            売上番号 = x.View.売上番号,
+                                            売上行番号 = x.View.売上行番号,
+                                            商品コード = x.View.商品コード,
+                                            商品名 = x.View.商品名,
+                                            元数量 = x.View.元数量,
+                                            現在数量 = x.View.元数量 + (!string.IsNullOrEmpty(detail.OriginalSalesNo) ? detail.Quantity : 0),
+                                            単価 = x.View.単価,
+                                            元合計金額 = x.View.元合計金額,
+                                            現在合計金額 = (x.View.元数量 + (!string.IsNullOrEmpty(detail.OriginalSalesNo) ? detail.Quantity : 0)) * x.View.単価,
+                                            売区 = x.View.売区,
+                                            売区名 = x.View.売区名,
+                                            返品依頼数量 = x.View.返品後数量,
+                                            返品後数量 = x.View.返品後数量,
+                                            在庫単価 = x.View.在庫単価,
+                                            返品id = x.View.返品id,
+                                            返品行番号 = x.View.返品行番号,
+                                            承認要求番号 = x.View.承認要求番号,
+
+                                        }).ToListAsync();
+
         }
 
         /// <summary>返品入庫一覧データの取得</summary>

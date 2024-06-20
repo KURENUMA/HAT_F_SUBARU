@@ -572,10 +572,10 @@ namespace HAT_F_api.Controllers
             return await ApiLogicRunner.RunAsync(async () =>
             {
                 var query = GenSearchUtil.DoGenSearch(_context.ViewSalesReturns, searchItems)
-                                            .GroupBy(x => new { x.Hat注文番号, x.伝票番号 })
+                                            .GroupBy(x => new { x.Hat注文番号, x.伝票番号, DispId = x.承認ステータス区分 == 6 ? x.返品id : null })
                                             .OrderBy(x => x.Key.Hat注文番号)
                                             .ThenBy(x => x.Key.伝票番号)
-                                            .Select(x => x.OrderByDescending(id => id.承認要求番号).First());
+                                            .Select(x => x.OrderByDescending(id => id.返品id).First());
 
                 return await GenSearchUtil.AddPaging(query, rows, page).ToListAsync();
             });
@@ -592,10 +592,10 @@ namespace HAT_F_api.Controllers
             return await ApiLogicRunner.RunAsync(async () =>
             {
                 var query = GenSearchUtil.DoGenSearch(_context.ViewSalesReturns, searchItems)
-                                            .GroupBy(x => new { x.Hat注文番号, x.伝票番号 })
+                                            .GroupBy(x => new { x.Hat注文番号, x.伝票番号, DispId = x.承認ステータス区分 == 6 ? x.返品id : null })
                                             .OrderBy(x => x.Key.Hat注文番号)
                                             .ThenBy(x => x.Key.伝票番号)
-                                            .Select(x => x.OrderByDescending(id => id.承認要求番号).First());
+                                            .Select(x => x.OrderByDescending(id => id.返品id).First());
                 return await query.CountAsync();
             });
         }
@@ -614,9 +614,9 @@ namespace HAT_F_api.Controllers
             {
                 var query = _context.ViewSalesReturns
                     .Where(x => string.IsNullOrEmpty(Hat注文番号) || x.Hat注文番号 == Hat注文番号)
-                    .GroupBy(x => new { x.Hat注文番号, x.伝票番号 })
+                    .GroupBy(x => new { x.Hat注文番号, x.伝票番号, DispId = x.承認ステータス区分 == 6 ? x.返品id : null })
                     .OrderBy(x => x.Key.伝票番号)
-                    .Select(x => x.OrderByDescending(id => id.承認要求番号).First());
+                    .Select(x => x.OrderByDescending(id => id.返品id).First());
 
                 return await GenSearchUtil.AddPaging(query, rows, page).ToListAsync();
             });

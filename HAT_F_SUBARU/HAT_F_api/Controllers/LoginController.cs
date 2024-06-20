@@ -65,7 +65,6 @@ namespace HAT_F_api.Controllers
         /// <param name="empId"></param>
         /// <param name="newPassword"></param>
         /// <param name="currentPassword"></param>
-        /// <param name="admin"></param>
         /// <returns></returns>
         [HttpPut("login-password")]
         public async Task<ActionResult<ApiResponse<int>>> PutLoginPassword([FromQuery][Required] int empId, [FromQuery][Required] string newPassword, [FromQuery] string currentPassword = null)

@@ -17,9 +17,15 @@ public partial class ViewSalesReturnDetail
 
     public string 商品名 { get; set; }
 
-    public int 数量 { get; set; }
+    public int 元数量 { get; set; }
+
+    public int 現在数量 { get; set; }
 
     public decimal 単価 { get; set; }
+
+    public decimal? 元合計金額 { get; set; }
+
+    public decimal? 現在合計金額 { get; set; }
 
     public string 売区 { get; set; }
 

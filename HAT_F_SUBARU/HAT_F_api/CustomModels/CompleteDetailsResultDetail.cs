@@ -24,6 +24,9 @@
         /// <summary>売上単価</summary>
         public decimal? UriageTanka { get; set; }
 
+        /// <summary>売上単価がK単価マスタの値かどうか</summary>
+        public bool HasUriageKTanka { get; set; }
+
         /// <summary>売上金額</summary>
         public decimal? UriageKingaku { get; set; }
 

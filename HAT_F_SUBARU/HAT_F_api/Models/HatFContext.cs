@@ -6647,6 +6647,9 @@ public partial class HatFContext : DbContext
             entity.Property(e => e.伝票番号).HasMaxLength(20);
             entity.Property(e => e.承認ステータス).HasMaxLength(9);
             entity.Property(e => e.承認要求番号).HasMaxLength(20);
+            entity.Property(e => e.返品id)
+                .HasMaxLength(10)
+                .HasColumnName("返品ID");
         });
 
         modelBuilder.Entity<ViewSalesReturnDetail>(entity =>
@@ -6659,6 +6662,7 @@ public partial class HatFContext : DbContext
                 .HasMaxLength(10)
                 .HasColumnName("HAT注文番号");
             entity.Property(e => e.伝票番号).HasMaxLength(20);
+            entity.Property(e => e.元合計金額).HasColumnType("decimal(22, 2)");
             entity.Property(e => e.単価).HasColumnType("decimal(11, 2)");
             entity.Property(e => e.商品コード).HasMaxLength(50);
             entity.Property(e => e.商品名).HasMaxLength(100);
@@ -6671,6 +6675,7 @@ public partial class HatFContext : DbContext
                 .IsRequired()
                 .HasMaxLength(1);
             entity.Property(e => e.承認要求番号).HasMaxLength(20);
+            entity.Property(e => e.現在合計金額).HasColumnType("decimal(22, 2)");
             entity.Property(e => e.返品id)
                 .HasMaxLength(10)
                 .HasColumnName("返品ID");
@@ -6687,6 +6692,7 @@ public partial class HatFContext : DbContext
                 .HasColumnName("HAT注文番号");
             entity.Property(e => e.伝票番号).HasMaxLength(20);
             entity.Property(e => e.入庫承認要求番号).HasMaxLength(20);
+            entity.Property(e => e.承認ステータス).HasMaxLength(4);
         });
 
         modelBuilder.Entity<ViewSalesReturnReceiptDetail>(entity =>
@@ -6946,6 +6952,10 @@ public partial class HatFContext : DbContext
                 .HasMaxLength(40)
                 .HasComment("住所２")
                 .HasColumnName("ADDRESS2");
+            entity.Property(e => e.Address3)
+                .HasMaxLength(40)
+                .HasComment("住所３")
+                .HasColumnName("ADDRESS3");
             entity.Property(e => e.CreateDate)
                 .HasDefaultValueSql("(getdate())")
                 .HasComment("作成日時")

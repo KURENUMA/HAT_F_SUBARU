@@ -44,6 +44,11 @@ public partial class WhMst
     public string Address2 { get; set; }
 
     /// <summary>
+    /// 住所３
+    /// </summary>
+    public string Address3 { get; set; }
+
+    /// <summary>
     /// 作成日時
     /// </summary>
     public DateTime CreateDate { get; set; }

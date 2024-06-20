@@ -9,6 +9,8 @@ public partial class ViewSalesReturn
 
     public string 伝票番号 { get; set; }
 
+    public string 返品id { get; set; }
+
     public string 承認要求番号 { get; set; }
 
     public int 承認ステータス区分 { get; set; }

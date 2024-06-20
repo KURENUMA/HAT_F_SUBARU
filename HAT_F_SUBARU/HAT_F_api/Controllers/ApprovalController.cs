@@ -37,6 +37,19 @@ namespace HAT_F_api.Controllers
         }
 
         /// <summary>
+        /// 承認情報の取得（返品用）
+        /// </summary>
+        /// <param name="approvalType">承認種別</param>
+        /// <param name="returnId">返品ID</param>
+        /// <returns></returns>
+        [HttpGet("return/{returnId}")]
+        public async Task<ActionResult<ApiResponse<ApprovalSuite>>> GetRetrunApprovalSuitesAsync(string approvalType, string returnId)
+        {
+            var result = await _approvalService.GetReturnApprovalSuitesAsync(approvalType, returnId);
+            return new ApiOkResponse<ApprovalSuite>(result);
+        }
+
+        /// <summary>
         /// 承認の新規登録
         /// </summary>
         /// <param name="approvalType">承認種別</param>

@@ -10,4 +10,8 @@ public partial class ViewSalesReturnReceipt
     public string 伝票番号 { get; set; }
 
     public string 入庫承認要求番号 { get; set; }
+
+    public int? 承認要求ステータス区分 { get; set; }
+
+    public string 承認ステータス { get; set; }
 }

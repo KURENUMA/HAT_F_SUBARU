@@ -239,6 +239,74 @@ namespace HAT_F_api.Services
         }
 
         /// <summary>
+        /// 承認情報一式を取得（返品用）
+        /// </summary>
+        /// <param name="approvalType">承認種別</param>
+        /// <param name="returnId">返品ID</param>
+        /// <returns></returns>
+        public async Task<ApprovalSuite> GetReturnApprovalSuitesAsync(string approvalType, string returnId)
+        {
+            ApprovalSuite suite = new ApprovalSuite();
+            var returnData = await _hatFContext.ReturningProducts.Where(x => x.ReturningProductsId == returnId).FirstOrDefaultAsync();
+            var list = new[] { returnData.ApprovalId, returnData.StockApprovalId, returnData.RefundApprovalId };
+
+            var approvalId = string.Empty;
+
+            if (approvalType.Equals(ApprovalType.R1.ToString()))
+            {
+                approvalId = returnData.ApprovalId;
+            }
+            else if (approvalType.Equals(ApprovalType.R5.ToString()))
+            {
+                approvalId = returnData.StockApprovalId;
+            }
+            else if (approvalType.Equals(ApprovalType.R9.ToString()))
+            {
+                approvalId = returnData.RefundApprovalId;
+            }
+
+            var approval = await _hatFContext.Approvals.Where(a => a.ApprovalId == approvalId).FirstAsync();
+            if (approval != null)
+            {
+                var query = _hatFContext.ApprovalProcedures
+                                         .Where(p => list.Contains(p.ApprovalId))
+                                         .OrderBy(p => p.ApprovalDate)
+                                         .Join(
+                                             _hatFContext.Employees,
+                                             ap => ap.EmpId,
+                                             e => e.EmpId,
+                                             (ap, e) => new ApprovalProcedureEx
+                                             {
+                                                 ApprovalProcedureId = ap.ApprovalProcedureId,
+                                                 ApprovalId = ap.ApprovalId,
+                                                 EmpId = ap.EmpId,
+                                                 ApprovalResult = ap.ApprovalResult,
+                                                 ApprovalComment = ap.ApprovalComment,
+                                                 ApprovalDate = ap.ApprovalDate,
+                                                 CreateDate = ap.CreateDate,
+                                                 Creator = ap.Creator,
+                                                 UpdateDate = ap.UpdateDate,
+                                                 Updater = ap.Updater,
+                                                 EmpName = e.EmpName
+                                             });
+
+                List<ApprovalProcedureEx> approvalProcedures = await query.ToListAsync();
+
+                suite.Approval = approval;
+                if (approvalProcedures.Count == 0)
+                {
+                    suite.ApprovalProcedures = approvalProcedures;
+                }
+                else
+                {
+                    suite.ApprovalProcedures = approvalProcedures;
+                    suite.LatestApprovalResult = approvalProcedures.Last().ApprovalResult;
+                }
+            }
+            return suite;
+        }
+
+        /// <summary>
         /// 承認対象（新規）を作成
         /// </summary>
         /// <param name="approvalTargetId">承認対象ID</param>

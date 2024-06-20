@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.Data.SqlClient;
 using HAT_F_api.Utils;
 using HAT_F_api.CustomModels;
-using HAT_F_api.Shared;
 
 
 // Add services to the container.
@@ -115,7 +114,6 @@ void InitializeServices(IServiceCollection services)
 
     //メールサービス
     services.AddScoped<MailService>();
-    services.AddSingleton<SiteMailer>();
 
     //物件ロックサービス
     services.AddScoped<ConstructionLockService>();

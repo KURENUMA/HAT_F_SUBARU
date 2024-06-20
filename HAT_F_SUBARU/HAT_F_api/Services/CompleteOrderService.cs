@@ -179,17 +179,34 @@ namespace HAT_F_api.Services
                 // 後の計算でも使用するためリクエスト情報の定価単価も更新する
                 resultDetail.TeikaTanka = requestDetail.TeikaTanka = DecideTeikaTanka(request.SyobunCdChk, requestDetail);
                 resultDetail.TeikaKingaku = resultDetail.TeikaTanka * resultDetail.Bara;
+                resultDetail.HasUriageKTanka = false;
 
-                resultDetail.UriageTanka = DecideUriageTanka(request.SyobunCdChk, requestDetail);
-                resultDetail.UriageKingaku = resultDetail.UriageTanka * resultDetail.Bara;
-
-                resultDetail.SiireTanka = DecideShiireTanka(request.SyobunCdChk, requestDetail);
-                resultDetail.SiireKingaku = resultDetail.SiireTanka * resultDetail.Bara;
+                if (!string.IsNullOrEmpty(requestDetail.SyohinCd) &&
+                    !string.IsNullOrEmpty(request.TokuiCd))
+                {
+                    if (!string.IsNullOrEmpty(requestDetail.UriageKigou))
+                    {
+                        var tanka = await _searchService.GetKTankaSalesAsync(
+                            _executionContext.ExecuteDateTimeJst,
+                            requestDetail.SyohinCd, request.TokuiCd, requestDetail.UriageKigou);
+                        resultDetail.UriageTanka = tanka?.SpecifiedPrice;
+                        resultDetail.Urikake = tanka?.RatePercent;
+                        resultDetail.UriageKingaku = resultDetail.UriageTanka * resultDetail.Bara;
+                        resultDetail.HasUriageKTanka = true;
+                    }
+                    if (!string.IsNullOrEmpty(requestDetail.ShiireKigou))
+                    {
+                        var tanka = await _searchService.GetKTankaSalesAsync(
+                            _executionContext.ExecuteDateTimeJst,
+                            requestDetail.SyohinCd, request.TokuiCd, requestDetail.ShiireKigou);
+                        resultDetail.SiireTanka = tanka?.SpecifiedPrice;
+                        resultDetail.SiireKake = tanka?.RatePercent;
+                        resultDetail.SiireKingaku = resultDetail.SiireTanka * resultDetail.Bara;
+                    }
+                }
 
                 // TODO とりあえず同じものを返す
                 resultDetail.SyohinCd = requestDetail.SyohinCd;
-                resultDetail.Urikake = requestDetail.UriageKakeritsu;
-                resultDetail.SiireKake = requestDetail.ShiireKakeritsu;
                 resultDetail.ShiireKaitouTanka = requestDetail.ShiireKaitouTanka;
                 // TODO いらない？
                 // resultDetail.UriageTankaType = requestDetail.;
@@ -232,41 +249,6 @@ namespace HAT_F_api.Services
                 // TODO 売上記号がNかSの場合、かつFOS_TEIKA_SETMにレコードが存在する場合にTANKAXMから取得した単価を採用する
             }
             return detail.TeikaTanka;
-        }
-
-        private decimal? DecideUriageTanka(bool syobunCdCheck, CompleteDetailsRequestDetail detail)
-        {
-            if (detail.UriageTanka.HasValue)
-            {
-                return detail.UriageTanka;
-            }
-
-            // 記号が'A'の場合、商品マスタの定価ではなく画面上の定価をもとに金額の計算を行う。
-            if (IsKigouA(detail.UriageKigou))
-            {
-                // TODO (定価単価が0 or 空白) && (売上掛率が0 or 空白)時にLINK単価　＊　LINK率　で単価を求め、その単価に対してまるめ区分ごとにまるめ処理を行う。
-                // 売上掛率変更時、売上種別はNULLに変更する。
-            }
-            // TODO 暫定的に記号に関係なく画面上の定価単価と売上掛率から計算する
-            var result = detail.TeikaTanka * (detail.UriageKakeritsu / 100);
-            return result.HasValue ? Math.Truncate(result.Value + 0.5m) : null;
-        }
-
-        private decimal? DecideShiireTanka(bool syobunCdCheck, CompleteDetailsRequestDetail detail)
-        {
-            if (detail.ShiireTanka.HasValue)
-            {
-                return detail.ShiireTanka;
-            }
-
-            // 記号が'A'の場合、商品マスタの定価ではなく画面上の定価をもとに金額の計算を行う。
-            if (IsKigouA(detail.ShiireKigou))
-            {
-                // TODO (定価単価が0 or 空白) && (仕入掛率が0 or 空白)時にLINK単価　＊　LINK率　で単価を求め、その単価に対してまるめ区分ごとにまるめ処理を行う。
-            }
-            // TODO 暫定的に記号に関係なく画面上の定価単価と仕入掛率から計算する
-            var result = detail.TeikaTanka * (detail.ShiireKakeritsu / 100);
-            return result.HasValue ? Math.Truncate(result.Value + 0.5m) : null;
         }
 
         /// <summary>バラ数を決定する</summary>

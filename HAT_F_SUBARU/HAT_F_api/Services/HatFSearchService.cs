@@ -1283,7 +1283,6 @@ namespace HAT_F_api.Services
 
             return kTanka;
         }
-
         /// <summary>物件詳細の詳細データ取得</summary>
         /// <param name="constructionCode">物件番号</param>
         /// <returns>クエリ</returns>
@@ -1293,63 +1292,6 @@ namespace HAT_F_api.Services
                                         .Where(x => x.ConstructionCode == constructionCode)
                                         .OrderBy(x => x.Koban)
                                         .ToListAsync();
-        }
-
-
-        private IQueryable<dynamic> GetKTankaSalesQuery(DateTime baseDate, string prodCode)
-        {
-            var query = _hatFContext.KTankaSales
-                .Where(x => string.IsNullOrEmpty(prodCode) || x.ProdCode.StartsWith(prodCode))
-                .Join(
-                    _hatFContext.ComSyohinMsts,
-                    tanka => tanka.ProdCode,
-                    comSyohin => comSyohin.HatSyohin,
-                    (tanka, comSyohin) => new { KTankaSales = tanka, ComSyohinMsts = comSyohin }
-                )
-                .Select(x => x)
-                .OrderBy(x => x.ComSyohinMsts)
-                ;
-            return query;
-        }
-
-
-        public async Task<List<KTankaSaleEx>> GetKTankaSalesAsync(DateTime baseDate, string prodCode)
-        {
-            //var query = _hatFContext.KTankaSales
-            //    .Where(x => string.IsNullOrEmpty(prodCode) || x.ProdCode.StartsWith(prodCode))
-            //    .GroupJoin(
-            //        _hatFContext.ComSyohinMsts,
-            //        tanka => tanka.ProdCode,
-            //        comSyohin => comSyohin.HatSyohin,
-            //        (tanka, comSyohin) => new { KTankaSales = tanka, ComSyohinMsts = comSyohin }
-            //    )
-            //    ;
-
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<KTankaSale, KTankaSaleEx>();
-            });
-            var mapper = config.CreateMapper();
-
-
-            List<KTankaSaleEx> ktankas = new List<KTankaSaleEx>();
-
-            var query = await GetKTankaSalesQuery(baseDate, prodCode).ToListAsync<dynamic>();
-
-            foreach (dynamic item in query) 
-            {
-                KTankaSale kTankaSale = item.KTankaSales as KTankaSale;
-                ComSyohinMst comSyoin = item.ComSyohinMsts as ComSyohinMst;
-
-                KTankaSaleEx kTankaSaleEx = mapper.Map<KTankaSaleEx>(kTankaSale);
-                kTankaSaleEx.Cd5 = comSyoin.SyohinBunrui;
-                kTankaSaleEx.ListPrice = GetComSyohinMstTanka(baseDate, comSyoin, "A");    // 定価単価
-                kTankaSaleEx.ENetPrice = GetComSyohinMstTanka(baseDate, comSyoin, "E");    // 在庫品単価(Eネット)
-
-                ktankas.Add(kTankaSaleEx);
-            }
-
-            return ktankas;
         }
     }
 }

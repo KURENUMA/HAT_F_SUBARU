@@ -488,6 +488,7 @@ namespace HAT_F_api.Controllers
         /// <param name="genbaName">現場名</param>
         /// <param name="address">住所</param>
         /// <param name="torihikiCd">得意先CD</param>
+        /// <param name="keymanCode">キーマンCD</param>
         /// <param name="rows">取得件数</param>
         /// <returns>検索に合致した現場情報のリスト</returns>
         [HttpGet("genba/")]
@@ -893,6 +894,7 @@ namespace HAT_F_api.Controllers
         /// 仕入納品確認の一覧取得
         /// </summary>
         /// <param name="condition"></param>
+        /// <param name="rows"></param>
         /// <returns></returns>
         [HttpGet("purchase-receiving-details")]
         public async Task<ActionResult<ApiResponse<List<ViewPurchaseReceivingDetail>>>> GetPurchaseReceivingDetailAsync([FromQuery] ViewPurchaseReceivingDetail condition, [FromQuery] int rows = 200)
@@ -1289,6 +1291,7 @@ namespace HAT_F_api.Controllers
         /// <param name="suryoUnder">基本検索条件[数量がX個以下]</param>
         /// <param name="uriKinOver">基本検索条件[売上金額がX円以上]</param>
         /// <param name="uriKinUnder">基本検索条件[売上金額がX円以下]</param>
+        /// <param name="uriTanZero">基本検索条件[単価がゼロ円]</param>
         /// <param name="searchItems">検索条件</param>
         /// <param name="rows">１ページあたりの件数</param>
         /// <param name="page">ページ位置</param>
@@ -1299,13 +1302,14 @@ namespace HAT_F_api.Controllers
                 [FromQuery] decimal? profitOver, [FromQuery] decimal? profitUnder,
                 [FromQuery] int? suryoOver, [FromQuery] int? suryoUnder,
                 [FromQuery] decimal? uriKinOver, [FromQuery] decimal? uriKinUnder,
+                [FromQuery] bool uriTanZero,
                 [FromBody] List<GenSearchItem> searchItems,
                 [FromQuery] int rows = 200, [FromQuery] int page = 1)
         {
             return await ApiLogicRunner.RunAsync(async () =>
             {
                 var query = _processService.GetViewInterestRateBeforeFixesQuery(
-                    profitOver, profitUnder, suryoOver, suryoUnder, uriKinOver, uriKinUnder, searchItems);
+                    profitOver, profitUnder, suryoOver, suryoUnder, uriKinOver, uriKinUnder, uriTanZero, searchItems);
                 return await GenSearchUtil.AddPaging(query, rows, page).ToListAsync();
             });
         }
@@ -1317,6 +1321,7 @@ namespace HAT_F_api.Controllers
         /// <param name="suryoUnder">基本検索条件[数量がX個以下]</param>
         /// <param name="uriKinOver">基本検索条件[売上金額がX円以上]</param>
         /// <param name="uriKinUnder">基本検索条件[売上金額がX円以下]</param>
+        /// <param name="uriTanZero">基本検索条件[単価がゼロ円]</param>
         /// <param name="searchItems">検索条件</param>
         /// <param name="rows">１ページあたりの件数</param>
         /// <param name="page">ページ位置</param>
@@ -1327,13 +1332,14 @@ namespace HAT_F_api.Controllers
                 [FromQuery] decimal? profitOver, [FromQuery] decimal? profitUnder,
                 [FromQuery] int? suryoOver, [FromQuery] int? suryoUnder,
                 [FromQuery] decimal? uriKinOver, [FromQuery] decimal? uriKinUnder,
+                [FromQuery] bool uriTanZero,
                 [FromBody] List<GenSearchItem> searchItems,
                 [FromQuery] int rows = 200, [FromQuery] int page = 1)
         {
             return await ApiLogicRunner.RunAsync(() =>
             {
                 var query = _processService.GetViewInterestRateFixedQuery(
-                    profitOver, profitUnder, suryoOver, suryoUnder, uriKinOver, uriKinUnder, searchItems);
+                    profitOver, profitUnder, suryoOver, suryoUnder, uriKinOver, uriKinUnder, uriTanZero, searchItems);
                 return GenSearchUtil.AddPaging(query, rows, page).ToListAsync();
             });
         }
@@ -1888,27 +1894,6 @@ namespace HAT_F_api.Controllers
                 var result = await query.ToListAsync();
                 return result;
             });
-        }
-
-        [HttpGet("shibu-test")]
-        public async Task<ActionResult<ApiResponse<List<KTankaSaleEx>>>> GetKTankaSaleEx([FromQuery] DateTime baseDate, [FromQuery] string prodCode, [FromQuery] string supCode, [FromQuery] string sign, [FromQuery] int rows = MAX_ROWS, [FromQuery] int page = 1)
-        {
-            return await ApiLogicRunner.RunAsync(async () =>
-            {
-                var query = _hatFSearchService.GetKTankaSalesAsync(baseDate, prodCode);
-                //query = query
-                //    .OrderBy(x => x.ProdCode)
-                //    .ThenBy(x => x.SupCode)
-                //    .ThenBy(x => x.Sign)
-                //    .ThenBy(x => x.StartDate)
-                //query = query
-                //    .Skip((page - 1) * rows)
-                //    .Take(rows);
-
-                var result = await query;//.ToListAsync();
-                return result;
-            });
-
         }
     }
 }
