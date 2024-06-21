@@ -344,6 +344,9 @@ namespace HatFClient.Constants
                 /// <summary>承認状態を取得</summary>
                 public static readonly string Get = "api/Approval/{0}";
 
+                /// <summary>返品関連のすべての承認状態を取得</summary>
+                public static readonly string ReturnApprovalSuites = "api/Approval/return/{0}";
+
                 /// <summary>新規承認</summary>
                 public static readonly string Put = "api/Approval/{0}";
 

@@ -33,7 +33,7 @@ namespace HatFClient.Views.template
         private PurchaseRepo _purchaseRepo;
         private RoleController _roleController;
         private readonly string approvalType = "R1"; //U1:仕入売上訂正、R1:返品入力、R5:返品入庫 
-        private Dictionary<short, string> approvalResult = new Dictionary<short, string>() {
+        private Dictionary<int, string> approvalResult = new Dictionary<int, string>() {
             { 0,"申請"},
             { 1,"差し戻し"},
             { 2,"承認済"},
@@ -107,22 +107,35 @@ namespace HatFClient.Views.template
         //承認データにおける画面制御
         private async Task SetApprovalDataAsync()
         {
-            string approvalReqNo = null;
+            string returnId = null;
             for (var i = 1; i < c1FlexGrid_ReturnReceivingDetail.Rows.Count; i++)
             {
                 //行単位でどれかのデータが入力されていることを保存対象とする
                 var r = c1FlexGrid_ReturnReceivingDetail.Rows[i].DataSource as ViewSalesReturnDetail;
-                if (!String.IsNullOrEmpty(r.承認要求番号?.ToString()))
+                if (!String.IsNullOrEmpty(r.返品id?.ToString()))
                 {
-                    approvalReqNo = r.承認要求番号;
+                    returnId = r.返品id;
                 }
             }
-            if (approvalReqNo != null)
+            if (returnId != null)
             {
-                var url = String.Format(ApiResources.HatF.Approval.Get, approvalReqNo);
-                var response = await Program.HatFApiClient.GetAsync<ApprovalSuite>(url); //承認状況を取得
-                if(response.Data.Approval == null)
+                var url = String.Format(ApiResources.HatF.Approval.ReturnApprovalSuites, returnId);
+                var response = await Program.HatFApiClient.GetAsync<ApprovalSuite>(url, new { approvalType }); //承認状況を取得
+                if (response.Data.Approval == null)
                 {
+                    txtApprovalStatus.Text = "";
+                    CmbAuthorizer.Enabled = true;
+                    CmbAuthorizer2.Enabled = true;
+                    btnApplication.Enabled = true;
+                    btnAapproval.Enabled = false; ;
+                    btnRemand.Enabled = false;
+                    blobStrageForm1.CanDelete = true;
+                    blobStrageForm1.CanDownload = true;
+                    blobStrageForm1.CanUpload = true;
+                    c1FlexGrid_ReturnReceivingDetail.AllowEditing = true;
+                    c1FlexGrid1.Cols["ApprovalResult"].DataType = typeof(int);
+                    c1FlexGrid1.Cols["ApprovalResult"].DataMap = approvalResult;
+                    c1FlexGrid1.DataSource = response.Data.ApprovalProcedures;
                     return;
                 }
                 if (response.Data.Approval.Approver1EmpId != null)
@@ -162,20 +175,29 @@ namespace HatFClient.Views.template
                     if (response.Data.Approval.ApprovalStatus == 9)
                     {
                         txtApprovalStatus.Text = "承認済み";
+                        btnApplication.Enabled = false;
+                        btnAapproval.Enabled = false; ;
+                        btnRemand.Enabled = false;
+                        CmbAuthorizer.Enabled = false;
+                        CmbAuthorizer2.Enabled = false;
+                        c1FlexGrid_ReturnReceivingDetail.AllowEditing = false;
+                        blobStrageForm1.CanDelete = false;
+                        blobStrageForm1.CanDownload = true;
+                        blobStrageForm1.CanUpload = false;
                     }
                     else
                     {
                         txtApprovalStatus.Text = "";
+                        CmbAuthorizer.Enabled = true;
+                        CmbAuthorizer2.Enabled = true;
+                        btnApplication.Enabled = true;
+                        btnAapproval.Enabled = false; ;
+                        btnRemand.Enabled = false;
+                        blobStrageForm1.CanDelete = true;
+                        blobStrageForm1.CanDownload = true;
+                        blobStrageForm1.CanUpload = true;
+                        c1FlexGrid_ReturnReceivingDetail.AllowEditing = true;
                     }
-                    CmbAuthorizer.Enabled = true;
-                    CmbAuthorizer2.Enabled = true;
-                    btnApplication.Enabled = true;
-                    btnAapproval.Enabled = false; ;
-                    btnRemand.Enabled = false;
-                    blobStrageForm1.CanDelete = true;
-                    blobStrageForm1.CanDownload = true;
-                    blobStrageForm1.CanUpload = true;
-                    c1FlexGrid_ReturnReceivingDetail.AllowEditing = true;
                 }
 
                 c1FlexGrid1.Cols["ApprovalResult"].DataType = typeof(int);
@@ -309,7 +331,7 @@ namespace HatFClient.Views.template
             {
                 // 数量と単価が入力されているセルの値を取得
                 object returnQuantity = c1FlexGrid_ReturnReceivingDetail.GetDataDisplay(editedRow, c1FlexGrid_ReturnReceivingDetail.Cols["返品依頼数量"].Index);
-                object Quantity = c1FlexGrid_ReturnReceivingDetail.GetDataDisplay(editedRow, c1FlexGrid_ReturnReceivingDetail.Cols["数量"].Index);
+                object Quantity = c1FlexGrid_ReturnReceivingDetail.GetDataDisplay(editedRow, c1FlexGrid_ReturnReceivingDetail.Cols["現在数量"].Index);
 
                 if (string.IsNullOrWhiteSpace(returnQuantity.ToString()) || string.IsNullOrWhiteSpace(Quantity.ToString()))
                 {
