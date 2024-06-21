@@ -119,6 +119,7 @@
     <Compile Include="..\HAT_F_api\Models\HatOrderNoSequence.cs" Link="Models\HatOrderNoSequence.cs" />
     <Compile Include="..\HAT_F_api\Models\InterestRateCheckBeforeFix.cs" Link="Models\InterestRateCheckBeforeFix.cs" />
     <Compile Include="..\HAT_F_api\Models\InterestRateCheckFixed.cs" Link="Models\InterestRateCheckFixed.cs" />
+    <Compile Include="..\HAT_F_api\Models\InternalDeliveryCheck.cs" Link="Models\InternalDeliveryCheck.cs" />
     <Compile Include="..\HAT_F_api\Models\Invoice.cs" Link="Models\Invoice.cs" />
     <Compile Include="..\HAT_F_api\Models\InvoiceDetail.cs" Link="Models\InvoiceDetail.cs" />
     <Compile Include="..\HAT_F_api\Models\KTankaPurchase.cs" Link="Models\KTankaPurchase.cs" />
