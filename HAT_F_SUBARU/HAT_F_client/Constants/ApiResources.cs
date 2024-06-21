@@ -194,6 +194,9 @@ namespace HatFClient.Constants
                 /// <summary>売上確定後利率異常チェック更新</summary>
                 public static readonly string InterestRateCheckFixed = "api/Client/interest-rate-check-fixed";
 
+                /// <summary>納品一覧表（社内用）チェック更新</summary>
+                public static readonly string InternalDeliveryCheck = "api/Client/internal-delivery-check";
+
                 /// <summary>H注番発番</summary>
                 public static readonly string GetNextHatOrderNo = "api/Client/hat-order-no/next";
 

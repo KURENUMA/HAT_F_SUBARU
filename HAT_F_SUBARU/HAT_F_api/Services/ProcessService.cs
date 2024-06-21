@@ -21,20 +21,30 @@ namespace HAT_F_api.Services
         /// <summary>連番サービス</summary>
         private readonly SequenceNumberService _sequenceNumberService;
 
+        /// <summary>作成者/更新者などを設定するクラス</summary>
         private readonly UpdateInfoSetter _updateInfoSetter;
 
+        /// <summary>ログイン情報</summary>
+        private readonly HatFLoginResultAccesser _hatFLoginResultAccesser;
 
         /// <summary>コンストラクタ</summary>
         /// <param name="hatFContext">DBコンテキスト</param>
         /// <param name="hatFApiExecutionContext">起動時情報コンテキスト</param>
         /// <param name="sequenceNumberService">連番サービス</param>
-        /// <param name="updateInfoSetter"></param>
-        public ProcessService(HatFContext hatFContext, HatFApiExecutionContext hatFApiExecutionContext, SequenceNumberService sequenceNumberService, UpdateInfoSetter updateInfoSetter)
+        /// <param name="updateInfoSetter">作成者/更新者などを設定するクラス</param>
+        /// <param name="hatFLoginResultAccesser">ログイン情報</param>
+        public ProcessService(
+            HatFContext hatFContext, 
+            HatFApiExecutionContext hatFApiExecutionContext, 
+            SequenceNumberService sequenceNumberService, 
+            UpdateInfoSetter updateInfoSetter,
+            HatFLoginResultAccesser hatFLoginResultAccesser)
         {
             _hatFContext = hatFContext;
             _executionContext = hatFApiExecutionContext;
             _sequenceNumberService = sequenceNumberService;
             _updateInfoSetter = updateInfoSetter;
+            _hatFLoginResultAccesser = hatFLoginResultAccesser;
         }
 
         /// <summary>物件詳細情報用のクエリを取得</summary>
@@ -252,6 +262,55 @@ namespace HAT_F_api.Services
                     Comment = p.Comment,
                     Checker = checker?.EmpName,
                     CheckerPost = "★課長" // TODO 役職
+                });
+            }
+            await _hatFContext.SaveChangesAsync();
+            return result;
+        }
+
+        /// <summary>納品一覧表（社内用）チェック結果を記録</summary>
+        /// <param name="parameters">チェック結果を記録する対象</param>
+        /// <returns>INSERTしたレコード数</returns>
+        public async Task<List<InternalDeliveryCheckResult>> PutInternalDeliveryCheckAsync(IEnumerable<InternalDeliveryCheckParameter> parameters)
+        {
+            var employee = await _hatFContext.Employees
+                .SingleOrDefaultAsync(x => x.EmpId == _hatFLoginResultAccesser.HatFLoginResult.EmployeeId);
+            var result = new List<InternalDeliveryCheckResult>();
+            foreach (var p in parameters)
+            {
+                var target = await _hatFContext.InternalDeliveryChecks
+                    .Where(x => x.SalesNo == p.SalesNo)
+                    .Where(x => x.RowNo == p.RowNo)
+                    .FirstOrDefaultAsync();
+                if (target is null)
+                {
+                    var newEntity = new InternalDeliveryCheck()
+                    {
+                        CheckDatetime = _executionContext.ExecuteDateTimeJst,
+                        CheckerId = employee.EmpId,
+                        CheckerPost = employee.OccuCode,
+                        SalesNo = p.SalesNo,
+                        RowNo = p.RowNo,
+                        Comment = p.Comment,
+                    };
+                    _updateInfoSetter.SetUpdateInfo(newEntity);
+                    await _hatFContext.InternalDeliveryChecks.AddAsync(newEntity);
+                }
+                else
+                {
+                    target.CheckDatetime = _executionContext.ExecuteDateTimeJst;
+                    target.CheckerId = employee.EmpId;
+                    target.CheckerPost = employee.OccuCode;
+                    target.Comment = p.Comment;
+                    _updateInfoSetter.SetUpdateInfo(target);
+                }
+                result.Add(new InternalDeliveryCheckResult()
+                {
+                    SalesNo = p.SalesNo,
+                    RowNo = p.RowNo,
+                    Comment = p.Comment,
+                    Checker = employee.EmpName,
+                    CheckerPost = employee.OccuCode,
                 });
             }
             await _hatFContext.SaveChangesAsync();

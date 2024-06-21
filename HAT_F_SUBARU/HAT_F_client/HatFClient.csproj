@@ -245,6 +245,7 @@
     <Compile Include="Common\FormHelper.cs" />
     <Compile Include="Common\FormStyleHelper.cs" />
     <Compile Include="Common\FormTextFormatting.cs" />
+    <Compile Include="Common\GridHelper.cs" />
     <Compile Include="Common\GridStyleHelper.cs" />
     <Compile Include="Common\HatFAppConfig.cs" />
     <Compile Include="Common\HatFAppDataPath.cs" />
