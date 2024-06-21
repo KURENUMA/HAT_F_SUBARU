@@ -12,6 +12,7 @@ namespace HAT_F_api.CustomModels
         public class ApprovalProcedureEx : ApprovalProcedure
         {
             public string EmpName { get; set; }
+            public string approvalType { get; set; }
         }
     }
 }

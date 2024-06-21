@@ -248,10 +248,8 @@ namespace HAT_F_api.Services
         {
             ApprovalSuite suite = new ApprovalSuite();
             var returnData = await _hatFContext.ReturningProducts.Where(x => x.ReturningProductsId == returnId).FirstOrDefaultAsync();
-            var list = new[] { returnData.ApprovalId, returnData.StockApprovalId, returnData.RefundApprovalId };
 
             var approvalId = string.Empty;
-
             if (approvalType.Equals(ApprovalType.R1.ToString()))
             {
                 approvalId = returnData.ApprovalId;
@@ -265,11 +263,14 @@ namespace HAT_F_api.Services
                 approvalId = returnData.RefundApprovalId;
             }
 
-            var approval = await _hatFContext.Approvals.Where(a => a.ApprovalId == approvalId).FirstAsync();
-            if (approval != null)
+            var approval = await _hatFContext.Approvals.Where(a => a.ApprovalId == approvalId).FirstOrDefaultAsync();
+
+            var approvalProcedures = new List<ApprovalProcedureEx>();
+            // 返品入力
+            if (!string.IsNullOrEmpty(returnData.ApprovalId))
             {
-                var query = _hatFContext.ApprovalProcedures
-                                         .Where(p => list.Contains(p.ApprovalId))
+                var query = await _hatFContext.ApprovalProcedures
+                                         .Where(p => p.ApprovalId == returnData.ApprovalId)
                                          .OrderBy(p => p.ApprovalDate)
                                          .Join(
                                              _hatFContext.Employees,
@@ -287,22 +288,85 @@ namespace HAT_F_api.Services
                                                  Creator = ap.Creator,
                                                  UpdateDate = ap.UpdateDate,
                                                  Updater = ap.Updater,
-                                                 EmpName = e.EmpName
-                                             });
+                                                 EmpName = e.EmpName,
+                                                 approvalType = "返品入力"
 
-                List<ApprovalProcedureEx> approvalProcedures = await query.ToListAsync();
+                                             }).ToListAsync();
 
-                suite.Approval = approval;
-                if (approvalProcedures.Count == 0)
-                {
-                    suite.ApprovalProcedures = approvalProcedures;
-                }
-                else
-                {
-                    suite.ApprovalProcedures = approvalProcedures;
-                    suite.LatestApprovalResult = approvalProcedures.Last().ApprovalResult;
-                }
+                approvalProcedures.AddRange(query);
             }
+
+            // 返品入庫
+            if (!string.IsNullOrEmpty(returnData.StockApprovalId))
+            {
+                var query = await _hatFContext.ApprovalProcedures
+                                         .Where(p => p.ApprovalId == returnData.StockApprovalId)
+                                         .OrderBy(p => p.ApprovalDate)
+                                         .Join(
+                                             _hatFContext.Employees,
+                                             ap => ap.EmpId,
+                                             e => e.EmpId,
+                                             (ap, e) => new ApprovalProcedureEx
+                                             {
+                                                 ApprovalProcedureId = ap.ApprovalProcedureId,
+                                                 ApprovalId = ap.ApprovalId,
+                                                 EmpId = ap.EmpId,
+                                                 ApprovalResult = ap.ApprovalResult,
+                                                 ApprovalComment = ap.ApprovalComment,
+                                                 ApprovalDate = ap.ApprovalDate,
+                                                 CreateDate = ap.CreateDate,
+                                                 Creator = ap.Creator,
+                                                 UpdateDate = ap.UpdateDate,
+                                                 Updater = ap.Updater,
+                                                 EmpName = e.EmpName,
+                                                 approvalType = "返品入庫"
+
+                                             }).ToListAsync();
+
+                approvalProcedures.AddRange(query);
+            }
+
+            // 返品入庫入力完了
+            if (!string.IsNullOrEmpty(returnData.RefundApprovalId))
+            {
+                var query = await _hatFContext.ApprovalProcedures
+                                         .Where(p => p.ApprovalId == returnData.RefundApprovalId)
+                                         .OrderBy(p => p.ApprovalDate)
+                                         .Join(
+                                             _hatFContext.Employees,
+                                             ap => ap.EmpId,
+                                             e => e.EmpId,
+                                             (ap, e) => new ApprovalProcedureEx
+                                             {
+                                                 ApprovalProcedureId = ap.ApprovalProcedureId,
+                                                 ApprovalId = ap.ApprovalId,
+                                                 EmpId = ap.EmpId,
+                                                 ApprovalResult = ap.ApprovalResult,
+                                                 ApprovalComment = ap.ApprovalComment,
+                                                 ApprovalDate = ap.ApprovalDate,
+                                                 CreateDate = ap.CreateDate,
+                                                 Creator = ap.Creator,
+                                                 UpdateDate = ap.UpdateDate,
+                                                 Updater = ap.Updater,
+                                                 EmpName = e.EmpName,
+                                                 approvalType = "返品（入庫完了）"
+
+                                             }).ToListAsync();
+
+                approvalProcedures.AddRange(query);
+            }
+
+            suite.Approval = approval;
+            if (approvalProcedures.Count == 0)
+            {
+                suite.ApprovalProcedures = approvalProcedures;
+            }
+            else
+            {
+                suite.ApprovalProcedures = approvalProcedures;
+                suite.LatestApprovalResult = approvalProcedures.Last().ApprovalResult;
+            }
+
             return suite;
         }
 
