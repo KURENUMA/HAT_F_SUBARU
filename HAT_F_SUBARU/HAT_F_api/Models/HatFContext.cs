@@ -95,6 +95,8 @@ public partial class HatFContext : DbContext
 
     public virtual DbSet<InterestRateCheckFixed> InterestRateCheckFixeds { get; set; }
 
+    public virtual DbSet<InternalDeliveryCheck> InternalDeliveryChecks { get; set; }
+
     public virtual DbSet<Invoice> Invoices { get; set; }
 
     public virtual DbSet<InvoiceDetail> InvoiceDetails { get; set; }
@@ -293,18 +295,14 @@ public partial class HatFContext : DbContext
                 .HasColumnName("CREATE_DATE");
             entity.Property(e => e.Creator).HasColumnName("CREATOR");
             entity.Property(e => e.Deleted)
-                .HasDefaultValueSql("((0))")
+                .HasDefaultValue(false)
                 .HasColumnName("DELETED");
             entity.Property(e => e.Displayed)
-                .HasDefaultValueSql("((1))")
+                .HasDefaultValue(true)
                 .HasColumnName("DISPLAYED");
-            entity.Property(e => e.EndDate)
-                .HasColumnType("date")
-                .HasColumnName("END_DATE");
+            entity.Property(e => e.EndDate).HasColumnName("END_DATE");
             entity.Property(e => e.ImportanceLevel).HasColumnName("IMPORTANCE_LEVEL");
-            entity.Property(e => e.StartDate)
-                .HasColumnType("date")
-                .HasColumnName("START_DATE");
+            entity.Property(e => e.StartDate).HasColumnName("START_DATE");
             entity.Property(e => e.UpdateDate)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime")
@@ -502,7 +500,7 @@ public partial class HatFContext : DbContext
                 .HasComment("口座名義人")
                 .HasColumnName("ACT_NAME");
             entity.Property(e => e.ApplEndDate)
-                .HasDefaultValueSql("('2100/12/31')")
+                .HasDefaultValue(new DateTime(2100, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified))
                 .HasComment("適用終了日")
                 .HasColumnType("datetime")
                 .HasColumnName("APPL_END_DATE");
@@ -647,9 +645,7 @@ public partial class HatFContext : DbContext
             entity.Property(e => e.AcTancd)
                 .HasMaxLength(2)
                 .HasColumnName("AC_TANCD");
-            entity.Property(e => e.AcTis)
-                .HasColumnType("date")
-                .HasColumnName("AC_TIS");
+            entity.Property(e => e.AcTis).HasColumnName("AC_TIS");
             entity.Property(e => e.AcVkey)
                 .HasMaxLength(38)
                 .HasColumnName("AC_VKEY");
@@ -696,15 +692,11 @@ public partial class HatFContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("CREATE_DATE");
             entity.Property(e => e.Creator).HasColumnName("CREATOR");
-            entity.Property(e => e.DelDate)
-                .HasColumnType("date")
-                .HasColumnName("DEL_DATE");
+            entity.Property(e => e.DelDate).HasColumnName("DEL_DATE");
             entity.Property(e => e.DelFlg)
                 .HasMaxLength(1)
                 .HasColumnName("DEL_FLG");
-            entity.Property(e => e.DelUseMax)
-                .HasColumnType("date")
-                .HasColumnName("DEL_USE_MAX");
+            entity.Property(e => e.DelUseMax).HasColumnName("DEL_USE_MAX");
             entity.Property(e => e.EcopointoKbn)
                 .HasMaxLength(1)
                 .HasColumnName("ECOPOINTO_KBN");
@@ -756,9 +748,7 @@ public partial class HatFContext : DbContext
             entity.Property(e => e.HanbaiTaikei)
                 .HasMaxLength(5)
                 .HasColumnName("HANBAI_TAIKEI");
-            entity.Property(e => e.HanbaitanDate)
-                .HasColumnType("date")
-                .HasColumnName("HANBAITAN_DATE");
+            entity.Property(e => e.HanbaitanDate).HasColumnName("HANBAITAN_DATE");
             entity.Property(e => e.HanbaitanNew)
                 .HasColumnType("decimal(15, 3)")
                 .HasColumnName("HANBAITAN_NEW");
@@ -766,7 +756,7 @@ public partial class HatFContext : DbContext
                 .HasColumnType("decimal(15, 3)")
                 .HasColumnName("HANBAITAN_OLD");
             entity.Property(e => e.HashimotoPurchase)
-                .HasDefaultValueSql("((0))")
+                .HasDefaultValue(false)
                 .HasColumnName("HASHIMOTO_PURCHASE");
             entity.Property(e => e.HatSyohinCh)
                 .HasMaxLength(50)
@@ -777,9 +767,7 @@ public partial class HatFContext : DbContext
             entity.Property(e => e.HinbanShuKbn)
                 .HasMaxLength(2)
                 .HasColumnName("HINBAN_SHU_KBN");
-            entity.Property(e => e.HizaikotanDate)
-                .HasColumnType("date")
-                .HasColumnName("HIZAIKOTAN_DATE");
+            entity.Property(e => e.HizaikotanDate).HasColumnName("HIZAIKOTAN_DATE");
             entity.Property(e => e.HizaikotanNew)
                 .HasColumnType("decimal(15, 3)")
                 .HasColumnName("HIZAIKOTAN_NEW");
@@ -911,9 +899,7 @@ public partial class HatFContext : DbContext
             entity.Property(e => e.Ordercd)
                 .HasMaxLength(13)
                 .HasColumnName("ORDERCD");
-            entity.Property(e => e.OroshitanDate)
-                .HasColumnType("date")
-                .HasColumnName("OROSHITAN_DATE");
+            entity.Property(e => e.OroshitanDate).HasColumnName("OROSHITAN_DATE");
             entity.Property(e => e.OroshitanNew)
                 .HasColumnType("decimal(15, 3)")
                 .HasColumnName("OROSHITAN_NEW");
@@ -951,7 +937,7 @@ public partial class HatFContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("SET_HINBAN");
             entity.Property(e => e.SetKbn)
-                .HasDefaultValueSql("((0))")
+                .HasDefaultValue(0m)
                 .HasColumnType("decimal(1, 0)")
                 .HasColumnName("SET_KBN");
             entity.Property(e => e.ShiireMarume)
@@ -994,19 +980,19 @@ public partial class HatFContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("SORT_NO1");
             entity.Property(e => e.SortNo2)
-                .HasDefaultValueSql("((0))")
+                .HasDefaultValue(0m)
                 .HasColumnType("decimal(10, 3)")
                 .HasColumnName("SORT_NO2");
             entity.Property(e => e.SortNo3)
-                .HasDefaultValueSql("((0))")
+                .HasDefaultValue(0m)
                 .HasColumnType("decimal(10, 3)")
                 .HasColumnName("SORT_NO3");
             entity.Property(e => e.SortNo4)
-                .HasDefaultValueSql("((0))")
+                .HasDefaultValue(0m)
                 .HasColumnType("decimal(10, 3)")
                 .HasColumnName("SORT_NO4");
             entity.Property(e => e.SortNo5)
-                .HasDefaultValueSql("((0))")
+                .HasDefaultValue(0m)
                 .HasColumnType("decimal(10, 3)")
                 .HasColumnName("SORT_NO5");
             entity.Property(e => e.SortNo6)
@@ -1047,9 +1033,7 @@ public partial class HatFContext : DbContext
             entity.Property(e => e.TateUt)
                 .HasColumnType("decimal(9, 0)")
                 .HasColumnName("TATE_UT");
-            entity.Property(e => e.TeikatanDate)
-                .HasColumnType("date")
-                .HasColumnName("TEIKATAN_DATE");
+            entity.Property(e => e.TeikatanDate).HasColumnName("TEIKATAN_DATE");
             entity.Property(e => e.TeikatanNew)
                 .HasColumnType("decimal(15, 3)")
                 .HasColumnName("TEIKATAN_NEW");
@@ -1109,9 +1093,7 @@ public partial class HatFContext : DbContext
             entity.Property(e => e.ZaikoKanriKbn)
                 .HasColumnType("decimal(1, 0)")
                 .HasColumnName("ZAIKO_KANRI_KBN");
-            entity.Property(e => e.ZaikotanDate)
-                .HasColumnType("date")
-                .HasColumnName("ZAIKOTAN_DATE");
+            entity.Property(e => e.ZaikotanDate).HasColumnName("ZAIKOTAN_DATE");
             entity.Property(e => e.ZaikotanNew)
                 .HasColumnType("decimal(15, 3)")
                 .HasColumnName("ZAIKOTAN_NEW");
@@ -1189,7 +1171,7 @@ public partial class HatFContext : DbContext
                 .HasComment("与信限度額")
                 .HasColumnName("MAX_CREDIT");
             entity.Property(e => e.NoSalesFlg)
-                .HasDefaultValueSql("((0))")
+                .HasDefaultValue((short)0)
                 .HasComment("取引禁止フラグ")
                 .HasColumnName("NO_SALES_FLG");
             entity.Property(e => e.State)
@@ -1197,14 +1179,14 @@ public partial class HatFContext : DbContext
                 .HasComment("都道府県")
                 .HasColumnName("STATE");
             entity.Property(e => e.SupType)
-                .HasDefaultValueSql("((0))")
+                .HasDefaultValue((short)0)
                 .HasComment("仕入先区分")
                 .HasColumnName("SUP_TYPE");
             entity.Property(e => e.Tel)
                 .HasMaxLength(15)
                 .HasColumnName("TEL");
             entity.Property(e => e.TempCreditUp)
-                .HasDefaultValueSql("((0))")
+                .HasDefaultValue(0L)
                 .HasComment("与信一時増加枠")
                 .HasColumnName("TEMP_CREDIT_UP");
             entity.Property(e => e.UpdateDate)
@@ -1339,7 +1321,7 @@ public partial class HatFContext : DbContext
                 .HasComment("推薦備考:推薦物件の備考を入力するカラム")
                 .HasColumnName("RECOMMEND_COMMENT");
             entity.Property(e => e.Recommended)
-                .HasDefaultValueSql("((0))")
+                .HasDefaultValue(false)
                 .HasComment("推薦物件:推薦物件かどうか")
                 .HasColumnName("RECOMMENDED");
             entity.Property(e => e.RecvAdd1)
@@ -1395,7 +1377,7 @@ public partial class HatFContext : DbContext
                 .HasComment("得意先コード:得意先マスタ (取引先マスタ)の取引先コード")
                 .HasColumnName("TOKUI_CD");
             entity.Property(e => e.Uncontracted)
-                .HasDefaultValueSql("((0))")
+                .HasDefaultValue(false)
                 .HasComment("未契約物件:契約単価が決定する前に受注したかどうか")
                 .HasColumnName("UNCONTRACTED");
             entity.Property(e => e.UpdateDate)
@@ -1437,7 +1419,6 @@ public partial class HatFContext : DbContext
                 .HasColumnName("CREATOR");
             entity.Property(e => e.Nouki)
                 .HasComment("納日")
-                .HasColumnType("date")
                 .HasColumnName("NOUKI");
             entity.Property(e => e.SiiKake)
                 .HasComment("掛率(仕入)")
@@ -1559,16 +1540,16 @@ public partial class HatFContext : DbContext
                 .HasComment("部門コード")
                 .HasColumnName("DEPT_CODE");
             entity.Property(e => e.PayMethodType)
-                .HasDefaultValueSql("((1))")
+                .HasDefaultValue((short)1)
                 .HasComment("支払方法区分,1:振込,2:手形,3:でんさい")
                 .HasColumnName("PAY_METHOD_TYPE");
             entity.Property(e => e.Received)
-                .HasDefaultValueSql("((0))")
+                .HasDefaultValue(0m)
                 .HasComment("消込金額")
                 .HasColumnType("decimal(11, 2)")
                 .HasColumnName("RECEIVED");
             entity.Property(e => e.ReceivedAmnt)
-                .HasDefaultValueSql("((0))")
+                .HasDefaultValue(0m)
                 .HasComment("入金金額")
                 .HasColumnType("decimal(11, 2)")
                 .HasColumnName("RECEIVED_AMNT");
@@ -1670,19 +1651,19 @@ public partial class HatFContext : DbContext
                 .HasComment("顧客支払日２,10:10日払い,99：末日")
                 .HasColumnName("CUST_PAY_DATES2");
             entity.Property(e => e.CustPayMethod1)
-                .HasDefaultValueSql("((1))")
+                .HasDefaultValue((short)1)
                 .HasComment("顧客支払方法１,1:振込,2:手形")
                 .HasColumnName("CUST_PAY_METHOD1");
             entity.Property(e => e.CustPayMethod2)
-                .HasDefaultValueSql("((1))")
+                .HasDefaultValue((short)1)
                 .HasComment("顧客支払方法２,1:振込,2:手形")
                 .HasColumnName("CUST_PAY_METHOD2");
             entity.Property(e => e.CustPayMonths1)
-                .HasDefaultValueSql("((1))")
+                .HasDefaultValue((short)1)
                 .HasComment("顧客支払月１,0:当月,1:翌月,2:翌々月")
                 .HasColumnName("CUST_PAY_MONTHS1");
             entity.Property(e => e.CustPayMonths2)
-                .HasDefaultValueSql("((1))")
+                .HasDefaultValue((short)1)
                 .HasComment("顧客支払月２,0:当月,1:翌月,2:翌々月")
                 .HasColumnName("CUST_PAY_MONTHS2");
             entity.Property(e => e.CustState)
@@ -1694,7 +1675,7 @@ public partial class HatFContext : DbContext
                 .HasComment("顧客電話番号")
                 .HasColumnName("CUST_TEL");
             entity.Property(e => e.CustType)
-                .HasDefaultValueSql("((0))")
+                .HasDefaultValue((short)0)
                 .HasComment("顧客区分")
                 .HasColumnName("CUST_TYPE");
             entity.Property(e => e.CustUserDepName)
@@ -1816,12 +1797,12 @@ public partial class HatFContext : DbContext
                 .HasComment("部門パス")
                 .HasColumnName("DEPT_PATH");
             entity.Property(e => e.EndDate)
-                .HasDefaultValueSql("('2100/12/31')")
+                .HasDefaultValue(new DateTime(2100, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified))
                 .HasComment("終了日")
                 .HasColumnType("datetime")
                 .HasColumnName("END_DATE");
             entity.Property(e => e.SlitYn)
-                .HasDefaultValueSql("((1))")
+                .HasDefaultValue((short)1)
                 .HasComment("伝票入力可否,0:不可 1:可能")
                 .HasColumnName("SLIT_YN");
             entity.Property(e => e.TeamCd)
@@ -2160,7 +2141,7 @@ public partial class HatFContext : DbContext
                 .HasComment("作成者名")
                 .HasColumnName("CREATOR");
             entity.Property(e => e.Deleted)
-                .HasDefaultValueSql("((0))")
+                .HasDefaultValue(false)
                 .HasComment("削除済")
                 .HasColumnName("DELETED");
             entity.Property(e => e.DivStockLocationName)
@@ -2453,7 +2434,6 @@ public partial class HatFContext : DbContext
                 .HasColumnName("HOPE_ORDER_NO");
             entity.Property(e => e.InpDate)
                 .HasComment("《画面対応なし》")
-                .HasColumnType("date")
                 .HasColumnName("INP_DATE");
             entity.Property(e => e.Kikaku)
                 .HasMaxLength(20)
@@ -2479,7 +2459,6 @@ public partial class HatFContext : DbContext
                 .HasColumnName("MOVE_FLG");
             entity.Property(e => e.Nouki)
                 .HasComment("納日")
-                .HasColumnType("date")
                 .HasColumnName("NOUKI");
             entity.Property(e => e.OpsBara)
                 .HasComment("《画面対応なし》")
@@ -2497,7 +2476,6 @@ public partial class HatFContext : DbContext
                 .HasColumnName("OPS_LINENO");
             entity.Property(e => e.OpsNyukabi)
                 .HasComment("《画面対応なし》")
-                .HasColumnType("date")
                 .HasColumnName("OPS_NYUKABI");
             entity.Property(e => e.OpsOrderNo)
                 .HasMaxLength(6)
@@ -2505,11 +2483,9 @@ public partial class HatFContext : DbContext
                 .HasColumnName("OPS_ORDER_NO");
             entity.Property(e => e.OpsRecYmd)
                 .HasComment("《画面対応なし》")
-                .HasColumnType("date")
                 .HasColumnName("OPS_REC_YMD");
             entity.Property(e => e.OpsShukkadt)
                 .HasComment("《画面対応なし》")
-                .HasColumnType("date")
                 .HasColumnName("OPS_SHUKKADT");
             entity.Property(e => e.OpsSokocd)
                 .HasMaxLength(2)
@@ -2569,7 +2545,6 @@ public partial class HatFContext : DbContext
                 .HasColumnName("OYAHINB");
             entity.Property(e => e.ReqNouki)
                 .HasComment("《画面対応なし》")
-                .HasColumnType("date")
                 .HasColumnName("REQ_NOUKI");
             entity.Property(e => e.Sbiko)
                 .HasMaxLength(64)
@@ -2751,7 +2726,7 @@ public partial class HatFContext : DbContext
                 .HasComment("伝No")
                 .HasColumnName("DEN_NO");
             entity.Property(e => e.DenShippingPrinted)
-                .HasDefaultValueSql("((0))")
+                .HasDefaultValue(false)
                 .HasComment("《ラベルなし》出荷伝票印刷済")
                 .HasColumnName("DEN_SHIPPING_PRINTED");
             entity.Property(e => e.DenState)
@@ -2764,7 +2739,7 @@ public partial class HatFContext : DbContext
                 .HasColumnName("DEN_VALID_CHECK_DATE");
             entity.Property(e => e.DenValidCheckState)
                 .HasMaxLength(1)
-                .HasDefaultValueSql("('0')")
+                .HasDefaultValue("0")
                 .HasComment("伝票チェック")
                 .HasColumnName("DEN_VALID_CHECK_STATE");
             entity.Property(e => e.Dseq)
@@ -2819,7 +2794,6 @@ public partial class HatFContext : DbContext
                 .HasColumnName("GENBA_CD");
             entity.Property(e => e.HatNyukabi)
                 .HasComment("《画面対応なし》")
-                .HasColumnType("date")
                 .HasColumnName("HAT_NYUKABI");
             entity.Property(e => e.HatOrderNo)
                 .HasMaxLength(10)
@@ -2831,7 +2805,6 @@ public partial class HatFContext : DbContext
                 .HasColumnName("HKBN");
             entity.Property(e => e.InpDate)
                 .HasComment("《画面対応なし》")
-                .HasColumnType("date")
                 .HasColumnName("INP_DATE");
             entity.Property(e => e.IpAdd)
                 .HasMaxLength(16)
@@ -2882,7 +2855,6 @@ public partial class HatFContext : DbContext
                 .HasColumnName("NOTE_HOUSE");
             entity.Property(e => e.Nouki)
                 .HasComment("納日")
-                .HasColumnType("date")
                 .HasColumnName("NOUKI");
             entity.Property(e => e.Nyu2)
                 .HasMaxLength(2)
@@ -2917,7 +2889,6 @@ public partial class HatFContext : DbContext
                 .HasColumnName("OPS_ORDER_NO");
             entity.Property(e => e.OpsRecYmd)
                 .HasComment("《画面対応なし》")
-                .HasColumnType("date")
                 .HasColumnName("OPS_REC_YMD");
             entity.Property(e => e.OrderDenNo)
                 .HasMaxLength(14)
@@ -2953,7 +2924,6 @@ public partial class HatFContext : DbContext
                 .HasColumnName("RAIKAN");
             entity.Property(e => e.RecYmd)
                 .HasComment("《画面対応なし》")
-                .HasColumnType("date")
                 .HasColumnName("REC_YMD");
             entity.Property(e => e.RecvAdd1)
                 .HasMaxLength(30)
@@ -3036,7 +3006,7 @@ public partial class HatFContext : DbContext
                 .HasComment("倉庫(名)")
                 .HasColumnName("SOKO_NAME");
             entity.Property(e => e.SupplierType)
-                .HasDefaultValueSql("((0))")
+                .HasDefaultValue((short)0)
                 .HasComment("発注先種別,null/0:未設定 1:橋本本体 2:橋本本体以外")
                 .HasColumnName("SUPPLIER_TYPE");
             entity.Property(e => e.TantoCd)
@@ -3073,7 +3043,6 @@ public partial class HatFContext : DbContext
                 .HasColumnName("UNCHIN");
             entity.Property(e => e.UpdDate)
                 .HasComment("《画面対応なし》")
-                .HasColumnType("date")
                 .HasColumnName("UPD_DATE");
             entity.Property(e => e.UpdateDate)
                 .HasDefaultValueSql("(getdate())")
@@ -3085,7 +3054,7 @@ public partial class HatFContext : DbContext
                 .HasColumnName("UPDATER");
             entity.Property(e => e.WhStatus)
                 .HasMaxLength(1)
-                .HasDefaultValueSql("('0')")
+                .HasDefaultValue("0")
                 .HasComment("倉庫ステータス")
                 .HasColumnName("WH_STATUS");
         });
@@ -3857,6 +3826,55 @@ public partial class HatFContext : DbContext
                 .HasColumnName("UPDATER");
         });
 
+        modelBuilder.Entity<InternalDeliveryCheck>(entity =>
+        {
+            entity.HasKey(e => e.InternalDeliveryCheckId).HasName("INTERNAL_DELIVERY_CHECK_PKC");
+
+            entity.ToTable("INTERNAL_DELIVERY_CHECK", tb => tb.HasComment("納品一覧表（社内用）チェック"));
+
+            entity.Property(e => e.InternalDeliveryCheckId)
+                .HasComment("納品一覧表（社内用）チェックID")
+                .HasColumnName("INTERNAL_DELIVERY_CHECK_ID");
+            entity.Property(e => e.CheckDatetime)
+                .HasComment("チェック日時")
+                .HasColumnType("datetime")
+                .HasColumnName("CHECK_DATETIME");
+            entity.Property(e => e.CheckerId)
+                .HasComment("チェック者")
+                .HasColumnName("CHECKER_ID");
+            entity.Property(e => e.CheckerPost)
+                .HasMaxLength(20)
+                .HasComment("チェック者役職")
+                .HasColumnName("CHECKER_POST");
+            entity.Property(e => e.Comment)
+                .HasMaxLength(1000)
+                .HasComment("コメント")
+                .HasColumnName("COMMENT");
+            entity.Property(e => e.CreateDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("作成日時")
+                .HasColumnType("datetime")
+                .HasColumnName("CREATE_DATE");
+            entity.Property(e => e.Creator)
+                .HasComment("作成者名")
+                .HasColumnName("CREATOR");
+            entity.Property(e => e.RowNo)
+                .HasComment("売上行番号")
+                .HasColumnName("ROW_NO");
+            entity.Property(e => e.SalesNo)
+                .HasMaxLength(10)
+                .HasComment("売上番号")
+                .HasColumnName("SALES_NO");
+            entity.Property(e => e.UpdateDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("更新日時")
+                .HasColumnType("datetime")
+                .HasColumnName("UPDATE_DATE");
+            entity.Property(e => e.Updater)
+                .HasComment("更新者名")
+                .HasColumnName("UPDATER");
+        });
+
         modelBuilder.Entity<Invoice>(entity =>
         {
             entity.HasKey(e => e.InvoiceNo).IsClustered(false);
@@ -3892,7 +3910,7 @@ public partial class HatFContext : DbContext
                 .HasComment("顧客枝番")
                 .HasColumnName("CUST_SUB_NO");
             entity.Property(e => e.InvoiceReceived)
-                .HasDefaultValueSql("((0))")
+                .HasDefaultValue(0m)
                 .HasComment("請求消込金額")
                 .HasColumnType("decimal(11, 2)")
                 .HasColumnName("INVOICE_RECEIVED");
@@ -3993,7 +4011,7 @@ public partial class HatFContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("START_DATE");
             entity.Property(e => e.Approved)
-                .HasDefaultValueSql("((0))")
+                .HasDefaultValue(false)
                 .HasComment("承認済")
                 .HasColumnName("APPROVED");
             entity.Property(e => e.ChangeApplicationId)
@@ -4009,7 +4027,7 @@ public partial class HatFContext : DbContext
                 .HasComment("作成者名")
                 .HasColumnName("CREATOR");
             entity.Property(e => e.EndDate)
-                .HasDefaultValueSql("('2999-12-31')")
+                .HasDefaultValue(new DateTime(2999, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified))
                 .HasComment("終了日")
                 .HasColumnType("datetime")
                 .HasColumnName("END_DATE");
@@ -4052,7 +4070,7 @@ public partial class HatFContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("START_DATE");
             entity.Property(e => e.Approved)
-                .HasDefaultValueSql("((0))")
+                .HasDefaultValue(false)
                 .HasComment("承認済")
                 .HasColumnName("APPROVED");
             entity.Property(e => e.ChangeApplicationId)
@@ -4068,7 +4086,7 @@ public partial class HatFContext : DbContext
                 .HasComment("作成者名")
                 .HasColumnName("CREATOR");
             entity.Property(e => e.EndDate)
-                .HasDefaultValueSql("('2999-12-31')")
+                .HasDefaultValue(new DateTime(2999, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified))
                 .HasComment("終了日")
                 .HasColumnType("datetime")
                 .HasColumnName("END_DATE");
@@ -4146,10 +4164,9 @@ public partial class HatFContext : DbContext
                 .HasColumnName("CREATOR");
             entity.Property(e => e.DeleteDate)
                 .HasComment("削除日★追加")
-                .HasColumnType("date")
                 .HasColumnName("DELETE_DATE");
             entity.Property(e => e.Deleted)
-                .HasDefaultValueSql("((0))")
+                .HasDefaultValue(false)
                 .HasComment("削除済★追加")
                 .HasColumnName("DELETED");
             entity.Property(e => e.ErmcUserNo)
@@ -4172,11 +4189,11 @@ public partial class HatFContext : DbContext
                 .HasComment("与信限度額")
                 .HasColumnName("MAX_CREDIT");
             entity.Property(e => e.NoSalesFlg)
-                .HasDefaultValueSql("((0))")
+                .HasDefaultValue((short)0)
                 .HasComment("取引禁止フラグ")
                 .HasColumnName("NO_SALES_FLG");
             entity.Property(e => e.PayMethodType)
-                .HasDefaultValueSql("((1))")
+                .HasDefaultValue((short)1)
                 .HasComment("支払方法区分,1:振込,2:手形,3:でんさい:デフォルトの支払方法")
                 .HasColumnName("PAY_METHOD_TYPE");
             entity.Property(e => e.PayeeBranchName)
@@ -4314,7 +4331,7 @@ public partial class HatFContext : DbContext
                 .HasComment("商品分類コード")
                 .HasColumnName("CATEGORY_CODE");
             entity.Property(e => e.CategoryLayer)
-                .HasDefaultValueSql("((0))")
+                .HasDefaultValue((short)0)
                 .HasComment("商品分類階層")
                 .HasColumnName("CATEGORY_LAYER");
             entity.Property(e => e.CategoryPath)
@@ -4333,7 +4350,7 @@ public partial class HatFContext : DbContext
                 .HasComment("作成者名")
                 .HasColumnName("CREATOR");
             entity.Property(e => e.LowestFlug)
-                .HasDefaultValueSql("((0))")
+                .HasDefaultValue((short)0)
                 .HasComment("最下層区分")
                 .HasColumnName("LOWEST_FLUG");
             entity.Property(e => e.ProdCateName)
@@ -4436,7 +4453,7 @@ public partial class HatFContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("PU_DATE");
             entity.Property(e => e.PuType)
-                .HasDefaultValueSql("((1))")
+                .HasDefaultValue((short)1)
                 .HasComment("仕入区分")
                 .HasColumnName("PU_TYPE");
             entity.Property(e => e.SlipComment)
@@ -4512,12 +4529,12 @@ public partial class HatFContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("PU_PAY_YEAR_MONTH");
             entity.Property(e => e.PuPrice)
-                .HasDefaultValueSql("((0))")
+                .HasDefaultValue(0m)
                 .HasComment("仕入単価（M単価）")
                 .HasColumnType("decimal(11, 2)")
                 .HasColumnName("PU_PRICE");
             entity.Property(e => e.PuQuantity)
-                .HasDefaultValueSql("((1))")
+                .HasDefaultValue(1m)
                 .HasComment("仕入数量（M数量）")
                 .HasColumnType("decimal(11, 2)")
                 .HasColumnName("PU_QUANTITY");
@@ -4573,7 +4590,7 @@ public partial class HatFContext : DbContext
                 .HasComment("元仕入行番号")
                 .HasColumnName("ORIGINAL_PU_ROW_NO");
             entity.Property(e => e.PoPrice)
-                .HasDefaultValueSql("((0))")
+                .HasDefaultValue(0m)
                 .HasComment("仕入単価（M単価）")
                 .HasColumnType("decimal(11, 2)")
                 .HasColumnName("PO_PRICE");
@@ -4666,7 +4683,6 @@ public partial class HatFContext : DbContext
                 .HasColumnName("KOBAN");
             entity.Property(e => e.Noubi)
                 .HasComment("納入日")
-                .HasColumnType("date")
                 .HasColumnName("NOUBI");
             entity.Property(e => e.PaySupCode)
                 .HasMaxLength(8)
@@ -4793,7 +4809,7 @@ public partial class HatFContext : DbContext
                 .HasComment("売上数量")
                 .HasColumnName("QUANTITY");
             entity.Property(e => e.RefundUnitPrice)
-                .HasDefaultValueSql("((0))")
+                .HasDefaultValue(0m)
                 .HasComment("返金単価")
                 .HasColumnType("decimal(11, 2)")
                 .HasColumnName("REFUND_UNIT_PRICE");
@@ -4815,12 +4831,12 @@ public partial class HatFContext : DbContext
                 .HasComment("売上行番号")
                 .HasColumnName("SALES_ROW_NO");
             entity.Property(e => e.SellUnitPrice)
-                .HasDefaultValueSql("((0))")
+                .HasDefaultValue(0m)
                 .HasComment("販売単価")
                 .HasColumnType("decimal(11, 2)")
                 .HasColumnName("SELL_UNIT_PRICE");
             entity.Property(e => e.StockUnitPrice)
-                .HasDefaultValueSql("((0))")
+                .HasDefaultValue(0m)
                 .HasComment("在庫単価")
                 .HasColumnType("decimal(11, 2)")
                 .HasColumnName("STOCK_UNIT_PRICE");
@@ -4891,7 +4907,7 @@ public partial class HatFContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("SALES_DATE");
             entity.Property(e => e.SalesType)
-                .HasDefaultValueSql("((1))")
+                .HasDefaultValue((short)1)
                 .HasComment("売上区分,1:売上 2:売上返品")
                 .HasColumnName("SALES_TYPE");
             entity.Property(e => e.SlipComment)
@@ -4930,7 +4946,7 @@ public partial class HatFContext : DbContext
                 .HasComment("勘定科目")
                 .HasColumnName("ACCOUNT_TITLE");
             entity.Property(e => e.AdjustmentAmount)
-                .HasDefaultValueSql("((0))")
+                .HasDefaultValue(0m)
                 .HasComment("調整金額")
                 .HasColumnType("decimal(11, 2)")
                 .HasColumnName("ADJUSTMENT_AMOUNT");
@@ -5024,7 +5040,7 @@ public partial class HatFContext : DbContext
                 .HasComment("作成者名")
                 .HasColumnName("CREATOR");
             entity.Property(e => e.DeliveredQty)
-                .HasDefaultValueSql("((0))")
+                .HasDefaultValue((short)0)
                 .HasComment("出荷数量")
                 .HasColumnName("DELIVERED_QTY");
             entity.Property(e => e.DenFlg)
@@ -5157,16 +5173,16 @@ public partial class HatFContext : DbContext
                 .HasColumnName("ROT_NO");
             entity.Property(e => e.StockType)
                 .HasMaxLength(1)
-                .HasDefaultValueSql("('1')")
+                .HasDefaultValue("1")
                 .HasComment("在庫区分,1:自社在庫 2:預り在庫")
                 .HasColumnName("STOCK_TYPE");
             entity.Property(e => e.QualityType)
                 .HasMaxLength(1)
-                .HasDefaultValueSql("('G')")
+                .HasDefaultValue("G")
                 .HasComment("良品区分,G:良品 F:不良品 U:未検品")
                 .HasColumnName("QUALITY_TYPE");
             entity.Property(e => e.Actual)
-                .HasDefaultValueSql("((1))")
+                .HasDefaultValue((short)1)
                 .HasComment("実在庫数")
                 .HasColumnName("ACTUAL");
             entity.Property(e => e.CreateDate)
@@ -5200,7 +5216,7 @@ public partial class HatFContext : DbContext
                 .HasComment("更新者名")
                 .HasColumnName("UPDATER");
             entity.Property(e => e.Valid)
-                .HasDefaultValueSql("((1))")
+                .HasDefaultValue((short)1)
                 .HasComment("有効在庫数")
                 .HasColumnName("VALID");
         });
@@ -5225,12 +5241,12 @@ public partial class HatFContext : DbContext
                 .HasColumnName("ROT_NO");
             entity.Property(e => e.StockType)
                 .HasMaxLength(1)
-                .HasDefaultValueSql("('1')")
+                .HasDefaultValue("1")
                 .HasComment("在庫区分,1:自社在庫 2:預り在庫")
                 .HasColumnName("STOCK_TYPE");
             entity.Property(e => e.QualityType)
                 .HasMaxLength(1)
-                .HasDefaultValueSql("('G')")
+                .HasDefaultValue("G")
                 .HasComment("良品区分,G:良品 F:不良品 U:未検品")
                 .HasColumnName("QUALITY_TYPE");
             entity.Property(e => e.LastDeliveryDate)
@@ -5238,12 +5254,12 @@ public partial class HatFContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("LAST_DELIVERY_DATE");
             entity.Property(e => e.Actual)
-                .HasDefaultValueSql("((1))")
+                .HasDefaultValue((short)1)
                 .HasComment("実在庫数")
                 .HasColumnName("ACTUAL");
             entity.Property(e => e.ActualBara).HasColumnName("ACTUAL_BARA");
             entity.Property(e => e.BeginningPeriod)
-                .HasDefaultValueSql("((0))")
+                .HasDefaultValue(false)
                 .HasColumnName("BEGINNING_PERIOD");
             entity.Property(e => e.CreateDate)
                 .HasDefaultValueSql("(getdate())")
@@ -5266,7 +5282,7 @@ public partial class HatFContext : DbContext
                 .HasComment("更新者名")
                 .HasColumnName("UPDATER");
             entity.Property(e => e.Valid)
-                .HasDefaultValueSql("((1))")
+                .HasDefaultValue((short)1)
                 .HasComment("有効在庫数")
                 .HasColumnName("VALID");
             entity.Property(e => e.ValidBara).HasColumnName("VALID_BARA");
@@ -5292,12 +5308,12 @@ public partial class HatFContext : DbContext
                 .HasColumnName("ROT_NO");
             entity.Property(e => e.StockType)
                 .HasMaxLength(1)
-                .HasDefaultValueSql("('1')")
+                .HasDefaultValue("1")
                 .HasComment("在庫区分,1:自社在庫 2:預り在庫 (マルマ)")
                 .HasColumnName("STOCK_TYPE");
             entity.Property(e => e.QualityType)
                 .HasMaxLength(1)
-                .HasDefaultValueSql("('G')")
+                .HasDefaultValue("G")
                 .HasComment("良品区分,G:良品 F:不良品 U:未検品")
                 .HasColumnName("QUALITY_TYPE");
             entity.Property(e => e.InventoryYearmonth)
@@ -5580,7 +5596,7 @@ public partial class HatFContext : DbContext
                 .HasComment("削除済")
                 .HasColumnName("DELETED");
             entity.Property(e => e.PayMethodType)
-                .HasDefaultValueSql("((1))")
+                .HasDefaultValue((short)1)
                 .HasComment("支払方法区分,1:振込,2:手形")
                 .HasColumnName("PAY_METHOD_TYPE");
             entity.Property(e => e.SupAddress1)
@@ -5623,7 +5639,7 @@ public partial class HatFContext : DbContext
                 .HasComment("仕入先支払日,10:10日払い,99：末日")
                 .HasColumnName("SUP_PAY_DATES");
             entity.Property(e => e.SupPayMonths)
-                .HasDefaultValueSql("((1))")
+                .HasDefaultValue((short)1)
                 .HasComment("仕入先支払月,0:当月,1:翌月,2:翌々月")
                 .HasColumnName("SUP_PAY_MONTHS");
             entity.Property(e => e.SupState)
@@ -5675,7 +5691,7 @@ public partial class HatFContext : DbContext
                 .HasComment("CREATOR")
                 .HasColumnName("CREATOR");
             entity.Property(e => e.Deleted)
-                .HasDefaultValueSql("((0))")
+                .HasDefaultValue(false)
                 .HasComment("削除済")
                 .HasColumnName("DELETED");
             entity.Property(e => e.UpdateDate)
@@ -5703,11 +5719,9 @@ public partial class HatFContext : DbContext
                 .HasColumnName("APPROP_STATE");
             entity.Property(e => e.ArrangementDate)
                 .HasComment("手配:TOTO請書項目に存在したため念のため追加")
-                .HasColumnType("date")
                 .HasColumnName("ARRANGEMENT_DATE");
             entity.Property(e => e.BaseDate)
                 .HasComment("拠点:TOTO請書項目に存在したため念のため追加")
-                .HasColumnType("date")
                 .HasColumnName("BASE_DATE");
             entity.Property(e => e.ConstructionCode)
                 .IsRequired()
@@ -5728,7 +5742,6 @@ public partial class HatFContext : DbContext
                 .HasColumnName("DELIVERY_ADDRESS");
             entity.Property(e => e.DeliveryDate)
                 .HasComment("納期")
-                .HasColumnType("date")
                 .HasColumnName("DELIVERY_DATE");
             entity.Property(e => e.Digit5Code)
                 .HasMaxLength(6)
@@ -5978,7 +5991,6 @@ public partial class HatFContext : DbContext
             entity.Property(e => e.得意先コード).HasMaxLength(6);
             entity.Property(e => e.物件コード).HasMaxLength(20);
             entity.Property(e => e.物件名).HasMaxLength(50);
-            entity.Property(e => e.納期).HasColumnType("date");
         });
 
         modelBuilder.Entity<ViewInterestRateBeforeFix>(entity =>
@@ -6059,18 +6071,22 @@ public partial class HatFContext : DbContext
                 .HasNoKey()
                 .ToView("VIEW_INTERNAL_DELIVERY");
 
+            entity.Property(e => e.コメント).HasMaxLength(1000);
             entity.Property(e => e.仕入単価).HasColumnType("decimal(11, 2)");
             entity.Property(e => e.仕入額).HasColumnType("decimal(17, 2)");
             entity.Property(e => e.伝票番号).HasMaxLength(20);
-            entity.Property(e => e.利率).HasColumnType("decimal(25, 14)");
+            entity.Property(e => e.利率).HasColumnType("decimal(26, 14)");
             entity.Property(e => e.取引先コード)
                 .IsRequired()
                 .HasMaxLength(8);
             entity.Property(e => e.取引先名).HasMaxLength(40);
             entity.Property(e => e.商品コード).HasMaxLength(50);
             entity.Property(e => e.商品名).HasMaxLength(100);
+            entity.Property(e => e.売上番号).HasMaxLength(10);
             entity.Property(e => e.物件コード).HasMaxLength(20);
             entity.Property(e => e.物件名).HasMaxLength(50);
+            entity.Property(e => e.確認者).HasMaxLength(20);
+            entity.Property(e => e.確認者役職).HasMaxLength(20);
             entity.Property(e => e.販売単価).HasColumnType("decimal(11, 2)");
             entity.Property(e => e.販売額).HasColumnType("decimal(22, 2)");
         });
@@ -6263,7 +6279,6 @@ public partial class HatFContext : DbContext
             entity.Property(e => e.物件コード).HasMaxLength(20);
             entity.Property(e => e.物件名).HasMaxLength(50);
             entity.Property(e => e.発注金額合計).HasColumnType("decimal(38, 2)");
-            entity.Property(e => e.納期).HasColumnType("date");
         });
 
         modelBuilder.Entity<ViewPurchaseBillingDetail>(entity =>
@@ -6283,7 +6298,6 @@ public partial class HatFContext : DbContext
                 .IsRequired()
                 .HasMaxLength(4);
             entity.Property(e => e.H注番).HasMaxLength(15);
-            entity.Property(e => e.H納日).HasColumnType("date");
             entity.Property(e => e.H行番号)
                 .IsRequired()
                 .HasMaxLength(1);
@@ -6335,7 +6349,6 @@ public partial class HatFContext : DbContext
             entity.Property(e => e.物件コード).HasMaxLength(20);
             entity.Property(e => e.物件名).HasMaxLength(50);
             entity.Property(e => e.発注金額合計).HasColumnType("decimal(38, 2)");
-            entity.Property(e => e.納期).HasColumnType("date");
         });
 
         modelBuilder.Entity<ViewPurchaseReceivingDetail>(entity =>
@@ -6352,7 +6365,6 @@ public partial class HatFContext : DbContext
                 .HasMaxLength(3);
             entity.Property(e => e.H単価).HasColumnType("decimal(11, 2)");
             entity.Property(e => e.H注番).HasMaxLength(15);
-            entity.Property(e => e.H納日).HasColumnType("date");
             entity.Property(e => e.H行番号)
                 .IsRequired()
                 .HasMaxLength(1);
@@ -6468,7 +6480,6 @@ public partial class HatFContext : DbContext
                 .IsRequired()
                 .HasMaxLength(1)
                 .IsUnicode(false);
-            entity.Property(e => e.納期).HasColumnType("date");
         });
 
         modelBuilder.Entity<ViewReadySalesBatch>(entity =>
@@ -6779,12 +6790,10 @@ public partial class HatFContext : DbContext
                 .ToView("VIEW_WAREHOUSING_RECEIVING");
 
             entity.Property(e => e.伝票番号).HasMaxLength(6);
-            entity.Property(e => e.入荷予定).HasColumnType("date");
             entity.Property(e => e.入荷日).HasColumnType("datetime");
             entity.Property(e => e.出荷日).HasColumnType("datetime");
             entity.Property(e => e.到着予定日).HasColumnType("datetime");
             entity.Property(e => e.取引先).HasMaxLength(20);
-            entity.Property(e => e.納期).HasColumnType("date");
             entity.Property(e => e.配送パターン)
                 .IsRequired()
                 .HasMaxLength(6)
@@ -6825,7 +6834,6 @@ public partial class HatFContext : DbContext
             entity.Property(e => e.伝区).HasMaxLength(2);
             entity.Property(e => e.伝票番号).HasMaxLength(6);
             entity.Property(e => e.倉庫ステータス).HasMaxLength(1);
-            entity.Property(e => e.入荷予定).HasColumnType("date");
             entity.Property(e => e.入荷日).HasColumnType("datetime");
             entity.Property(e => e.出荷指示書印刷)
                 .IsRequired()
@@ -6834,7 +6842,6 @@ public partial class HatFContext : DbContext
             entity.Property(e => e.出荷日).HasColumnType("datetime");
             entity.Property(e => e.到着予定日).HasColumnType("datetime");
             entity.Property(e => e.取引先).HasMaxLength(20);
-            entity.Property(e => e.納期).HasColumnType("date");
             entity.Property(e => e.配送パターン)
                 .IsRequired()
                 .HasMaxLength(6)
@@ -6982,7 +6989,7 @@ public partial class HatFContext : DbContext
                 .HasColumnName("WH_NAME");
             entity.Property(e => e.WhType)
                 .HasMaxLength(1)
-                .HasDefaultValueSql("('N')")
+                .HasDefaultValue("N")
                 .HasComment("倉庫区分,N:通常倉庫 C:得意先 S:仕入先 D:部門倉庫 P:製品倉庫 M:原材料倉庫")
                 .HasColumnName("WH_TYPE");
             entity.Property(e => e.ZipCode)

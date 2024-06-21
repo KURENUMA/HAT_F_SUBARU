@@ -5,6 +5,10 @@ namespace HAT_F_api.Models;
 
 public partial class ViewInternalDelivery
 {
+    public string 売上番号 { get; set; }
+
+    public short? 売上行番号 { get; set; }
+
     public string 物件コード { get; set; }
 
     public string 物件名 { get; set; }
@@ -32,4 +36,10 @@ public partial class ViewInternalDelivery
     public short? 仕入数量 { get; set; }
 
     public decimal? 仕入額 { get; set; }
+
+    public string 確認者 { get; set; }
+
+    public string 確認者役職 { get; set; }
+
+    public string コメント { get; set; }
 }
