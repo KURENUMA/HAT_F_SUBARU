@@ -173,9 +173,8 @@ namespace HAT_F_api.Services
         /// <returns>INSERTしたレコード数</returns>
         public async Task<List<InterestRateCheckBeforeFixResult>> PutInterestRateCheckBeforeFixAsync(IEnumerable<InterestRateCheckBeforeFixParameter> parameters)
         {
-            // TODO ログインIDで比較する
-            var checker = await _hatFContext.Employees
-                .FirstOrDefaultAsync(x => x.EmpId == 0);
+            var employee = await _hatFContext.Employees
+                .SingleOrDefaultAsync(x => x.EmpId == _hatFLoginResultAccesser.HatFLoginResult.EmployeeId);
             var result = new List<InterestRateCheckBeforeFixResult>();
             foreach (var p in parameters)
             {
@@ -185,25 +184,23 @@ namespace HAT_F_api.Services
                     var newEntity = new InterestRateCheckBeforeFix()
                     {
                         CheckDatetime = _executionContext.ExecuteDateTimeJst,
-                        CheckerId = 0,      // TODO ログインID
-                        CheckerPost = "★課長",    // TODO 役職
+                        CheckerId = employee.EmpId,
+                        CheckerPost = employee.OccuCode,
                         SaveKey = p.SaveKey,
                         DenSort = p.DenSort,
                         DenNoLine = p.DenNoLine,
                         Comment = p.Comment,
-                        CreateDate = _executionContext.ExecuteDateTimeJst,
-                        Creator = 0,        // TODO ログインID
                     };
+                    _updateInfoSetter.SetUpdateInfo(newEntity);
                     await _hatFContext.InterestRateCheckBeforeFixes.AddAsync(newEntity);
                 }
                 else
                 {
                     target.CheckDatetime = _executionContext.ExecuteDateTimeJst;
-                    target.CheckerId = 0;   // TODO ログインID
-                    target.CheckerPost = "★課長";    // TODO 役職
+                    target.CheckerId = employee.EmpId;
+                    target.CheckerPost = employee.OccuCode;
                     target.Comment = p.Comment;
-                    target.UpdateDate = _executionContext.ExecuteDateTimeJst;
-                    target.Updater = 0;     // TODO ログインID
+                    _updateInfoSetter.SetUpdateInfo(target);
                 }
                 result.Add(new InterestRateCheckBeforeFixResult()
                 {
@@ -211,8 +208,8 @@ namespace HAT_F_api.Services
                     DenSort = p.DenSort,
                     DenNoLine = p.DenNoLine,
                     Comment = p.Comment,
-                    Checker = checker?.EmpName,
-                    CheckerPost = "★課長" // TODO 役職
+                    Checker = employee.EmpName,
+                    CheckerPost = employee.OccuCode,
                 });
             }
             await _hatFContext.SaveChangesAsync();
@@ -224,9 +221,8 @@ namespace HAT_F_api.Services
         /// <returns>INSERTしたレコード数</returns>
         public async Task<List<InterestRateCheckFixedResult>> PutInterestRateCheckFixedAsync(IEnumerable<InterestRateCheckFixedParameter> parameters)
         {
-            // TODO ログインIDで比較する
-            var checker = await _hatFContext.Employees
-                .FirstOrDefaultAsync(x => x.EmpId == 0);
+            var employee = await _hatFContext.Employees
+                .SingleOrDefaultAsync(x => x.EmpId == _hatFLoginResultAccesser.HatFLoginResult.EmployeeId);
             var result = new List<InterestRateCheckFixedResult>();
             foreach (var p in parameters)
             {
@@ -236,32 +232,30 @@ namespace HAT_F_api.Services
                     var newEntity = new InterestRateCheckFixed()
                     {
                         CheckDatetime = _executionContext.ExecuteDateTimeJst,
-                        CheckerId = 0,      // TODO ログインID
-                        CheckerPost = "★課長",    // TODO 役職
+                        CheckerId = employee.EmpId,
+                        CheckerPost = employee.OccuCode,
                         SalesNo = p.SalesNo,
                         RowNo = p.RowNo,
                         Comment = p.Comment,
-                        CreateDate = _executionContext.ExecuteDateTimeJst,
-                        Creator = 0,        // TODO ログインID
                     };
+                    _updateInfoSetter.SetUpdateInfo(newEntity);
                     await _hatFContext.InterestRateCheckFixeds.AddAsync(newEntity);
                 }
                 else
                 {
                     target.CheckDatetime = _executionContext.ExecuteDateTimeJst;
-                    target.CheckerId = 0;   // TODO ログインID
-                    target.CheckerPost = "★課長";    // TODO 役職
+                    target.CheckerId = employee.EmpId;
+                    target.CheckerPost = employee.OccuCode;
                     target.Comment = p.Comment;
-                    target.UpdateDate = _executionContext.ExecuteDateTimeJst;
-                    target.Updater = 0;     // TODO ログインID
+                    _updateInfoSetter.SetUpdateInfo(target);
                 }
                 result.Add(new InterestRateCheckFixedResult()
                 {
                     SalesNo = p.SalesNo,
                     RowNo = p.RowNo,
                     Comment = p.Comment,
-                    Checker = checker?.EmpName,
-                    CheckerPost = "★課長" // TODO 役職
+                    Checker = employee.EmpName,
+                    CheckerPost = employee.OccuCode,
                 });
             }
             await _hatFContext.SaveChangesAsync();
