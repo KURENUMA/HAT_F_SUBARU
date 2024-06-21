@@ -3,13 +3,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35013.160
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HatFApiModels", "HatFApiModels\HatFApiModels.csproj", "{FF2B591C-A88C-4C36-A1EA-869BA0EA959C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HatFApiModels", "HatFApiModels\HatFApiModels.csproj", "{FF2B591C-A88C-4C36-A1EA-869BA0EA959C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{87C4B685-6344-49C0-98E7-5ED730DEB567} = {87C4B685-6344-49C0-98E7-5ED730DEB567}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HAT_F_api", "HAT_F_api\HAT_F_api.csproj", "{87C4B685-6344-49C0-98E7-5ED730DEB567}"
 EndProject
-Project("{FFF29313-8A7A-498D-A7B3-A7F7367E3DE4}") = "HatFClient", "HAT_F_client\HatFClient.csproj", "{0CC6ECB7-7F09-45DD-A27F-6A271A8F236A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HatFClient", "HAT_F_client\HatFClient.csproj", "{0CC6ECB7-7F09-45DD-A27F-6A271A8F236A}"
 EndProject
-Project("{D155C880-AB70-4287-9CFA-37BCC2E5B8CF}") = "Dma.DatasourceLoader", "DatasourceLoader\Dma.DatasourceLoader.csproj", "{973AB7D5-2AB6-4135-9249-671656B18BE0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dma.DatasourceLoader", "DatasourceLoader\Dma.DatasourceLoader.csproj", "{973AB7D5-2AB6-4135-9249-671656B18BE0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
