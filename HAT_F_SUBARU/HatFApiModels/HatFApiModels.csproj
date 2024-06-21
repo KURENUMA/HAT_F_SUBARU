@@ -51,6 +51,8 @@
     <Compile Include="..\HAT_F_api\CustomModels\InterestRateCheckBeforeFixResult.cs" Link="CustomModels\InterestRateCheckBeforeFixResult.cs" />
     <Compile Include="..\HAT_F_api\CustomModels\InterestRateCheckFixedParameter.cs" Link="CustomModels\InterestRateCheckFixedParameter.cs" />
     <Compile Include="..\HAT_F_api\CustomModels\InterestRateCheckFixedResult.cs" Link="CustomModels\InterestRateCheckFixedResult.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\InternalDeliveryCheckParameter.cs" Link="CustomModels\InternalDeliveryCheckParameter.cs" />
+    <Compile Include="..\HAT_F_api\CustomModels\InternalDeliveryCheckResult.cs" Link="CustomModels\InternalDeliveryCheckInternalDeliveryCheckResult.cs" />
     <Compile Include="..\HAT_F_api\CustomModels\Keyman.cs" Link="CustomModels\Keyman.cs" />
     <Compile Include="..\HAT_F_api\CustomModels\Koujiten.cs" Link="CustomModels\Koujiten.cs" />
     <Compile Include="..\HAT_F_api\CustomModels\MasterTable.cs" Link="CustomModels\MasterTable.cs" />
