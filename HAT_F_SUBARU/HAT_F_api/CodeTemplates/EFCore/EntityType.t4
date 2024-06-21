@@ -96,12 +96,21 @@ public partial class <#= EntityType.Name #>
             }
         }
 
-        usings.AddRange(code.GetRequiredUsings(property.ClrType));
+        var clrType = property.GetColumnType() switch
+        {
+            "date" when property.ClrType == typeof(DateOnly) => typeof(DateTime),
+            "date" when property.ClrType == typeof(DateOnly?) => typeof(DateTime?),
+            "time" when property.ClrType == typeof(TimeOnly) => typeof(TimeSpan),
+            "time" when property.ClrType == typeof(TimeOnly?) => typeof(TimeSpan?),
+            _ => property.ClrType
+        };
 
-        var needsNullable = Options.UseNullableReferenceTypes && property.IsNullable && !property.ClrType.IsValueType;
-        var needsInitializer = Options.UseNullableReferenceTypes && !property.IsNullable && !property.ClrType.IsValueType;
+        usings.AddRange(code.GetRequiredUsings(clrType));
+
+        var needsNullable = Options.UseNullableReferenceTypes && property.IsNullable && !clrType.IsValueType;
+        var needsInitializer = Options.UseNullableReferenceTypes && !property.IsNullable && !clrType.IsValueType;
 #>
-    public <#= code.Reference(property.ClrType) #><#= needsNullable ? "?" : "" #> <#= property.Name #> { get; set; }<#= needsInitializer ? " = null!;" : "" #>
+    public <#= code.Reference(clrType) #><#= needsNullable ? "?" : "" #> <#= property.Name #> { get; set; }<#= needsInitializer ? " = null!;" : "" #>
 <#
         firstProperty = false;
     }
