@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
 using C1.Win.C1FlexGrid;
-using Dma.DatasourceLoader.Creator;
-using Dma.DatasourceLoader.Models;
 using HAT_F_api.CustomModels;
 using HAT_F_api.Models;
 using HatFClient.Common;
@@ -14,7 +12,6 @@ using HatFClient.Views.Search;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 

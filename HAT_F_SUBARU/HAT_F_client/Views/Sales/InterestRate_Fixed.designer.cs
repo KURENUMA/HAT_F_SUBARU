@@ -39,6 +39,7 @@
             this.txtComment = new C1.Win.C1Input.C1TextBox();
             this.grdDetail = new C1.Win.C1FlexGrid.C1FlexGrid();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.chkUriTanZero = new System.Windows.Forms.CheckBox();
             this.txtRateUnder = new HatFClient.CustomControls.TextBoxNum();
             this.txtUriKinOver = new HatFClient.CustomControls.TextBoxNum();
             this.txtSuryoOver = new HatFClient.CustomControls.TextBoxNum();
@@ -50,7 +51,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.lblConditionRate = new System.Windows.Forms.Label();
-            this.chkUriTanZero = new System.Windows.Forms.CheckBox();
             this.grpList.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdList)).BeginInit();
             this.grpDetail.SuspendLayout();
@@ -201,6 +201,17 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "基本検索条件";
             // 
+            // chkUriTanZero
+            // 
+            this.chkUriTanZero.AutoSize = true;
+            this.chkUriTanZero.Enabled = false;
+            this.chkUriTanZero.Location = new System.Drawing.Point(107, 110);
+            this.chkUriTanZero.Name = "chkUriTanZero";
+            this.chkUriTanZero.Size = new System.Drawing.Size(115, 19);
+            this.chkUriTanZero.TabIndex = 11;
+            this.chkUriTanZero.Text = "売上単価がゼロ円";
+            this.chkUriTanZero.UseVisualStyleBackColor = true;
+            // 
             // txtRateUnder
             // 
             this.txtRateUnder.Enabled = false;
@@ -307,17 +318,6 @@
             this.lblConditionRate.Size = new System.Drawing.Size(87, 15);
             this.lblConditionRate.TabIndex = 0;
             this.lblConditionRate.Text = "行単位での利率";
-            // 
-            // chkUriTanZero
-            // 
-            this.chkUriTanZero.AutoSize = true;
-            this.chkUriTanZero.Enabled = false;
-            this.chkUriTanZero.Location = new System.Drawing.Point(107, 110);
-            this.chkUriTanZero.Name = "chkUriTanZero";
-            this.chkUriTanZero.Size = new System.Drawing.Size(115, 19);
-            this.chkUriTanZero.TabIndex = 11;
-            this.chkUriTanZero.Text = "売上単価がゼロ円";
-            this.chkUriTanZero.UseVisualStyleBackColor = true;
             // 
             // InterestRate_Fixed
             // 
