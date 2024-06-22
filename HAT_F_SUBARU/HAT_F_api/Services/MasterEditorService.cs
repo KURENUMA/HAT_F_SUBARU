@@ -377,19 +377,16 @@ namespace HAT_F_api.Services
             return query;
         }
 
-        public IQueryable<CustomersMst> GetCustomersMst(string custCode, short? custSubNo, string custName, string custKana, string custUserName, string custUserDepName, bool includeDeleted, int rows)
+        public IQueryable<CustomersMst> GetCustomersMst(string custCode, string custName, string custKana, string custUserName, string custUserDepName, bool includeDeleted, int rows)
         {
             var query = _hatFContext.CustomersMsts
                 .Where(x => string.IsNullOrEmpty(custCode) || x.CustCode == custCode)
-                .Where(x => !custSubNo.HasValue || x.CustSubNo == custSubNo.Value)
                 .Where(x => string.IsNullOrEmpty(custName) || x.CustName.Contains(custName))
                 .Where(x => string.IsNullOrEmpty(custKana) || x.CustKana.Contains(custKana))
                 .Where(x => string.IsNullOrEmpty(custUserName) || x.CustUserName.Contains(custUserName))
                 .Where(x => string.IsNullOrEmpty(custUserDepName) || x.CustUserDepName.Contains(custUserDepName))
-                .Where(x=>x.CustSubNo == 0) //TODO:あとで代表フラグに変更（工事店ごとに1件に絞る）
                 .Where(x => includeDeleted || x.Deleted == false)   //削除済を含めるか
                 .OrderBy(x => x.CustCode)
-                .ThenBy(x => x.CustSubNo)
                 .Take(rows);
             return query;
         }
@@ -409,7 +406,6 @@ namespace HAT_F_api.Services
             {
                 var exits =  await _hatFContext.CustomersMsts
                     .Where(x => x.CustCode == item.CustCode)
-                    .Where(x => x.CustSubNo == item.CustSubNo)
                     .SingleAsync();
                 if (exits == null)
                 {
@@ -429,11 +425,10 @@ namespace HAT_F_api.Services
             return rowsAffected;
         }
 
-        public IQueryable<DestinationsMst> GetDestinationsMst(string custCode, short? custSubNo, short? distNo, string genbaCode, int rows, int page)
+        public IQueryable<DestinationsMst> GetDestinationsMst(string custCode, short? distNo, string genbaCode, int rows, int page)
         {
             var query = _hatFContext.DestinationsMsts
                 .Where(x => string.IsNullOrEmpty(custCode) || x.CustCode == custCode)
-                .Where(x => !custSubNo.HasValue || x.CustSubNo == custSubNo.Value)
                 .Where(x => !distNo.HasValue || x.DistNo == distNo.Value)
                 .Where(x => string.IsNullOrEmpty(genbaCode) || x.GenbaCode == genbaCode)
                 .Skip(rows * (page - 1)).Take(rows);
@@ -446,7 +441,6 @@ namespace HAT_F_api.Services
             _updateInfoSetter.SetUpdateInfo(destinationsMst);
 
             var query = _hatFContext.DestinationsMsts
-                            .Where(x => x.CompCode == destinationsMst.CompCode)
                             .Where(x => x.CustCode == destinationsMst.CustCode)
                             .Where(x => x.DistNo == destinationsMst.DistNo);
 
@@ -454,7 +448,6 @@ namespace HAT_F_api.Services
             if (existedDestinationsMst == null)
             {
                 var distNoQquery = _hatFContext.DestinationsMsts
-                            .Where(x => x.CompCode == destinationsMst.CompCode)
                             .Where(x => x.CustCode == destinationsMst.CustCode)
                             .OrderByDescending(x => x.DistNo);
 

@@ -188,13 +188,14 @@ namespace HatFClient.Views.MasterEdit
                 var item = c1gKeymen.Rows[i].DataSource as CustomersMstViewModel;
                 if (item == null) { continue; }
 
-                if (item.CustSubNo < 0
-                    && string.IsNullOrWhiteSpace(item.KeymanCode)
-                    && string.IsNullOrWhiteSpace(item.CustUserName))
-                {
-                    // 新規行で キーマンCDとキーマン名が空は削除対象
-                    empties.Add(item);
-                }
+                // TODO: DB変更対応
+                //if (item.CustSubNo < 0
+                //    && string.IsNullOrWhiteSpace(item.KeymanCode)
+                //    && string.IsNullOrWhiteSpace(item.CustUserName))
+                //{
+                //    // 新規行で キーマンCDとキーマン名が空は削除対象
+                //    empties.Add(item);
+                //}
             }
             empties.ForEach(x => _customersMst.Remove(x));
 
@@ -382,7 +383,7 @@ namespace HatFClient.Views.MasterEdit
             _customersMst = new BindingList<CustomersMstViewModel>(data);
 
             // 取得した工事店レコードが複数の場合、キーマン部分以外は同じ工事店を表す
-            var item = _customersMst.OrderBy(x => x.CustSubNo).First();
+            var item = _customersMst.First();
 
             // 削除済チェックボックス
             bool existsEnabledKeymen = _customersMst.Where(x => x.Deleted == false).Any();  //有効キーマンいる？
@@ -605,7 +606,8 @@ namespace HatFClient.Views.MasterEdit
 
         private void c1gKeymen_AfterAddRow(object sender, RowColEventArgs e)
         {
-            c1gKeymen[c1gKeymen.Row, nameof(CustomersMstViewModel.CustSubNo)] = UnsavedCustSubNo;
+            // TODO: DB変更対応
+            //c1gKeymen[c1gKeymen.Row, nameof(CustomersMstViewModel.CustSubNo)] = UnsavedCustSubNo;
             c1gKeymen[c1gKeymen.Row, nameof(CustomersMstViewModel.NewOrExists)] = "(追加)";
         }
 
@@ -646,12 +648,13 @@ namespace HatFClient.Views.MasterEdit
                 return;
             }
 
-            short subNo = (short)c1gKeymen[c1gKeymen.Row, nameof(CustomersMstViewModel.CustSubNo)];
-            if (subNo != UnsavedCustSubNo)
-            {
-                // 新規に追加した行以外は消させない
-                e.Cancel = true;
-            }
+            // TODO: DB変更対応
+            //short subNo = (short)c1gKeymen[c1gKeymen.Row, nameof(CustomersMstViewModel.CustSubNo)];
+            //if (subNo != UnsavedCustSubNo)
+            //{
+            //    // 新規に追加した行以外は消させない
+            //    e.Cancel = true;
+            //}
         }
     }
 

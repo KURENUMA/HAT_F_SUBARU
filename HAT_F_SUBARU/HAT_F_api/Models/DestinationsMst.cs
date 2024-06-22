@@ -11,11 +11,6 @@ public partial class DestinationsMst
     public string CustCode { get; set; }
 
     /// <summary>
-    /// 顧客枝番
-    /// </summary>
-    public short CustSubNo { get; set; }
-
-    /// <summary>
     /// 出荷先番号
     /// </summary>
     public short DistNo { get; set; }
@@ -64,16 +59,6 @@ public partial class DestinationsMst
     /// 出荷先電話FAX
     /// </summary>
     public string DestFax { get; set; }
-
-    /// <summary>
-    /// 取引先コード
-    /// </summary>
-    public string CompCode { get; set; }
-
-    /// <summary>
-    /// 工事店コード
-    /// </summary>
-    public string KojitenCode { get; set; }
 
     public string GenbaCode { get; set; }
 

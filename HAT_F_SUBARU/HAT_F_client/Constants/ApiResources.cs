@@ -384,9 +384,8 @@ namespace HatFClient.Constants
                 /// <summary>
                 /// <para>仕入先情報取得/更新</para>
                 /// <para>{0} = 仕入先コード</para>
-                /// <para>{1} = 仕入先枝番</para>
                 /// </summary>
-                public static readonly string Supplier = "api/MasterEditor/supplier/{0}/{1}";
+                public static readonly string Supplier = "api/MasterEditor/supplier/{0}";
 
                 /// <summary>
                 /// <para>得意先情報取得/更新</para>
@@ -394,14 +393,14 @@ namespace HatFClient.Constants
                 /// </summary>
                 public static readonly string CompanysMst = "api/MasterEditor/companys-mst/{0}";
 
-                /// <summary>顧客(工事店)汎用検索</summary>
+                /// <summary>顧客汎用検索</summary>
                 public static readonly string CustomersMstGensearch = "api/MasterEditor/customers-mst-gensearch";
 
-                /// <summary>顧客(工事店)汎用検索</summary>
+                /// <summary>顧客汎用検索</summary>
                 public static readonly string CustomersMstCountGensearch = "api/MasterEditor/customers-mst-count-gensearch";
 
-                /// <summary>顧客(工事店)</summary>
-                public static readonly string CustomersMst = "api/MasterEditor/customers-mst/{0}/{1}";
+                /// <summary>顧客</summary>
+                public static readonly string CustomersMst = "api/MasterEditor/customers-mst/{0}";
 
                 /// <summary>出荷先(現場)汎用検索</summary>
                 public static readonly string DestinationsMstGensearch = "api/MasterEditor/destinations-mst-gensearch";

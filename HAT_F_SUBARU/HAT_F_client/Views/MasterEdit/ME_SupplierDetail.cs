@@ -82,7 +82,7 @@ namespace HatFClient.Views.MasterEdit
             SupplierMst supplierMst = IsUpdateMode ? _initialSupplier : new SupplierMst();
             ScreenToSupplier(supplierMst);
 
-            var url = string.Format(ApiResources.HatF.MasterEditor.Supplier, supplierMst.SupCode, supplierMst.SupSubNo);
+            var url = string.Format(ApiResources.HatF.MasterEditor.Supplier, supplierMst.SupCode);
             var apiResult = await ApiHelper.UpdateAsync(this, async () =>
             {
                 return await Program.HatFApiClient.PutAsync<SupplierMst>(url, supplierMst);
@@ -200,11 +200,13 @@ namespace HatFClient.Views.MasterEdit
             txtSupTel.Text = supplier.SupTel;
             txtSupFax.Text = supplier.SupFax;
             txtSupEmail.Text = supplier.SupEmail;
-            SelectComboBoxValue(cmbSupCloseDate, supplier.SupCloseDate);
-            SelectComboBoxValue(cmbSupPayMonths, supplier.SupPayMonths);
-            SelectComboBoxValue(cmbSupPayDates, supplier.SupPayDates);
-            SelectComboBoxValue(cmbPayMethodType, supplier.PayMethodType);
-            SelectComboBoxValue(cmbSupplierType, supplier.SupplierType);
+
+            // TODO: DB変更対応
+            //SelectComboBoxValue(cmbSupCloseDate, supplier.SupCloseDate);
+            //SelectComboBoxValue(cmbSupPayMonths, supplier.SupPayMonths);
+            //SelectComboBoxValue(cmbSupPayDates, supplier.SupPayDates);
+            //SelectComboBoxValue(cmbPayMethodType, supplier.PayMethodType);
+            //SelectComboBoxValue(cmbSupplierType, supplier.SupplierType);
         }
 
         /// <summary>値がnullでない場合のみコンボボックスに値を設定する</summary>
@@ -226,7 +228,6 @@ namespace HatFClient.Views.MasterEdit
 
             destination.Deleted = chkDeleted.Checked;
             destination.SupCode = txtSupCode.Text.Trim();
-            destination.SupSubNo = 0;
             destination.SupName = txtSupName.Text.Trim();
             destination.SupKana = txtSupKana.Text.Trim();
             destination.SupEmpName = txtSupEmpName.Text.Trim();
@@ -238,11 +239,13 @@ namespace HatFClient.Views.MasterEdit
             destination.SupTel = txtSupTel.Text.Trim();
             destination.SupFax = txtSupFax.Text.Trim();
             destination.SupEmail = txtSupEmail.Text.Trim();
-            destination.SupCloseDate = (short?)cmbSupCloseDate.SelectedValue;
-            destination.SupPayMonths = (short?)cmbSupPayMonths.SelectedValue;
-            destination.SupPayDates = (short?)cmbSupPayDates.SelectedValue;
-            destination.PayMethodType = (short?)cmbPayMethodType.SelectedValue;
-            destination.SupplierType = (short?)cmbSupplierType.SelectedValue;
+
+            // TODO: DB変更対応
+            //destination.SupCloseDate = (short?)cmbSupCloseDate.SelectedValue;
+            //destination.SupPayMonths = (short?)cmbSupPayMonths.SelectedValue;
+            //destination.SupPayDates = (short?)cmbSupPayDates.SelectedValue;
+            //destination.PayMethodType = (short?)cmbPayMethodType.SelectedValue;
+            //destination.SupplierType = (short?)cmbSupplierType.SelectedValue;
 
             return destination;
         }

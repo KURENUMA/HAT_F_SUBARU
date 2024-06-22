@@ -312,10 +312,10 @@ namespace HatFClient.Views.MasterEdit
             if (grid.Rows.Count < 2) { return; }
 
             string custCode = (string)grid[grid.Row, nameof(DestinationsMstEx.CustCode)];
-            short custSubNo = (short)grid[grid.Row, nameof(DestinationsMstEx.CustSubNo)];
+            //short custSubNo = (short)grid[grid.Row, nameof(DestinationsMstEx.CustSubNo)];
             short distNo = (short)grid[grid.Row, nameof(DestinationsMstEx.DistNo)];
 
-            using (var form = new ME_DestinaitonsMstDetail(custCode, custSubNo, distNo))
+            using (var form = new ME_DestinaitonsMstDetail(custCode, distNo))
             {
                 if (DialogHelper.IsPositiveResult(form.ShowDialog()))
                 {

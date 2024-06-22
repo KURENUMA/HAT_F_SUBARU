@@ -14,11 +14,6 @@ public partial class CustomersMst
     public string CustCode { get; set; }
 
     /// <summary>
-    /// 顧客枝番
-    /// </summary>
-    public short CustSubNo { get; set; }
-
-    /// <summary>
     /// 顧客区分
     /// </summary>
     public short? CustType { get; set; }
@@ -149,10 +144,6 @@ public partial class CustomersMst
     /// 顧客支払方法２,1:振込,2:手形
     /// </summary>
     public short? CustPayMethod2 { get; set; }
-
-    public string KeymanCode { get; set; }
-
-    public string KojitenCode { get; set; }
 
     public string St1 { get; set; }
 

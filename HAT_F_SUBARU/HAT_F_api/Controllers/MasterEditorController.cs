@@ -249,29 +249,26 @@ namespace HAT_F_api.Controllers
 
         /// <summary>仕入先情報取得</summary>
         /// <param name="supCode">仕入先コード</param>
-        /// <param name="supSubNo">仕入先枝番</param>
         /// <returns>仕入先情報</returns>
         [HttpGet("supplier/{supCode}/{supSubNo}")]
-        public async Task<ActionResult<ApiResponse<SupplierMst>>> GetSupplierAsync(string supCode, short supSubNo)
+        public async Task<ActionResult<ApiResponse<SupplierMst>>> GetSupplierAsync(string supCode)
         {
             return await ApiLogicRunner.RunAsync(async () =>
             {
-                return await _hatFSearchService.GetSupplierAsync(supCode, supSubNo);
+                return await _hatFSearchService.GetSupplierAsync(supCode);
             });
         }
 
         /// <summary>仕入先登録</summary>
         /// <param name="supCode">仕入先コード</param>
-        /// <param name="supSubNo">仕入先枝番</param>
         /// <param name="supplier">仕入先情報</param>
         /// <returns>仕入先情報</returns>
         [HttpPut("supplier/{supCode}/{supSubNo}")]
-        public async Task<ActionResult<ApiResponse<SupplierMst>>> PutSupplierAsync(string supCode, short supSubNo, [FromBody] SupplierMst supplier)
+        public async Task<ActionResult<ApiResponse<SupplierMst>>> PutSupplierAsync(string supCode, [FromBody] SupplierMst supplier)
         {
             return await ApiLogicRunner.RunAsync(async () =>
             {
                 supplier.SupCode = supCode;
-                supplier.SupSubNo = supSubNo;
                 //_updateInfoSetter.SetUpdateInfo(supplier);
                 return await _hatFUpdateService.UpsertSupplierAsync(supplier);
             });
@@ -308,7 +305,6 @@ namespace HAT_F_api.Controllers
                             CompanysMst = comp
                         }
                     )
-                    .Where(x => x.CustomersMst.CustSubNo == 0)   // 顧客枝番は0のみを対象（キーマン以外は同一となるため） TODO: 代表フラグ(追加する)の参照に変更
                     .OrderBy(x => x.CustomersMst.CustCode)
                     .Select(x => new CustomersCompanyesEmployee() { CustomersMst = x.CustomersMst, Employee = x.Employee, CompanysMst = x.CompanysMst });
 
@@ -316,7 +312,7 @@ namespace HAT_F_api.Controllers
         }
 
         /// <summary>
-        /// 顧客（工事店）汎用検索
+        /// 顧客汎用検索
         /// </summary>
         [HttpPost("customers-mst-gensearch")]
         public async Task<ActionResult<ApiResponse<List<CustomersMstEx>>>> PostCustomersMstGenSearchAsync([FromBody] List<GenSearchItem> searchItems, [FromQuery] int rows = 200, [FromQuery] int page = 1)
@@ -353,7 +349,7 @@ namespace HAT_F_api.Controllers
         }
 
         /// <summary>
-        /// 顧客（工事店）汎用検索（件数）
+        /// 顧客汎用検索（件数）
         /// </summary>
         [HttpPost("customers-mst-count-gensearch")]
         public async Task<ActionResult<ApiResponse<int>>> PostCustomersMstCountGenSearchAsync([FromBody] List<GenSearchItem> searchItems)
@@ -367,10 +363,10 @@ namespace HAT_F_api.Controllers
 
 
         /// <summary>
-        /// 顧客（工事店）検索
+        /// 顧客検索
         /// </summary>
-        [HttpGet("customers-mst/{custCode:?}/{custSubNo:?}")]
-        public async Task<ActionResult<ApiResponse<List<CustomersMstEx>>>> GetCustomersMstAsync(string custCode = null, short? custSubNo = null, [FromQuery] string custName = null, [FromQuery] string custKana = null, [FromQuery] string custUserName = null, [FromQuery] string custUserDepName = null, [FromQuery] bool includeDeleted = false, [FromQuery] int rows = 200)
+        [HttpGet("customers-mst/{custCode:?}")]
+        public async Task<ActionResult<ApiResponse<List<CustomersMstEx>>>> GetCustomersMstAsync(string custCode = null, [FromQuery] string custName = null, [FromQuery] string custKana = null, [FromQuery] string custUserName = null, [FromQuery] string custUserDepName = null, [FromQuery] bool includeDeleted = false, [FromQuery] int rows = 200)
         {
             return await ApiLogicRunner.RunAsync(async () =>
             {
@@ -381,7 +377,7 @@ namespace HAT_F_api.Controllers
                 var mapper = config.CreateMapper();
 
                 var query = _masterEditorService
-                    .GetCustomersMst(custCode, custSubNo, custName, custKana, custUserName, custUserDepName, includeDeleted, rows);
+                    .GetCustomersMst(custCode, custName, custKana, custUserName, custUserDepName, includeDeleted, rows);
 
                 // 名称列追加のためテーブル追加
                 var joinedQuery = AddJoinToCustomersMstForDisplayName(query);
@@ -402,7 +398,7 @@ namespace HAT_F_api.Controllers
         }
 
         /// <summary>
-        /// 工事店の保存
+        /// 顧客の保存
         /// </summary>
         [HttpPut("customers-mst")]
         public async Task<ActionResult<ApiResponse<int>>> PutCustomersMstAsync([FromBody] List<CustomersMst> customersMsts)
@@ -493,7 +489,7 @@ namespace HAT_F_api.Controllers
         ///出荷先（現場）検索
         /// </summary>
         [HttpGet("destinations-mst/{custCode:?}/{custSubNo:?}/{distNo:?}")]
-        public async Task<ActionResult<ApiResponse<List<DestinationsMstEx>>>> GetDestinationsMstAsync(string custCode = null, short? custSubNo = null, short? distNo = null, [FromQuery] string genbaCode = null, [FromQuery] int rows = 200, [FromQuery] int page = 1)
+        public async Task<ActionResult<ApiResponse<List<DestinationsMstEx>>>> GetDestinationsMstAsync(string custCode = null, short? distNo = null, [FromQuery] string genbaCode = null, [FromQuery] int rows = 200, [FromQuery] int page = 1)
         {
             return await ApiLogicRunner.RunAsync(async () =>
             {
@@ -506,7 +502,7 @@ namespace HAT_F_api.Controllers
                 });
                 var mapper = config.CreateMapper();
 
-                var query = _masterEditorService.GetDestinationsMst(custCode, custSubNo, distNo, genbaCode, rows, page);
+                var query = _masterEditorService.GetDestinationsMst(custCode, distNo, genbaCode, rows, page);
                 var joinedQuery = AddJoinToDestinationsMstForDisplayName(query);
 
                 // 名称列付オブジェクトにコピーして返す

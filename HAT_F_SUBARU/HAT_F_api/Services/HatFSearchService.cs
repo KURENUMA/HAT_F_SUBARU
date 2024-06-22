@@ -44,47 +44,32 @@ namespace HAT_F_api.Services
             var init = new ClientInit();
             init.DivBins = await _hatFContext.DivBins.Where(item => !item.Deleted).Select(e => new OptionData { Code = e.BinCd, Name = e.BinName }).ToListAsync();
 
-            //init.DivDenpyo = await _context.DivDenpyos.Select(e => new OptionData { Code = e.DenpyoCd, Name = e.DenpyoName }).ToListAsync();
             init.DivDenpyo = await _hatFContext.DivSlips.Where(item => !item.Deleted).Select(e => new OptionData { Code = e.SlipCd, Name = e.SlipName }).ToListAsync();
 
             //TODO: 多いので全件返すのは避けるよう検討必要
-            //init.DivEmployee = await _context.DivEmployees.Select(e => new OptionData { Code = e.EmployeeCd, Name = e.EmployeeName }).ToListAsync();
-            init.DivEmployee = await _hatFContext.Employees.Where(item => !item.Deleted).Select(e => new OptionData { Code = e.EmpCode, Name = e.EmpName }).Take(100).ToListAsync();
+            init.DivEmployee = await _hatFContext.Employees.Where(item => !item.Deleted).Select(e => new OptionData { Code = e.EmpCode, Name = e.EmpName }).ToListAsync();
 
-            //TODO: 多いので全件返すのは避けるよう検討必要
-            //init.DivGenba = await _context.DivGenbas.Select(e => new OptionData { Code = e.GenbaCd, Name = e.GenbaName }).ToListAsync();
-            init.DivGenba = await _hatFContext.DestinationsMsts.Select(e => new OptionData { Code = e.GenbaCode, Name = e.DistName1 }).Take(100).ToListAsync();
+            //init.DivGenba = await _hatFContext.DestinationsMsts.Select(e => new OptionData { Code = e.GenbaCode, Name = e.DistName1 }).Take(100).ToListAsync();
 
-            //init.DivHachus = await _context.DivHachus.Select(e => new OptionData { Code = e.HachuCd, Name = e.HachuName }).ToListAsync();
             init.DivHachus = await _hatFContext.DivOrders.Where(item => !item.Deleted).Select(e => new OptionData { Code = e.OrderCd, Name = e.OrderName }).ToListAsync();
 
-            //TODO: 多いので全件返すのは避けるよう検討必要
-            //init.DivKmans = await _context.DivKmen.Select(e => new OptionData { Code = e.KmanCd, Name = e.KmanName }).ToListAsync();
-            init.DivKmans = await _hatFContext.CustomersMsts.Select(e => new OptionData { Code = e.KeymanCode, Name = e.CustUserName }).Take(100).ToListAsync();
+            //init.DivKmans = await _hatFContext.CustomersMsts.Select(e => new OptionData { Code = e.KeymanCode, Name = e.CustUserName }).Take(100).ToListAsync();
+            //init.DivKoujitens = await _hatFContext.CustomersMsts.Select(e => new OptionData { Code = e.CustCode, Name = e.CustName }).Take(100).ToListAsync();
 
-            //TODO: 多いので全件返すのは避けるよう検討必要
-            //init.DivKoujitens = await _context.DivKoujitens.Select(e => new OptionData { Code = e.KoujitenCd, Name = e.KoujitenName }).ToListAsync();
-            init.DivKoujitens = await _hatFContext.CustomersMsts.Select(e => new OptionData { Code = e.CustCode, Name = e.CustName }).Take(100).ToListAsync();
-
-            //init.DivNohins = await _context.DivNohins.Select(e => new OptionData { Code = e.NohinCd, Name = e.NohinName }).ToListAsync();
             init.DivNohins = await _hatFContext.DivDeliveries.Where(item => !item.Deleted).Select(e => new OptionData { Code = e.DeliveryCd, Name = e.DeliveryName }).ToListAsync();
 
             // TODO: OPS商品マスタあるか確認
-            //init.DivOpsSyohins = await _context.DivOpsSyohins.Select(e => new OptionData { Code = e.OpsSyohinCd, Name = e.OpsSyohinName }).ToListAsync();
-            init.DivOpsSyohins = new[] { new OptionData { Code = "OPS01", Name = "OPS商品01" }, new OptionData { Code = "OPS02", Name = "OPS商品02" } };
+            //init.DivOpsSyohins = new[] { new OptionData { Code = "OPS01", Name = "OPS商品01" }, new OptionData { Code = "OPS02", Name = "OPS商品02" } };
 
             //TODO: 多いので全件返すのは避けるよう検討必要
-            //init.DivShiresakis = await _context.DivShiresakis.Select(e => new OptionData { Code = e.ShiresakiCd, Name = e.ShiresakiName }).ToListAsync();
+            // 仕入先は数万件レコード想定なので、ClientInitに保持するのは間違い
             init.DivShiresakis = await _hatFContext.SupplierMsts.Select(e => new OptionData { Code = e.SupCode, Name = e.SupName }).Take(100).ToListAsync();
 
             //init.DivSokos = await _context.DivSokos.Select(e => new OptionData { Code = e.SokoCd, Name = e.SokoName }).ToListAsync();
             init.DivSokos = await _hatFContext.WhMsts.Select(e => new OptionData { Code = e.WhCode, Name = e.WhName }).ToListAsync();
 
-            //TODO: 多いので全件返すのは避けるよう検討必要
-            //init.DivTokuis = await _context.DivTokuis.Select(e => new OptionData { Code = e.TokuiCd, Name = e.TokuiName }).ToListAsync();
-            init.DivTokuis = await _hatFContext.CompanysMsts.Select(e => new OptionData { Code = e.CompCode, Name = e.CompName }).Take(100).ToListAsync();
+            //init.DivTokuis = await _hatFContext.CompanysMsts.Select(e => new OptionData { Code = e.CompCode, Name = e.CompName }).Take(100).ToListAsync();
 
-            //init.DivUnchins = await _context.DivUnchins.Select(e => new OptionData { Code = e.UnchinCd, Name = e.UnchinName }).ToListAsync();
             init.DivUnchins = await _hatFContext.DivFares.Where(item => !item.Deleted).Select(e => new OptionData { Code = e.FareCd, Name = e.FareName }).ToListAsync();
 
             // 「在庫移送」「仕入先返品」「社内破損」等々
@@ -395,9 +380,26 @@ namespace HAT_F_api.Services
         /// <returns>キーマンリスト</returns>
         public async Task<List<Keyman>> GetKeymenAsync(string teamCd, string custCode, string keymanCd, int rows)
         {
+            //var queryCustKeyman = _hatFContext.CustomersMsts
+            //    .GroupJoin(
+            //        // LEFT JOIN 顧客担当者（キーマン）
+            //        _hatFContext.CustomersUserMsts,
+            //        custEmp => custEmp.CustCode,
+            //        keyman => keyman.CustUserCode,
+            //        (custEmp, keyman) => new { CustomersMsts = custEmp, CustomersUserMsts = keyman }
+            //    )
+            //    .SelectMany(
+            //        (items) => items.CustomersUserMsts.DefaultIfEmpty(),
+            //        (item, keyman) => new
+            //        {
+            //            CustomersMsts = item.CustomersMsts,
+            //            CustomersUserMsts = keyman,
+            //        }
+            //    );
+
             var query = _hatFContext.CustomersMsts
                 .GroupJoin(
-                    // LEFT JOIN 社員マスタ
+                    // LEFT JOIN 顧客＋顧客担当者（キーマン）
                     _hatFContext.Employees,
                     cm => cm.EmpCode,
                     emp => emp.EmpCode,
@@ -411,12 +413,27 @@ namespace HAT_F_api.Services
                         Employees = employee,
                     }
                 )
-                .Where(item =>
-                    (string.IsNullOrEmpty(custCode) || item.CustomersMsts.CustCode == custCode)
-                    && (string.IsNullOrEmpty(keymanCd) || item.CustomersMsts.KeymanCode == keymanCd)
-                    && (string.IsNullOrEmpty(teamCd) || item.Employees.DeptCode == teamCd)
+                .GroupJoin(
+                    // LEFT JOIN 顧客担当者（キーマン）
+                    _hatFContext.CustomersUserMsts,
+                    custEmp => custEmp.CustomersMsts.CustCode,
+                    keyman => keyman.CustUserCode,
+                    (cust, keyman) => new { CustomersMsts = cust, CustomersUserMsts = keyman }
                 )
-                .Select(item => new Keyman { KmanCd = item.CustomersMsts.KeymanCode, KmanNm1 = item.CustomersMsts.CustUserName })
+                .SelectMany(
+                    (items) => items.CustomersUserMsts.DefaultIfEmpty(),
+                    (item, keyman) => new
+                    {
+                        CustomersMstsEmployees = item.CustomersMsts,
+                        CustomersUserMsts = keyman,
+                    }
+                )
+                .Where(item =>
+                    (string.IsNullOrEmpty(custCode) || item.CustomersMstsEmployees.CustomersMsts.CustCode == custCode)
+                    && (string.IsNullOrEmpty(keymanCd) || item.CustomersUserMsts.CustUserCode == keymanCd)
+                    && (string.IsNullOrEmpty(teamCd) || item.CustomersMstsEmployees.Employees.DeptCode == teamCd)
+                )
+                .Select(item => new Keyman { KmanCd = item.CustomersUserMsts.CustUserCode, KmanNm1 = item.CustomersUserMsts.CustUserName })
                 .Distinct()
                 .Take(rows);
 
@@ -426,12 +443,11 @@ namespace HAT_F_api.Services
 
         /// <summary>仕入先情報取得</summary>
         /// <param name="supCode">仕入先コード</param>
-        /// <param name="supSubNo">仕入先枝番</param>
         /// <returns>仕入先情報</returns>
-        public async Task<SupplierMst> GetSupplierAsync(string supCode, short supSubNo)
+        public async Task<SupplierMst> GetSupplierAsync(string supCode)
         {
             return await _hatFContext.SupplierMsts
-                .SingleOrDefaultAsync(s => s.SupCode == supCode && s.SupSubNo == supSubNo);
+                .SingleOrDefaultAsync(s => s.SupCode == supCode);
         }
 
         /// <summary>取引先情報取得</summary>
@@ -545,7 +561,6 @@ namespace HAT_F_api.Services
         /// 現場検索
         /// </summary>
         /// <param name="custCode">顧客コード</param>
-        /// <param name="custSubNo">顧客枝番</param>
         /// <param name="genbaCd">現場CD</param>
         /// <param name="genbaName">現場名</param>
         /// <param name="address">住所</param>
@@ -555,7 +570,6 @@ namespace HAT_F_api.Services
         /// <returns>検索に合致した現場情報のリスト</returns>
         public async Task<List<SearchGenbaResult>> GetDestinationsAsync(
             string custCode,
-            short? custSubNo,
             string genbaCd,
             string genbaName,
             string address,
@@ -566,17 +580,35 @@ namespace HAT_F_api.Services
 
             var query = _hatFContext.DestinationsMsts
                 .Join(_hatFContext.CustomersMsts,
-                    item => new { item.CustCode, item.CustSubNo },
-                    item => new { item.CustCode, item.CustSubNo },
+                    item => new { item.CustCode },
+                    item => new { item.CustCode },
                     (dest, cust) => new { DestinationsMsts = dest, CustomersMsts = cust }
                 )
+                .GroupJoin(_hatFContext.CustomersUserMsts,
+                    item => new { item.CustomersMsts.CustCode },
+                    item => new { item.CustCode },
+                    (destCust, custUser) => new
+                    {
+                        DestinationsMsts = destCust.DestinationsMsts,
+                        CustomersMsts = destCust.CustomersMsts,
+                        CustomersUserMsts = custUser
+                    }
+                )
+                .SelectMany(
+                    x => x.CustomersUserMsts.DefaultIfEmpty(),
+                    (x, e) => new
+                    {
+                        DestinationsMsts = x.DestinationsMsts,
+                        CustomersMsts = x.CustomersMsts,
+                        CustomersUserMsts = e
+                    }
+                )
                 .Where(x => string.IsNullOrEmpty(custCode) || x.DestinationsMsts.CustCode == custCode)
-                .Where(x => !custSubNo.HasValue || x.DestinationsMsts.CustSubNo == custSubNo)
                 .Where(x => string.IsNullOrEmpty(genbaCd) || x.DestinationsMsts.GenbaCode == genbaCd)
                 .Where(x => string.IsNullOrEmpty(genbaName) || (x.DestinationsMsts.DistName1 + x.DestinationsMsts.DistName2).Contains(genbaName))
                 .Where(x => string.IsNullOrEmpty(address) || (x.DestinationsMsts.Address1 + x.DestinationsMsts.Address2 + x.DestinationsMsts.Address3).Contains(address))
                 .Where(x => string.IsNullOrEmpty(torihikiCd) || x.CustomersMsts.ArCode == torihikiCd)
-                .Where(x => string.IsNullOrEmpty(keymanCode) || x.CustomersMsts.KeymanCode == keymanCode)
+                .Where(x => string.IsNullOrEmpty(keymanCode) || x.CustomersUserMsts.CustUserCode == keymanCode)
                 .Select(item => new SearchGenbaResult() { Customer = item.CustomersMsts, Destination = item.DestinationsMsts })
                 .Take(rows);
 
@@ -600,24 +632,24 @@ namespace HAT_F_api.Services
             int rows)
 
         {
-            var query = _hatFContext.CustomersMsts
+            var query = _hatFContext.ConstructionShopMsts
                .Where(item =>
-                   (string.IsNullOrEmpty(koujitenCd) || item.KojitenCode == koujitenCd)
-                   && (string.IsNullOrEmpty(koujitenName) || item.CustName.Contains(koujitenName))
-                   && (string.IsNullOrEmpty(torihikiCd) || item.ArCode == torihikiCd)
-           )
-            .Select(item => new Koujiten
-            {
-                KojiCd = item.KojitenCode,
-                KojiNnm = item.CustName,
-                KojiAnm = item.CustKana,
-                PostCd = item.CustZipCode,
-                Adrs1 = item.CustAddress1,
-                Adrs2 = item.CustAddress2,
-                Adrs3 = item.CustAddress3,
-                Fil1 = "",
-            })
-            .Take(rows);
+                   (string.IsNullOrEmpty(koujitenCd) || item.ConstCode == koujitenCd)
+                   && (string.IsNullOrEmpty(koujitenName) || item.ConstName.Contains(koujitenName))
+                   && (string.IsNullOrEmpty(torihikiCd) || item.CustCode == torihikiCd)
+                )
+                .Select(item => new Koujiten
+                {
+                    KojiCd = item.ConstCode,
+                    KojiNnm = item.ConstName,
+                    KojiAnm = item.ConstKana,
+                    PostCd = item.ConstZipCode,
+                    Adrs1 = item.ConstAddress1,
+                    Adrs2 = item.ConstAddress2,
+                    Adrs3 = item.ConstAddress3,
+                    Fil1 = "",
+                })
+                .Take(rows);
 
             List<Koujiten> results = await query.ToListAsync();
             return results;
@@ -1107,15 +1139,13 @@ namespace HAT_F_api.Services
         /// 出荷先(現場)検索
         /// </summary>
         /// <param name="custCode"></param>
-        /// <param name="custSubNo"></param>
         /// <param name="distNo"></param>
         /// <param name="genbaCode"></param>
         /// <returns></returns>
-        public IQueryable<DestinationsMst> GetDestinationsMst(string custCode, short? custSubNo, short? distNo, string genbaCode)
+        public IQueryable<DestinationsMst> GetDestinationsMst(string custCode, short? distNo, string genbaCode)
         {
             var query = _hatFContext.DestinationsMsts
                 .Where(x => string.IsNullOrEmpty(custCode) || x.CustCode == custCode)
-                .Where(x => !custSubNo.HasValue || x.CustSubNo == custSubNo.Value)
                 .Where(x => !distNo.HasValue || x.DistNo == distNo.Value)
                 .Where(x => string.IsNullOrEmpty(genbaCode) || x.GenbaCode == genbaCode)
                 ;
@@ -1194,7 +1224,7 @@ namespace HAT_F_api.Services
         /// <param name="sign">売上記号</param>
         public async Task<decimal?> GetKTankaRatePurchasesAsync(DateTime baseDate, string prodCode, string supCode, string sign)
         {
-            if (string.IsNullOrEmpty(prodCode) ) { throw new ArgumentNullException(nameof(prodCode)); }
+            if (string.IsNullOrEmpty(prodCode)) { throw new ArgumentNullException(nameof(prodCode)); }
             if (string.IsNullOrEmpty(supCode)) { throw new ArgumentNullException(nameof(supCode)); }
             if (string.IsNullOrEmpty(sign)) { throw new ArgumentNullException(nameof(sign)); }
 
@@ -1226,7 +1256,7 @@ namespace HAT_F_api.Services
             if (item != null)
             {
                 // 価格の取得
-                ktanka.SpecifiedPrice = GetComSyohinMstTanka(baseDate, item, sign); 
+                ktanka.SpecifiedPrice = GetComSyohinMstTanka(baseDate, item, sign);
             }
 
             // 掛率の取得
@@ -1244,7 +1274,7 @@ namespace HAT_F_api.Services
                 ktanka.RatedPrice = Math.Round(val, 1, MidpointRounding.AwayFromZero);
             }
 
-            return ktanka;                
+            return ktanka;
         }
 
         /// <summary>

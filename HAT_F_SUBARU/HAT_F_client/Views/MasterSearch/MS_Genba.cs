@@ -43,7 +43,10 @@ namespace HatFClient.Views.MasterSearch
                 Customer = customer;
                 Destination = destination;
                 CustomerCode = customer.ArCode;
-                KeymanCode = customer.KeymanCode;
+
+                // TODO: DB変更対応
+                //KeymanCode = customer.KeymanCode;
+
                 KeymanName = customer.CustUserName;
                 GenbaCode = destination.GenbaCode;
                 GenbaName = destination.DistName1 + destination.DistName2;

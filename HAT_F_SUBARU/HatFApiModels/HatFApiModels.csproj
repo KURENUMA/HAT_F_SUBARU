@@ -86,7 +86,9 @@
     <Compile Include="..\HAT_F_api\Models\Construction.cs" Link="Models\Construction.cs" />
     <Compile Include="..\HAT_F_api\Models\ConstructionDetail.cs" Link="Models\ConstructionDetail.cs" />
     <Compile Include="..\HAT_F_api\Models\ConstructionLock.cs" Link="Models\ConstructionLock.cs" />
+    <Compile Include="..\HAT_F_api\Models\ConstructionShopMst.cs" Link="Models\ConstructionShopMst.cs" />
     <Compile Include="..\HAT_F_api\Models\CustomersMst.cs" Link="Models\CustomersMst.cs" />
+    <Compile Include="..\HAT_F_api\Models\CustomersUserMst.cs" Link="Models\CustomersUserMst.cs" />
     <Compile Include="..\HAT_F_api\Models\DeptMst.cs" Link="Models\DeptMst.cs" />
     <Compile Include="..\HAT_F_api\Models\DestinationsMst.cs" Link="Models\DestinationsMst.cs" />
     <Compile Include="..\HAT_F_api\Models\DivAuth.cs" Link="Models\DivAuth.cs" />

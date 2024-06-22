@@ -613,7 +613,7 @@ namespace HAT_F_api.Services
             _updateInfoSetter.SetUpdateInfo(supplier);
 
             var exists = await _hatFContext.SupplierMsts
-                .SingleOrDefaultAsync(e => e.SupCode == supplier.SupCode && e.SupSubNo == supplier.SupSubNo);
+                .SingleOrDefaultAsync(e => e.SupCode == supplier.SupCode);
 
             if (exists is not null)
             {
@@ -621,7 +621,6 @@ namespace HAT_F_api.Services
                 {
                     cfg.CreateMap<SupplierMst, SupplierMst>()
                         .ForMember(x => x.SupCode, x => x.Ignore())
-                        .ForMember(x => x.SupSubNo, x => x.Ignore())
                         .ForMember(x => x.CreateDate, x => x.Ignore())
                         .ForMember(x => x.Creator, x => x.Ignore());
                 })).Map(supplier, exists);

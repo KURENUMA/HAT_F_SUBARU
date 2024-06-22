@@ -483,7 +483,6 @@ namespace HAT_F_api.Controllers
         /// 現場検索
         /// </summary>
         /// <param name="custCode">顧客コード</param>
-        /// <param name="custSubNo">顧客枝番</param>
         /// <param name="genbaCd">現場CD</param>
         /// <param name="genbaName">現場名</param>
         /// <param name="address">住所</param>
@@ -494,7 +493,7 @@ namespace HAT_F_api.Controllers
         [HttpGet("genba/")]
         public async Task<ActionResult<ApiResponse<List<SearchGenbaResult>>>> GetDestinationsAsync(
             [FromQuery] string custCode = null,
-            [FromQuery] short? custSubNo = null,
+            //[FromQuery] short? custSubNo = null,
             [FromQuery] string genbaCd = null,
             [FromQuery] string genbaName = null,
             [FromQuery] string address = null,
@@ -505,7 +504,7 @@ namespace HAT_F_api.Controllers
             return await ApiLogicRunner.RunAsync(async () =>
             {
                 return await _hatFSearchService.GetDestinationsAsync(
-                    custCode, custSubNo, genbaCd, genbaName, address, torihikiCd, keymanCode, rows);
+                    custCode, /*custSubNo,*/ genbaCd, genbaName, address, torihikiCd, keymanCode, rows);
             });
         }
 
@@ -1834,14 +1833,13 @@ namespace HAT_F_api.Controllers
         /// 出荷先（現場）検索
         /// </summary>
         [HttpGet("destinations-mst/")]
-        public async Task<ActionResult<ApiResponse<List<DestinationsMst>>>> GetDestinationsMstAsync([FromQuery] string custCode = null, [FromQuery] short? custSubNo = null, [FromQuery] short? distNo = null, [FromQuery] string genbaCode = null, [FromQuery] int rows = 200, [FromQuery] int page = 1)
+        public async Task<ActionResult<ApiResponse<List<DestinationsMst>>>> GetDestinationsMstAsync([FromQuery] string custCode = null, [FromQuery] short? distNo = null, [FromQuery] string genbaCode = null, [FromQuery] int rows = 200, [FromQuery] int page = 1)
         {
             return await ApiLogicRunner.RunAsync(async () =>
             {
-                var query = _hatFSearchService.GetDestinationsMst(custCode, custSubNo, distNo, genbaCode);
+                var query = _hatFSearchService.GetDestinationsMst(custCode, distNo, genbaCode);
                 query = query
                     .OrderBy(x => x.CustCode)
-                    .OrderBy(x => x.CustSubNo)
                     .Skip((page - 1) * rows)
                     .Take(rows);
 

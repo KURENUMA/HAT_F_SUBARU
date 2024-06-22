@@ -21,13 +21,12 @@ namespace HatFClient.Views.MasterEdit
     public partial class ME_DestinaitonsMstDetail : Form
     {
         private string _custCode;
-        private short? _custSubNo;
         private short? _distNo;
 
         private DestinationsMst _destinationsMst;
 
         /// <summary>コンストラクタ</summary>
-        public ME_DestinaitonsMstDetail() : this(null, short.MinValue, short.MinValue)
+        public ME_DestinaitonsMstDetail() : this(null, short.MinValue)
         {
             //InitializeComponent();
 
@@ -39,7 +38,7 @@ namespace HatFClient.Views.MasterEdit
 
         /// <summary>コンストラクタ</summary>
         /// <param name="employeeId">社員ID</param>
-        public ME_DestinaitonsMstDetail(string custCode, short custSubNo, short distNo)
+        public ME_DestinaitonsMstDetail(string custCode, short distNo)
         {
             InitializeComponent();
 
@@ -51,7 +50,6 @@ namespace HatFClient.Views.MasterEdit
                 if (!string.IsNullOrEmpty(custCode)) 
                 {
                     _custCode = custCode;
-                    _custSubNo = custSubNo;
                     _distNo = distNo;
                 }
             }
@@ -116,10 +114,16 @@ namespace HatFClient.Views.MasterEdit
             }
             else
             {
-                item = new DestinationsMst();                
-                item.CompCode = (_custCode ?? "").Substring(0, 6);  // 取引先 (工事店コード先頭6桁)               
+                item = new DestinationsMst();
+
+                // TODO: DB変更対応
+                //item.CompCode = (_custCode ?? "").Substring(0, 6);  // 取引先 (工事店コード先頭6桁)               
+
                 item.CustCode = _custCode ?? "";        // 工事店CD
-                item.CustSubNo = _custSubNo ?? 0;       // 顧客枝番
+
+                // TODO: DB変更対応
+                //item.CustSubNo = _custSubNo ?? 0;       // 顧客枝番
+
                 item.GenbaCode = txtGenbaCode.Text;     // 現場CD               
                 item.DistNo = 0;    // 出荷先番号はサーバーで自動採番する
             }
@@ -244,7 +248,7 @@ namespace HatFClient.Views.MasterEdit
 
             if (this.IsUpdateMode)
             {
-                if (!await SetEditDataAsync(_custCode, _custSubNo, _distNo))
+                if (!await SetEditDataAsync(_custCode, _distNo))
                 {
                     this.DialogResult = DialogResult.Cancel;
                     return;
@@ -257,11 +261,11 @@ namespace HatFClient.Views.MasterEdit
 
         }
 
-        private async Task<bool> SetEditDataAsync(string custCode, short? custSubNo, short? distNo)
+        private async Task<bool> SetEditDataAsync(string custCode,  short? distNo)
         {
 
             // 出荷先マスタ(現場)
-            var url = string.Format(ApiResources.HatF.MasterEditor.DestinationsMst, custCode, custSubNo, distNo);
+            var url = string.Format(ApiResources.HatF.MasterEditor.DestinationsMst, custCode, distNo);
             var apiResult = await ApiHelper.FetchAsync(this, async () =>
             {
                 return await Program.HatFApiClient.GetAsync<List<DestinationsMst>>(url);
@@ -274,7 +278,7 @@ namespace HatFClient.Views.MasterEdit
 
             // 顧客マスタ(工事店)
             string custCodeOfCustomersMst = custCode.PadRight(6).Substring(0, 6); //TODO:仮対応・出荷先マスタのデータが正しくなったら直す
-            var urlCust = string.Format(ApiResources.HatF.MasterEditor.CustomersMst, custCodeOfCustomersMst, custSubNo);
+            var urlCust = string.Format(ApiResources.HatF.MasterEditor.CustomersMst, custCodeOfCustomersMst);
             var apiResultCust = await ApiHelper.FetchAsync(this, async () =>
             {
                 return await Program.HatFApiClient.GetAsync<List<CustomersMst>>(urlCust);
@@ -370,7 +374,7 @@ namespace HatFClient.Views.MasterEdit
 
 
                     // 担当者名を取得する
-                    var url = string.Format(ApiResources.HatF.MasterEditor.CustomersMst, result.CustCode, result.CustSubNo);
+                    var url = string.Format(ApiResources.HatF.MasterEditor.CustomersMst, result.CustCode);
                     var apiResult = await ApiHelper.FetchAsync(this, async () =>
                     {
                         return await Program.HatFApiClient.GetAsync<List<CustomersMstEx>>(url);
@@ -386,7 +390,6 @@ namespace HatFClient.Views.MasterEdit
                     //txtCustName.Tag = result.CustCode;
 
                     _custCode = result.CustCode;
-                    _custSubNo = result.CustSubNo;
 
                     txtCustName.Text = CreateItemInfo(result.CustCode, result.CustName);
                 }

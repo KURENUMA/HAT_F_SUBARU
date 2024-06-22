@@ -14,11 +14,6 @@ public partial class SupplierMst
     public string SupCode { get; set; }
 
     /// <summary>
-    /// 仕入先枝番
-    /// </summary>
-    public short SupSubNo { get; set; }
-
-    /// <summary>
     /// 仕入先名
     /// </summary>
     public string SupName { get; set; }
@@ -73,30 +68,7 @@ public partial class SupplierMst
     /// </summary>
     public string SupEmail { get; set; }
 
-    /// <summary>
-    /// 仕入先締日,15:15日締め
-    /// </summary>
-    public short? SupCloseDate { get; set; }
-
-    /// <summary>
-    /// 仕入先支払月,0:当月,1:翌月,2:翌々月
-    /// </summary>
-    public short? SupPayMonths { get; set; }
-
-    /// <summary>
-    /// 仕入先支払日,10:10日払い,99：末日
-    /// </summary>
-    public short? SupPayDates { get; set; }
-
-    /// <summary>
-    /// 支払方法区分,1:振込,2:手形
-    /// </summary>
-    public short? PayMethodType { get; set; }
-
-    /// <summary>
-    /// 発注先種別,null/0:未設定 1:橋本本体 2:橋本本体以外
-    /// </summary>
-    public short? SupplierType { get; set; }
+    public string PayeeCode { get; set; }
 
     /// <summary>
     /// 削除済

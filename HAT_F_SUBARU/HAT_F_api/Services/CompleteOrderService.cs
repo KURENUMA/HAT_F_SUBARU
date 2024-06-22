@@ -64,7 +64,6 @@ namespace HAT_F_api.Services
             // 仕入先マスタ
             var supplier = await _hatFContext.SupplierMsts
                 .Where(s => s.SupCode == request.ShiresakiCd)
-                .OrderByDescending(s => s.SupSubNo)
                 .FirstOrDefaultAsync();
             // 取引先マスタ
             var torihikisaki = await _hatFContext.CompanysMsts.Where(c => c.CompCode == request.TokuiCd).FirstOrDefaultAsync();
@@ -77,16 +76,24 @@ namespace HAT_F_api.Services
             }
 
             var isConditionAny = new[] { request.GenbaCd, request.TokuiCd, request.KeymanCd }.Any(x => !string.IsNullOrEmpty(x));
-            var destinations = isConditionAny ? await _searchService.GetDestinationsAsync(
-                null, null, request.GenbaCd, null, null, request.TokuiCd, request.KeymanCd, 200) : null;
+
+            var destinations = isConditionAny 
+                ? await _searchService.GetDestinationsAsync(null, request.GenbaCd, null, null, request.TokuiCd, request.KeymanCd, 200)
+                : null;
+
             // 顧客マスタ
             var customer = destinations?.FirstOrDefault()?.Customer;
             // 出荷先マスタ
             var destination = destinations?.FirstOrDefault()?.Destination;
+
             // 工事店名補完用の顧客マスタ。工事店コードから検索する
-            var koujiten = await _hatFContext.CustomersMsts
-                .Where(c => !string.IsNullOrEmpty(request.KoujitenCd) && c.KojitenCode == request.KoujitenCd)
-                .Where(c => string.IsNullOrEmpty(request.KeymanCd) || c.KeymanCode == request.KeymanCd)
+            //var koujiten = await _hatFContext.CustomersMsts
+            //    .Where(c => !string.IsNullOrEmpty(request.KoujitenCd) && c.KojitenCode == request.KoujitenCd)
+            //    .Where(c => string.IsNullOrEmpty(request.KeymanCd) || c.KeymanCode == request.KeymanCd)
+            //    .FirstOrDefaultAsync();
+
+            var koujiten = await _hatFContext.ConstructionShopMsts
+                .Where(c => !string.IsNullOrEmpty(request.KoujitenCd) && c.ConstCode == request.KoujitenCd)
                 .FirstOrDefaultAsync();
 
             return new CompleteHeaderResult()
@@ -102,7 +109,7 @@ namespace HAT_F_api.Services
                 // キーマン名
                 KeymanName = customer?.CustUserName,
                 // 工事店名
-                KoujitenName = koujiten?.CustName,
+                KoujitenName = koujiten?.ConstName,
                 // 倉庫名
                 SokoName = repository?.WhName,
                 // 仕入れ先名
