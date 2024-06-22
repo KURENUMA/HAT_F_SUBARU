@@ -180,7 +180,7 @@
             this.txtCustUserDepName.Size = new System.Drawing.Size(115, 19);
             this.txtCustUserDepName.TabIndex = 9;
             // 
-            // txtCustUserName
+            // txtCustName
             // 
             this.txtCustUserName.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.txtCustUserName.Location = new System.Drawing.Point(293, 41);

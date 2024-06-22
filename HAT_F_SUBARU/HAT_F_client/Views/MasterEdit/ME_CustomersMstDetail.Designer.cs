@@ -28,9 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ME_CustomersMstDetail));
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.txtCustCode = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.txtCustName = new System.Windows.Forms.TextBox();
@@ -83,9 +81,7 @@
             this.label11 = new System.Windows.Forms.Label();
             this.cmbCustArFlag = new System.Windows.Forms.ComboBox();
             this.label10 = new System.Windows.Forms.Label();
-            this.c1gKeymen = new C1.Win.C1FlexGrid.C1FlexGrid();
             this.gbxBilling.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.c1gKeymen)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -94,19 +90,9 @@
             this.label1.Location = new System.Drawing.Point(24, 72);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(76, 15);
+            this.label1.Size = new System.Drawing.Size(64, 15);
             this.label1.TabIndex = 2001;
-            this.label1.Text = "工事店コード*";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(494, 47);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(45, 15);
-            this.label2.TabIndex = 3001;
-            this.label2.Text = "キーマン";
+            this.label1.Text = "顧客コード*";
             // 
             // txtCustCode
             // 
@@ -125,9 +111,9 @@
             this.label3.Location = new System.Drawing.Point(24, 102);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(62, 15);
+            this.label3.Size = new System.Drawing.Size(50, 15);
             this.label3.TabIndex = 2011;
-            this.label3.Text = "工事店名*";
+            this.label3.Text = "顧客名*";
             // 
             // txtCustName
             // 
@@ -146,9 +132,9 @@
             this.label4.Location = new System.Drawing.Point(24, 132);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(74, 15);
+            this.label4.Size = new System.Drawing.Size(62, 15);
             this.label4.TabIndex = 2021;
-            this.label4.Text = "工事店名カナ";
+            this.label4.Text = "顧客名カナ";
             // 
             // txtCustKana
             // 
@@ -164,7 +150,7 @@
             // btnOK
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOK.Location = new System.Drawing.Point(581, 606);
+            this.btnOK.Location = new System.Drawing.Point(578, 534);
             this.btnOK.Margin = new System.Windows.Forms.Padding(4);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(123, 29);
@@ -177,7 +163,7 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(712, 606);
+            this.btnCancel.Location = new System.Drawing.Point(709, 534);
             this.btnCancel.Margin = new System.Windows.Forms.Padding(4);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(123, 29);
@@ -234,18 +220,18 @@
             this.label8.Location = new System.Drawing.Point(24, 223);
             this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(79, 15);
+            this.label8.Size = new System.Drawing.Size(67, 15);
             this.label8.TabIndex = 2061;
-            this.label8.Text = "工事店部門名";
+            this.label8.Text = "顧客部門名";
             // 
             // chkDeleted
             // 
             this.chkDeleted.AutoSize = true;
             this.chkDeleted.Location = new System.Drawing.Point(27, 23);
             this.chkDeleted.Name = "chkDeleted";
-            this.chkDeleted.Size = new System.Drawing.Size(125, 19);
+            this.chkDeleted.Size = new System.Drawing.Size(113, 19);
             this.chkDeleted.TabIndex = 1001;
-            this.chkDeleted.Text = "この工事店を無効化";
+            this.chkDeleted.Text = "この顧客を無効化";
             this.chkDeleted.UseVisualStyleBackColor = true;
             // 
             // btnChkDuplicate
@@ -345,6 +331,7 @@
             // 
             // cmbCustState
             // 
+            this.cmbCustState.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cmbCustState.FormattingEnabled = true;
             this.cmbCustState.ImeMode = System.Windows.Forms.ImeMode.On;
             this.cmbCustState.Location = new System.Drawing.Point(141, 280);
@@ -475,17 +462,19 @@
             this.gbxBilling.Controls.Add(this.label11);
             this.gbxBilling.Controls.Add(this.cmbCustArFlag);
             this.gbxBilling.Controls.Add(this.label10);
-            this.gbxBilling.Location = new System.Drawing.Point(497, 250);
+            this.gbxBilling.Location = new System.Drawing.Point(488, 65);
             this.gbxBilling.Name = "gbxBilling";
             this.gbxBilling.Size = new System.Drawing.Size(338, 306);
             this.gbxBilling.TabIndex = 4001;
             this.gbxBilling.TabStop = false;
-            this.gbxBilling.Text = "請求情報 (取引先のみ)";
+            this.gbxBilling.Text = "請求情報";
             // 
             // cmbCustPayDay2
             // 
             this.cmbCustPayDay2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbCustPayDay2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cmbCustPayDay2.FormattingEnabled = true;
+            this.cmbCustPayDay2.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.cmbCustPayDay2.Location = new System.Drawing.Point(119, 236);
             this.cmbCustPayDay2.Name = "cmbCustPayDay2";
             this.cmbCustPayDay2.Size = new System.Drawing.Size(200, 23);
@@ -504,7 +493,9 @@
             // cmbCustPayDay1
             // 
             this.cmbCustPayDay1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbCustPayDay1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cmbCustPayDay1.FormattingEnabled = true;
+            this.cmbCustPayDay1.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.cmbCustPayDay1.Location = new System.Drawing.Point(119, 118);
             this.cmbCustPayDay1.Name = "cmbCustPayDay1";
             this.cmbCustPayDay1.Size = new System.Drawing.Size(200, 23);
@@ -523,7 +514,9 @@
             // cmbCustPayMethod2
             // 
             this.cmbCustPayMethod2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbCustPayMethod2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cmbCustPayMethod2.FormattingEnabled = true;
+            this.cmbCustPayMethod2.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.cmbCustPayMethod2.Location = new System.Drawing.Point(119, 265);
             this.cmbCustPayMethod2.Name = "cmbCustPayMethod2";
             this.cmbCustPayMethod2.Size = new System.Drawing.Size(200, 23);
@@ -542,7 +535,9 @@
             // cmbCustPayMonth2
             // 
             this.cmbCustPayMonth2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbCustPayMonth2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cmbCustPayMonth2.FormattingEnabled = true;
+            this.cmbCustPayMonth2.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.cmbCustPayMonth2.Location = new System.Drawing.Point(119, 207);
             this.cmbCustPayMonth2.Name = "cmbCustPayMonth2";
             this.cmbCustPayMonth2.Size = new System.Drawing.Size(200, 23);
@@ -561,7 +556,9 @@
             // cmbCustCloseDay2
             // 
             this.cmbCustCloseDay2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbCustCloseDay2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cmbCustCloseDay2.FormattingEnabled = true;
+            this.cmbCustCloseDay2.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.cmbCustCloseDay2.Location = new System.Drawing.Point(119, 177);
             this.cmbCustCloseDay2.Name = "cmbCustCloseDay2";
             this.cmbCustCloseDay2.Size = new System.Drawing.Size(200, 23);
@@ -580,7 +577,9 @@
             // cmbCustPayMethod1
             // 
             this.cmbCustPayMethod1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbCustPayMethod1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cmbCustPayMethod1.FormattingEnabled = true;
+            this.cmbCustPayMethod1.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.cmbCustPayMethod1.Location = new System.Drawing.Point(119, 147);
             this.cmbCustPayMethod1.Name = "cmbCustPayMethod1";
             this.cmbCustPayMethod1.Size = new System.Drawing.Size(200, 23);
@@ -599,7 +598,9 @@
             // cmbCustPayMonth1
             // 
             this.cmbCustPayMonth1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbCustPayMonth1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cmbCustPayMonth1.FormattingEnabled = true;
+            this.cmbCustPayMonth1.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.cmbCustPayMonth1.Location = new System.Drawing.Point(119, 88);
             this.cmbCustPayMonth1.Name = "cmbCustPayMonth1";
             this.cmbCustPayMonth1.Size = new System.Drawing.Size(200, 23);
@@ -618,7 +619,9 @@
             // cmbCustCloseDay1
             // 
             this.cmbCustCloseDay1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbCustCloseDay1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cmbCustCloseDay1.FormattingEnabled = true;
+            this.cmbCustCloseDay1.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.cmbCustCloseDay1.Location = new System.Drawing.Point(119, 58);
             this.cmbCustCloseDay1.Name = "cmbCustCloseDay1";
             this.cmbCustCloseDay1.Size = new System.Drawing.Size(200, 23);
@@ -637,7 +640,9 @@
             // cmbCustArFlag
             // 
             this.cmbCustArFlag.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbCustArFlag.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cmbCustArFlag.FormattingEnabled = true;
+            this.cmbCustArFlag.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.cmbCustArFlag.Location = new System.Drawing.Point(119, 28);
             this.cmbCustArFlag.Name = "cmbCustArFlag";
             this.cmbCustArFlag.Size = new System.Drawing.Size(200, 23);
@@ -653,27 +658,13 @@
             this.label10.TabIndex = 1001;
             this.label10.Text = "顧客請求区分";
             // 
-            // c1gKeymen
-            // 
-            this.c1gKeymen.AllowAddNew = true;
-            this.c1gKeymen.AllowDelete = true;
-            this.c1gKeymen.AutoGenerateColumns = false;
-            this.c1gKeymen.ColumnInfo = resources.GetString("c1gKeymen.ColumnInfo");
-            this.c1gKeymen.Location = new System.Drawing.Point(497, 69);
-            this.c1gKeymen.Name = "c1gKeymen";
-            this.c1gKeymen.Size = new System.Drawing.Size(343, 138);
-            this.c1gKeymen.TabIndex = 5003;
-            this.c1gKeymen.AfterAddRow += new C1.Win.C1FlexGrid.RowColEventHandler(this.c1gKeymen_AfterAddRow);
-            this.c1gKeymen.BeforeDeleteRow += new C1.Win.C1FlexGrid.RowColEventHandler(this.c1gKeymen_BeforeDeleteRow);
-            // 
             // ME_CustomersMstDetail
             // 
             this.AcceptButton = this.btnOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(852, 653);
-            this.Controls.Add(this.c1gKeymen);
+            this.ClientSize = new System.Drawing.Size(849, 581);
             this.Controls.Add(this.gbxBilling);
             this.Controls.Add(this.txtCustEmail);
             this.Controls.Add(this.txtCustFax);
@@ -708,16 +699,14 @@
             this.Controls.Add(this.txtCustName);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.txtCustCode);
-            this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "ME_CustomersMstDetail";
-            this.Text = "工事店詳細 (顧客詳細)";
+            this.Text = "顧客詳細";
             this.Load += new System.EventHandler(this.ME_EmployeeDetail_Load);
             this.gbxBilling.ResumeLayout(false);
             this.gbxBilling.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.c1gKeymen)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -726,7 +715,6 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtCustCode;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtCustName;
@@ -775,7 +763,6 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.ComboBox cmbCustArFlag;
         private System.Windows.Forms.Label label10;
-        private C1.Win.C1FlexGrid.C1FlexGrid c1gKeymen;
         private System.Windows.Forms.ComboBox cmbCustPayDay2;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.ComboBox cmbCustPayDay1;

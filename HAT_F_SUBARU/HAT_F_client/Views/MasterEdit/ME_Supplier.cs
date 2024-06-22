@@ -62,6 +62,8 @@ namespace HatFClient.Views.MasterEdit
 
             if (!this.DesignMode)
             {
+                FormStyleHelper.SetWorkWindowStyle(this);
+
                 InitializeFetching();
 
                 // INIT PATTERN
@@ -150,13 +152,6 @@ namespace HatFClient.Views.MasterEdit
             btnDetail.PerformClick();
         }
 
-        //private void InitializeEvents()
-        //{
-        //    gridManager.OnDataSourceChange += GdProjectList_RowColChange;
-        //    this.gridPatternUI.OnPatternSelected += OnPatternSelected;
-        //}
-
-
         private void GdProjectList_RowColChange(object sender, EventArgs e)
         {
             System.Diagnostics.Debug.WriteLine("GdProjectList_RowColChange");
@@ -176,11 +171,6 @@ namespace HatFClient.Views.MasterEdit
             this.textFilterStr.Text = projectGrid1.GetFilterOptionStr();
             InitializeColumns();
         }
-
-        //private void BtnTabClose_Click(object sender, EventArgs e)
-        //{
-        //    this.Close();
-        //}
 
         /// <summary>
         /// 検索ボタン
@@ -218,7 +208,6 @@ namespace HatFClient.Views.MasterEdit
 
         private void searchFrm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            //GdProjectList_RowColChange(this, EventArgs.Empty);
         }
 
         private void OnPatternSelected(object sender, PatternInfo e)
@@ -228,8 +217,6 @@ namespace HatFClient.Views.MasterEdit
 
         private async void updateDataTable()
         {
-            //gridManager.OnDataSourceChange += GdProjectList_RowColChange;
-
             // 非同期でデータ取得    
             await gridManager.Reload(new List<FilterCriteria>());
             GdProjectList_RowColChange(this, EventArgs.Empty);
@@ -250,19 +237,11 @@ namespace HatFClient.Views.MasterEdit
             BindingList<ColumnInfo> configs = pattern.Columns;
             gridOrderManager.InitializeGridColumns(grid, configs, true);
 
-            // 区分値項目
-            grid.Cols[nameof(SupplierViewItem.SupCloseDate)].DataMap = new ListDictionary() { { (short)short.MinValue, "" }, { (short)15, "15:15日締め" }, { (short)99, "99:99日締め" } };
-            grid.Cols[nameof(SupplierViewItem.SupPayMonths)].DataMap = new ListDictionary() { { (short)short.MinValue, "" }, { (short)0, "0:当月" }, { (short)1, "1:翌月" }, { (short)2, "2:翌々月" } };
-            grid.Cols[nameof(SupplierViewItem.SupPayDates)].DataMap = new ListDictionary() { { (short)short.MinValue, "" }, { (short)10, "10:10日払い" }, { (short)99, "99:末日" } };
-            grid.Cols[nameof(SupplierViewItem.PayMethodType)].DataMap = new ListDictionary() { { (short)short.MinValue, "" }, { (short)1, "1:振込" }, { (short)2, "2:手形" } };
-            grid.Cols[nameof(SupplierViewItem.SupplierType)].DataMap = new ListDictionary() { { (short)short.MinValue, "" }, { (short)0, "0:未設定" }, { (short)1, "1:橋本本体" }, { (short)2, "2:橋本本体以外" } };
+            grid.AllowResizing = AllowResizingEnum.Columns;
 
             // 表示列定義にはあるが初期状態非表示にする
             grid.Cols[nameof(SupplierViewItem.Deleted)].DataType = typeof(bool);
             grid.Cols[nameof(SupplierViewItem.Deleted)].Visible = chkIncludeDeleted.Checked;
-
-            // 枝番は使用していないので見せない
-            grid.Cols[nameof(SupplierViewItem.SupSubNo)].Visible = false;
 
             // ヘッダーのタイトル設定
             SetColumnCaptions();
@@ -293,7 +272,6 @@ namespace HatFClient.Views.MasterEdit
         }
 
 
-
         private void HideColumns(C1FlexGrid grid, IEnumerable<string> columnNames)
         {
             foreach (string colName in columnNames)
@@ -315,6 +293,7 @@ namespace HatFClient.Views.MasterEdit
 
             AppLauncher.OpenExcel(fName);
         }
+
         private async void btnAddNew_Click(object sender, EventArgs e)
         {
             using (var form = new ME_SupplierDetail())

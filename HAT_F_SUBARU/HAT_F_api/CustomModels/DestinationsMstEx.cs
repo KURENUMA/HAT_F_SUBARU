@@ -8,7 +8,7 @@ namespace HAT_F_api.CustomModels
     public class DestinationsMstEx : DestinationsMst
     {
         /// <summary>
-        /// 顧客名称 (工事店名称)
+        /// 顧客名称
         /// </summary>
         public string CustName {  get; set; }
     }

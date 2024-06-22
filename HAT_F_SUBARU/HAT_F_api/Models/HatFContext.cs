@@ -1954,17 +1954,18 @@ public partial class HatFContext : DbContext
 
         modelBuilder.Entity<DestinationsMst>(entity =>
         {
-            entity.HasKey(e => new { e.CustCode, e.DistNo });
+            entity.HasKey(e => new { e.CustCode, e.GenbaCode });
 
             entity.ToTable("DESTINATIONS_MST", tb => tb.HasComment("出荷先マスタ"));
 
             entity.Property(e => e.CustCode)
-                .HasMaxLength(12)
-                .HasDefaultValueSql("((0))")
+                .HasMaxLength(8)
+                .HasComment("顧客コード")
                 .HasColumnName("CUST_CODE");
-            entity.Property(e => e.DistNo)
-                .HasComment("出荷先番号")
-                .HasColumnName("DIST_NO");
+            entity.Property(e => e.GenbaCode)
+                .HasMaxLength(10)
+                .HasComment("現場コード")
+                .HasColumnName("GENBA_CODE");
             entity.Property(e => e.Address1)
                 .HasMaxLength(40)
                 .HasComment("出荷先住所１")
@@ -2009,9 +2010,6 @@ public partial class HatFContext : DbContext
                 .HasMaxLength(40)
                 .HasComment("出荷先名２")
                 .HasColumnName("DIST_NAME2");
-            entity.Property(e => e.GenbaCode)
-                .HasMaxLength(3)
-                .HasColumnName("GENBA_CODE");
             entity.Property(e => e.Remarks)
                 .HasMaxLength(500)
                 .HasComment("備考")
@@ -6597,8 +6595,8 @@ public partial class HatFContext : DbContext
             entity.Property(e => e.仕入先名).HasMaxLength(40);
             entity.Property(e => e.伝票番号).HasMaxLength(6);
             entity.Property(e => e.受注番号).HasMaxLength(12);
-            entity.Property(e => e.商品コード).HasMaxLength(24);
-            entity.Property(e => e.商品名).HasMaxLength(30);
+            entity.Property(e => e.商品コード).HasMaxLength(50);
+            entity.Property(e => e.商品名).HasMaxLength(100);
             entity.Property(e => e.発送元)
                 .IsRequired()
                 .HasMaxLength(4)

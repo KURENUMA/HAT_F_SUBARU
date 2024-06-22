@@ -402,6 +402,9 @@ namespace HatFClient.Constants
                 /// <summary>顧客</summary>
                 public static readonly string CustomersMst = "api/MasterEditor/customers-mst/{0}";
 
+                /// <summary>顧客</summary>
+                public static readonly string CustomersMstPut = "api/MasterEditor/customers-mst";
+
                 /// <summary>出荷先(現場)汎用検索</summary>
                 public static readonly string DestinationsMstGensearch = "api/MasterEditor/destinations-mst-gensearch";
 
@@ -409,7 +412,10 @@ namespace HatFClient.Constants
                 public static readonly string DestinationsMstCountGensearch = "api/MasterEditor/destinations-mst-count-gensearch";
 
                 /// <summary>出荷先</summary>
-                public static readonly string DestinationsMst = "api/MasterEditor/destinations-mst/{0}/{1}/{2}";
+                public static readonly string DestinationsMst = "api/MasterEditor/destinations-mst/{0}/{1}";
+
+                /// <summary>出荷先</summary>
+                public static readonly string DestinationsMstPut = "api/MasterEditor/destinations-mst";
 
                 /// <summary>社員汎用検索</summary>
                 public static readonly string EmployeesGensearch = "api/MasterEditor/employees-gensearch";
@@ -428,6 +434,18 @@ namespace HatFClient.Constants
 
                 /// <summary>社員割当権限</summary>
                 public static readonly string EmployeeUserAssignedRole = "api/MasterEditor/employee-user-assigned-role";
+
+                /// <summary>顧客担当者(キーマン)汎用検索</summary>
+                public static readonly string CustomersUserMstGensearch = "api/MasterEditor/customers-user-mst-gensearch";
+
+                /// <summary>顧客担当者(キーマン)・件数</summary>
+                public static readonly string CustomersUserMstCountGensearch = "api/MasterEditor/customers-user-mst-count-gensearch";
+
+                /// <summary>顧客担当者(キーマン)</summary>
+                public static readonly string CustomersUserMst = "api/MasterEditor/customers-user-mst/{0}/{1}";
+
+                /// <summary>顧客担当者(キーマン)保存</summary>
+                public static readonly string CustomersUserMstPut = "api/MasterEditor/customers-user-mst";
             }
 
             /// <summary>仕入関連</summary>

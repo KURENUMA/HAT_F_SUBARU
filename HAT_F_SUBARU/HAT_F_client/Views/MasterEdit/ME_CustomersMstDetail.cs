@@ -27,7 +27,7 @@ namespace HatFClient.Views.MasterEdit
     // TODO キーマン関係のマッピング不明
     // TODO 顧客支払月のコンボボックスは、選択肢の内容的に顧客支払日だと思われる
 
-    /// <summary>工事店詳細画面</summary>
+    /// <summary>顧客詳細画面</summary>
     public partial class ME_CustomersMstDetail : Form
     {
         private const int UnsavedCustSubNo = -1;
@@ -35,16 +35,16 @@ namespace HatFClient.Views.MasterEdit
         /// <summary>社員ID</summary>
         private string _custCode;
 
-        /// <summary>
-        /// キーマン一覧グリッド用
-        /// </summary>
-        private class CustomersMstViewModel : CustomersMstEx
-        {
-            public bool Checked { get; set; }
-            public string NewOrExists { get; set; }
-        }
+        ///// <summary>
+        ///// キーマン一覧グリッド用
+        ///// </summary>
+        //private class CustomersMstViewModel : CustomersMstEx
+        //{
+        //    public bool Checked { get; set; }
+        //    public string NewOrExists { get; set; }
+        //}
 
-        private BindingList<CustomersMstViewModel> _customersMst;
+        private CustomersMst _customersMst;
 
         private bool IsUpdateMode 
         {
@@ -54,12 +54,6 @@ namespace HatFClient.Views.MasterEdit
         /// <summary>コンストラクタ</summary>
         public ME_CustomersMstDetail() : this(null)
         {
-            //InitializeComponent();
-
-            //if (!this.DesignMode)
-            //{
-            //    FormStyleHelper.SetFixedSizeDialogStyle(this);
-            //}
         }
 
         /// <summary>コンストラクタ</summary>
@@ -71,6 +65,7 @@ namespace HatFClient.Views.MasterEdit
             if (!this.DesignMode)
             {
                 FormStyleHelper.SetFixedSizeDialogStyle(this);
+                FormStyleHelper.SetActiveControlBackColor(this);
 
                 _custCode = custCode;
             }
@@ -81,10 +76,6 @@ namespace HatFClient.Views.MasterEdit
         /// <param name="e">イベント情報</param>
         private async void btnOK_Click(object sender, EventArgs e)
         {
-            // 更新について
-            // 1画面で複数枝番に対応している想定
-            // 更新時、全枝番を更新する。キーマン以外は同じ値で更新。
-
             TrimControls();
 
             // 入力チェック（クライアント）
@@ -107,9 +98,12 @@ namespace HatFClient.Views.MasterEdit
                 return;
             }
 
-            var formData = GetFormData();
+            // 画面データ取得
+            GetFormData(_customersMst);
+            var formData = new List<CustomersMst>() { _customersMst };
 
-            var url = string.Format(ApiResources.HatF.MasterEditor.CustomersMst, _custCode, "");
+            //var url = string.Format(ApiResources.HatF.MasterEditor.CustomersMst, _custCode);
+            var url = ApiResources.HatF.MasterEditor.CustomersMstPut;
             var result = await ApiHelper.UpdateAsync(this, async () =>
             {
                 return await Program.HatFApiClient.PutAsync<int>(url, formData);
@@ -123,55 +117,55 @@ namespace HatFClient.Views.MasterEdit
             this.DialogResult = DialogResult.OK;
         }
 
-        private DataTable ToDataTable<T>(IEnumerable<T> source)
-        {
-            var dt = new DataTable();
-            dt.BeginInit();
+        //private DataTable ToDataTable<T>(IEnumerable<T> source)
+        //{
+        //    var dt = new DataTable();
+        //    dt.BeginInit();
 
-            var props = typeof(T).GetProperties();
-            foreach (PropertyInfo pi in props)
-            {
-                //dt.Columns.Add(pi.Name, pi.PropertyType);
-                dt.Columns.Add(pi.Name);
-            }
+        //    var props = typeof(T).GetProperties();
+        //    foreach (PropertyInfo pi in props)
+        //    {
+        //        //dt.Columns.Add(pi.Name, pi.PropertyType);
+        //        dt.Columns.Add(pi.Name);
+        //    }
 
-            dt.BeginLoadData();
-            foreach(T item in source)
-            {
-                var row = dt.NewRow();
-                foreach(PropertyInfo pi in props)
-                {
-                    object val = pi.GetValue(item);
-                    row[pi.Name] = val;
-                }
-                dt.Rows.Add(row);
-            }
-            dt.AcceptChanges();
-            dt.EndLoadData();
-            dt.EndInit();
+        //    dt.BeginLoadData();
+        //    foreach(T item in source)
+        //    {
+        //        var row = dt.NewRow();
+        //        foreach(PropertyInfo pi in props)
+        //        {
+        //            object val = pi.GetValue(item);
+        //            row[pi.Name] = val;
+        //        }
+        //        dt.Rows.Add(row);
+        //    }
+        //    dt.AcceptChanges();
+        //    dt.EndLoadData();
+        //    dt.EndInit();
 
-            return dt;
-        }
+        //    return dt;
+        //}
 
         private bool ValidateInput()
         {
             if (!this.IsUpdateMode)
             {
                 // メモ
-                // 顧客(工事店)マスタには、得意先(取引先)マスタのレコード(コード6桁)も格納されていますが
+                // 顧客マスタには、得意先(取引先)マスタのレコード(コード6桁)も格納されていますが
                 // 得意先の新規登録は得意先マスタ編集画面から行います。
                 // 得意先のレコードは更新のみ可とします
 
                 if (txtCustCode.Text.Length < txtCustCode.MaxLength)
                 {
-                    DialogHelper.WarningMessage(this, $"工事店コードを{txtCustCode.MaxLength}桁入力してください。");
+                    DialogHelper.WarningMessage(this, $"顧客コードを{txtCustCode.MaxLength}桁入力してください。");
                     return false;
                 }
             }
 
             if (string.IsNullOrWhiteSpace(txtCustName.Text))
             {
-                DialogHelper.InputRequireMessage(this, "工事店名");
+                DialogHelper.InputRequireMessage(this, "顧客名");
                 return false;
             }
 
@@ -181,67 +175,67 @@ namespace HatFClient.Views.MasterEdit
                 return false;
             }
 
-            // キーマン・空行の除去
-            var empties = new List<CustomersMstViewModel>();
-            for (int i = 0; i < c1gKeymen.Rows.Count; i++)
-            {
-                var item = c1gKeymen.Rows[i].DataSource as CustomersMstViewModel;
-                if (item == null) { continue; }
+            //// キーマン・空行の除去
+            //var empties = new List<CustomersMstViewModel>();
+            //for (int i = 0; i < c1gKeymen.Rows.Count; i++)
+            //{
+            //    var item = c1gKeymen.Rows[i].DataSource as CustomersMstViewModel;
+            //    if (item == null) { continue; }
 
-                // TODO: DB変更対応
-                //if (item.CustSubNo < 0
-                //    && string.IsNullOrWhiteSpace(item.KeymanCode)
-                //    && string.IsNullOrWhiteSpace(item.CustUserName))
-                //{
-                //    // 新規行で キーマンCDとキーマン名が空は削除対象
-                //    empties.Add(item);
-                //}
-            }
-            empties.ForEach(x => _customersMst.Remove(x));
+            //    // TODO: DB変更対応
+            //    //if (item.CustSubNo < 0
+            //    //    && string.IsNullOrWhiteSpace(item.KeymanCode)
+            //    //    && string.IsNullOrWhiteSpace(item.CustUserName))
+            //    //{
+            //    //    // 新規行で キーマンCDとキーマン名が空は削除対象
+            //    //    empties.Add(item);
+            //    //}
+            //}
+            //empties.ForEach(x => _customersMst.Remove(x));
 
-            if (!chkDeleted.Checked)
-            {
-                // 削除済でないキーマンがいるか
-                if (!_customersMst.Where(x => x.Deleted == false).Any())
-                {
-                    DialogHelper.WarningMessage(this, "キーマンを1人以上有効にしてください。");
-                    FlexGridFocus(c1gKeymen, 1, nameof(CustomersMstViewModel.Deleted));
-                    return false;
-                }
-            }
-            else
-            {
-                if (false == DialogHelper.OkCancelQuestion(this, "工事店を無効化するため、キーマンもすべて無効化してよろしいですか?"))
-                {
-                    return false;
-                }
+            //if (!chkDeleted.Checked)
+            //{
+            //    // 削除済でないキーマンがいるか
+            //    if (!_customersMst.Where(x => x.Deleted == false).Any())
+            //    {
+            //        DialogHelper.WarningMessage(this, "キーマンを1人以上有効にしてください。");
+            //        FlexGridFocus(c1gKeymen, 1, nameof(CustomersMstViewModel.Deleted));
+            //        return false;
+            //    }
+            //}
+            //else
+            //{
+            //    if (false == DialogHelper.OkCancelQuestion(this, "工事店を無効化するため、キーマンもすべて無効化してよろしいですか?"))
+            //    {
+            //        return false;
+            //    }
 
-                foreach (var item in _customersMst)
-                {
-                    item.Deleted = true;
-                }
-            }
+            //    foreach (var item in _customersMst)
+            //    {
+            //        item.Deleted = true;
+            //    }
+            //}
 
-            // キーマン入力チェック
-            for (int i = 0; i < c1gKeymen.Rows.Count; i++)
-            {
-                var item = c1gKeymen.Rows[i].DataSource as CustomersMstViewModel;
-                if (item == null) { continue; }
+            //// キーマン入力チェック
+            //for (int i = 0; i < c1gKeymen.Rows.Count; i++)
+            //{
+            //    var item = c1gKeymen.Rows[i].DataSource as CustomersMstViewModel;
+            //    if (item == null) { continue; }
 
-                //if (string.IsNullOrWhiteSpace(item.KeymanCode))
-                //{
-                //    FlexGridFocus(c1gKeymen, i, nameof(CustomersMstViewModel.KeymanCode));
-                //    DialogHelper.InputRequireMessage("キーマンCD");
-                //    return false;
-                //}
+            //    //if (string.IsNullOrWhiteSpace(item.KeymanCode))
+            //    //{
+            //    //    FlexGridFocus(c1gKeymen, i, nameof(CustomersMstViewModel.KeymanCode));
+            //    //    DialogHelper.InputRequireMessage("キーマンCD");
+            //    //    return false;
+            //    //}
 
-                if (string.IsNullOrWhiteSpace(item.CustUserName))
-                {
-                    FlexGridFocus(c1gKeymen, i, nameof(CustomersMstViewModel.CustUserName));
-                    DialogHelper.InputRequireMessage(this, "キーマン名");
-                    return false;
-                }
-            }
+            //    if (string.IsNullOrWhiteSpace(item.CustUserName))
+            //    {
+            //        FlexGridFocus(c1gKeymen, i, nameof(CustomersMstViewModel.CustUserName));
+            //        DialogHelper.InputRequireMessage(this, "キーマン名");
+            //        return false;
+            //    }
+            //}
 
             return true;
         }
@@ -251,13 +245,13 @@ namespace HatFClient.Views.MasterEdit
 
         private void FlexGridFocus(C1FlexGrid grid, int row, string colName)
         {
-            // フォーカス
-            grid.Row = row;
-            grid.Col = c1gKeymen.Cols[colName].Index;
+            //// フォーカス
+            //grid.Row = row;
+            //grid.Col = c1gKeymen.Cols[colName].Index;
 
-            // 見える位置調整
-            grid.TopRow = grid.Row;
-            grid.LeftCol = 0;
+            //// 見える位置調整
+            //grid.TopRow = grid.Row;
+            //grid.LeftCol = 0;
         }
 
         private async Task<MethodResult<bool>> ValidateInputWithServerAsync() 
@@ -270,7 +264,7 @@ namespace HatFClient.Views.MasterEdit
 
                 if (result.Value)
                 {
-                    DialogHelper.InformationMessage(this, "工事店コードは使用されています。");
+                    DialogHelper.InformationMessage(this, "顧客コードは使用されています。");
                     return new MethodResult<bool>(false);
                 }
             }
@@ -280,7 +274,7 @@ namespace HatFClient.Views.MasterEdit
 
         private async Task<MethodResult<bool>> IsCustCodeUsedAsync(string custCode) 
         {
-            var url = string.Format(ApiResources.HatF.MasterEditor.CustomersMst, custCode, null, null);
+            var url = string.Format(ApiResources.HatF.MasterEditor.CustomersMst, custCode);
             var apiResult = await ApiHelper.FetchAsync(this, async () =>
             {
                 return await Program.HatFApiClient.GetAsync<List<CustomersMstEx>>(url);
@@ -363,8 +357,7 @@ namespace HatFClient.Views.MasterEdit
 
         private async Task<bool> SetEditDataAsync(string custCode)
         {
-            string custSubNo = "";
-            var url = string.Format(ApiResources.HatF.MasterEditor.CustomersMst, custCode, custSubNo);
+            var url = string.Format(ApiResources.HatF.MasterEditor.CustomersMst, custCode);
             var apiResult = await ApiHelper.FetchAsync(this, async () =>
             {
                 return await Program.HatFApiClient.GetAsync<List<CustomersMstEx>>(url);
@@ -375,19 +368,23 @@ namespace HatFClient.Views.MasterEdit
                 return false;
             }
 
-            // 画面用の項目追加オブジェクトにコピー
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<CustomersMstEx, CustomersMstViewModel>());
-            var mapper = new Mapper(config);
-            var data = mapper.Map<List<CustomersMstViewModel>>(apiResult.Value);
+            var item = apiResult.Value.First();
+            _customersMst = item;
 
-            _customersMst = new BindingList<CustomersMstViewModel>(data);
+            //// 画面用の項目追加オブジェクトにコピー
+            //var config = new MapperConfiguration(cfg => cfg.CreateMap<CustomersMstEx, CustomersMstViewModel>());
+            //var mapper = new Mapper(config);
+            //var data = mapper.Map<List<CustomersMstViewModel>>(apiResult.Value);
 
-            // 取得した工事店レコードが複数の場合、キーマン部分以外は同じ工事店を表す
-            var item = _customersMst.First();
+            //_customersMst = new BindingList<CustomersMstViewModel>(data);
+
+            //// 取得した工事店レコードが複数の場合、キーマン部分以外は同じ工事店を表す
+            //var item = _customersMst.First();
 
             // 削除済チェックボックス
-            bool existsEnabledKeymen = _customersMst.Where(x => x.Deleted == false).Any();  //有効キーマンいる？
-            chkDeleted.Checked = !existsEnabledKeymen;
+            //bool existsEnabledKeymen = _customersMst.Where(x => x.Deleted == false).Any();  //有効キーマンいる？
+            //chkDeleted.Checked = !existsEnabledKeymen;
+            chkDeleted.Checked = item.Deleted;
 
             txtCustCode.Text = item.CustCode;
             txtCustName.Text = item.CustName;
@@ -406,7 +403,7 @@ namespace HatFClient.Views.MasterEdit
             }
 
             // キーマンはグリッドで表示
-            //txtCustUserName.Text = item.CustUserName;
+            //txtCustName.Text = item.CustUserName;
 
             txtCustUserDepName.Text = item.CustUserDepName;
             txtCustZipCode.SelectedText = item.CustZipCode;
@@ -418,8 +415,8 @@ namespace HatFClient.Views.MasterEdit
             txtCustFax.Text = item.CustFax;
             txtCustEmail.Text = item.CustEmail;
 
-            gbxBilling.Enabled = (item.CustCode == item.ArCode);
-            if (gbxBilling.Enabled)
+            //gbxBilling.Enabled = (item.CustCode == item.ArCode);
+            //if (gbxBilling.Enabled)
             {
                 SetComboBoxValue(cmbCustArFlag, item.CustArFlag);
 
@@ -432,21 +429,21 @@ namespace HatFClient.Views.MasterEdit
                 SetComboBoxValue(cmbCustPayMethod2, item.CustPayMethod2);
             }
 
-            // キーマン表示グリッド
-            c1gKeymen.DataSource = _customersMst;
+            //// キーマン表示グリッド
+            //c1gKeymen.DataSource = _customersMst;
 
             return true;
         }
         
-        private List<CustomersMst> GetFormData()
-        {
-            var formData = (BindingList<CustomersMst>)c1gKeymen.DataSource;
-            foreach(CustomersMst customersMst in formData)
-            {
-                GetFormData(customersMst);
-            }
-            return formData.ToList();
-        }
+        //private List<CustomersMst> GetFormData()
+        //{
+        //    var formData = (BindingList<CustomersMst>)c1gKeymen.DataSource;
+        //    foreach(CustomersMst customersMst in formData)
+        //    {
+        //        GetFormData(customersMst);
+        //    }
+        //    return formData.ToList();
+        //}
 
         private void GetFormData(CustomersMst item)
         {
@@ -459,7 +456,7 @@ namespace HatFClient.Views.MasterEdit
             item.ArCode = (string)txtAr.Tag;
             item.EmpCode = (string)txtHatFEmployee.Tag;
             
-           // item.CustUserName = txtCustUserName.Text;
+           // item.CustUserName = txtCustName.Text;
             item.CustUserDepName = txtCustUserDepName.Text;
             item.CustZipCode = txtCustZipCode.SelectedText;
             item.CustState = (string)cmbCustState.SelectedValue;
@@ -470,7 +467,7 @@ namespace HatFClient.Views.MasterEdit
             item.CustFax = txtCustFax.Text;
             item.CustEmail = txtCustEmail.Text;
 
-            if (gbxBilling.Enabled)
+            //if (gbxBilling.Enabled)
             {
                 item.CustArFlag = (short?)cmbCustArFlag.SelectedValue;
 
@@ -532,37 +529,37 @@ namespace HatFClient.Views.MasterEdit
             var closeDay = JsonResources.CloseDates;
             cmbCustCloseDay1.DisplayMember = "Name";
             cmbCustCloseDay1.ValueMember = "Code";
-            cmbCustCloseDay1.DataSource = closeDay;
+            cmbCustCloseDay1.DataSource = closeDay.ToArray();
             cmbCustCloseDay2.DisplayMember = "Name";
             cmbCustCloseDay2.ValueMember = "Code";
-            cmbCustCloseDay2.DataSource = closeDay;
+            cmbCustCloseDay2.DataSource = closeDay.ToArray();
 
             // 支払月
             var payMonths = HatF_PaymentMonthRepo.GetInstance().Entities;
             cmbCustPayMonth1.DisplayMember = "Name";
             cmbCustPayMonth1.ValueMember = "Key";
-            cmbCustPayMonth1.DataSource = payMonths;
+            cmbCustPayMonth1.DataSource = payMonths.ToArray();
             cmbCustPayMonth2.DisplayMember = "Name";
             cmbCustPayMonth2.ValueMember = "Key";
-            cmbCustPayMonth2.DataSource = payMonths;
+            cmbCustPayMonth2.DataSource = payMonths.ToArray();
 
             // 支払日
             var payDays = HatF_PaymentDayRepo.GetInstance().Entities;
             cmbCustPayDay1.DisplayMember = "Name";
             cmbCustPayDay1.ValueMember = "Key";
-            cmbCustPayDay1.DataSource = payDays;
+            cmbCustPayDay1.DataSource = payDays.ToArray();
             cmbCustPayDay2.DisplayMember = "Name";
             cmbCustPayDay2.ValueMember = "Key";
-            cmbCustPayDay2.DataSource = payDays;
+            cmbCustPayDay2.DataSource = payDays.ToArray();
 
             // 支払方法
             var payClasses = HatF_PaymentClassificationRepo.GetInstance().Entities;
             cmbCustPayMethod1.DisplayMember = "Name";
             cmbCustPayMethod1.ValueMember = "Key";
-            cmbCustPayMethod1.DataSource = payClasses;
+            cmbCustPayMethod1.DataSource = payClasses.ToArray();
             cmbCustPayMethod2.DisplayMember = "Name";
             cmbCustPayMethod2.ValueMember = "Key";
-            cmbCustPayMethod2.DataSource = payClasses;
+            cmbCustPayMethod2.DataSource = payClasses.ToArray();
         }
 
         private void btnSelectBilling_Click(object sender, EventArgs e)
@@ -595,33 +592,32 @@ namespace HatFClient.Views.MasterEdit
             }
         }
 
-        private void btnRemoveKeyman_Click(object sender, EventArgs e)
-        {
+        //private void btnRemoveKeyman_Click(object sender, EventArgs e)
+        //{
 
-        }
+        //}
 
-        private void btnAddKeyman_Click(object sender, EventArgs e)
-        {
-        }
+        //private void btnAddKeyman_Click(object sender, EventArgs e)
+        //{
+        //}
 
-        private void c1gKeymen_AfterAddRow(object sender, RowColEventArgs e)
-        {
-            // TODO: DB変更対応
-            //c1gKeymen[c1gKeymen.Row, nameof(CustomersMstViewModel.CustSubNo)] = UnsavedCustSubNo;
-            c1gKeymen[c1gKeymen.Row, nameof(CustomersMstViewModel.NewOrExists)] = "(追加)";
-        }
+        //private void c1gKeymen_AfterAddRow(object sender, RowColEventArgs e)
+        //{
+        //    // TODO: DB変更対応
+        //    //c1gKeymen[c1gKeymen.Row, nameof(CustomersMstViewModel.CustSubNo)] = UnsavedCustSubNo;
+        //    //c1gKeymen[c1gKeymen.Row, nameof(CustomersMstViewModel.NewOrExists)] = "(追加)";
+        //}
 
         private async void btnChkDuplicate_Click(object sender, EventArgs e)
         {
             string custCode = txtCustCode.Text;
             if (string.IsNullOrWhiteSpace(custCode))
             {
-                DialogHelper.InputRequireMessage(this, "工事店コード");
+                DialogHelper.InputRequireMessage(this, "顧客コード");
                 return;
             }
 
-            string custSubNo = "";
-            var url = string.Format(ApiResources.HatF.MasterEditor.CustomersMst, custCode, custSubNo);
+            var url = string.Format(ApiResources.HatF.MasterEditor.CustomersMst, custCode);
             var apiResult = await ApiHelper.FetchAsync(this, async () =>
             {
                 return await Program.HatFApiClient.GetAsync<List<CustomersMstEx>>(url);
@@ -632,30 +628,30 @@ namespace HatFClient.Views.MasterEdit
                 return;
             }
 
-            string message = (apiResult.Value.Count > 0) ? "工事店コードは使用されています。" : "工事店コードは使用可能です。";
+            string message = (apiResult.Value.Count > 0) ? "顧客コードは使用されています。" : "顧客コードは使用可能です。";
             DialogHelper.InformationMessage(this, message);
 
         }
 
-        private void c1gKeymen_BeforeDeleteRow(object sender, RowColEventArgs e)
-        {
-            if (e.Row >= c1gKeymen.Rows.Count)
-            {
-                return;
-            }
-            if (c1gKeymen.Rows[e.Row].IsNew)
-            {
-                return;
-            }
+        //private void c1gKeymen_BeforeDeleteRow(object sender, RowColEventArgs e)
+        //{
+        //    //if (e.Row >= c1gKeymen.Rows.Count)
+        //    //{
+        //    //    return;
+        //    //}
+        //    //if (c1gKeymen.Rows[e.Row].IsNew)
+        //    //{
+        //    //    return;
+        //    //}
 
-            // TODO: DB変更対応
-            //short subNo = (short)c1gKeymen[c1gKeymen.Row, nameof(CustomersMstViewModel.CustSubNo)];
-            //if (subNo != UnsavedCustSubNo)
-            //{
-            //    // 新規に追加した行以外は消させない
-            //    e.Cancel = true;
-            //}
-        }
+        //    // TODO: DB変更対応
+        //    //short subNo = (short)c1gKeymen[c1gKeymen.Row, nameof(CustomersMstViewModel.CustSubNo)];
+        //    //if (subNo != UnsavedCustSubNo)
+        //    //{
+        //    //    // 新規に追加した行以外は消させない
+        //    //    e.Cancel = true;
+        //    //}
+        //}
     }
 
 

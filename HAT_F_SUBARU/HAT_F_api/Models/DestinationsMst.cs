@@ -8,12 +8,15 @@ namespace HAT_F_api.Models;
 /// </summary>
 public partial class DestinationsMst
 {
+    /// <summary>
+    /// 顧客コード
+    /// </summary>
     public string CustCode { get; set; }
 
     /// <summary>
-    /// 出荷先番号
+    /// 現場コード
     /// </summary>
-    public short DistNo { get; set; }
+    public string GenbaCode { get; set; }
 
     /// <summary>
     /// 出荷先名１
@@ -59,8 +62,6 @@ public partial class DestinationsMst
     /// 出荷先電話FAX
     /// </summary>
     public string DestFax { get; set; }
-
-    public string GenbaCode { get; set; }
 
     /// <summary>
     /// 備考

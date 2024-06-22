@@ -54,8 +54,7 @@ namespace HatFClient.Views.MasterEdit
 
         private DefaultGridPage projectGrid1;   // TODO: TemplateGridPage⇒DefaultGridPage
         private static readonly Type TARGET_MODEL = typeof(CustomersMstEx);
-        //private const string OUTFILE_NAME = "出荷指示一覧_yyyyMMdd_HHmmss";
-        private const string OUTFILE_NAME = "工事店一覧_{0:yyyyMMdd_HHmmss}.xlsx";
+        private const string OUTFILE_NAME = "顧客一覧_{0:yyyyMMdd_HHmmss}.xlsx";
 
 
         public ME_CustomersMst()
@@ -64,6 +63,8 @@ namespace HatFClient.Views.MasterEdit
 
             if (!this.DesignMode)
             {
+                FormStyleHelper.SetWorkWindowStyle(this);
+
                 InitializeFetching();
 
                 // INIT PATTERN
@@ -181,23 +182,12 @@ namespace HatFClient.Views.MasterEdit
             InitializeColumns();
         }
 
-        private void BtnTabClose_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
         private void BtnSearch_Click(object sender, EventArgs e)
         {
             var criteriaDefinition = CriteriaHelper.CreateCriteriaDefinitions<CustomersMstViewModel>(true);
 
             using (var searchFrm = new FrmAdvancedSearch(criteriaDefinition, gridManager.Filters))
             {
-                //var s =new SearchDropDownInfo();
-                //s.FieldName = "倉庫ステータス";
-                //s.DropDownItems = new Dictionary<string, string>() { { "入庫","2" }, { "印刷済", "3" } };
-                //searchFrm.DropDownItems.Add(s);
-
-
                 searchFrm.StartPosition = FormStartPosition.CenterParent;
 
                 searchFrm.OnSearch += async (sender, e) =>
@@ -235,8 +225,6 @@ namespace HatFClient.Views.MasterEdit
 
         private async void updateDataTable()
         {
-            //gridManager.OnDataSourceChange += GdProjectList_RowColChange;
-
             // 非同期でデータ取得    
             await gridManager.Reload(new List<FilterCriteria>());
             GdProjectList_RowColChange(this, EventArgs.Empty);
@@ -258,13 +246,8 @@ namespace HatFClient.Views.MasterEdit
             BindingList<ColumnInfo> configs = pattern.Columns;
             gridOrderManager.InitializeGridColumns(grid, configs, true);
 
-            //// 区分値項目
-            //grid.Cols[nameof(SupplierViewItem.PayMethodType)].DataMap = new ListDictionary() { { (short)short.MinValue, "" }, { (short)1, "1:振込" }, { (short)2, "2:手形" } };
-
-            //// 取引禁止フラグ
-            //ListDictionary noSalesFlgItems = new ListDictionary();
-            //JsonResources.NoSalesFlags.ForEach(item => noSalesFlgItems.Add(item.Code, item.Name));
-            //grid.Cols[nameof(CompanysMstViewItem.NoSalesFlg)].DataMap = noSalesFlgItems;
+            // 列幅調整可
+            grid.AllowResizing = AllowResizingEnum.Columns;
 
             // 請求区分
             var arFlags = ToDataMap(JsonConvert.DeserializeObject<CodeName<short?>[]>(Resources.HatF_CustArFlag));
@@ -320,12 +303,6 @@ namespace HatFClient.Views.MasterEdit
             }
             return dictionary;
         }
-        //ListDictionary payMonthDictionary = new ListDictionary();
-        //var payMonths = HatF_PaymentMonthRepo.GetInstance().Entities;
-        //    foreach (var item in payMonths.Where(x => x.Key != null))
-        //    {
-        //        payMonthDictionary.Add(item.Key, item.Name);
-        //    }
 
         private void SetColumnCaptions()
         {
@@ -367,7 +344,7 @@ namespace HatFClient.Views.MasterEdit
         private void btnExcel出力_Click(object sender, EventArgs e)
         {
             string fName = string.Format(OUTFILE_NAME, DateTime.Now);   //OUTFILE_NAME定数の定義は "出荷指示一覧_{0:yyyyMMdd_HHmmss}.xlsx" のような書式に修正
-            fName = ExcelReportUtil.ToExcelReportFileName(fName, "工事店一覧");
+            fName = ExcelReportUtil.ToExcelReportFileName(fName, "顧客一覧");
             projectGrid1.c1FlexGrid1.SaveExcel(fName, FileFlags.IncludeFixedCells);
 
             AppLauncher.OpenExcel(fName);
@@ -426,21 +403,6 @@ namespace HatFClient.Views.MasterEdit
             [CriteriaDefinition("顧客コード")]
             public string CustCode { get; set; }
 
-            //[CriteriaDefinition("顧客枝番")]
-            //public short CustSubNo { get; set; }
-
-            //[CriteriaDefinition("顧客区分")]
-            //public short? CustType { get; set; }
-
-            //[CriteriaDefinition("請求先枝番")]
-            //public short? ArSubNo { get; set; }
-
-            //[CriteriaDefinition("回収先コード")]
-            //public string PayerCode { get; set; }
-
-            //[CriteriaDefinition("回収先枝番")]
-            //public short? PayerSubNo { get; set; }
-
             [CriteriaDefinition("顧客名")]
             public string CustName { get; set; }
 
@@ -460,9 +422,6 @@ namespace HatFClient.Views.MasterEdit
             [GenSearchVisiblity(false)]
             [CriteriaDefinition("自社担当者名")]
             public string EmpName { get; set; }
-
-            //[CriteriaDefinition("顧客担当者名")]
-            //public string CustUserName { get; set; }
 
             [CriteriaDefinition("顧客部門名")]
             public string CustUserDepName { get; set; }
@@ -517,26 +476,6 @@ namespace HatFClient.Views.MasterEdit
 
             [CriteriaDefinition("顧客支払方法２")]
             public short? CustPayMethod2 { get; set; }
-
-            //[CriteriaDefinition("キーマンCD")]
-            //public string KeymanCode { get; set; }
-
-            //[CriteriaDefinition("工事店コード")]
-            //public string KojitenCode { get; set; }
         }
     }
-
-    ////TODO: モデル共有アセンブリに入ったら消す
-    //public class CustomersMstEx : CustomersMst
-    //{
-    //    /// <summary>
-    //    /// 請求先（名称）
-    //    /// </summary>
-    //    public string ArName { get; set; }
-
-    //    /// <summary>
-    //    /// 自社担当者名
-    //    /// </summary>
-    //    public string EmpName { get; set; }
-    //}
 }

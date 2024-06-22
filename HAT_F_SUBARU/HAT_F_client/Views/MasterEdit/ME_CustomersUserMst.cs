@@ -33,9 +33,9 @@ using System.Windows.Forms;
 
 namespace HatFClient.Views.MasterEdit
 {
-    public partial class ME_DestinaitonsMst : Form
+    public partial class ME_CustomersUserMst : Form
     {
-        private class CurrentFormGridManager : GridManagerBase<DestinationsMstEx> { }
+        private class CurrentFormGridManager : GridManagerBase<CustomersUserMst> { }
         private CurrentFormGridManager gridManager = new CurrentFormGridManager();
         private GridOrderManager gridOrderManager;
         public event System.EventHandler Search;
@@ -49,11 +49,11 @@ namespace HatFClient.Views.MasterEdit
         }
 
         private DefaultGridPage projectGrid1;   // TODO: TemplateGridPage⇒DefaultGridPage
-        private static readonly Type TARGET_MODEL = typeof(DestinationsMstEx);
-        private const string OUTFILE_NAME = "出荷先一覧_{0:yyyyMMdd_HHmmss}.xlsx";
+        private static readonly Type TARGET_MODEL = typeof(CustomersUserMst);
+        private const string OUTFILE_NAME = "顧客担当者一覧_{0:yyyyMMdd_HHmmss}.xlsx";
 
 
-        public ME_DestinaitonsMst()
+        public ME_CustomersUserMst()
         {
             InitializeComponent();           
 
@@ -82,10 +82,12 @@ namespace HatFClient.Views.MasterEdit
             gridManager.FetchFuncAsync = async (filter) => {
 
                 // API(ページング条件付与)
-                string url = ApiHelper.AddPagingQuery(ApiResources.HatF.MasterEditor.DestinationsMstGensearch, gridManager.CurrentPage, gridManager.PageSize);
+                string url = ApiHelper.AddPagingQuery(ApiResources.HatF.MasterEditor.CustomersUserMstGensearch, gridManager.CurrentPage, gridManager.PageSize);
+                url = ApiHelper.AddQuery(url, "includeDeleted", chkIncludeDeleted.Checked); //削除済を含めるか
+
                 var conditions = filter.Select(f => f.AsFilterOption()).ToList();
 
-                var apiResponse = await Program.HatFApiClient.PostAsync<List<DestinationsMstEx>>(
+                var apiResponse = await Program.HatFApiClient.PostAsync<List<CustomersUserMst>>(
                     url,   // 一覧取得API
                     JsonConvert.SerializeObject(conditions));   // 検索条件
                 return apiResponse;
@@ -96,7 +98,9 @@ namespace HatFClient.Views.MasterEdit
             // ページングがない画面は null(初期値) をセットしておく
             gridManager.FetchCountFuncAsync = async (filter) =>
             {
-                string url = ApiResources.HatF.MasterEditor.DestinationsMstCountGensearch;
+                string url = ApiResources.HatF.MasterEditor.CustomersUserMstCountGensearch;
+                url = ApiHelper.AddQuery(url, "includeDeleted", chkIncludeDeleted.Checked); //削除済を含めるか
+
                 var conditions = filter.Select(f => f.AsFilterOption()).ToList();
 
                 var count = await Program.HatFApiClient.PostAsync<int>(
@@ -175,18 +179,9 @@ namespace HatFClient.Views.MasterEdit
 
         private void BtnSearch_Click(object sender, EventArgs e)
         {
-
-            var criteriaDefinition = CriteriaHelper.CreateCriteriaDefinitions<DestinationsMstViewModel>();
-
+            var criteriaDefinition = CriteriaHelper.CreateCriteriaDefinitions<CustomersUserMstViewModel>();
             using (var searchFrm = new FrmAdvancedSearch(criteriaDefinition, gridManager.Filters))
             {
-                //var s =new SearchDropDownInfo();
-                //s.FieldName = "倉庫ステータス";
-                //s.DropDownItems = new Dictionary<string, string>() { { "入庫","2" }, { "印刷済", "3" } };
-                //searchFrm.DropDownItems.Add(s);
-                //gridManager.DropDownItems = searchFrm.DropDownItems;
-
-
                 searchFrm.StartPosition = FormStartPosition.CenterParent;
 
                 searchFrm.OnSearch += async (sender, e) =>
@@ -245,16 +240,18 @@ namespace HatFClient.Views.MasterEdit
             var grid = projectGrid1.c1FlexGrid1;
             gridOrderManager.InitializeGridColumns(grid, configs, true);
 
+            // 列幅調整調整可
+            grid.AllowResizing = AllowResizingEnum.Columns;
 
-            //// 取引禁止フラグ
-            //ListDictionary noSalesFlgItems = new ListDictionary();
-            //JsonResources.NoSalesFlags.ForEach(item => noSalesFlgItems.Add(item.Code, item.Name));
-            //grid.Cols[nameof(CompanysMstViewModel.NoSalesFlg)].DataMap = noSalesFlgItems;
+            grid.Cols[nameof(CustomersUserMstViewModel.CustCode)].Width = 100;
+            grid.Cols[nameof(CustomersUserMstViewModel.CustUserCode)].Width = 150;
+            grid.Cols[nameof(CustomersUserMstViewModel.CustUserName)].Width = 150;
+            grid.Cols[nameof(CustomersUserMstViewModel.CustUserEmail)].Width = 200;
 
 
             // 表示列定義にはあるが初期状態非表示にする
-            grid.Cols[nameof(DestinationsMstViewModel.Deleted)].DataType = typeof(bool);
-            grid.Cols[nameof(DestinationsMstViewModel.Deleted)].Visible = chkIncludeDeleted.Checked;
+            grid.Cols[nameof(CustomersUserMstViewModel.Deleted)].DataType = typeof(bool);
+            grid.Cols[nameof(CustomersUserMstViewModel.Deleted)].Visible = chkIncludeDeleted.Checked;
 
             // ヘッダーのタイトル設定
             SetColumnCaptions();
@@ -266,7 +263,7 @@ namespace HatFClient.Views.MasterEdit
             var grid = projectGrid1.c1FlexGrid1;
 
             int colIndex = 1;
-            foreach (var prop in typeof(DestinationsMstViewModel).GetProperties())
+            foreach (var prop in typeof(CustomersUserMstViewModel).GetProperties())
             {
                 Column col = grid.Cols[prop.Name];
                 if (col != null)
@@ -311,10 +308,10 @@ namespace HatFClient.Views.MasterEdit
             var grid = projectGrid1.c1FlexGrid1;
             if (grid.Rows.Count < 2) { return; }
 
-            string custCode = (string)grid[grid.Row, nameof(DestinationsMstEx.CustCode)];
-            string genbaCode = (string)grid[grid.Row, nameof(DestinationsMstEx.GenbaCode)];
+            string custCode = (string)grid[grid.Row, nameof(CustomersUserMst.CustCode)];
+            string custUserCode = (string)grid[grid.Row, nameof(CustomersUserMst.CustUserCode)];
 
-            using (var form = new ME_CustomersUserMstDetail(custCode, genbaCode))
+            using (var form = new ME_CustomersUserMstDetail(custCode, custUserCode))
             {
                 if (DialogHelper.IsPositiveResult(form.ShowDialog()))
                 {
@@ -352,50 +349,40 @@ namespace HatFClient.Views.MasterEdit
             await gridManager.Reload();
         }
 
-        private class DestinationsMstViewModel
+        private class CustomersUserMstViewModel
         {
             [GenSearchVisiblity(false)]
             [CriteriaDefinition("削除済")]
             public bool Deleted { get; set; }
 
+            /// <summary>
+            /// 顧客コード,取引先CD6桁:KOJICD 13桁 + 予備
+            /// </summary>
             [CriteriaDefinition("顧客コード")]
             public string CustCode { get; set; }
 
-            [CriteriaDefinition("顧客名")]
-            public string CustName { get; set; }
+            /// <summary>
+            /// 担当者コード (キーマンCD)
+            /// </summary>
+            [CriteriaDefinition("担当者コード (キーマンCD)")]
+            public string CustUserCode { get; set; }
 
-            [CriteriaDefinition("現場コード")]
-            public string GenbaCode { get; set; }
+            /// <summary>
+            /// 担当者名 (キーマン名)
+            /// </summary>
+            [CriteriaDefinition("担当者名 (キーマン名)")]
+            public string CustUserName { get; set; }
 
-            [CriteriaDefinition("出荷先名１")]
-            public string DistName1 { get; set; }
+            /// <summary>
+            /// 担当者メールアドレス
+            /// </summary>
+            [CriteriaDefinition("担当者メールアドレス")]
+            public string CustUserEmail { get; set; }
 
-            [CriteriaDefinition("出荷先名２")]
-            public string DistName2 { get; set; }
-
-            [CriteriaDefinition("出荷先郵便番号")]
-            public string ZipCode { get; set; }
-
-            [CriteriaDefinition("出荷先住所１")]
-            public string Address1 { get; set; }
-
-            [CriteriaDefinition("出荷先住所２")]
-            public string Address2 { get; set; }
-
-            [CriteriaDefinition("出荷先住所３")]
-            public string Address3 { get; set; }
-
-            [CriteriaDefinition("出荷先電話番号")]
-            public string DestTel { get; set; }
-
-            [CriteriaDefinition("出荷先電話FAX")]
-            public string DestFax { get; set; }
-
-            [CriteriaDefinition("取引先コード")]
-            public string CompCode { get; set; }
-
-            [CriteriaDefinition("備考")]
-            public string Remarks { get; set; }
+            ///// <summary>
+            ///// 削除済
+            ///// </summary>
+            //public bool? Deleted { get; set; }
         }
     }
 }

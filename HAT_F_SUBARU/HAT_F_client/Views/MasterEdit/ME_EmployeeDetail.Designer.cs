@@ -245,7 +245,7 @@
             this.label7.TabIndex = 11;
             this.label7.Text = "FAX番号";
             // 
-            // txtEmail
+            // txtCustUserEmail
             // 
             this.txtEmail.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.txtEmail.Location = new System.Drawing.Point(125, 255);
