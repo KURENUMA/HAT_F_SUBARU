@@ -44,4 +44,10 @@ public partial class ViewCorrectionDeliveryDetail
     public int? 訂正申請者id { get; set; }
 
     public string 訂正申請者名 { get; set; }
+
+    public string 確認者 { get; set; }
+
+    public string 確認者役職 { get; set; }
+
+    public string コメント { get; set; }
 }
