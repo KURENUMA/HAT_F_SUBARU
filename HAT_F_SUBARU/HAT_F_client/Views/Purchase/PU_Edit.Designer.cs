@@ -96,7 +96,6 @@
             this.grdPuImports.Name = "grdPuImports";
             this.grdPuImports.Rows.Count = 1;
             this.grdPuImports.SelectionMode = C1.Win.C1FlexGrid.SelectionModeEnum.CellRange;
-            this.grdPuImports.ShowButtons = C1.Win.C1FlexGrid.ShowButtonsEnum.WhenEditing;
             this.grdPuImports.Size = new System.Drawing.Size(909, 424);
             this.grdPuImports.StyleInfo = resources.GetString("grdPuImports.StyleInfo");
             this.grdPuImports.TabIndex = 12;
