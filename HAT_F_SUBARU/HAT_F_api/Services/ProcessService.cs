@@ -311,6 +311,55 @@ namespace HAT_F_api.Services
             return result;
         }
 
+        /// <summary>納品一覧表（訂正・返品）チェック結果を記録</summary>
+        /// <param name="parameters">チェック結果を記録する対象</param>
+        /// <returns>INSERTしたレコード数</returns>
+        public async Task<List<InternalDeliveryCheckResult>> CorrectionDeliveryCheckAsync(IEnumerable<InternalDeliveryCheckParameter> parameters)
+        {
+            var employee = await _hatFContext.Employees
+                .SingleOrDefaultAsync(x => x.EmpId == _hatFLoginResultAccesser.HatFLoginResult.EmployeeId);
+            var result = new List<InternalDeliveryCheckResult>();
+            foreach (var p in parameters)
+            {
+                var target = await _hatFContext.CorrectionDeliveryChecks
+                    .Where(x => x.SalesNo == p.SalesNo)
+                    .Where(x => x.RowNo == p.RowNo)
+                    .FirstOrDefaultAsync();
+                if (target is null)
+                {
+                    var newEntity = new CorrectionDeliveryCheck()
+                    {
+                        CheckDatetime = _executionContext.ExecuteDateTimeJst,
+                        CheckerId = employee.EmpId,
+                        CheckerPost = employee.OccuCode,
+                        SalesNo = p.SalesNo,
+                        RowNo = p.RowNo,
+                        Comment = p.Comment,
+                    };
+                    _updateInfoSetter.SetUpdateInfo(newEntity);
+                    await _hatFContext.CorrectionDeliveryChecks.AddAsync(newEntity);
+                }
+                else
+                {
+                    target.CheckDatetime = _executionContext.ExecuteDateTimeJst;
+                    target.CheckerId = employee.EmpId;
+                    target.CheckerPost = employee.OccuCode;
+                    target.Comment = p.Comment;
+                    _updateInfoSetter.SetUpdateInfo(target);
+                }
+                result.Add(new InternalDeliveryCheckResult()
+                {
+                    SalesNo = p.SalesNo,
+                    RowNo = p.RowNo,
+                    Comment = p.Comment,
+                    Checker = employee.EmpName,
+                    CheckerPost = employee.OccuCode,
+                });
+            }
+            await _hatFContext.SaveChangesAsync();
+            return result;
+        }
+
         public class SalesData
         {
             public Sale Sales { get; set; }

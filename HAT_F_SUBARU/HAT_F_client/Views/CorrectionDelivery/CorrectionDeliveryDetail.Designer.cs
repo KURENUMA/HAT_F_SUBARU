@@ -35,7 +35,11 @@
             this.lblLockInfo = new System.Windows.Forms.Label();
             this.labelCode = new System.Windows.Forms.Label();
             this.labelName = new System.Windows.Forms.Label();
+            this.grpComment = new System.Windows.Forms.GroupBox();
+            this.txtComment = new System.Windows.Forms.TextBox();
+            this.btnSaveComment = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.c1FlexGridCorrectionDeliveryDetail)).BeginInit();
+            this.grpComment.SuspendLayout();
             this.SuspendLayout();
             // 
             // c1FlexGridCorrectionDeliveryDetail
@@ -51,8 +55,9 @@
             this.c1FlexGridCorrectionDeliveryDetail.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.c1FlexGridCorrectionDeliveryDetail.Location = new System.Drawing.Point(14, 58);
             this.c1FlexGridCorrectionDeliveryDetail.Name = "c1FlexGridCorrectionDeliveryDetail";
-            this.c1FlexGridCorrectionDeliveryDetail.Size = new System.Drawing.Size(1491, 494);
+            this.c1FlexGridCorrectionDeliveryDetail.Size = new System.Drawing.Size(1491, 362);
             this.c1FlexGridCorrectionDeliveryDetail.TabIndex = 15;
+            this.c1FlexGridCorrectionDeliveryDetail.CellChecked += new C1.Win.C1FlexGrid.RowColEventHandler(this.C1FlexGrid1_CellChecked);
             this.c1FlexGridCorrectionDeliveryDetail.KeyDown += new System.Windows.Forms.KeyEventHandler(this.c1FlexGridCorrectionDeliveryDetail_KeyDown);
             // 
             // buttonCONTACT_EMAIL
@@ -117,12 +122,50 @@
             this.labelName.Text = "得意先名";
             this.labelName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // grpComment
+            // 
+            this.grpComment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.grpComment.Controls.Add(this.txtComment);
+            this.grpComment.Controls.Add(this.btnSaveComment);
+            this.grpComment.Location = new System.Drawing.Point(970, 426);
+            this.grpComment.Name = "grpComment";
+            this.grpComment.Size = new System.Drawing.Size(535, 178);
+            this.grpComment.TabIndex = 40;
+            this.grpComment.TabStop = false;
+            this.grpComment.Text = "確認コメント";
+            // 
+            // txtComment
+            // 
+            this.txtComment.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtComment.Location = new System.Drawing.Point(6, 18);
+            this.txtComment.MaxLength = 1000;
+            this.txtComment.Multiline = true;
+            this.txtComment.Name = "txtComment";
+            this.txtComment.Size = new System.Drawing.Size(523, 125);
+            this.txtComment.TabIndex = 0;
+            this.txtComment.TextChanged += new System.EventHandler(this.txtComment_TextChanged);
+            // 
+            // btnSaveComment
+            // 
+            this.btnSaveComment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSaveComment.Enabled = false;
+            this.btnSaveComment.Location = new System.Drawing.Point(454, 149);
+            this.btnSaveComment.Name = "btnSaveComment";
+            this.btnSaveComment.Size = new System.Drawing.Size(75, 23);
+            this.btnSaveComment.TabIndex = 1;
+            this.btnSaveComment.Text = "保存";
+            this.btnSaveComment.UseVisualStyleBackColor = true;
+            this.btnSaveComment.Click += new System.EventHandler(this.btnSaveComment_Click);
+            // 
             // CorrectionDeliveryDetail
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.AppWorkspace;
-            this.ClientSize = new System.Drawing.Size(1517, 581);
+            this.ClientSize = new System.Drawing.Size(1517, 606);
+            this.Controls.Add(this.grpComment);
             this.Controls.Add(this.labelName);
             this.Controls.Add(this.labelCode);
             this.Controls.Add(this.lblLockInfo);
@@ -133,6 +176,8 @@
             this.Text = "納品一覧表（訂正・返品）";
             this.Load += new System.EventHandler(this.CorrectionDeliveryDetail_Load);
             ((System.ComponentModel.ISupportInitialize)(this.c1FlexGridCorrectionDeliveryDetail)).EndInit();
+            this.grpComment.ResumeLayout(false);
+            this.grpComment.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -145,5 +190,8 @@
         private System.Windows.Forms.Label lblLockInfo;
         private System.Windows.Forms.Label labelCode;
         private System.Windows.Forms.Label labelName;
+        private System.Windows.Forms.GroupBox grpComment;
+        private System.Windows.Forms.TextBox txtComment;
+        private System.Windows.Forms.Button btnSaveComment;
     }
 }

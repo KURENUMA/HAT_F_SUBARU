@@ -1439,6 +1439,18 @@ namespace HAT_F_api.Controllers
             });
         }
 
+        /// <summary>納品一覧表（訂正・返品）チェック結果を記録(UPSERT)</summary>
+        /// <param name="parameters">チェック結果を記録する対象</param>
+        /// <returns>チェック結果</returns>
+        [HttpPut("correction-delivery-check")]
+        public async Task<ActionResult<ApiResponse<List<InternalDeliveryCheckResult>>>> CorrectionDeliveryCheckAsync([FromBody] IEnumerable<InternalDeliveryCheckParameter> parameters)
+        {
+            return await ApiLogicRunner.RunAsync(async () =>
+            {
+                return await _processService.CorrectionDeliveryCheckAsync(parameters);
+            });
+        }
+
         /// <summary>物件コードの重複チェック</summary>
         /// <param name="constructionCode">constructionCode</param>
         /// <returns>重複結果</returns>
