@@ -35,14 +35,14 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.txtCustCode = new System.Windows.Forms.TextBox();
-            this.txtCustName = new System.Windows.Forms.TextBox();
-            this.txtCustKana = new System.Windows.Forms.TextBox();
+            this.txtCustCode = new HatFClient.CustomControls.TextBoxChar();
+            this.txtCustName = new HatFClient.CustomControls.TextBoxChar();
+            this.txtCustKana = new HatFClient.CustomControls.TextBoxChar();
             this.c1gCustomers = new C1.Win.C1FlexGrid.C1FlexGrid();
             this.lblNote = new System.Windows.Forms.Label();
             this.lblMaxCount = new System.Windows.Forms.Label();
-            this.txtCustUserDepName = new System.Windows.Forms.TextBox();
-            this.txtCustUserName = new System.Windows.Forms.TextBox();
+            this.txtCustUserDepName = new HatFClient.CustomControls.TextBoxChar();
+            this.txtCustUserName = new HatFClient.CustomControls.TextBoxChar();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.c1gCustomers)).BeginInit();
@@ -88,27 +88,27 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(28, 19);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(68, 12);
+            this.label1.Size = new System.Drawing.Size(56, 12);
             this.label1.TabIndex = 0;
-            this.label1.Text = "工事店コード";
+            this.label1.Text = "顧客コード";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(211, 19);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(53, 12);
+            this.label2.Size = new System.Drawing.Size(41, 12);
             this.label2.TabIndex = 2;
-            this.label2.Text = "工事店名";
+            this.label2.Text = "顧客名";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(431, 19);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(72, 12);
+            this.label3.Size = new System.Drawing.Size(60, 12);
             this.label3.TabIndex = 4;
-            this.label3.Text = "工事店名カナ";
+            this.label3.Text = "顧客名カナ";
             // 
             // txtCustCode
             // 
@@ -156,9 +156,9 @@
             this.lblNote.Location = new System.Drawing.Point(135, 416);
             this.lblNote.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblNote.Name = "lblNote";
-            this.lblNote.Size = new System.Drawing.Size(141, 15);
+            this.lblNote.Size = new System.Drawing.Size(129, 15);
             this.lblNote.TabIndex = 13;
-            this.lblNote.Text = "工事店情報が存在しません";
+            this.lblNote.Text = "顧客情報が存在しません";
             // 
             // lblMaxCount
             // 
@@ -180,7 +180,7 @@
             this.txtCustUserDepName.Size = new System.Drawing.Size(115, 19);
             this.txtCustUserDepName.TabIndex = 9;
             // 
-            // txtCustName
+            // txtCustUserName
             // 
             this.txtCustUserName.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.txtCustUserName.Location = new System.Drawing.Point(293, 41);
@@ -231,7 +231,7 @@
             this.Controls.Add(this.btnOK);
             this.KeyPreview = true;
             this.Name = "MS_Customer";
-            this.Text = "工事店検索";
+            this.Text = "顧客検索";
             this.Load += new System.EventHandler(this.MS_Employee_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MS_Employee_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.c1gCustomers)).EndInit();
@@ -248,14 +248,14 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox txtCustCode;
-        private System.Windows.Forms.TextBox txtCustName;
-        private System.Windows.Forms.TextBox txtCustKana;
+        private HatFClient.CustomControls.TextBoxChar txtCustCode;
+        private HatFClient.CustomControls.TextBoxChar txtCustName;
+        private HatFClient.CustomControls.TextBoxChar txtCustKana;
         private C1.Win.C1FlexGrid.C1FlexGrid c1gCustomers;
         private System.Windows.Forms.Label lblNote;
         private System.Windows.Forms.Label lblMaxCount;
-        private System.Windows.Forms.TextBox txtCustUserDepName;
-        private System.Windows.Forms.TextBox txtCustUserName;
+        private HatFClient.CustomControls.TextBoxChar txtCustUserDepName;
+        private HatFClient.CustomControls.TextBoxChar txtCustUserName;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
     }

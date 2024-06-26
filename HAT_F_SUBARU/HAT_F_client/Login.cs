@@ -68,6 +68,7 @@ namespace HatFClient
                 this.txtEmpCode.Text = Decrypt(Properties.Settings.Default.login_id, AES_IV, AES_Key);
 
 #if DEBUG
+                this.Text += " [DEBUG]";
                 this.lblPassword.Text += " (DEBUGビルドのみ前回パスワードが設定されます)";
                 this.txtPass.Text = Decrypt(Properties.Settings.Default.login_pass, AES_IV, AES_Key);
 #endif

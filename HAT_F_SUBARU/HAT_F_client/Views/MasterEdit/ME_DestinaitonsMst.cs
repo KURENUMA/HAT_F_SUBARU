@@ -314,7 +314,7 @@ namespace HatFClient.Views.MasterEdit
             string custCode = (string)grid[grid.Row, nameof(DestinationsMstEx.CustCode)];
             string genbaCode = (string)grid[grid.Row, nameof(DestinationsMstEx.GenbaCode)];
 
-            using (var form = new ME_CustomersUserMstDetail(custCode, genbaCode))
+            using (var form = new ME_DestinaitonsMstDetail(custCode, genbaCode))
             {
                 if (DialogHelper.IsPositiveResult(form.ShowDialog()))
                 {
@@ -325,7 +325,7 @@ namespace HatFClient.Views.MasterEdit
 
         private async void btnAddNew_Click(object sender, EventArgs e)
         {
-            using (var form = new ME_CustomersUserMstDetail())
+            using (var form = new ME_DestinaitonsMstDetail())
             {
                 if (DialogHelper.IsPositiveResult(form.ShowDialog()))
                 {

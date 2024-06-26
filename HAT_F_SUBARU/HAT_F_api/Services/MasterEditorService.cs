@@ -548,7 +548,7 @@ namespace HAT_F_api.Services
                 var exits = await _hatFContext.CustomersUserMsts
                     .Where(x => x.CustCode == item.CustCode)
                     .Where(x => x.CustUserCode == item.CustUserCode)
-                    .SingleAsync();
+                    .SingleOrDefaultAsync();
 
                 if (exits == null)
                 {

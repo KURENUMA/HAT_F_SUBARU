@@ -55,7 +55,7 @@
             // 
             // txtCustName
             // 
-            this.txtCustName.Location = new System.Drawing.Point(141, 70);
+            this.txtCustName.Location = new System.Drawing.Point(147, 70);
             this.txtCustName.Margin = new System.Windows.Forms.Padding(4);
             this.txtCustName.Name = "txtCustName";
             this.txtCustName.ReadOnly = true;
@@ -76,7 +76,7 @@
             // txtCustUserName
             // 
             this.txtCustUserName.ImeMode = System.Windows.Forms.ImeMode.On;
-            this.txtCustUserName.Location = new System.Drawing.Point(141, 132);
+            this.txtCustUserName.Location = new System.Drawing.Point(147, 132);
             this.txtCustUserName.Margin = new System.Windows.Forms.Padding(4);
             this.txtCustUserName.MaxLength = 40;
             this.txtCustUserName.Name = "txtCustUserName";
@@ -87,7 +87,7 @@
             // btnOK
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOK.Location = new System.Drawing.Point(170, 228);
+            this.btnOK.Location = new System.Drawing.Point(177, 228);
             this.btnOK.Margin = new System.Windows.Forms.Padding(4);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(123, 29);
@@ -100,7 +100,7 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(301, 228);
+            this.btnCancel.Location = new System.Drawing.Point(308, 228);
             this.btnCancel.Margin = new System.Windows.Forms.Padding(4);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(123, 29);
@@ -121,7 +121,7 @@
             // 
             // btnSelectCustomer
             // 
-            this.btnSelectCustomer.Location = new System.Drawing.Point(349, 66);
+            this.btnSelectCustomer.Location = new System.Drawing.Point(355, 66);
             this.btnSelectCustomer.Margin = new System.Windows.Forms.Padding(4);
             this.btnSelectCustomer.Name = "btnSelectCustomer";
             this.btnSelectCustomer.Size = new System.Drawing.Size(76, 29);
@@ -132,7 +132,7 @@
             // 
             // btnCheckDuplicate
             // 
-            this.btnCheckDuplicate.Location = new System.Drawing.Point(349, 97);
+            this.btnCheckDuplicate.Location = new System.Drawing.Point(355, 97);
             this.btnCheckDuplicate.Margin = new System.Windows.Forms.Padding(4);
             this.btnCheckDuplicate.Name = "btnCheckDuplicate";
             this.btnCheckDuplicate.Size = new System.Drawing.Size(76, 29);
@@ -144,7 +144,7 @@
             // txtCustUserEmail
             // 
             this.txtCustUserEmail.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.txtCustUserEmail.Location = new System.Drawing.Point(141, 164);
+            this.txtCustUserEmail.Location = new System.Drawing.Point(147, 164);
             this.txtCustUserEmail.Margin = new System.Windows.Forms.Padding(4);
             this.txtCustUserEmail.MaxLength = 40;
             this.txtCustUserEmail.Name = "txtCustUserEmail";
@@ -165,13 +165,13 @@
             // txtCustUserCode
             // 
             this.txtCustUserCode.ImeMode = System.Windows.Forms.ImeMode.On;
-            this.txtCustUserCode.Location = new System.Drawing.Point(141, 101);
+            this.txtCustUserCode.Location = new System.Drawing.Point(147, 101);
             this.txtCustUserCode.Margin = new System.Windows.Forms.Padding(4);
-            this.txtCustUserCode.MaxLength = 3;
+            this.txtCustUserCode.MaxLength = 2;
             this.txtCustUserCode.Name = "txtCustUserCode";
             this.txtCustUserCode.Size = new System.Drawing.Size(200, 23);
             this.txtCustUserCode.TabIndex = 2022;
-            this.txtCustUserCode.Text = "123";
+            this.txtCustUserCode.Text = "Y";
             // 
             // label2
             // 

@@ -65,7 +65,9 @@ namespace HatFClient.Common
         {
             if (form != null && form.Modal)
             {
+#if !DEBUG
                 this.TopMost = true;
+#endif
                 this.Show();
             }
             else
