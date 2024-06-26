@@ -4,7 +4,7 @@ namespace HAT_F_api.CustomModels
 {
     public class ClientInit
     {
-        public IEnumerable<OptionData> DivBins { get; set; }
+        public IEnumerable<DivBin> DivBins { get; set; }
         public IEnumerable<OptionData> DivDenpyo { get; set; }
         public IEnumerable<OptionData> DivEmployee { get; set; }
         //public IEnumerable<OptionData> DivGenba { get; set; }

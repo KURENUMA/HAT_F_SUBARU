@@ -42,7 +42,7 @@ namespace HAT_F_api.Services
         public async Task<ClientInit> initClient()
         {
             var init = new ClientInit();
-            init.DivBins = await _hatFContext.DivBins.Where(item => !item.Deleted).Select(e => new OptionData { Code = e.BinCd, Name = e.BinName }).ToListAsync();
+            init.DivBins = await _hatFContext.DivBins.Where(item => !item.Deleted).ToListAsync();
 
             init.DivDenpyo = await _hatFContext.DivSlips.Where(item => !item.Deleted).Select(e => new OptionData { Code = e.SlipCd, Name = e.SlipName }).ToListAsync();
 

@@ -46,6 +46,9 @@ namespace HatFClient.Views.Order
         private DataTable dtErrorListDetail = new();// エラーリスト明細用
         private int IntCheckPtn;                    // エラーチェック 1:確認 2:F11 3:F12
 
+        /// <summary>倉庫コード</summary>
+        private ValueHandler<string> _sokoCode = new ValueHandler<string>();
+
         /// <summary>明細行コントロール</summary>
         private List<JH_Main_Detail> _detailRows;
 
@@ -1860,12 +1863,31 @@ namespace HatFClient.Views.Order
         /// <param name="comboBox">コンボボックス</param>
         private void InitWarehouseComboBox(ComboBoxEx comboBox)
         {
-            comboBox.Text = string.Empty;
             var wareHouses = this.clientRepo.Options.DivSokos
                 // 倉庫コード07だけは共通
                 .Where(x => x.IsHatWarehouse == radioHAT.Checked || x.WhCode == "07")
                 .Select(x => $"{x.WhCode}:{x.WhName}").ToList();
+            comboBox.Text = string.Empty;
+            _sokoCode.Value = string.Empty;
             comboBox.SetItems(wareHouses);
+        }
+
+        /// <summary>扱い便のコンボボックスを初期化する</summary>
+        private void InitBinComboBox()
+        {
+            var bin = this.clientRepo.Options.DivBins
+                .Where(x => x.WhCd == this.cmbSOKO_CD.GetSelectedCode())
+                .Select(x => $"{x.BinCd}:{x.BinName}").ToList();
+            this.cmbBINCD.Text = string.Empty;
+            this.cmbBINCD.SetItems(bin);
+        }
+
+        /// <summary>倉庫コードの変更</summary>
+        /// <param name="sender">イベント発生元</param>
+        /// <param name="e">イベント情報</param>
+        private void CmbSOKO_CD_Validated(object sender, EventArgs e)
+        {
+            _sokoCode.Value = cmbSOKO_CD.GetSelectedCode();
         }
         #endregion
 
@@ -2964,8 +2986,9 @@ namespace HatFClient.Views.Order
             this.cmbDEN_FLG.SetItems(this.clientRepo.Options.DivDenpyo.Select(o => o.Code + ":" + o.Name).ToList());
             // 倉庫
             InitWarehouseComboBox(this.cmbSOKO_CD);
+            _sokoCode.ValueChanged += (_, _) => InitBinComboBox();
             // 扱便
-            this.cmbBINCD.SetItems(this.clientRepo.Options.DivBins.Select(o => o.Code + ":" + o.Name).ToList());
+            InitBinComboBox();
             // 運賃
             this.cmbUNCHIN.SetItems(this.clientRepo.Options.DivUnchins.Select(o => o.Code + ":" + o.Name).ToList());
             // 区分

@@ -1770,6 +1770,7 @@
             this.cmbSOKO_CD.Name = "cmbSOKO_CD";
             this.cmbSOKO_CD.Size = new System.Drawing.Size(140, 23);
             this.cmbSOKO_CD.TabIndex = 42;
+            this.cmbSOKO_CD.Validated += new System.EventHandler(this.CmbSOKO_CD_Validated);
             // 
             // btnFnc09
             // 

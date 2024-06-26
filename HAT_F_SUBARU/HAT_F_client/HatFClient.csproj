@@ -266,6 +266,7 @@
     </Compile>
     <Compile Include="Common\RoleController.cs" />
     <Compile Include="Common\Utils.cs" />
+    <Compile Include="Common\ValueHandler.cs" />
     <Compile Include="Common\WaitCursor.cs" />
     <Compile Include="Constants\ApiResources.cs" />
     <Compile Include="Constants\EpukoParameter.cs" />
