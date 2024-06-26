@@ -1,4 +1,5 @@
 ﻿using C1.Win.C1FlexGrid;
+using HAT_F_api.CustomModels;
 using HAT_F_api.Models;
 using HatFClient.Common;
 using HatFClient.Constants;
@@ -28,6 +29,8 @@ namespace HatFClient.Views.ConstructionProject
         private const string FILTER_ACCDB = "accdb file|*.accdb";
         private readonly List<string> EnableControlList;
         private readonly List<string> DisableControlList;
+        private LoginRepo loginRepo;
+        private FosJyuchuRepo fosJyuchuRepo;
 
         /// <summary>物件情報</summary>
         private ViewConstructionDetail ConstructionData { get; set; }
@@ -101,6 +104,8 @@ namespace HatFClient.Views.ConstructionProject
         /// <param name="e">イベント情報</param>
         private void NewConstructionDetail_Load(object sender, EventArgs e)
         {
+            this.loginRepo = LoginRepo.GetInstance();
+            this.fosJyuchuRepo = FosJyuchuRepo.GetInstance();
             LoadDData();
         }
 
@@ -394,6 +399,7 @@ namespace HatFClient.Views.ConstructionProject
                         if (item.AppropState != null)
                         {
                             grd_D[item.Koban, "ステータス"] = item.AppropState;
+                            grd_D[item.Koban, "子番"] = item.Koban;
                             grd_D.SetCellCheck(item.Koban, 1, CheckEnum.Unchecked);
                         }
                     }
@@ -531,7 +537,7 @@ namespace HatFClient.Views.ConstructionProject
 
             // ★対応するまで無効にする
             list.Add(btnAppSheet.Name);
-            list.Add(btnAccounting.Name);
+            //list.Add(btnAccounting.Name);
             list.Add(btnTransfer.Name);
             list.Add(txtMANAGER_ID.Name);
 
@@ -707,7 +713,7 @@ namespace HatFClient.Views.ConstructionProject
         {
             grd_D.CellButtonClick += new C1.Win.C1FlexGrid.RowColEventHandler(c1FlexGrid1_CellButtonClick);
             // 初期設定（列数、行数、フォント）
-            grd_D.Cols.Count = 14;
+            grd_D.Cols.Count = 15;
             grd_D.Rows.Count = 2; //初期表示用
             grd_D.Select(1, grd_D.Cols["商品コード"].Index);
             grd_D.Font = new System.Drawing.Font("メイリオ", 9);
@@ -737,7 +743,8 @@ namespace HatFClient.Views.ConstructionProject
                     decimal siitan = (decimal)item.SiiTan;
                     grd_D[row, "利率"] = CalcProfit(uritan, siitan);
                 }
-                    row++;
+                grd_D[row, "子番"] = item.Koban;
+                row++;
             }
 
             //先頭列にチェックボックスを追加
@@ -892,6 +899,156 @@ namespace HatFClient.Views.ConstructionProject
                         , Convert.ToDecimal(grd_D.GetDataDisplay(e.Row, "仕入単価")));
                 }
             }
+        }
+
+        /// <summary>
+        /// 選択対象を計上
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void btnAccounting_ClickAsync(object sender, EventArgs e)
+        {
+            var pages = await ApiHelper.FetchAsync(this, () =>
+            {
+                return CommitPagesAsync(getFosJyuchPages());
+            });
+
+            var updatelist = new List<HAT_F_api.Models.ConstructionDetail>();
+            foreach (DataRow dr in GetCheckedData(grd_D).Rows)
+            {
+                var data = new HAT_F_api.Models.ConstructionDetail();
+                data.ConstructionCode = constructionCode;
+                data.Koban = Convert.ToInt32(dr["子番"]);
+                grd_D[data.Koban, "ステータス"] = "計上済";
+                updatelist.Add(data);
+            }
+
+            var update = await ApiHelper.UpdateAsync(this, () =>
+                Program.HatFApiClient.PutAsync<int>(ApiResources.HatF.Client.UpdateConstructionDetailGridKoban, updatelist));
+
+        }
+        public List<FosJyuchuPage> getFosJyuchPages()
+        {
+            DataTable dt = GetCheckedData(grd_D);
+
+            var grouped = from row in dt.AsEnumerable()
+                          group row by row.Field<string>("納期") into grp
+                          select grp;
+
+            List<List<DataRow>> pageList = new List<List<DataRow>>();
+            foreach (var group in grouped)
+            {
+                List<DataRow> currentSubGroup = new List<DataRow>();
+                int count = 0;
+
+                foreach (var row in group)
+                {
+                    currentSubGroup.Add(row);
+                    count++;
+
+                    // 6つの要素を満たしたかチェックし、サブグループに追加します
+                    if (count == 6)
+                    {
+                        pageList.Add(currentSubGroup.ToList()); // リストのコピーを追加する
+                        currentSubGroup.Clear(); // サブグループをクリアして次のグループへ
+                        count = 0; // カウントをリセット
+                    }
+                }
+                // 6つ未満の残りの要素がある場合は、最後のサブグループとして追加します
+                if (currentSubGroup.Any())
+                {
+                    pageList.Add(currentSubGroup.ToList());
+                }
+            }
+
+            var isNew = true;
+            if (isNew)
+            {
+                //var jyu2Cd = loginRepo.CurrentUser.EmployeeCode;
+                //var jyu2 = loginRepo.CurrentUser.EmployeeTag;
+                //SetNewSaveKey(FosJyuchuRepo.GetInstance().CreateNewSaveKey(jyu2Cd, jyu2));
+            }
+
+            List<FosJyuchuPage> pages = new List<FosJyuchuPage>();
+            int DenSort = 1;
+            foreach (var subGroup in pageList)
+            {
+                FosJyuchuPage page = new FosJyuchuPage(false)
+                {
+                    FosJyuchuH = new FosJyuchuH(),
+                    FosJyuchuDs = new List<FosJyuchuD>(),
+                };
+                page.FosJyuchuH.DenSort = DenSort.ToString();
+                page.FosJyuchuH.DenState = "5"; //固定
+                page.FosJyuchuH.DenNo = "00000" + DenSort; //一意の６桁番号　TODO 変更予定
+                page.FosJyuchuH.ConstructionCode = constructionCode; //物件コード
+                page.FosJyuchuH.DenFlg = "11"; //TODO 後で変更
+
+                int DenNoCount = 1;
+                foreach (var dr in subGroup)
+                {
+                    FosJyuchuD fosJyuchuD = new FosJyuchuD();
+                    fosJyuchuD.DenSort = DenSort.ToString();
+                    fosJyuchuD.DenNoLine = DenNoCount.ToString();
+                    fosJyuchuD.SyobunCd = dr["商品コード"].ToString();                        // 分類(FosJyuchuD)string
+                    fosJyuchuD.SyohinName = dr["商品名"].ToString();                    // 商品コード・名称(FosJyuchuD)string
+                    fosJyuchuD.Suryo = HatFComParts.DoParseInt(dr["数量"]);                // 数量(FosJyuchuD)int
+                    fosJyuchuD.Tani = dr["単位"].ToString();                                // 単位(FosJyuchuD)string
+                    fosJyuchuD.Bara = HatFComParts.DoParseInt(dr["バラ数"]);                  // バラ数(FosJyuchuD)int
+                    fosJyuchuD.TeiTan = HatFComParts.DoParseDecimal(dr["定価単価"]);          // 定価単価(FosJyuchuD)decimal
+                    fosJyuchuD.UriKake = HatFComParts.DoParseDecimal(dr["売上掛率"]);        // 掛率(売上)(FosJyuchuD)decimal
+                    fosJyuchuD.UriTan = HatFComParts.DoParseDecimal(dr["売上単価"]);          // 売上単価(FosJyuchuD)decimal
+                    fosJyuchuD.SiiKake = HatFComParts.DoParseDecimal(dr["仕入掛率"]);        // 掛率(仕入)(FosJyuchuD)decimal
+                    fosJyuchuD.SiiTan = HatFComParts.DoParseDecimal(dr["仕入単価"]);          // 仕入単価(FosJyuchuD)decimal
+                    fosJyuchuD.OrderState = "5";
+                    page.FosJyuchuDs.Add(fosJyuchuD);
+                    DenNoCount++;
+                }
+                pages.Add(page);
+                DenSort++;
+            }
+            return pages;
+        }
+
+        /// <summary>確定させるためにページ情報を変更する</summary>
+        /// <param name="pages">ページ情報</param>
+        /// <returns>ページ情報</returns>
+        public async Task<ApiResponse<List<FosJyuchuPage>>> CommitPagesAsync(List<FosJyuchuPage> pages)
+        {
+            FosJyuchuPages fosJyuchuPages = new FosJyuchuPages
+            {
+                TargetPage = pages.Count -1,
+                Pages = pages,
+            };
+
+            return await fosJyuchuRepo.putOrderCommit(fosJyuchuPages);
+        }
+
+        /// <summary>
+        /// gridからチェック済みのデータを取得する
+        /// </summary>
+        /// <param name="grid"></param>
+        /// <returns></returns>
+        private DataTable GetCheckedData(C1FlexGrid grid)
+        {
+            DataTable dt = new DataTable();
+            for (int col = 2; col < grid.Cols.Count; col++)
+            {
+                dt.Columns.Add(grid.Cols[col].Caption);
+            }
+            for (int row = 1; row < grid.Rows.Count; row++)
+            {
+                if (grid.GetCellCheck(row, 1) == CheckEnum.Checked)
+                {
+                    DataRow dr = dt.NewRow();
+                    for (int col = 2; col < grid.Cols.Count; col++)
+                    {
+                        dr[grid.Cols[col].Caption] = grid[row, col];
+                    }
+                    dt.Rows.Add(dr);
+                }
+            }
+            return dt;
         }
     }
     public class ConstructionAppSheetData

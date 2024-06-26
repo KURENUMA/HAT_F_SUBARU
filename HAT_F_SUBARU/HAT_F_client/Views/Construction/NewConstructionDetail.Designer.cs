@@ -66,6 +66,8 @@
             this.btnADD_ROW = new System.Windows.Forms.Button();
             this.grd_D = new C1.Win.C1FlexGrid.C1FlexGrid();
             this.btnDELETE_ROW = new System.Windows.Forms.Button();
+            this.lblUpdate1 = new System.Windows.Forms.Label();
+            this.lblUpdate2 = new System.Windows.Forms.Label();
             this.dateINQUIRY_DATE = new HatFClient.CustomControls.C1DateInputEx();
             this.txtCONSTRUCTOR_NAME = new HatFClient.CustomControls.TextBoxChar();
             this.txtCOMMENT = new HatFClient.CustomControls.TextBoxChar();
@@ -81,8 +83,6 @@
             this.txtTEAM_CD = new HatFClient.CustomControls.TextBoxChar();
             this.txtCONSTRUCTTON_CODE = new HatFClient.CustomControls.TextBoxChar();
             this.blobStrageForm1 = new HatFClient.CustomControls.BlobStrage.BlobStrageForm();
-            this.lblUpdate1 = new System.Windows.Forms.Label();
-            this.lblUpdate2 = new System.Windows.Forms.Label();
             this.gbCONSTRUCTTON_INFO.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -447,13 +447,13 @@
             // btnAccounting
             // 
             this.btnAccounting.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnAccounting.Enabled = false;
             this.btnAccounting.Location = new System.Drawing.Point(27, 797);
             this.btnAccounting.Name = "btnAccounting";
             this.btnAccounting.Size = new System.Drawing.Size(112, 23);
             this.btnAccounting.TabIndex = 12;
             this.btnAccounting.Text = "選択対象を計上";
             this.btnAccounting.UseVisualStyleBackColor = true;
+            this.btnAccounting.Click += new System.EventHandler(this.btnAccounting_ClickAsync);
             // 
             // btnTransfer
             // 
@@ -518,6 +518,30 @@
             this.btnDELETE_ROW.Text = "行削除";
             this.btnDELETE_ROW.UseVisualStyleBackColor = true;
             this.btnDELETE_ROW.Click += new System.EventHandler(this.btnDELETE_ROW_Click);
+            // 
+            // lblUpdate1
+            // 
+            this.lblUpdate1.AutoSize = true;
+            this.lblUpdate1.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lblUpdate1.ForeColor = System.Drawing.Color.Red;
+            this.lblUpdate1.Location = new System.Drawing.Point(30, 4);
+            this.lblUpdate1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblUpdate1.Name = "lblUpdate1";
+            this.lblUpdate1.Size = new System.Drawing.Size(118, 15);
+            this.lblUpdate1.TabIndex = 102;
+            this.lblUpdate1.Text = "アップデートで追加予定";
+            // 
+            // lblUpdate2
+            // 
+            this.lblUpdate2.AutoSize = true;
+            this.lblUpdate2.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lblUpdate2.ForeColor = System.Drawing.Color.Red;
+            this.lblUpdate2.Location = new System.Drawing.Point(30, 779);
+            this.lblUpdate2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblUpdate2.Name = "lblUpdate2";
+            this.lblUpdate2.Size = new System.Drawing.Size(118, 15);
+            this.lblUpdate2.TabIndex = 103;
+            this.lblUpdate2.Text = "アップデートで追加予定";
             // 
             // dateINQUIRY_DATE
             // 
@@ -713,30 +737,6 @@
             this.blobStrageForm1.Size = new System.Drawing.Size(683, 151);
             this.blobStrageForm1.StrageId = null;
             this.blobStrageForm1.TabIndex = 14;
-            // 
-            // lblUpdate1
-            // 
-            this.lblUpdate1.AutoSize = true;
-            this.lblUpdate1.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.lblUpdate1.ForeColor = System.Drawing.Color.Red;
-            this.lblUpdate1.Location = new System.Drawing.Point(30, 4);
-            this.lblUpdate1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblUpdate1.Name = "lblUpdate1";
-            this.lblUpdate1.Size = new System.Drawing.Size(118, 15);
-            this.lblUpdate1.TabIndex = 102;
-            this.lblUpdate1.Text = "アップデートで追加予定";
-            // 
-            // lblUpdate2
-            // 
-            this.lblUpdate2.AutoSize = true;
-            this.lblUpdate2.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.lblUpdate2.ForeColor = System.Drawing.Color.Red;
-            this.lblUpdate2.Location = new System.Drawing.Point(30, 779);
-            this.lblUpdate2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblUpdate2.Name = "lblUpdate2";
-            this.lblUpdate2.Size = new System.Drawing.Size(118, 15);
-            this.lblUpdate2.TabIndex = 103;
-            this.lblUpdate2.Text = "アップデートで追加予定";
             // 
             // NewConstructionDetail
             // 
