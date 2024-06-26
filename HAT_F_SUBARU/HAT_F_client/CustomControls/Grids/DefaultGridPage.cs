@@ -21,12 +21,6 @@ namespace HatFClient.CustomControls.Grids
     {
         private IGridManager _manager;
 
-        public override Color BackColor
-        {
-            get => panel1.BackColor; 
-            set => panel1.BackColor = value;
-        }
-
         public DefaultGridPage()
         {
             InitializeComponent();
