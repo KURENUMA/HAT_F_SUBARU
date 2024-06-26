@@ -37,6 +37,8 @@ public partial class HatFContext : DbContext
 
     public virtual DbSet<ConstructionLock> ConstructionLocks { get; set; }
 
+    public virtual DbSet<CorrectionDeliveryCheck> CorrectionDeliveryChecks { get; set; }
+
     public virtual DbSet<Credit> Credits { get; set; }
 
     public virtual DbSet<CustomersMst> CustomersMsts { get; set; }
@@ -1497,6 +1499,55 @@ public partial class HatFContext : DbContext
                 .HasColumnName("UPDATE_DATE");
             entity.Property(e => e.Updater)
                 .HasComment("更新者")
+                .HasColumnName("UPDATER");
+        });
+
+        modelBuilder.Entity<CorrectionDeliveryCheck>(entity =>
+        {
+            entity.HasKey(e => e.CorrectionDeliveryCheckId).HasName("PK__CORRECTI__561EA365B77F4682");
+
+            entity.ToTable("CORRECTION_DELIVERY_CHECK", tb => tb.HasComment("納品一覧表（訂正・返品）チェック"));
+
+            entity.Property(e => e.CorrectionDeliveryCheckId)
+                .HasComment("納品一覧表（訂正・返品）チェックID")
+                .HasColumnName("CORRECTION_DELIVERY_CHECK_ID");
+            entity.Property(e => e.CheckDatetime)
+                .HasComment("チェック日時")
+                .HasColumnType("datetime")
+                .HasColumnName("CHECK_DATETIME");
+            entity.Property(e => e.CheckerId)
+                .HasComment("チェック者")
+                .HasColumnName("CHECKER_ID");
+            entity.Property(e => e.CheckerPost)
+                .HasMaxLength(20)
+                .HasComment("チェック者役職")
+                .HasColumnName("CHECKER_POST");
+            entity.Property(e => e.Comment)
+                .HasMaxLength(1000)
+                .HasComment("コメント")
+                .HasColumnName("COMMENT");
+            entity.Property(e => e.CreateDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("作成日時")
+                .HasColumnType("datetime")
+                .HasColumnName("CREATE_DATE");
+            entity.Property(e => e.Creator)
+                .HasComment("作成者名")
+                .HasColumnName("CREATOR");
+            entity.Property(e => e.RowNo)
+                .HasComment("売上行番号")
+                .HasColumnName("ROW_NO");
+            entity.Property(e => e.SalesNo)
+                .HasMaxLength(10)
+                .HasComment("売上番号")
+                .HasColumnName("SALES_NO");
+            entity.Property(e => e.UpdateDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("更新日時")
+                .HasColumnType("datetime")
+                .HasColumnName("UPDATE_DATE");
+            entity.Property(e => e.Updater)
+                .HasComment("更新者名")
                 .HasColumnName("UPDATER");
         });
 
@@ -5947,6 +5998,7 @@ public partial class HatFContext : DbContext
                 .HasNoKey()
                 .ToView("VIEW_CORRECTION_DELIVERY_DETAIL");
 
+            entity.Property(e => e.コメント).HasMaxLength(1000);
             entity.Property(e => e.元売上単価).HasColumnType("decimal(11, 2)");
             entity.Property(e => e.元売上番号)
                 .IsRequired()
@@ -5957,6 +6009,8 @@ public partial class HatFContext : DbContext
                 .IsRequired()
                 .HasMaxLength(8);
             entity.Property(e => e.得意先名).HasMaxLength(40);
+            entity.Property(e => e.確認者).HasMaxLength(20);
+            entity.Property(e => e.確認者役職).HasMaxLength(20);
             entity.Property(e => e.訂正単価).HasColumnType("decimal(11, 2)");
             entity.Property(e => e.訂正日).HasColumnType("datetime");
             entity.Property(e => e.訂正申請者id).HasColumnName("訂正申請者ID");

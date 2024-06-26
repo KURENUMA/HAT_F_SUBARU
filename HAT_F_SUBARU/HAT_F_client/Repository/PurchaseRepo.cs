@@ -8,6 +8,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using static HatFClient.Views.CorrectionDelivery.CorrectionDeliveryDetail;
 
 namespace HatFClient.Repository
 {
@@ -120,8 +121,7 @@ namespace HatFClient.Repository
             }
             return null;
         }
-
-        public async Task<List<ViewCorrectionDeliveryDetail>> GetDetail(string compCode, DateTime? fromDate = null, DateTime? toDate = null)
+        public async Task<List<CheckableViewCorrectionDeliveryDetail>> GetDetail(string compCode, DateTime? fromDate = null, DateTime? toDate = null)
         {
             var parameters = new Dictionary<string, object>()
             {
@@ -129,7 +129,7 @@ namespace HatFClient.Repository
                         { "fromDate", fromDate},
                         { "toDate", toDate}
             };
-            var result = (await Program.HatFApiClient.GetAsync<List<ViewCorrectionDeliveryDetail>>(ApiResources.HatF.Client.CorrectionDeliveryDetail, parameters));
+            var result = (await Program.HatFApiClient.GetAsync<List<CheckableViewCorrectionDeliveryDetail>>(ApiResources.HatF.Client.CorrectionDeliveryDetail, parameters));
             if (result != null)
             {
                 return result.Data;

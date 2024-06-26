@@ -201,6 +201,9 @@ namespace HatFClient.Constants
                 /// <summary>納品一覧表（社内用）チェック更新</summary>
                 public static readonly string InternalDeliveryCheck = "api/Client/internal-delivery-check";
 
+                /// <summary>納品一覧表（訂正・返品）チェック更新</summary>
+                public static readonly string CorrectionDeliveryCheck = "api/Client/correction-delivery-check";
+
                 /// <summary>H注番発番</summary>
                 public static readonly string GetNextHatOrderNo = "api/Client/hat-order-no/next";
 
