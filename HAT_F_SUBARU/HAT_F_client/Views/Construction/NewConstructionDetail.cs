@@ -133,17 +133,17 @@ namespace HatFClient.Views.ConstructionProject
             txtCONSTRUCTOR_NAME.Text = ConstructionData.建設会社名;
             dateINQUIRY_DATE.Value = ConstructionData.引合日;
 
-            short? constructionType = ConstructionData.建設種別;
-            if (constructionType.HasValue && constructionType.Value >= 0 && constructionType.Value <= 1)
-            {
-                cmbCONSTRUCTION_TYPE.SelectedIndex = constructionType.Value;
-            }
+            //short? constructionType = ConstructionData.建設種別;
+            //if (constructionType.HasValue && constructionType.Value >= 0 && constructionType.Value <= 1)
+            //{
+            //    cmbCONSTRUCTION_TYPE.SelectedIndex = constructionType.Value;
+            //}
 
-            short? constructionIndustry = ConstructionData.建設業種;
-            if (constructionIndustry.HasValue && constructionIndustry.Value >= 0 && constructionIndustry.Value <= 1)
-            {
-                cmbCONSTRUCTION_INDUSTRY.SelectedIndex = constructionIndustry.Value;
-            }
+            //short? constructionIndustry = ConstructionData.建設業種;
+            //if (constructionIndustry.HasValue && constructionIndustry.Value >= 0 && constructionIndustry.Value <= 1)
+            //{
+            //    cmbCONSTRUCTION_INDUSTRY.SelectedIndex = constructionIndustry.Value;
+            //}
 
             // コメント入力欄
             txtCOMMENT.Text = ConstructionData.コメント;

@@ -146,7 +146,8 @@ namespace HAT_F_api.Controllers
             return await ApiLogicRunner.RunAsync(async () =>
             {
                 var query = GenSearchUtil.DoGenSearch(_context.ViewPurchaseBillings, searchItems)
-                    .OrderBy(x => x.Hat注文番号);  //TODO:ソート修正
+                    //.OrderBy(x => x.Hat注文番号);  //TODO:ソート修正
+                    ;
 
                 return await GenSearchUtil.AddPaging(query, rows, page).ToListAsync();
             });
@@ -180,8 +181,9 @@ namespace HAT_F_api.Controllers
             return await ApiLogicRunner.RunAsync(async () =>
             {
                 var query = _context.ViewPurchaseBillings
-                    .Where(x => string.IsNullOrEmpty(Hat注文番号) || x.Hat注文番号 == Hat注文番号)
-                    .OrderBy(x => x.Hat注文番号);
+                    //.Where(x => string.IsNullOrEmpty(Hat注文番号) || x.Hat注文番号 == Hat注文番号)
+                    //.OrderBy(x => x.Hat注文番号);
+                    ;
 
                 return await GenSearchUtil.AddPaging(query, rows, page).ToListAsync();
             });
@@ -254,7 +256,8 @@ namespace HAT_F_api.Controllers
             return await ApiLogicRunner.RunAsync(async () =>
             {
                 var query = GenSearchUtil.DoGenSearch(_context.ViewPurchaseBillingDetails, searchItems)
-                    .OrderBy(x => x.Hat注文番号);  //TODO:ソート修正
+                    //.OrderBy(x => x.Hat注文番号);  //TODO:ソート修正
+                    ;
 
                 return await GenSearchUtil.AddPaging(query, rows, page).ToListAsync();
             });
@@ -288,8 +291,9 @@ namespace HAT_F_api.Controllers
             return await ApiLogicRunner.RunAsync(async () =>
             {
                 var query = _context.ViewPurchaseBillingDetails
-                    .Where(x => string.IsNullOrEmpty(Hat注文番号) || x.Hat注文番号 == Hat注文番号)
-                    .OrderBy(x => x.Hat注文番号);
+                    //.Where(x => string.IsNullOrEmpty(Hat注文番号) || x.Hat注文番号 == Hat注文番号)
+                    //.OrderBy(x => x.Hat注文番号);
+                    ;
 
                 return await GenSearchUtil.AddPaging(query, rows, page).ToListAsync();
             });

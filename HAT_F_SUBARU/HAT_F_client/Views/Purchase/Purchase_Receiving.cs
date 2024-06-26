@@ -156,11 +156,11 @@ namespace HatFClient.Views.Purchase
             using (var searchFrm = new FrmAdvancedSearch(criteriaDefinition, gridManager.Filters))
             {
                 // 検索条件のうちドロップダウン項目にするもの
-                searchFrm.DropDownItems.Add(new SearchDropDownInfo
-                {
-                    FieldName = nameof(ViewPurchaseReceiving.仕入先締日),
-                    DropDownItems = JsonResources.CloseDates.ToDictionary(x => x.Name, x => x.Code.ToString())
-                });
+                //searchFrm.DropDownItems.Add(new SearchDropDownInfo
+                //{
+                //    FieldName = nameof(ViewPurchaseReceiving.仕入先締日),
+                //    DropDownItems = JsonResources.CloseDates.ToDictionary(x => x.Name, x => x.Code.ToString())
+                //});
                 searchFrm.DropDownItems.Add(new SearchDropDownInfo
                 {
                     FieldName = nameof(ViewPurchaseReceiving.仕入先支払月),
@@ -244,7 +244,7 @@ namespace HatFClient.Views.Purchase
             ListDictionary closeDateItems = new ListDictionary();
             JsonResources.CloseDates.ForEach(item => closeDateItems.Add(item.Code, item.Name));
             //JsonResources.CloseDates.ForEach(item => closeDateItems.Add(item.Code != null ? item.Code : "", item.Name));
-            grid.Cols[nameof(ViewPurchaseReceiving.仕入先締日)].DataMap = closeDateItems;
+            //grid.Cols[nameof(ViewPurchaseReceiving.仕入先締日)].DataMap = closeDateItems;
 
             // 仕入支払月
             ListDictionary payMonthsItems = new ListDictionary();

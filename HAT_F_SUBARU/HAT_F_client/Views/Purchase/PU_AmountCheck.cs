@@ -201,7 +201,7 @@ namespace HatFClient.Views.Purchase
                 grdPuAmountCheck.DataSource = details.Value;
                 if (grdPuAmountCheck.Rows.Count > 1)
                 {
-                    txtPuName.Text = details.Value.First().仕入先;
+                    //txtPuName.Text = details.Value.First().仕入先;
                     // TODO 暫定的に排他制御機能を封印
                     // await AmountCheckLockAndSettingAsync();
                 }
@@ -459,29 +459,30 @@ namespace HatFClient.Views.Purchase
             {
                 //行単位ですべてのデータが入力されていることを保存対象とする
                 var r = grdPuAmountCheck.Rows[i].DataSource as ViewPurchaseBillingDetail;
-                if (!string.IsNullOrEmpty(r.M納日?.ToString()) && !string.IsNullOrEmpty(r.M注番?.ToString())
-                    && !string.IsNullOrEmpty(r.M数量?.ToString()) && !string.IsNullOrEmpty(r.M単価?.ToString()))
+                //if (!string.IsNullOrEmpty(r.M納日?.ToString()) && !string.IsNullOrEmpty(r.M注番?.ToString())
+                //    && !string.IsNullOrEmpty(r.M数量?.ToString()) && !string.IsNullOrEmpty(r.M単価?.ToString()))
+                if (true)
                 {
                     result.Add(new PurchaseBillingDetail()
                     {
-                        Hat注文番号 = r.Hat注文番号,
-                        仕入先コード = r.仕入先コード,
+                        //Hat注文番号 = r.Hat注文番号,
+                        //仕入先コード = r.仕入先コード,
                         //仕入先コード枝番 = r.仕入先コード枝番,
-                        仕入先 = r.仕入先,
-                        H注番 = r.H注番,
-                        商品コード = r.商品コード,
-                        商品名 = r.商品名,
-                        H数量 = r.H数量 ?? 0,
-                        H単価 = r.H単価 ?? 0,
-                        M納日 = r.M納日,
+                        //仕入先 = r.仕入先,
+                        //H注番 = r.H注番,
+                        //商品コード = r.商品コード,
+                        //商品名 = r.商品名,
+                        //H数量 = r.H数量 ?? 0,
+                        //H単価 = r.H単価 ?? 0,
+                        //M納日 = r.M納日,
                         M伝票番号 = r.伝票番号,
                         M注番 = r.M注番,
                         M数量 = r.M数量 ?? 0,
                         M単価 = r.M単価 ?? 0,
-                        照合ステータス = r.照合ステータス ?? 0,
+                        //照合ステータス = r.照合ステータス ?? 0,
                         //倉庫コード = r.倉庫コード,
-                        H行番号 = r.H行番号,
-                        Hページ番号 = r.Hページ番号,
+                        //H行番号 = r.H行番号,
+                        //Hページ番号 = r.Hページ番号,
                         //社員Id = r.社員Id,
                         //部門コード = r.部門コード,
                         社員Id = 0,
@@ -526,7 +527,7 @@ namespace HatFClient.Views.Purchase
                 .Select(x => x.DataSource as ViewPurchaseBillingDetail)
                 .Where(x => x != null)
                 .ToList();
-            txtHTotal.Text = $"{filteredRows.Sum(x => x.H金額):C0}";
+            //txtHTotal.Text = $"{filteredRows.Sum(x => x.H金額):C0}";
             txtMTotal.Text = $"{filteredRows.Sum(x => x.M金額):C0}";
         }
 

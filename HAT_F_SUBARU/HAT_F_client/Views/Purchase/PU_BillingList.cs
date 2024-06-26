@@ -77,9 +77,9 @@ namespace HatFClient.Views.Purchase
         private void PU_BillingList_Load(object sender, EventArgs e)
         {
             // 一部の項目は詳細検索画面に表示しない
-            CriteriaHelper.ChangeVisible(_criteriaDefinitions, nameof(ViewPurchaseBilling.仕入先コード), false);
-            CriteriaHelper.ChangeVisible(_criteriaDefinitions, nameof(ViewPurchaseBilling.仕入支払年月日), false);
-            CriteriaHelper.ChangeVisible(_criteriaDefinitions, nameof(ViewPurchaseBilling.Hat注文番号), false);
+            //CriteriaHelper.ChangeVisible(_criteriaDefinitions, nameof(ViewPurchaseBilling.仕入先コード), false);
+            //CriteriaHelper.ChangeVisible(_criteriaDefinitions, nameof(ViewPurchaseBilling.仕入支払年月日), false);
+            //CriteriaHelper.ChangeVisible(_criteriaDefinitions, nameof(ViewPurchaseBilling.Hat注文番号), false);
 
             // グリッドの設定
             gridOrderManager = new GridOrderManager(_criteriaDefinitions);
@@ -184,22 +184,22 @@ namespace HatFClient.Views.Purchase
             ListDictionary closeDateItems = new ListDictionary();
             JsonResources.CloseDates.ForEach(item => closeDateItems.Add(item.Code, item.Name));
             //JsonResources.CloseDates.ForEach(item => closeDateItems.Add(item.Code != null ? item.Code : "", item.Name));
-            grid.Cols[nameof(ViewPurchaseBilling.仕入先締日)].DataMap = closeDateItems;
+            //grid.Cols[nameof(ViewPurchaseBilling.仕入先締日)].DataMap = closeDateItems;
 
             // 仕入支払月
             ListDictionary payMonthsItems = new ListDictionary();
             JsonResources.PayMonths.ForEach(item => payMonthsItems.Add(item.Code, item.Name));
-            grid.Cols[nameof(ViewPurchaseBilling.仕入先支払月)].DataMap = payMonthsItems;
+            //grid.Cols[nameof(ViewPurchaseBilling.仕入先支払月)].DataMap = payMonthsItems;
 
             // 仕入先支払日
             ListDictionary payDatesItems = new ListDictionary();
             JsonResources.PayDates.ForEach(item => payDatesItems.Add(item.Code, item.Name));
-            grid.Cols[nameof(ViewPurchaseBilling.仕入先支払日)].DataMap = payDatesItems;
+            //grid.Cols[nameof(ViewPurchaseBilling.仕入先支払日)].DataMap = payDatesItems;
 
             // 仕入先支払方法区分
             ListDictionary payMethodTypeItems = new ListDictionary();
             JsonResources.PayMethodTypes.ForEach(item => payMethodTypeItems.Add(item.Code, item.Name));
-            grid.Cols[nameof(ViewPurchaseBilling.仕入先支払方法区分)].DataMap = payMethodTypeItems;
+            //grid.Cols[nameof(ViewPurchaseBilling.仕入先支払方法区分)].DataMap = payMethodTypeItems;
 
             projectGrid1.c1FlexGrid1.Cols.Count = configs.Count + 1;
             projectGrid1.c1FlexGrid1.Cols[0].Caption = "";
@@ -217,9 +217,9 @@ namespace HatFClient.Views.Purchase
                 col.Name = config.VarName;
                 col.AllowFiltering = AllowFiltering.None;
             }
-            GridStyleHelper.SetColumnStyle(GridStyleHelper.GridColumnStyleEnum.Currency,
-                grid.Cols[nameof(ViewPurchaseBilling.発注金額合計)]
-            );
+            //GridStyleHelper.SetColumnStyle(GridStyleHelper.GridColumnStyleEnum.Currency,
+                //grid.Cols[nameof(ViewPurchaseBilling.発注金額合計)]
+            //);
         }
 
         /// <summary>RowやColのプロパティが変更された（選択セルが変更された）</summary>
@@ -257,19 +257,20 @@ namespace HatFClient.Views.Purchase
         /// <returns><see cref="FilterCriteria"/></returns>
         private IEnumerable<FilterCriteria> BaseConditionToCriteria()
         {
-            var index = _criteriaDefinitions.FindIndex(x => x.FieldName == nameof(ViewPurchaseBilling.仕入先コード));
-            yield return new FilterCriteria(_criteriaDefinitions, index, FilterOperators.Contains, txtSupCode.Text.Trim(), false);
+            //var index = _criteriaDefinitions.FindIndex(x => x.FieldName == nameof(ViewPurchaseBilling.仕入先コード));
+            //yield return new FilterCriteria(_criteriaDefinitions, index, FilterOperators.Contains, txtSupCode.Text.Trim(), false);
 
-            if (cmbPayMonth.FirstOfMonthValue.HasValue)
-            {
-                index = _criteriaDefinitions.FindIndex(x => x.FieldName == nameof(ViewPurchaseBilling.仕入支払年月日));
-                yield return new FilterCriteria(_criteriaDefinitions, index, cmbPayMonth.FirstOfMonthValue.Value, cmbPayMonth.EndOfMonthValue.Value, false);
-            }
-            if (!string.IsNullOrEmpty(txtChuban.Text.Trim()))
-            {
-                index = _criteriaDefinitions.FindIndex(x => x.FieldName == nameof(ViewPurchaseBilling.Hat注文番号));
-                yield return new FilterCriteria(_criteriaDefinitions, index, FilterOperators.Contains, txtChuban.Text.Trim(), false);
-            }
+            //if (cmbPayMonth.FirstOfMonthValue.HasValue)
+            //{
+            //    index = _criteriaDefinitions.FindIndex(x => x.FieldName == nameof(ViewPurchaseBilling.仕入支払年月日));
+            //    yield return new FilterCriteria(_criteriaDefinitions, index, cmbPayMonth.FirstOfMonthValue.Value, cmbPayMonth.EndOfMonthValue.Value, false);
+            //}
+            //if (!string.IsNullOrEmpty(txtChuban.Text.Trim()))
+            //{
+            //    index = _criteriaDefinitions.FindIndex(x => x.FieldName == nameof(ViewPurchaseBilling.Hat注文番号));
+            //    yield return new FilterCriteria(_criteriaDefinitions, index, FilterOperators.Contains, txtChuban.Text.Trim(), false);
+            //}
+            yield break;
         }
 
         /// <summary>検索ボタン</summary>
@@ -338,26 +339,27 @@ namespace HatFClient.Views.Purchase
         /// <returns>ドロップダウン選択肢情報</returns>
         private IEnumerable<SearchDropDownInfo> MakeDropDownInfo()
         {
-            yield return new SearchDropDownInfo
-            {
-                FieldName = nameof(ViewPurchaseBilling.仕入先締日),
-                DropDownItems = JsonResources.CloseDates.ToDictionary(x => x.Name, x => x.Code.ToString())
-            };
-            yield return new SearchDropDownInfo
-            {
-                FieldName = nameof(ViewPurchaseBilling.仕入先支払月),
-                DropDownItems = JsonResources.PayMonths.ToDictionary(x => x.Name, x => x.Code.ToString())
-            };
-            yield return new SearchDropDownInfo
-            {
-                FieldName = nameof(ViewPurchaseBilling.仕入先支払日),
-                DropDownItems = JsonResources.PayDates.ToDictionary(x => x.Name, x => x.Code.ToString())
-            };
-            yield return new SearchDropDownInfo
-            {
-                FieldName = nameof(ViewPurchaseBilling.仕入先支払方法区分),
-                DropDownItems = JsonResources.PayMethodTypes.ToDictionary(x => x.Name, x => x.Code.ToString())
-            };
+            //yield return new SearchDropDownInfo
+            //{
+            //    FieldName = nameof(ViewPurchaseBilling.仕入先締日),
+            //    DropDownItems = JsonResources.CloseDates.ToDictionary(x => x.Name, x => x.Code.ToString())
+            //};
+            //yield return new SearchDropDownInfo
+            //{
+            //    FieldName = nameof(ViewPurchaseBilling.仕入先支払月),
+            //    DropDownItems = JsonResources.PayMonths.ToDictionary(x => x.Name, x => x.Code.ToString())
+            //};
+            //yield return new SearchDropDownInfo
+            //{
+            //    FieldName = nameof(ViewPurchaseBilling.仕入先支払日),
+            //    DropDownItems = JsonResources.PayDates.ToDictionary(x => x.Name, x => x.Code.ToString())
+            //};
+            //yield return new SearchDropDownInfo
+            //{
+            //    FieldName = nameof(ViewPurchaseBilling.仕入先支払方法区分),
+            //    DropDownItems = JsonResources.PayMethodTypes.ToDictionary(x => x.Name, x => x.Code.ToString())
+            //};
+            yield break;
         }
 
         /// <summary>基本検索条件と詳細検索条件を合成する</summary>
@@ -365,11 +367,12 @@ namespace HatFClient.Views.Purchase
         /// <returns>合成結果</returns>
         private List<FilterCriteria> MixFilterCriteria(List<FilterCriteria> filters)
         {
-            return filters
-                .Except(filters.Where(x => x.SelectedColumn.FieldName == nameof(ViewPurchaseBilling.仕入先コード)))
-                .Except(filters.Where(x => x.SelectedColumn.FieldName == nameof(ViewPurchaseBilling.仕入支払年月日)))
-                .Except(filters.Where(x => x.SelectedColumn.FieldName == nameof(ViewPurchaseBilling.Hat注文番号)))
-                .Concat(BaseConditionToCriteria()).ToList();
+            //return filters
+            //    .Except(filters.Where(x => x.SelectedColumn.FieldName == nameof(ViewPurchaseBilling.仕入先コード)))
+            //    .Except(filters.Where(x => x.SelectedColumn.FieldName == nameof(ViewPurchaseBilling.仕入支払年月日)))
+            //    .Except(filters.Where(x => x.SelectedColumn.FieldName == nameof(ViewPurchaseBilling.Hat注文番号)))
+            //    .Concat(BaseConditionToCriteria()).ToList();
+            return null;
         }
 
         /// <summary>必須検索条件のチェックを行う</summary>
@@ -395,7 +398,7 @@ namespace HatFClient.Views.Purchase
             if (grid.Rows.Count < 2) { return; }
 
             PU_AmountCheck detail = FormFactory.GetModelessForm<PU_AmountCheck>();
-            detail.Condition.仕入先コード = grid.GetData(grid.RowSel, nameof(ViewPurchaseBilling.仕入先コード)).ToString();
+            //detail.Condition.仕入先コード = grid.GetData(grid.RowSel, nameof(ViewPurchaseBilling.仕入先コード)).ToString();
             detail.Condition.Hat注文番号 = grid.GetData(grid.RowSel, "Hat注文番号").ToString();
             detail.Show();
             //detail.Init(xxxxxx);
