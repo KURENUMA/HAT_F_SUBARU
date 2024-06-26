@@ -1376,10 +1376,8 @@ namespace HatFClient.Views.Order
             this.chkTokuisakiHihyouji.Enabled = jhOrderState == JHOrderState.PreOrder;
             this.chkTEL_RENRAKU_FLG.Enabled = jhOrderState == JHOrderState.PreOrder;
 
-            this.txtKOUJITEN_CD.Enabled = true;
             this.txtroKOUJITEN_NAME.Enabled = true;
             this.chkKTankaAuto.Enabled = true;
-
         }
 
         /// <summary>発注状態による、明細部分のEnable制御</summary>
@@ -2833,6 +2831,17 @@ namespace HatFClient.Views.Order
                     };
                 }
             }
+        }
+        #endregion
+
+        #region フッタ部制御
+        /// <summary>特異点コードの変更</summary>
+        /// <param name="sender">イベント発生元</param>
+        /// <param name="e">イベント情報</param>
+        private void TxtTOKUI_CD_Validated(object sender, EventArgs e)
+        {
+            // 4270 = 住友林業
+            txtKOUJITEN_CD.Enabled = txtTOKUI_CD.Text.StartsWith("4270");
         }
         #endregion
 

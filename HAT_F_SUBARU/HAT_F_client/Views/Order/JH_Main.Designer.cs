@@ -1892,6 +1892,7 @@
             // txtKOUJITEN_CD
             // 
             this.txtKOUJITEN_CD.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.txtKOUJITEN_CD.Enabled = false;
             this.txtKOUJITEN_CD.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtKOUJITEN_CD.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.txtKOUJITEN_CD.Location = new System.Drawing.Point(81, 779);
@@ -2058,6 +2059,7 @@
             this.txtTOKUI_CD.Size = new System.Drawing.Size(68, 23);
             this.txtTOKUI_CD.TabIndex = 35;
             this.txtTOKUI_CD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtTOKUI_CD.Validated += new System.EventHandler(this.TxtTOKUI_CD_Validated);
             // 
             // txtTEAM_CD
             // 
