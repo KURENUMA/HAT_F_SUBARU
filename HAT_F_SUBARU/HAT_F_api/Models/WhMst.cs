@@ -24,6 +24,11 @@ public partial class WhMst
     public string WhType { get; set; }
 
     /// <summary>
+    /// HAT倉庫
+    /// </summary>
+    public bool IsHatWarehouse { get; set; }
+
+    /// <summary>
     /// 郵便番号
     /// </summary>
     public string ZipCode { get; set; }

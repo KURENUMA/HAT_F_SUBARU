@@ -106,42 +106,42 @@ public partial class CustomersMst
     public short? CustArFlag { get; set; }
 
     /// <summary>
-    /// 削除済
+    /// 顧客締日,15:15日締め
     /// </summary>
     public short? CustCloseDate { get; set; }
 
     /// <summary>
-    /// 削除済
+    /// サイト_現金_日数★
     /// </summary>
     public short? SiteDaysCash { get; set; }
 
     /// <summary>
-    /// 削除済
+    /// サイト_手形_日数★
     /// </summary>
     public short? SiteDaysBill { get; set; }
 
     /// <summary>
-    /// 削除済
+    /// 金種_現金_割合★
     /// </summary>
     public decimal? DenomRateCash { get; set; }
 
     /// <summary>
-    /// 削除済
+    /// 金種_自振手形_割合
     /// </summary>
     public decimal? DenomRateBillAuto { get; set; }
 
     /// <summary>
-    /// 削除済
+    /// 金種_転譲手形_割合
     /// </summary>
     public decimal? DenomRateBillTransfer { get; set; }
 
     /// <summary>
-    /// 削除済
+    /// 請求締日★
     /// </summary>
     public short? ClaimCloseDay { get; set; }
 
     /// <summary>
-    /// 削除済
+    /// 集日数(締日から集金日まで日数)★
     /// </summary>
     public short? CloseToCollectionDays { get; set; }
 

@@ -1685,10 +1685,10 @@ public partial class HatFContext : DbContext
                 .HasComment("請求先枝番")
                 .HasColumnName("AR_SUB_NO");
             entity.Property(e => e.ClaimCloseDay)
-                .HasComment("削除済")
+                .HasComment("請求締日★")
                 .HasColumnName("CLAIM_CLOSE_DAY");
             entity.Property(e => e.CloseToCollectionDays)
-                .HasComment("削除済")
+                .HasComment("集日数(締日から集金日まで日数)★")
                 .HasColumnName("CLOSE_TO_COLLECTION_DAYS");
             entity.Property(e => e.CreateDate)
                 .HasDefaultValueSql("(getdate())")
@@ -1713,7 +1713,7 @@ public partial class HatFContext : DbContext
                 .HasComment("顧客請求区分,1:都度請求,2:締請求")
                 .HasColumnName("CUST_AR_FLAG");
             entity.Property(e => e.CustCloseDate)
-                .HasComment("削除済")
+                .HasComment("顧客締日,15:15日締め")
                 .HasColumnName("CUST_CLOSE_DATE");
             entity.Property(e => e.CustEmail)
                 .HasMaxLength(320)
@@ -1761,15 +1761,15 @@ public partial class HatFContext : DbContext
                 .HasComment("削除済")
                 .HasColumnName("DELETED");
             entity.Property(e => e.DenomRateBillAuto)
-                .HasComment("削除済")
+                .HasComment("金種_自振手形_割合")
                 .HasColumnType("decimal(5, 2)")
                 .HasColumnName("DENOM_RATE_BILL_AUTO");
             entity.Property(e => e.DenomRateBillTransfer)
-                .HasComment("削除済")
+                .HasComment("金種_転譲手形_割合")
                 .HasColumnType("decimal(5, 2)")
                 .HasColumnName("DENOM_RATE_BILL_TRANSFER");
             entity.Property(e => e.DenomRateCash)
-                .HasComment("削除済")
+                .HasComment("金種_現金_割合★")
                 .HasColumnType("decimal(5, 2)")
                 .HasColumnName("DENOM_RATE_CASH");
             entity.Property(e => e.EmpCode)
@@ -1784,10 +1784,10 @@ public partial class HatFContext : DbContext
                 .HasComment("回収先枝番")
                 .HasColumnName("PAYER_SUB_NO");
             entity.Property(e => e.SiteDaysBill)
-                .HasComment("削除済")
+                .HasComment("サイト_手形_日数★")
                 .HasColumnName("SITE_DAYS_BILL");
             entity.Property(e => e.SiteDaysCash)
-                .HasComment("削除済")
+                .HasComment("サイト_現金_日数★")
                 .HasColumnName("SITE_DAYS_CASH");
             entity.Property(e => e.UpdateDate)
                 .HasDefaultValueSql("(getdate())")
@@ -2020,32 +2020,70 @@ public partial class HatFContext : DbContext
 
         modelBuilder.Entity<DivBin>(entity =>
         {
-            entity.HasKey(e => e.BinCd).HasName("PK__DIV_BIN__06AA1BE3B820A7BD");
+            entity.HasKey(e => e.BinCd).HasName("DIV_BIN_PKC");
 
             entity.ToTable("DIV_BIN", tb => tb.HasComment("便区分"));
 
             entity.Property(e => e.BinCd)
                 .HasMaxLength(5)
-                .HasComment("便区分CD")
+                .HasComment("便CD")
                 .HasColumnName("BIN_CD");
             entity.Property(e => e.BinName)
                 .IsRequired()
                 .HasMaxLength(50)
-                .HasComment("便区分名")
+                .HasComment("便名称")
                 .HasColumnName("BIN_NAME");
+            entity.Property(e => e.BinNameKana)
+                .HasMaxLength(50)
+                .HasComment("便名称カナ")
+                .HasColumnName("BIN_NAME_KANA");
+            entity.Property(e => e.BinType)
+                .HasMaxLength(50)
+                .HasComment("便種別")
+                .HasColumnName("BIN_TYPE");
             entity.Property(e => e.CreateDate)
                 .HasDefaultValueSql("(getdate())")
+                .HasComment("作成日時")
                 .HasColumnType("datetime")
                 .HasColumnName("CREATE_DATE");
-            entity.Property(e => e.Creator).HasColumnName("CREATOR");
+            entity.Property(e => e.Creator)
+                .HasComment("作成者名")
+                .HasColumnName("CREATOR");
             entity.Property(e => e.Deleted)
                 .HasComment("削除済")
                 .HasColumnName("DELETED");
+            entity.Property(e => e.DeliveryTime)
+                .HasMaxLength(50)
+                .HasComment("配送")
+                .HasColumnName("DELIVERY_TIME");
+            entity.Property(e => e.DeliveryType)
+                .HasMaxLength(50)
+                .HasComment("届種別")
+                .HasColumnName("DELIVERY_TYPE");
+            entity.Property(e => e.PrintBinName)
+                .HasMaxLength(50)
+                .HasComment("印刷便名称")
+                .HasColumnName("PRINT_BIN_NAME");
+            entity.Property(e => e.PrintBinNameKana)
+                .HasMaxLength(50)
+                .HasComment("印刷便名称カナ")
+                .HasColumnName("PRINT_BIN_NAME_KANA");
+            entity.Property(e => e.PrintDeliveryType)
+                .HasMaxLength(50)
+                .HasComment("印刷届種別")
+                .HasColumnName("PRINT_DELIVERY_TYPE");
             entity.Property(e => e.UpdateDate)
                 .HasDefaultValueSql("(getdate())")
+                .HasComment("更新日時")
                 .HasColumnType("datetime")
                 .HasColumnName("UPDATE_DATE");
-            entity.Property(e => e.Updater).HasColumnName("UPDATER");
+            entity.Property(e => e.Updater)
+                .HasComment("更新者名")
+                .HasColumnName("UPDATER");
+            entity.Property(e => e.WhCd)
+                .HasMaxLength(3)
+                .HasComment("倉庫CD")
+                .HasColumnName("WH_CD");
         });
 
         modelBuilder.Entity<DivDelivery>(entity =>
@@ -6982,6 +7020,9 @@ public partial class HatFContext : DbContext
             entity.Property(e => e.Creator)
                 .HasComment("作成者名")
                 .HasColumnName("CREATOR");
+            entity.Property(e => e.IsHatWarehouse)
+                .HasComment("HAT倉庫")
+                .HasColumnName("IS_HAT_WAREHOUSE");
             entity.Property(e => e.State)
                 .HasMaxLength(4)
                 .HasComment("都道府県")
