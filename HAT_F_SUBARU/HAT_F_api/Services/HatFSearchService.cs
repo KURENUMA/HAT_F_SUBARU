@@ -1139,7 +1139,6 @@ namespace HAT_F_api.Services
         /// 出荷先(現場)検索
         /// </summary>
         /// <param name="custCode"></param>
-        /// <param name="distNo"></param>
         /// <param name="genbaCode"></param>
         /// <returns></returns>
         public IQueryable<DestinationsMst> GetDestinationsMst(string custCode, string genbaCode)

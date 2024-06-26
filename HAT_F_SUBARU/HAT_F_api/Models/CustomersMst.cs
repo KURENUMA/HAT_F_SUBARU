@@ -106,64 +106,44 @@ public partial class CustomersMst
     public short? CustArFlag { get; set; }
 
     /// <summary>
-    /// 顧客締日１,15:15日締め
+    /// 顧客締日,15:15日締め
     /// </summary>
-    public short? CustCloseDate1 { get; set; }
+    public short? CustCloseDate { get; set; }
 
     /// <summary>
-    /// 顧客支払月１,0:当月,1:翌月,2:翌々月
+    /// サイト_現金_日数★
     /// </summary>
-    public short? CustPayMonths1 { get; set; }
+    public short? SiteDaysCash { get; set; }
 
     /// <summary>
-    /// 顧客支払日１,10:10日払い,99：末日
+    /// サイト_手形_日数★
     /// </summary>
-    public short? CustPayDates1 { get; set; }
+    public short? SiteDaysBill { get; set; }
 
     /// <summary>
-    /// 顧客支払方法１,1:振込,2:手形
+    /// 金種_現金_割合★
     /// </summary>
-    public short? CustPayMethod1 { get; set; }
+    public decimal? DenomRateCash { get; set; }
 
     /// <summary>
-    /// 顧客締日２,99:末締め
+    /// 金種_自振手形_割合
     /// </summary>
-    public short? CustCloseDate2 { get; set; }
+    public decimal? DenomRateBillAuto { get; set; }
 
     /// <summary>
-    /// 顧客支払月２,0:当月,1:翌月,2:翌々月
+    /// 金種_転譲手形_割合
     /// </summary>
-    public short? CustPayMonths2 { get; set; }
+    public decimal? DenomRateBillTransfer { get; set; }
 
     /// <summary>
-    /// 顧客支払日２,10:10日払い,99：末日
+    /// 請求締日★
     /// </summary>
-    public short? CustPayDates2 { get; set; }
+    public short? ClaimCloseDay { get; set; }
 
     /// <summary>
-    /// 顧客支払方法２,1:振込,2:手形
+    /// 集日数(締日から集金日まで日数)★
     /// </summary>
-    public short? CustPayMethod2 { get; set; }
-
-    public string St1 { get; set; }
-
-    public string St2 { get; set; }
-
-    public string St3 { get; set; }
-
-    public string St4 { get; set; }
-
-    public string St5 { get; set; }
-
-    public string St6 { get; set; }
-
-    public string St7 { get; set; }
-
-    public string St8 { get; set; }
-
-    public string St9 { get; set; }
-
-    public string St10 { get; set; }
+    public short? CloseToCollectionDays { get; set; }
 
     /// <summary>
     /// 削除済

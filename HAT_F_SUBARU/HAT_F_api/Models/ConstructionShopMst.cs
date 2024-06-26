@@ -9,7 +9,12 @@ namespace HAT_F_api.Models;
 public partial class ConstructionShopMst
 {
     /// <summary>
-    /// 工事店コード(KOJICD):KOJICD 13桁 + 予備
+    /// 顧客コード
+    /// </summary>
+    public string CustCode { get; set; }
+
+    /// <summary>
+    /// 工事店コード
     /// </summary>
     public string ConstCode { get; set; }
 
@@ -27,8 +32,6 @@ public partial class ConstructionShopMst
     /// 工事店名カナ
     /// </summary>
     public string ConstKana { get; set; }
-
-    public string CustCode { get; set; }
 
     /// <summary>
     /// 工事店郵便番号
