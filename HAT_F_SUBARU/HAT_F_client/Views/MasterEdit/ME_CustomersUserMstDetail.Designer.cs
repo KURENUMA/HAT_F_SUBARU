@@ -164,7 +164,7 @@
             // 
             // txtCustUserCode
             // 
-            this.txtCustUserCode.ImeMode = System.Windows.Forms.ImeMode.On;
+            this.txtCustUserCode.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.txtCustUserCode.Location = new System.Drawing.Point(147, 101);
             this.txtCustUserCode.Margin = new System.Windows.Forms.Padding(4);
             this.txtCustUserCode.MaxLength = 2;

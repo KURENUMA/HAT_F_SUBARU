@@ -301,7 +301,7 @@
             // 
             // txtGenbaCode
             // 
-            this.txtGenbaCode.ImeMode = System.Windows.Forms.ImeMode.KatakanaHalf;
+            this.txtGenbaCode.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.txtGenbaCode.Location = new System.Drawing.Point(141, 101);
             this.txtGenbaCode.Margin = new System.Windows.Forms.Padding(4);
             this.txtGenbaCode.MaxLength = 3;

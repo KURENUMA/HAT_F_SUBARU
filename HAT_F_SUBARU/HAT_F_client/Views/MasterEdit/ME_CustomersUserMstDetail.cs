@@ -182,12 +182,12 @@ namespace HatFClient.Views.MasterEdit
                 string genbaCode = txtCustUserCode.Text;
 
                 // TODO: キーマンコードチェックに変える
-                var result = await IsGenbaCodeUsedAsync(custCode, genbaCode);
+                var result = await IsKeymanCodeUsedAsync(custCode, genbaCode);
                 if (result.Failed) { return MethodResult<bool>.FailedResult; }
 
                 if (result.Value)
                 {
-                    DialogHelper.InformationMessage(this, "現場コードは使用されています。");
+                    DialogHelper.InformationMessage(this, "顧客担当者(キーマン)CDは使用されています。");
                     return new MethodResult<bool>(false);
                 }
             }
@@ -195,10 +195,10 @@ namespace HatFClient.Views.MasterEdit
             return new MethodResult<bool>(true);
         }
 
-        private async Task<MethodResult<bool>> IsGenbaCodeUsedAsync(string custCode, string genbaCode)
+        private async Task<MethodResult<bool>> IsKeymanCodeUsedAsync(string custCode, string genbaCode)
         {
             string genbaCodeUrlEncoded = ApiHelper.UrlEncodeForWebApi(genbaCode);
-            var url = string.Format(ApiResources.HatF.MasterEditor.DestinationsMst, custCode, genbaCodeUrlEncoded);
+            var url = string.Format(ApiResources.HatF.MasterEditor.CustomersUserMst, custCode, genbaCodeUrlEncoded);
 
             var apiResult = await ApiHelper.FetchAsync(this, async () =>
             {
@@ -357,21 +357,21 @@ namespace HatFClient.Views.MasterEdit
             string cuserUserCode = txtCustUserCode.Text;
             if (string.IsNullOrEmpty(cuserUserCode))
             {
-                DialogHelper.InputRequireMessage(this, "顧客担当者(キーマン)コード");
+                DialogHelper.InputRequireMessage(this, "顧客担当者(キーマン)CD");
                 return;
             }
 
-            var result = await IsGenbaCodeUsedAsync(custCode, cuserUserCode);
+            var result = await IsKeymanCodeUsedAsync(custCode, cuserUserCode);
             if (result.Failed) { return; }
 
             string message;
             if (result.Value)
             {
-                message = "顧客担当者(キーマン)コードは使用されています。";
+                message = "顧客担当者(キーマン)CDは使用されています。";
             }
             else
             {
-                message = "顧客担当者(キーマン)コードは使用可能です。";
+                message = "顧客担当者(キーマン)CDは使用可能です。";
             }
             DialogHelper.InformationMessage(this, message);
         }
