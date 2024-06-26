@@ -117,4 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="grdTotalPrice.ColumnInfo" xml:space="preserve">
+    <value>5,1,0,0,0,-1,Columns:0{AllowSorting:False;AllowDragging:False;AllowEditing:False;}	1{AllowSorting:False;Name:"行ラベル";AllowDragging:False;AllowEditing:False;Style:"DataType:System.String;BackColor:Window;TextAlign:LeftCenter;";}	2{AllowSorting:False;Name:"F";Caption:"HAT-F";AllowDragging:False;AllowEditing:False;Style:"Format:""C0"";DataType:System.String;BackColor:Window;TextAlign:RightCenter;";}	3{AllowSorting:False;Name:"M";Caption:"メーカー";AllowDragging:False;AllowEditing:False;Style:"Format:""C0"";DataType:System.String;BackColor:Window;TextAlign:RightCenter;";}	4{AllowSorting:False;Name:"差分";Caption:"差分";AllowDragging:False;AllowEditing:False;Style:"Format:""C0"";DataType:System.String;BackColor:Window;TextAlign:RightCenter;";}	</value>
+  </data>
 </root>

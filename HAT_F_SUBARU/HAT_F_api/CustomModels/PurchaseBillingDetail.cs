@@ -8,6 +8,8 @@ namespace HAT_F_api.CustomModels
 
         public string 仕入先コード { get; set; }
 
+        public string 支払先コード { get; set; }
+
         public short? 仕入先コード枝番 { get; set; }
 
         public string 仕入先 { get; set; }
@@ -23,6 +25,10 @@ namespace HAT_F_api.CustomModels
         public decimal? H単価 { get; set; }
 
         public DateTime? M納日 { get; set; }
+
+        public string 区分 { get; set; }
+
+        public string H伝票番号 { get; set; }
 
         public string M伝票番号 { get; set; }
 

@@ -64,6 +64,10 @@
 
         public string 部門コード { get; set; }
 
+        public DateTime? 納日From { get; set; }
+
+        public DateTime? 納日To { get; set; }
+
         public DateTime? 仕入支払年月日From { get; set; }
 
         public DateTime? 仕入支払年月日To { get; set; }

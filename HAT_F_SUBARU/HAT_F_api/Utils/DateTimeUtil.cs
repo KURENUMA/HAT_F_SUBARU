@@ -2,6 +2,12 @@
 {
     public class DateTimeUtil
     {
+        /// <summary>締日や支払月、支払日から日付を算出する</summary>
+        /// <param name="baseDate">基準日</param>
+        /// <param name="closeDate">締日</param>
+        /// <param name="payMonths">支払月（0:当月,1:翌月,2:翌々月）</param>
+        /// <param name="payDates">支払日（N:N日払い,99:末日）</param>
+        /// <returns>算出結果</returns>
         public static DateTime? GetPayDate(DateTime? baseDate, int? closeDate, int? payMonths, int? payDates)
         {
             // BaseDateがNULLの場合、NULLを返す

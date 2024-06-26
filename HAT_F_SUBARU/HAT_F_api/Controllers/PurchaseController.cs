@@ -69,5 +69,44 @@ namespace HAT_F_api.Controllers
                 return await _purchaseService.PutPuImportAsync(puImports);
             });
         }
+
+        /// <summary>仕入明細情報（ヘッダ含む）を取得</summary>
+        /// <param name="supCode">仕入先コード</param>
+        /// <returns>仕入明細情報</returns>
+        [HttpGet("view-pu-details")]
+        public async Task<ActionResult<ApiResponse<List<ViewPuDetail>>>> GetViewPuDetailsAsync([FromQuery]string supCode)
+        {
+            return await ApiLogicRunner.RunAsync(async () =>
+            {
+                return await _purchaseService.GetViewPuDetailsAsync(supCode);
+            });
+        }
+
+        /// <summary>仕入明細情報（ヘッダ含む）を追加/更新</summary>
+        /// <param name="viewPuDetails">仕入情報</param>
+        /// <returns>追加した件数</returns>
+        [HttpPut("view-pu-details")]
+        public async Task<ActionResult<ApiResponse<int>>> PutViewPuDetailsAsync([FromBody]List<ViewPuDetail> viewPuDetails)
+        {
+            return await ApiLogicRunner.RunAsync(async () =>
+            {
+                using var transaction = await _context.Database.BeginTransactionAsync();
+                var result = await _purchaseService.UpsertPuDetailsAsync(viewPuDetails);
+                await _purchaseService.UpdatePuAsync(viewPuDetails);
+                await transaction.CommitAsync();
+                return result;
+            });
+        }
+
+        ///// <summary>仕入情報の削除</summary>
+        ///// <param name="viewPuDetails">仕入情報</param>
+        ///// <returns>削除件数</returns>
+        //public async Task<ActionResult<ApiResponse<int>>> DeleteViewPuDetailsAsync([FromBody]List<ViewPuDetail> viewPuDetails)
+        //{
+        //    return await ApiLogicRunner.RunAsync(async () =>
+        //    {
+        //        return await _purchaseService.DeletePuDetailAsync(viewPuDetails);
+        //    });
+        //}
     }
 }

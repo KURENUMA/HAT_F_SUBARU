@@ -23,6 +23,7 @@ namespace HatFClient.ViewModels
         public DateTime DateValue { get; set; } = DateTime.Now;
         public string TextValue { get; set; } = "";
         public bool Visible { get; private set; } = true;
+        public string GroupKey { get; set; }
 
         public event EventHandler OnColumnSelected;
         public event EventHandler OnOperatorSelected;
@@ -164,7 +165,14 @@ namespace HatFClient.ViewModels
 
         public (FilterCombinationTypes, FilterOption) AsFilterOption()
         {
-            return (CombinationType, new FilterOption(SelectedColumn.FieldName, Operator, GetValue()));
+            if (string.IsNullOrEmpty(GroupKey))
+            {
+                return (CombinationType, new FilterOption(SelectedColumn.FieldName, Operator, GetValue()));
+            }
+            else
+            {
+                return (CombinationType, new FilterOption(SelectedColumn.FieldName, Operator, GetValue(), GroupKey));
+            }
         }
         public (FilterCombinationTypes, FilterOption, string) AsFilterOptionAndCaption()
         {

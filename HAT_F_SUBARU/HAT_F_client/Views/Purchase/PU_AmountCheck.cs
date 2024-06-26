@@ -5,9 +5,9 @@ using HatFClient.Common;
 using HatFClient.Constants;
 using HatFClient.Repository;
 using HatFClient.Views.Cooperate;
-using HatFClient.Views.MasterSearch;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
@@ -54,79 +54,93 @@ namespace HatFClient.Views.Purchase
             ReadOnly
         }
 
-        #region グリッド列アクセス用プロパティ
+        #region 公開プロパティ
+        /// <summary>仕入先コード</summary>
+        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public string SupplierCode
+        {
+            get => txtPuCode.Text;
+            set => txtPuCode.Text = value;
+        }
+
+        /// <summary>仕入先名</summary>
+        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public string SupplierName
+        {
+            get => txtPuName.Text;
+            set => txtPuName.Text = value;
+        }
 
         /// <summary>Hat注文番号</summary>
-        private Column clmHat注文番号 => grdPuAmountCheck.Cols["Hat注文番号"];
+        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public string HatOrderNo
+        {
+            get => txtHatOrderNo.Text;
+            set => txtHatOrderNo.Text = value;
+        }
+        #endregion
 
-        /// <summary>H子番</summary>
-        private Column clmH子番 => grdPuAmountCheck.Cols["H子番"];
+        #region グリッド列アクセス用プロパティ
 
         /// <summary>伝票番号</summary>
-        private Column clm伝票番号 => grdPuAmountCheck.Cols["伝票番号"];
+        public Column clm伝票番号 => grdPuAmountCheck.Cols["伝票番号"];
+
+        /// <summary>納日</summary>
+        public Column clmF納日 => grdPuAmountCheck.Cols["F納日"];
 
         /// <summary>売上確定</summary>
-        private Column clm売上確定 => grdPuAmountCheck.Cols["売上確定"];
-
-        /// <summary>H納日</summary>
-        private Column clmH納日 => grdPuAmountCheck.Cols["H納日"];
-
-        /// <summary>商品コード</summary>
-        private Column clm商品コード => grdPuAmountCheck.Cols["商品コード"];
-
-        /// <summary>商品名</summary>
-        private Column clm商品名 => grdPuAmountCheck.Cols["商品名"];
-
-        /// <summary>H注番</summary>
-        private Column clmH注番 => grdPuAmountCheck.Cols["H注番"];
-
-        /// <summary>H数量</summary>
-        private Column clmH数量 => grdPuAmountCheck.Cols["H数量"];
-
-        /// <summary>H単価</summary>
-        private Column clmH単価 => grdPuAmountCheck.Cols["H単価"];
-
-        /// <summary>H金額</summary>
-        private Column clmH金額 => grdPuAmountCheck.Cols["H金額"];
-
-        /// <summary>M伝票番号</summary>
-        private Column clmM伝票番号 => grdPuAmountCheck.Cols["M伝票番号"];
-
-        /// <summary>M納品書番号</summary>
-        private Column clmM納品書番号 => grdPuAmountCheck.Cols["M納品書番号"];
-
-        /// <summary>M納日</summary>
-        private Column clmM納日 => grdPuAmountCheck.Cols["M納日"];
-
-        /// <summary>M注番</summary>
-        private Column clmM注番 => grdPuAmountCheck.Cols["M注番"];
-
-        /// <summary>M数量</summary>
-        private Column clmM数量 => grdPuAmountCheck.Cols["M数量"];
-
-        /// <summary>M単価</summary>
-        private Column clmM単価 => grdPuAmountCheck.Cols["M単価"];
-
-        /// <summary>M金額</summary>
-        private Column clmM金額 => grdPuAmountCheck.Cols["M金額"];
+        public Column clm売上確定 => grdPuAmountCheck.Cols["売上確定"];
 
         /// <summary>照合ステータス</summary>
-        private Column clm照合ステータス => grdPuAmountCheck.Cols["照合ステータス"];
+        public Column clm照合ステータス => grdPuAmountCheck.Cols["照合ステータス"];
 
-        /// <summary>伝区</summary>
-        private Column clm伝区 => grdPuAmountCheck.Cols["伝区"];
+        /// <summary>商品コード</summary>
+        public Column clmF商品コード => grdPuAmountCheck.Cols["F商品コード"];
 
-        /// <summary>仕入番号</summary>
-        private Column clm仕入番号 => grdPuAmountCheck.Cols["仕入番号"];
+        /// <summary>商品名</summary>
+        public Column clmF商品名 => grdPuAmountCheck.Cols["F商品名"];
 
-        /// <summary>仕入行番号</summary>
-        private Column clm仕入行番号 => grdPuAmountCheck.Cols["仕入行番号"];
+        /// <summary>F注番</summary>
+        public Column clmF注番 => grdPuAmountCheck.Cols["F注番"];
 
-        /// <summary>仕入先</summary>
-        private Column clm仕入先 => grdPuAmountCheck.Cols["仕入先"];
+        /// <summary>F数量</summary>
+        public Column clmF数量 => grdPuAmountCheck.Cols["F数量"];
 
-        /// <summary>仕入先コード</summary>
-        private Column clm仕入先コード => grdPuAmountCheck.Cols["仕入先コード"];
+        /// <summary>F単価</summary>
+        public Column clmF単価 => grdPuAmountCheck.Cols["F単価"];
+
+        /// <summary>F金額</summary>
+        public Column clmF金額 => grdPuAmountCheck.Cols["F金額"];
+
+        /// <summary>F税区分</summary>
+        public Column clmF消費税区分 => grdPuAmountCheck.Cols["F消費税区分"];
+
+        /// <summary>F税率</summary>
+        public Column clmF税率 => grdPuAmountCheck.Cols["F税率"];
+
+        /// <summary>M納品書番号</summary>
+        public Column clmM納品書番号 => grdPuAmountCheck.Cols["M納品書番号"];
+
+        /// <summary>M納日</summary>
+        public Column clmM納入日 => grdPuAmountCheck.Cols["M納入日"];
+
+        /// <summary>M注番</summary>
+        public Column clmM注番 => grdPuAmountCheck.Cols["M注番"];
+
+        /// <summary>M数量</summary>
+        public Column clmM数量 => grdPuAmountCheck.Cols["M数量"];
+
+        /// <summary>M単価</summary>
+        public Column clmM単価 => grdPuAmountCheck.Cols["M単価"];
+
+        /// <summary>M金額</summary>
+        public Column clmM金額 => grdPuAmountCheck.Cols["M金額"];
+
+        /// <summary>M税区分</summary>
+        public Column clmM消費税区分 => grdPuAmountCheck.Cols["M消費税区分"];
+
+        /// <summary>M税率</summary>
+        public Column clmM消費税率 => grdPuAmountCheck.Cols["M消費税率"];
 
         #endregion グリッド列アクセス用プロパティ
 
@@ -149,22 +163,20 @@ namespace HatFClient.Views.Purchase
         /// <param name="e">イベント情報</param>
         private async void PU_AmountCheck_Load(object sender, EventArgs e)
         {
+#if DEBUG
+            txtPuCode.Text = "665001";
+            txtHatOrderNo.Text = "33AH02C";
+#endif
+
             clm照合ステータス.DataType = typeof(short);
             clm照合ステータス.DataMap = checkStatus;
             clm売上確定.DataType = typeof(short);
             clm売上確定.DataMap = completeStatus;
-            if (Condition.Hat注文番号 != null)
+            Condition.仕入先コード = SupplierCode;
+            Condition.Hat注文番号 = HatOrderNo;
+            if (!await SearchAsync())
             {
-                txtPuCode.Text = Condition.仕入先コード.ToString();
-                txtHatOrderNo.Text = Condition.Hat注文番号.ToString();
-                if (!await SearchAsync())
-                {
-                    Close();
-                }
-            }
-            else
-            {
-                grdPuAmountCheck.DataSource = new List<ViewPurchaseBillingDetail>();
+                Close();
             }
 
             // TODO 暫定的に排他制御機能を封印
@@ -188,25 +200,24 @@ namespace HatFClient.Views.Purchase
         /// <returns>成否</returns>
         private async Task<bool> SearchAsync()
         {
-            if (Condition.Hat注文番号 != null)
+            var details = await ApiHelper.FetchAsync(this, async () =>
             {
-                var details = await ApiHelper.FetchAsync(this, async () =>
-                {
-                    return await _purchaseRepo.GetDetailAsync(Condition);
-                });
-                if (details.Failed)
-                {
-                    return false;
-                }
-                grdPuAmountCheck.DataSource = details.Value;
-                if (grdPuAmountCheck.Rows.Count > 1)
-                {
-                    //txtPuName.Text = details.Value.First().仕入先;
-                    // TODO 暫定的に排他制御機能を封印
-                    // await AmountCheckLockAndSettingAsync();
-                }
-                grdPuAmountCheck.AutoSizeCols();
+                return await _purchaseRepo.GetDetailAsync(Condition);
+            });
+            if (details.Failed)
+            {
+                return false;
             }
+            var dataSource = new BindingList<ViewPurchaseBillingDetail>(details.Value);
+            grdPuAmountCheck.DataSource = dataSource;
+            if (dataSource.Any())
+            {
+                txtPuName.Text = details.Value.First().F仕入先;
+                // TODO 暫定的に排他制御機能を封印
+                // await AmountCheckLockAndSettingAsync();
+            }
+            grdPuAmountCheck.AutoSizeCols();
+            CalcTotalAmount();
             return true;
         }
 
@@ -245,6 +256,37 @@ namespace HatFClient.Views.Purchase
             this.btnSave.Enabled = false;
         }
 
+        /// <summary>合計金額を計算する</summary>
+        private void CalcTotalAmount()
+        {
+            // フィルタリングされた行のみ取得
+            var filteredRows = grdPuAmountCheck.Rows.OfType<Row>()
+                .Where(x => x.Visible)
+                .Select(x => x.DataSource as ViewPurchaseBillingDetail)
+                .Where(x => x != null)
+                .ToList();
+            var taxRates = filteredRows
+                .Select(x => x.F消費税区分).Concat(filteredRows.Select(x => x.M消費税区分))
+                .Where(x => !string.IsNullOrEmpty(x))
+                .Distinct().ToList();
+            var amounts = new[]
+            {
+                new
+                {
+                    Name = "金額合計",
+                    FAmount = filteredRows.Sum(x => x.F金額),
+                    MAmount = filteredRows.Sum(x => x.M金額),
+                }
+            }.Concat(taxRates.Select(x => new
+            {
+                Name = ClientRepo.GetInstance().Options.DivTaxRates.FirstOrDefault(z => z.TaxRateCd == x)?.TaxRateName,
+                FAmount = filteredRows.Where(z => z.F消費税区分 == x).Sum(z => z.F金額 * (z.F消費税率 / 100m)),
+                MAmount = filteredRows.Where(z => z.M消費税区分 == x).Sum(z => z.M金額 * (z.M消費税率 / 100m)),
+            })).ToList();
+
+            grdTotalAmount.DataSource = amounts;
+            grdTotalAmount.AutoSizeCols();
+        }
         #endregion メイン画面制御
 
         #region グリッド制御
@@ -253,7 +295,7 @@ namespace HatFClient.Views.Purchase
         {
             if (e.KeyCode == Keys.Delete)
             {
-                if (grdPuAmountCheck.Cols[grdPuAmountCheck.Col] == clmM納日)
+                if (grdPuAmountCheck.Cols[grdPuAmountCheck.Col] == clmM納入日)
                 {
                     grdPuAmountCheck[grdPuAmountCheck.Row, grdPuAmountCheck.Col] = null;
                 }
@@ -262,32 +304,23 @@ namespace HatFClient.Views.Purchase
 
         private void grdPuAmountCheck_AfterEdit(object sender, RowColEventArgs e)
         {
-            // 編集されたセルの情報を取得
-            int editedRow = grdPuAmountCheck.Row;
-            int editedCol = grdPuAmountCheck.Col;
-
-            // 編集されたセルが数量列または単価列であるかを確認
-            if (grdPuAmountCheck.Cols[editedCol] == clmM数量 || grdPuAmountCheck.Cols[editedCol] == clmM単価)
+            var amountChanged = false;
+            if (e.Col == clmM数量.Index || e.Col == clmM単価.Index)
             {
-                // 数量と単価が入力されているセルの値を取得
-                object quantityValue = grdPuAmountCheck.GetDataDisplay(editedRow, clmM数量.Index);
-                object unitPriceValue = grdPuAmountCheck.GetDataDisplay(editedRow, clmM単価.Index);
-
-                if (string.IsNullOrWhiteSpace(quantityValue.ToString()) || string.IsNullOrWhiteSpace(unitPriceValue.ToString()))
-                {
-                    grdPuAmountCheck[editedRow, clmM金額.Index] = string.Empty;
-                    return;
-                }
-                // 数量と単価が数値に変換可能かチェック
-                if (decimal.TryParse(quantityValue?.ToString(), out decimal quantity) &&
-                    decimal.TryParse(unitPriceValue?.ToString().Substring(1), out decimal unitPrice))
-                {
-                    // 合計金額を計算
-                    decimal totalAmount = quantity * unitPrice;
-
-                    // 合計金額を別のセルに出力
-                    grdPuAmountCheck[editedRow, clmM金額.Index] = totalAmount;
-                }
+                var dataSource = grdPuAmountCheck.Rows[e.Row].DataSource as ViewPurchaseBillingDetail;
+                dataSource.M金額 = dataSource.M単価 * dataSource.M数量;
+                amountChanged = true;
+            }
+            else if (e.Col == clmM消費税区分.Index)
+            {
+                var dataSource = grdPuAmountCheck.Rows[e.Row].DataSource as ViewPurchaseBillingDetail;
+                dataSource.M消費税率 = ClientRepo.GetInstance().Options.DivTaxRates.FirstOrDefault(x => x.TaxRateCd == dataSource.M消費税区分)?.TaxRate;
+                amountChanged = true;
+            }
+            if (amountChanged)
+            {
+                CalcTotalAmount();
+                grdPuAmountCheck.Invalidate();
             }
         }
 
@@ -352,11 +385,13 @@ namespace HatFClient.Views.Purchase
         private void btnFilter_Click(object sender, EventArgs e)
         {
             SetCondition();
+            CalcTotalAmount();
         }
 
         private void btnFilterResetClick(object sender, EventArgs e)
         {
             grdPuAmountCheck.ClearFilter();
+            CalcTotalAmount();
         }
 
         private void SetCondition()
@@ -367,20 +402,10 @@ namespace HatFClient.Views.Purchase
 
             // 入力内容に応じてフィルタを適用する
 
-            // HAT注文番号
-            if (!string.IsNullOrEmpty(txtHatOrderNo.Text))
-            {
-                var col = clmHat注文番号;
-                col.AllowFiltering = AllowFiltering.ByCondition;
-                ConditionFilter cf = col.Filter as ConditionFilter;
-                cf.Condition1.Operator = ConditionOperator.Contains;
-                cf.Condition1.Parameter = txtHatOrderNo.Text;
-            }
-
             // H注番
             if (!string.IsNullOrWhiteSpace(txtHChuban.Text))
             {
-                var col = clmH注番;
+                var col = clmF注番;
                 col.AllowFiltering = AllowFiltering.ByCondition;
                 ConditionFilter cf = col.Filter as ConditionFilter;
                 cf.Condition1.Operator = ConditionOperator.Contains;
@@ -390,7 +415,7 @@ namespace HatFClient.Views.Purchase
             // H納日(From～To)
             if (dtHNoukiFrom.HasValue && dtHNoukiTo.HasValue)
             {
-                var col = clmH納日;
+                var col = clmF納日;
                 col.AllowFiltering = AllowFiltering.ByCondition;
                 ConditionFilter cf = col.Filter as ConditionFilter;
                 cf.Condition1.Operator = ConditionOperator.GreaterThanOrEqualTo;
@@ -401,7 +426,7 @@ namespace HatFClient.Views.Purchase
             // H納日(From～)
             else if (dtHNoukiFrom.HasValue)
             {
-                var col = clmH納日;
+                var col = clmF納日;
                 col.AllowFiltering = AllowFiltering.ByCondition;
                 ConditionFilter cf = col.Filter as ConditionFilter;
                 cf.Condition1.Operator = ConditionOperator.GreaterThanOrEqualTo;
@@ -410,7 +435,7 @@ namespace HatFClient.Views.Purchase
             // H納日(～To)
             else if (dtHNoukiTo.HasValue)
             {
-                var col = clmH納日;
+                var col = clmF納日;
                 col.AllowFiltering = AllowFiltering.ByCondition;
                 ConditionFilter cf = col.Filter as ConditionFilter;
                 cf.Condition1.Operator = ConditionOperator.LessThanOrEqualTo;
@@ -426,77 +451,72 @@ namespace HatFClient.Views.Purchase
 
         private async void btnSave_Click(object sender, EventArgs e)
         {
-            if (CheckInputs())
+            // 画面からリクエストオブジェクト生成
+            var request = ToSaveObjects();
+            // 変更処理
+            if (request.Any())
             {
-                // 画面からリクエストオブジェクト生成
-                var request = ToSaveObjects();
-                // 変更処理
-                if (request.Count > 0)
+                await ApiHelper.UpdateAsync(this, async () =>
                 {
-                    await ApiHelper.UpdateAsync(this, async () =>
-                    {
-                        return await Program.HatFApiClient.PutAsync<int>(ApiResources.HatF.Client.PutPurchaseBillingDetail, request);
-                    });
-                }
-                else
-                {
-                    DialogHelper.WarningMessage(this, "保存対象が０件です。\n入力可能データが全て入力されているデータが対処になります。");
-                }
+                    return await Program.HatFApiClient.PutAsync<int>(ApiResources.HatF.Client.PutPurchaseBillingDetail, request);
+                });
+                await SearchAsync();
+            }
+            else
+            {
+                DialogHelper.WarningMessage(this, $"保存対象が0件です。{Environment.NewLine}入力可能データが全て入力されているデータが対象になります。");
             }
         }
 
-        /// <summary>必須項目の入力チェック</summary>
-        private bool CheckInputs()
-        {
-            return true;
-        }
-
+        /// <summary>APIパラメータを作成する</summary>
+        /// <returns>Apiパラメータ</returns>
         private List<PurchaseBillingDetail> ToSaveObjects()
         {
-            List<PurchaseBillingDetail> result = new();
-
-            for (var i = 1; i < grdPuAmountCheck.Rows.Count; i++)
-            {
-                //行単位ですべてのデータが入力されていることを保存対象とする
-                var r = grdPuAmountCheck.Rows[i].DataSource as ViewPurchaseBillingDetail;
-                //if (!string.IsNullOrEmpty(r.M納日?.ToString()) && !string.IsNullOrEmpty(r.M注番?.ToString())
-                //    && !string.IsNullOrEmpty(r.M数量?.ToString()) && !string.IsNullOrEmpty(r.M単価?.ToString()))
-                if (true)
+            var dataSource = grdPuAmountCheck.DataSource as BindingList<ViewPurchaseBillingDetail>;
+            return dataSource
+                .Where(x => !string.IsNullOrEmpty(x.M納品書番号))
+                .Where(x => x.M納入日.HasValue)
+                .Where(x => !string.IsNullOrEmpty(x.M注番))
+                .Where(x => x.M単価.HasValue)
+                .Where(x => x.M数量.HasValue)
+                .Where(x => !string.IsNullOrEmpty(x.M消費税区分))
+                .Select(x => new PurchaseBillingDetail()
                 {
-                    result.Add(new PurchaseBillingDetail()
-                    {
-                        //Hat注文番号 = r.Hat注文番号,
-                        //仕入先コード = r.仕入先コード,
-                        //仕入先コード枝番 = r.仕入先コード枝番,
-                        //仕入先 = r.仕入先,
-                        //H注番 = r.H注番,
-                        //商品コード = r.商品コード,
-                        //商品名 = r.商品名,
-                        //H数量 = r.H数量 ?? 0,
-                        //H単価 = r.H単価 ?? 0,
-                        //M納日 = r.M納日,
-                        M伝票番号 = r.伝票番号,
-                        M注番 = r.M注番,
-                        M数量 = r.M数量 ?? 0,
-                        M単価 = r.M単価 ?? 0,
-                        //照合ステータス = r.照合ステータス ?? 0,
-                        //倉庫コード = r.倉庫コード,
-                        //H行番号 = r.H行番号,
-                        //Hページ番号 = r.Hページ番号,
-                        //社員Id = r.社員Id,
-                        //部門コード = r.部門コード,
-                        社員Id = 0,
-                        // TODO 部門コードを正しく設定
-                        部門コード = "dummy",
-                        備考 = null,
-                        伝区 = r.伝区,
-                        仕入番号 = r.仕入番号,
-                        仕入行番号 = r.仕入行番号,
-                    });
-                }
-            }
-
-            return result;
+                    Hat注文番号 = txtHatOrderNo.Text,
+                    仕入先コード = x.M仕入先コード ?? x.F仕入先コード,
+                    仕入先コード枝番 = x.M仕入先コード枝番,
+                    支払先コード = txtPuCode.Text,
+                    仕入先 = x.F仕入先,
+                    H注番 = x.F注番,
+                    Hページ番号 = x.DenSort,
+                    H行番号 = x.DenNoLine,
+                    商品コード = x.F商品コード,
+                    商品名 = x.F商品名,
+                    H数量 = x.F数量 ?? 0,
+                    H単価 = x.F単価,
+                    区分 = x.M区分,
+                    H伝票番号 = x.伝票番号,
+                    M納日 = x.M納入日,
+                    M伝票番号 = x.M伝票番号,
+                    M注番 = x.M注番,
+                    M数量 = x.M数量 ?? 0,
+                    M単価 = x.M単価,
+                    倉庫コード = x.F倉庫コード,
+                    社員Id = x.F受発注者 ?? 0,
+                    部門コード = x.F受発注者部門コード,
+                    備考 = string.Empty,
+                    仕入番号 = x.仕入番号,
+                    仕入行番号 = x.仕入行番号,
+                    伝区 = x.M伝区,
+                    納品書番号 = x.M納品書番号,
+                    子番 = x.DenNoLine,
+                    消費税 = x.M消費税区分,
+                    支払日 = x.M納入日,
+                    照合ステータス = 
+                        string.IsNullOrEmpty(x.SaveKey) || !x.仕入行番号.HasValue ? (short)0 :
+                        x.F金額 != x.M金額 ? (short)1 :
+                        x.F消費税率 != x.M消費税率 ? (short)1 : (short)2,
+                }).ToList();
         }
 
         #endregion 保存
@@ -514,165 +534,48 @@ namespace HatFClient.Views.Purchase
 
         #endregion 担当者へ連絡
 
-        #region 再計算
-
-        /// <summary>再計算ボタン</summary>
+        /// <summary>差分チェックボタン</summary>
         /// <param name="sender">イベント発生元</param>
         /// <param name="e">イベント情報</param>
-        private void btnCalculation_Click(object sender, EventArgs e)
-        {
-            // フィルタリングされた行のみ取得
-            var filteredRows = grdPuAmountCheck.Rows.OfType<Row>()
-                .Where(x => x.Visible)
-                .Select(x => x.DataSource as ViewPurchaseBillingDetail)
-                .Where(x => x != null)
-                .ToList();
-            //txtHTotal.Text = $"{filteredRows.Sum(x => x.H金額):C0}";
-            txtMTotal.Text = $"{filteredRows.Sum(x => x.M金額):C0}";
-        }
-
-        #endregion 再計算
-
-        private void btnDifferenceCheck_Click(object sender, EventArgs e)
+        private void BtnDifferenceCheck_Click(object sender, EventArgs e)
         {
             //差分があるセルの色を変更する
             // データ行の数
             int rowCount = grdPuAmountCheck.Rows.Count;
 
             // 全てのセルを走査して差分を比較
-            for (int row = grdPuAmountCheck.Rows.Fixed; row < rowCount; row++)
+            for (int i = grdPuAmountCheck.Rows.Fixed; i < rowCount; i++)
             {
-                if (string.IsNullOrEmpty(grdPuAmountCheck[row, "M納日"]?.ToString()) &&
-                    string.IsNullOrEmpty(grdPuAmountCheck[row, "M注番"]?.ToString()) &&
-                    string.IsNullOrEmpty(grdPuAmountCheck[row, "M数量"]?.ToString()) &&
-                    string.IsNullOrEmpty(grdPuAmountCheck[row, "M単価"]?.ToString()))
+                var row = grdPuAmountCheck.Rows[i];
+                var dataSource = row.DataSource as ViewPurchaseBillingDetail;
+
+                if (!dataSource.M納入日.HasValue &&
+                    string.IsNullOrEmpty(dataSource.M注番) &&
+                    !dataSource.M数量.HasValue &&
+                    !dataSource.M数量.HasValue)
                 {
                     //色を戻す
-                    grdPuAmountCheck.GetCellRange(row, clmM納日.Index).StyleNew.BackColor = SystemColors.Window;
-                    grdPuAmountCheck.GetCellRange(row, clmM注番.Index).StyleNew.BackColor = SystemColors.Window;
-                    grdPuAmountCheck.GetCellRange(row, clmM数量.Index).StyleNew.BackColor = SystemColors.Window;
-                    grdPuAmountCheck.GetCellRange(row, clmM単価.Index).StyleNew.BackColor = SystemColors.Window;
+                    grdPuAmountCheck.GetCellRange(i, clmM納入日.Index).StyleNew.BackColor = SystemColors.Window;
+                    grdPuAmountCheck.GetCellRange(i, clmM注番.Index).StyleNew.BackColor = SystemColors.Window;
+                    grdPuAmountCheck.GetCellRange(i, clmM数量.Index).StyleNew.BackColor = SystemColors.Window;
+                    grdPuAmountCheck.GetCellRange(i, clmM単価.Index).StyleNew.BackColor = SystemColors.Window;
                     continue;
                 }
 
                 // 値が異なる場合に背景色を変更
+                grdPuAmountCheck.GetCellRange(i, clmM納入日.Index).StyleNew.BackColor =
+                    dataSource.M納入日 == dataSource.F納日 ? SystemColors.Window :Color.Yellow;
 
-                if (!grdPuAmountCheck[row, "M納日"].Equals(grdPuAmountCheck[row, "H納日"]))
-                {
-                    grdPuAmountCheck.GetCellRange(row, clmM納日.Index).StyleNew.BackColor = Color.Yellow; // 背景色を黄色に変更
-                }
-                else
-                {
-                    grdPuAmountCheck.GetCellRange(row, clmM納日.Index).StyleNew.BackColor = SystemColors.Window;
-                }
+                grdPuAmountCheck.GetCellRange(i, clmM注番.Index).StyleNew.BackColor =
+                    dataSource.M注番 == dataSource.F注番 ? SystemColors.Window :Color.Yellow;
 
-                if (!grdPuAmountCheck[row, "M注番"].Equals(grdPuAmountCheck[row, "H注番"]))
-                {
-                    grdPuAmountCheck.GetCellRange(row, clmM注番.Index).StyleNew.BackColor = Color.Yellow; // 背景色を黄色に変更
-                }
-                else
-                {
-                    grdPuAmountCheck.GetCellRange(row, clmM注番.Index).StyleNew.BackColor = SystemColors.Window;
-                }
+                grdPuAmountCheck.GetCellRange(i, clmM数量.Index).StyleNew.BackColor =
+                    dataSource.M数量.HasValue && dataSource.F数量.HasValue && dataSource.M数量 == dataSource.F数量 ? SystemColors.Window : Color.Yellow;
 
-                if (decimal.TryParse(grdPuAmountCheck[row, "M数量"]?.ToString(), out decimal mQuantity) &&
-                     int.TryParse(grdPuAmountCheck[row, "H数量"]?.ToString(), out int hQuantity))
-                {
-                    // M数量とH数量の値が異なる場合、背景色を変更
-                    if (mQuantity != hQuantity)
-                    {
-                        // 背景色を黄色に変更
-                        grdPuAmountCheck.GetCellRange(row, clmM数量.Index).StyleNew.BackColor = Color.Yellow;
-                    }
-                    else
-                    {
-                        grdPuAmountCheck.GetCellRange(row, clmM数量.Index).StyleNew.BackColor = SystemColors.Window;
-                    }
-                }
-                else
-                {
-                    grdPuAmountCheck.GetCellRange(row, clmM数量.Index).StyleNew.BackColor = SystemColors.Window;
-                }
-
-                if (!grdPuAmountCheck[row, "M単価"].Equals(grdPuAmountCheck[row, "H単価"]))
-                {
-                    grdPuAmountCheck.GetCellRange(row, clmM単価.Index).StyleNew.BackColor = Color.Yellow; // 背景色を黄色に変更
-                }
-                else
-                {
-                    grdPuAmountCheck.GetCellRange(row, clmM単価.Index).StyleNew.BackColor = SystemColors.Window;
-                }
+                grdPuAmountCheck.GetCellRange(i, clmM単価.Index).StyleNew.BackColor =
+                    dataSource.M単価 == dataSource.F単価 ? SystemColors.Window : Color.Yellow;
             }
         }
-
-        #region 一括確認
-
-        private void btnSetStatus_Click(object sender, EventArgs e)
-        {
-            for (int i = 1; i < grdPuAmountCheck.Rows.Count; i++) // 1行目はヘッダーなのでスキップする
-            {
-                if (grdPuAmountCheck.Rows[i].Visible) // フィルタリングされた行だけを考慮する
-                {
-                    if (grdPuAmountCheck[i, "照合ステータス"] == null || (int)grdPuAmountCheck[i, "照合ステータス"] == 0)
-                    {
-                        grdPuAmountCheck[i, "照合ステータス"] = 2; // 2 は "確認済" のキー
-                    }
-                }
-            }
-        }
-
-        #endregion 一括確認
-
-        #region 検索
-
-        /// <summary>検索ボタン</summary>
-        /// <param name="sender">イベント発生元</param>
-        /// <param name="e">イベント情報</param>
-        private async void btnSearch_Click(object sender, EventArgs e)
-        {
-            // TODO 暫定的に排他制御機能を封印
-            //if (currentMode == ScreenMode.ReadOnly)
-            //{
-            //    EditSetting();
-            //}
-            //else
-            //{
-            //    if (grdPuAmountCheck.Rows.Count > 1)
-            //    {
-            //        await AmountCheckUnlockAsync();
-            //    }
-            //}
-            Condition.仕入先コード = txtPuCode.Text;
-            if (!string.IsNullOrEmpty(txtHatOrderNo.Text.Trim()))
-            {
-                Condition.Hat注文番号 = txtHatOrderNo.Text.Trim();
-            }
-            if (dtPayDateFrom.HasValue)
-            {
-                Condition.仕入支払年月日From = HatFComParts.DoParseDateTime(dtPayDateFrom.Value);
-            }
-            if (dtPayDateTo.HasValue)
-            {
-                Condition.仕入支払年月日To = HatFComParts.DoParseDateTime(dtPayDateTo.Value);
-            }
-            await SearchAsync();
-        }
-
-        /// <summary>仕入先コードの変更</summary>
-        /// <param name="sender">イベント発生元</param>
-        /// <param name="e">イベント情報</param>
-        private void txtPuCode_TextChanged(object sender, EventArgs e)
-        {
-            EnableSearchButton();
-        }
-
-        /// <summary>検索ボタンの押下可否を設定</summary>
-        private void EnableSearchButton()
-        {
-            btnSearch.Enabled = !string.IsNullOrEmpty(txtPuCode.Text.Trim());
-        }
-
-        #endregion 検索
 
         #region 仕入登録
 
@@ -682,15 +585,15 @@ namespace HatFClient.Views.Purchase
         private void btnPuEdit_Click(object sender, EventArgs e)
         {
             var form = FormFactory.GetModelessFormCache<PU_Edit>();
-            if(form == null)
+            if (form == null)
             {
                 // 初回起動時のみ検索条件を設定する
                 form = FormFactory.GetModelessForm<PU_Edit>();
                 form.PuCode = txtPuCode.Text;
                 form.PuName = txtPuName.Text;
                 form.HatOrderNo = txtHatOrderNo.Text;
-                form.PayDateFrom = HatFComParts.DoParseDateTime(dtPayDateFrom.Value);
-                form.PayDateTo = HatFComParts.DoParseDateTime(dtPayDateTo.Value);
+                //form.PayDateFrom = HatFComParts.DoParseDateTime(dtPayDateFrom.Value);
+                //form.PayDateTo = HatFComParts.DoParseDateTime(dtPayDateTo.Value);
                 form.InitialSearch = true;
             }
             form.Show();
@@ -699,26 +602,34 @@ namespace HatFClient.Views.Purchase
 
         #endregion 仕入登録
 
-        #region 仕入先検索
-
-        /// <summary>仕入先検索ボタン</summary>
-        /// <param name="sender">イベント発生元</param>
-        /// <param name="e">イベント情報</param>
-        private void btnSearchSupplier_Click(object sender, EventArgs e)
+        private void grdPuAmountCheck_Click(object sender, EventArgs e)
         {
-            using (var searchForm = new MS_Shiresaki())
-            {
-                searchForm.TxtTEAM_CD = LoginRepo.GetInstance().CurrentUser.TeamCode;
-                searchForm.TxtSHIRESAKI_CD = txtPuCode.Text;
-                if (DialogHelper.IsPositiveResult(searchForm.ShowDialog()))
-                {
-                    txtPuCode.Text = searchForm.StrMsShiresakiCode;
-                    txtPuName.Text = searchForm.StrMsShiresakiName;
-                }
-            }
+
         }
 
-        #endregion 仕入先検索
 
+        public class TotalPrice
+        {
+            public string 項目 { get; set; }
+            public int F合計 { get; set; }
+            public int M合計 { get; set; }
+        }
+
+        private void SetPriceGrid()
+        {
+            // フィルタリングされた行のみ取得
+            var filteredRows = grdPuAmountCheck.Rows.OfType<Row>()
+                .Where(x => x.Visible)
+                .Select(x => x.DataSource as ViewPurchaseBillingDetail)
+                .Where(x => x != null)
+                .ToList();
+            filteredRows
+                .GroupBy(d => d.F金額)
+                .Select(d => new TotalPrice
+                {
+
+                });
+
+        }
     }
 }

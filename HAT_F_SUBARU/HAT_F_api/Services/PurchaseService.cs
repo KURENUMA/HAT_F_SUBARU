@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using HAT_F_api.CustomModels;
 using HAT_F_api.Models;
+using HAT_F_api.StateCodes;
 using HAT_F_api.Utils;
 using Microsoft.EntityFrameworkCore;
 using NLog.Targets.Wrappers;
@@ -384,6 +385,336 @@ namespace HAT_F_api.Services
             }
             await _hatFContext.SaveChangesAsync();
             return result;
+        }
+
+        /// <summary>仕入明細情報（ヘッダ含む）を取得</summary>
+        /// <param name="supCode">仕入先コード</param>
+        /// <returns>仕入明細情報</returns>
+        public async Task<List<ViewPuDetail>> GetViewPuDetailsAsync(string supCode)
+        {
+            return await _hatFContext.ViewPuDetails
+                .Where(x => x.SupCode == supCode)
+                .ToListAsync();
+        }
+
+        /// <summary>仕入テーブルを更新する</summary>
+        /// <param name="billingDetails">更新内容</param>
+        /// <returns>追加した行数</returns>
+        public async Task UpdatePuAsync(IEnumerable<PurchaseBillingDetail> billingDetails)
+        {
+            var mapper = new Mapper(new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<PurchaseBillingDetail, PuKoiso>()
+                    .ForMember(x => x.PuDate, x => x.MapFrom(source => source.M納日))
+                    .ForMember(x => x.SupCode, x => x.MapFrom(source => source.仕入先コード))
+                    .ForMember(x => x.SupSubNo, x => x.MapFrom(source => source.仕入先コード枝番))
+                    .ForMember(x => x.PaySupCode, x => x.MapFrom(source => source.支払先コード))
+                    .ForMember(x => x.EmpId, x => x.MapFrom(source => source.社員Id))
+                    .ForMember(x => x.StartDate, x => x.MapFrom(source => _hatFApiExecutionContext.ExecuteDateTimeJst))
+                    // TODO NOT NULL対応
+                    .ForMember(x => x.DeptCode, x => x.MapFrom(source => source.部門コード ?? string.Empty))
+                    .ForMember(x => x.HatOrderNo, x => x.MapFrom(source => source.Hat注文番号))
+                    // 除外メンバー
+                    .ForMember(x => x.PuNo, x => x.Ignore())
+                    .ForMember(x => x.CreateDate, x => x.Ignore())
+                    .ForMember(x => x.Creator, x => x.Ignore())
+                    .ForMember(x => x.UpdateDate, x => x.Ignore())
+                    .ForMember(x => x.Updater, x => x.Ignore());
+            }));
+            var group = billingDetails.GroupBy(x => new { x.仕入番号, supSubNo = x.仕入行番号, x.M納日 }).Select(x => x.First());
+            foreach (var item in group)
+            {
+                // 新規入力情報が既存レコードを重複することもあるため主キーでの検索はしない
+                // 仕入先コード、納品日、商品コードで検索したいが仕入先コードがPUにあるためVIEWから既存確認をする
+                var exists = await _hatFContext.PuKoisos
+                    .Where(x => x.SupCode == item.仕入先コード)
+                    .Where(x => x.SupSubNo == (item.仕入先コード枝番 ?? 0))
+                    .Where(x => x.PuDate == item.M納日)
+                    // PU_DETAILS更新時に新規登録も済ませているのでnullにはならないはず
+                    .SingleOrDefaultAsync() ?? throw new KeyNotFoundException("更新対象の仕入ヘッダ情報がありません。");
+
+                mapper.Map(item, exists);
+                exists.PuAmmount = await _hatFContext.PuDetailsKoisos
+                    .Where(x => x.PuNo == exists.PuNo)
+                    .Where(x => x.DelFlg != DelFlg.Deleted)
+                    .SumAsync(x => x.PoPrice * x.PuQuantity);
+
+                exists.CmpTax = (await _hatFContext.PuDetailsKoisos
+                    .Where(x => x.PuNo == exists.PuNo)
+                    .Where(x => x.DelFlg != DelFlg.Deleted)
+                    .SumAsync(x => (x.PoPrice * x.PuQuantity) * x.TaxRate / 100)) ?? 0;
+
+                _updateInfoSetter.SetUpdateInfo(exists);
+            }
+            await _hatFContext.SaveChangesAsync();
+        }
+
+
+        // TODO ★削除予定
+        /// <summary>仕入テーブルを更新する</summary>
+        /// <param name="viewPuDetails">更新内容</param>
+        /// <returns>追加した行数</returns>
+        public async Task UpdatePuAsync(IEnumerable<ViewPuDetail> viewPuDetails)
+        {
+            var mapper = new Mapper(new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<ViewPuDetail, PuKoiso>()
+                    .ForMember(x => x.StartDate, x => x.MapFrom(source => _hatFApiExecutionContext.ExecuteDateTimeJst))
+                    // 除外メンバー
+                    .ForMember(x => x.PuNo, x => x.Ignore())
+                    .ForMember(x => x.DeptCode, x => x.Ignore())
+                    .ForMember(x => x.EmpId, x => x.Ignore())
+                    .ForMember(x => x.CreateDate, x => x.Ignore())
+                    .ForMember(x => x.Creator, x => x.Ignore())
+                    .ForMember(x => x.UpdateDate, x => x.Ignore())
+                    .ForMember(x => x.Updater, x => x.Ignore());
+            }));
+            var group = viewPuDetails.GroupBy(x => new { x.PuNo, supSubNo = 0, x.Noubi }).Select(x => x.First());
+            foreach (var item in group)
+            {
+                // 新規入力情報が既存レコードを重複することもあるため主キーでの検索はしない
+                // 仕入先コード、納品日、商品コードで検索したいが仕入先コードがPUにあるためVIEWから既存確認をする
+                var exists = await _hatFContext.PuKoisos
+                    .Where(x => x.SupCode == item.SupCode)
+                    .Where(x => x.SupSubNo == 0)
+                    .Where(x => x.PuDate == item.Noubi)
+                    // PU_DETAILS更新時に新規登録も済ませているのでnullにはならないはず
+                    .SingleOrDefaultAsync() ?? throw new KeyNotFoundException("更新対象の仕入ヘッダ情報がありません。");
+
+                mapper.Map(item, exists);
+                exists.PuAmmount = await _hatFContext.PuDetailsKoisos
+                    .Where(x => x.PuNo == exists.PuNo)
+                    .Where(x => x.DelFlg != DelFlg.Deleted)
+                    .SumAsync(x => x.PoPrice * x.PuQuantity);
+
+                exists.CmpTax = (await _hatFContext.PuDetailsKoisos
+                    .Where(x => x.PuNo == exists.PuNo)
+                    .Where(x => x.DelFlg != DelFlg.Deleted)
+                    .SumAsync(x => (x.PoPrice * x.PuQuantity) * x.TaxRate / 100)) ?? 0;
+
+                _updateInfoSetter.SetUpdateInfo(exists);
+            }
+            await _hatFContext.SaveChangesAsync();
+        }
+
+        /// <summary>仕入明細テーブルを追加/更新する</summary>
+        /// <param name="billingDetails">更新内容</param>
+        /// <returns>追加した行数</returns>
+        public async Task<int> UpsertPuDetailsAsync(IEnumerable<PurchaseBillingDetail> billingDetails)
+        {
+            var mapper = new Mapper(new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<PurchaseBillingDetail, PuKoiso>()
+                    .ForMember(x => x.SupCode, x => x.MapFrom(source => source.仕入先コード))
+                    .ForMember(x => x.SupSubNo, x => x.MapFrom(source => 0))
+                    .ForMember(x => x.PaySupCode, x => x.MapFrom(source => source.支払先コード))
+                    .ForMember(x => x.PuDate, x => x.MapFrom(source => source.M納日))
+                    .ForMember(x => x.StartDate, x => x.MapFrom(source => _hatFApiExecutionContext.ExecuteDateTimeJst))
+                    // TODO NULL不許可なのでとりあえず空白
+                    .ForMember(x => x.DeptCode, x => x.MapFrom(source => string.Empty))
+                    // 除外メンバー
+                    .ForMember(x => x.PuNo, x => x.Ignore())
+                    .ForMember(x => x.EmpId, x => x.Ignore())
+                    .ForMember(x => x.CreateDate, x => x.Ignore())
+                    .ForMember(x => x.Creator, x => x.Ignore())
+                    .ForMember(x => x.UpdateDate, x => x.Ignore())
+                    .ForMember(x => x.Updater, x => x.Ignore());
+                cfg.CreateMap<PurchaseBillingDetail, PuDetailsKoiso>()
+                    .ForMember(x => x.PuRowDspNo, x => x.MapFrom(source => source.納品書番号))
+                    .ForMember(x => x.Noubi, x => x.MapFrom(source => source.M納日))
+                    .ForMember(x => x.HatOrderNo, x => x.MapFrom(source => source.Hat注文番号))
+                    .ForMember(x => x.PoRowNo, x => x.MapFrom(source => source.H行番号))
+                    .ForMember(x => x.ProdCode, x => x.MapFrom(source => source.商品コード))
+                    .ForMember(x => x.ProdName, x => x.MapFrom(source => source.商品名))
+                    .ForMember(x => x.WhCode, x => x.MapFrom(source => source.倉庫コード))
+                    .ForMember(x => x.PoPrice, x => x.MapFrom(source => source.M単価))
+                    .ForMember(x => x.PuQuantity, x => x.MapFrom(source => source.M数量))
+                    .ForMember(x => x.TaxFlg, x => x.MapFrom(source => source.消費税))
+                    .ForMember(x => x.CheckStatus, x => x.MapFrom(source => source.照合ステータス))
+                    .ForMember(x => x.PuKbn, x => x.MapFrom(source => source.区分))
+                    .ForMember(x => x.PuPayYearMonth, x => x.MapFrom(source => source.支払日))
+                    .ForMember(x => x.PuPayDate, x => x.MapFrom(source => source.支払日))
+                    .ForMember(x => x.Chuban, x => x.MapFrom(source => source.M注番))
+                    .ForMember(x => x.DenNo, x => x.MapFrom(source => source.M伝票番号))
+                    .ForMember(x => x.DenFlg, x => x.MapFrom(source => source.伝区))
+                    // 以下の除外メンバー以外で、同名のものはそのまま取り込む
+                    .ForMember(x => x.PuNo, x => x.Ignore())
+                    .ForMember(x => x.PuRowNo, x => x.Ignore())
+                    .ForMember(x => x.CreateDate, x => x.Ignore())
+                    .ForMember(x => x.Creator, x => x.Ignore())
+                    .ForMember(x => x.UpdateDate, x => x.Ignore())
+                    .ForMember(x => x.Updater, x => x.Ignore());
+            }));
+
+            var result = 0;
+            // PU_DETAILSを更新する
+            foreach (var item in billingDetails)
+            {
+                // 新規入力情報が既存レコードを重複することもあるため主キーでの検索はしない
+                // 仕入先コード、納品日、商品コードで検索したいが仕入先コードがPUにあるためVIEWから既存確認をする
+                var viewExists = await _hatFContext.ViewPuDetails
+                    .Where(x => x.SupCode == item.仕入先コード)
+                    .Where(x => x.Noubi == item.M納日)
+                    .Where(x => (x.ProdCode ?? x.ProdName) == (item.商品コード ?? item.商品名))
+                    .SingleOrDefaultAsync();
+
+                // 更新
+                if (viewExists != null)
+                {
+                    var exists = _hatFContext.PuDetailsKoisos
+                        .Where(x => x.PuNo == viewExists.PuNo)
+                        .Where(x => x.PuRowNo == viewExists.PuRowNo)
+                        .Where(x => x.DelFlg != DelFlg.Deleted)
+                        .First();
+                    mapper.Map(item, exists);
+                    _updateInfoSetter.SetUpdateInfo(exists);
+                }
+                // 追加
+                else
+                {
+                    // 追加対象となるPUテーブルを検索
+                    var header = await _hatFContext.PuKoisos
+                        .Where(x => x.SupCode == item.仕入先コード)
+                        .Where(x => x.SupSubNo == 0)
+                        .Where(x => x.PuDate == item.M納日)
+                        .SingleOrDefaultAsync();
+                    // 該当するものがなければ主キーだけ設定して追加しておく
+                    if (header == null)
+                    {
+                        var newNo = await _sequenceNumberService.GetNextNumberAsync(SequenceNumber.PuPuNo);
+                        header = mapper.Map<PurchaseBillingDetail, PuKoiso>(item);
+                        header.PuNo = $"{newNo:D10}";
+                        _updateInfoSetter.SetUpdateInfo(newNo);
+                        _hatFContext.PuKoisos.Add(header);
+                    }
+                    var maxPuRowNo = (await _hatFContext.PuDetailsKoisos.Where(x => x.PuNo == header.PuNo).MaxAsync(x => x.PuRowNo as short?)) ?? 0;
+                    var newDetail = mapper.Map<PurchaseBillingDetail, PuDetailsKoiso>(item);
+                    newDetail.PuNo = header.PuNo;
+                    newDetail.PuRowNo = (short)(maxPuRowNo + 1);
+
+                    _updateInfoSetter.SetUpdateInfo(newDetail);
+                    _hatFContext.PuDetailsKoisos.Add(newDetail);
+                    result++;
+                }
+            }
+            await _hatFContext.SaveChangesAsync();
+            return result;
+        }
+
+        // TODO ★削除予定
+        /// <summary>仕入明細テーブルを追加/更新する</summary>
+        /// <param name="viewPuDetails">更新内容</param>
+        /// <returns>追加した行数</returns>
+        public async Task<int> UpsertPuDetailsAsync(IEnumerable<ViewPuDetail> viewPuDetails)
+        {
+            var mapper = new Mapper(new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<ViewPuDetail, PuKoiso>()
+                    .ForMember(x => x.SupSubNo, x => x.MapFrom(source => 0))
+                    .ForMember(x => x.PuDate, x => x.MapFrom(source => source.Noubi))
+                    .ForMember(x => x.StartDate, x => x.MapFrom(source => _hatFApiExecutionContext.ExecuteDateTimeJst))
+                    // TODO NULL不許可なのでとりあえず空白
+                    .ForMember(x => x.DeptCode, x => x.MapFrom(source => string.Empty))
+                    // 除外メンバー
+                    .ForMember(x => x.PuNo, x => x.Ignore())
+                    .ForMember(x => x.EmpId, x => x.Ignore())
+                    .ForMember(x => x.CreateDate, x => x.Ignore())
+                    .ForMember(x => x.Creator, x => x.Ignore())
+                    .ForMember(x => x.UpdateDate, x => x.Ignore())
+                    .ForMember(x => x.Updater, x => x.Ignore());
+                cfg.CreateMap<ViewPuDetail, PuDetailsKoiso>()
+                    .ForMember(x => x.Chuban, x => x.MapFrom(source =>
+                        (!string.IsNullOrEmpty(source.HatOrderNo) && !string.IsNullOrEmpty(source.PoRowNo)) ? $"{source.HatOrderNo}{source.PoRowNo}" : null))
+                    // 以下の除外メンバー以外で、同名のものはそのまま取り込む
+                    .ForMember(x => x.PuNo, x => x.Ignore())
+                    .ForMember(x => x.PuRowNo, x => x.Ignore())
+                    .ForMember(x => x.CreateDate, x => x.Ignore())
+                    .ForMember(x => x.Creator, x => x.Ignore())
+                    .ForMember(x => x.UpdateDate, x => x.Ignore())
+                    .ForMember(x => x.Updater, x => x.Ignore());
+            }));
+            // 仕入先マスタの内容を先に取得しておく
+            var supCodes = viewPuDetails.GroupBy(x => x.SupCode).Select(x => x.Key).ToList();
+            var suppliers = await _hatFContext.SupplierMsts.Where(x => supCodes.Contains(x.SupCode))
+                .ToDictionaryAsync(x => x.SupCode, x => x);
+
+            var result = 0;
+            // PU_DETAILSを更新する
+            foreach (var item in viewPuDetails)
+            {
+                // 新規入力情報が既存レコードを重複することもあるため主キーでの検索はしない
+                // 仕入先コード、納品日、商品コードで検索したいが仕入先コードがPUにあるためVIEWから既存確認をする
+                var viewExists = await _hatFContext.ViewPuDetails
+                    .Where(x => x.SupCode == item.SupCode)
+                    .Where(x => x.Noubi == item.Noubi)
+                    .Where(x => (x.ProdCode ?? x.ProdName) == (item.ProdCode ?? item.ProdName))
+                    .SingleOrDefaultAsync();
+
+                // 更新
+                if (viewExists != null)
+                {
+                    var exists = _hatFContext.PuDetailsKoisos
+                        .Where(x => x.PuNo == viewExists.PuNo)
+                        .Where(x => x.PuRowNo == viewExists.PuRowNo)
+                        .Where(x => x.DelFlg != DelFlg.Deleted)
+                        .First();
+                    mapper.Map(item, exists);
+                    var supplier = suppliers[item.SupCode];
+                    exists.PuPayYearMonth = DateTimeUtil.GetPayDate(item.Noubi, supplier.SupCloseDate, supplier.SupPayMonths, supplier.SupPayDates);
+                    exists.PuPayDate = DateTimeUtil.GetPayDate(item.Noubi, supplier.SupCloseDate, supplier.SupPayMonths, supplier.SupPayDates);
+                    _updateInfoSetter.SetUpdateInfo(exists);
+                }
+                // 追加
+                else
+                {
+                    // 追加対象となるPUテーブルを検索
+                    var header = await _hatFContext.PuKoisos
+                        .Where(x => x.SupCode == item.SupCode)
+                        .Where(x => x.SupSubNo == 0)
+                        .Where(x => x.PuDate == item.Noubi)
+                        .SingleOrDefaultAsync();
+                    // 該当するものがなければ主キーだけ設定して追加しておく
+                    if (header == null)
+                    {
+                        var newNo = await _sequenceNumberService.GetNextNumberAsync(SequenceNumber.PuPuNo);
+                        header = mapper.Map<ViewPuDetail, PuKoiso>(item, opt => opt.AfterMap((src, dest) =>
+                        {
+                            dest.PuNo = $"{newNo:D10}";
+                        }));
+                        _updateInfoSetter.SetUpdateInfo(newNo);
+                        _hatFContext.PuKoisos.Add(header);
+                    }
+                    var maxPuRowNo = (await _hatFContext.PuDetailsKoisos.Where(x => x.PuNo == header.PuNo).MaxAsync(x => x.PuRowNo as short?)) ?? 0;
+                    var newDetail = mapper.Map<ViewPuDetail, PuDetailsKoiso>(item, opt => opt.AfterMap((src, dest) =>
+                    {
+                        dest.PuNo = header.PuNo;
+                        dest.PuRowNo = (short)(maxPuRowNo + 1);
+
+                        var supplier = suppliers.ContainsKey(src.SupCode) ? suppliers[src.SupCode] : null;
+                        dest.PuPayYearMonth = DateTimeUtil.GetPayDate(src.Noubi, supplier?.SupCloseDate, supplier?.SupPayMonths, supplier?.SupPayDates);
+                        dest.PuPayDate = DateTimeUtil.GetPayDate(src.Noubi, supplier?.SupCloseDate, supplier?.SupPayMonths, supplier?.SupPayDates);
+                        _updateInfoSetter.SetUpdateInfo(dest);
+                    }));
+                    _hatFContext.PuDetailsKoisos.Add(newDetail);
+                    result++;
+                }
+            }
+            await _hatFContext.SaveChangesAsync();
+            return result;
+        }
+
+        /// <summary>仕入明細情報の削除</summary>
+        /// <param name="viewPuDetails">仕入情報</param>
+        /// <returns>削除件数</returns>
+        public async Task<int> DeletePuDetailAsync(IEnumerable<ViewPuDetail> viewPuDetails)
+        {
+            var keys = viewPuDetails.Select(x => new { x.PuNo, x.PuRowNo });
+            var targets = await _hatFContext.PuDetailsKoisos
+                .Where(x => keys.Contains(new { x.PuNo, x.PuRowNo }))
+                .ToListAsync();
+            targets.ForEach(x => x.DelFlg = DelFlg.Deleted);
+            await _hatFContext.SaveChangesAsync();
+            return targets.Count;
         }
     }
 }

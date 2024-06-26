@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using System.Text.Json;
 using System.Linq.Dynamic.Core;
+using System.Linq.Expressions;
 
 namespace HAT_F_api.Utils
 {
@@ -15,6 +16,7 @@ namespace HAT_F_api.Utils
         public string PropertyName { get; set; } = null!;
         public string Operator { get; set; } = null!;
         public object Value { get; set; } = null!;
+        public string GroupKey { get; set; } = null!;
     }
 
     public class GenSearchItem
@@ -259,5 +261,55 @@ namespace HAT_F_api.Utils
         //    System.Diagnostics.Debug.WriteLine(pagedQuery.ToQueryString());
         //    return pagedQuery;
         //}
+
+        /// <remarks>
+        /// 【重要】この機能はセキュリティを考慮して作成されていません。問題は発見次第修正しますが安全は担保できません。(SQLインジェクションに類する危険性を内包します)
+        /// </remarks>
+        public static string CreateConditionSqlConsideringGroupKey(List<GenSearchItem> searchItems)
+        {
+            var groupedItems = searchItems.GroupBy(item => item.Property.GroupKey);
+            string searchReq = "";
+
+            foreach (var group in groupedItems)
+            {
+                string groupCondition = "";
+                foreach (GenSearchItem searchItem in group)
+                {
+                    if (groupCondition != "")
+                    {
+                        groupCondition += searchItem.CombinationType == CombinationTypes.AND ? " AND " : " OR ";
+                    }
+                    var converter = getConverter(searchItem);
+                    groupCondition += converter(searchItem.Property.PropertyName, searchItem.Property.Value);
+                }
+
+                if (searchReq != "")
+                {
+                    searchReq += group.First().CombinationType == CombinationTypes.AND ? " AND " : " OR ";
+                }
+                searchReq += "(" + groupCondition + ")";
+            }
+
+            return searchReq;
+        }
+
+        /// <summary>
+        /// 検索条件を受け取り、検索結果を返却する
+        /// </summary>
+        /// <typeparam name="T">検索対象モデル</typeparam>
+        /// <param name="dbSet">検索対象</param>
+        /// <param name="searchItems">検索条件リスト</param>
+        /// <returns></returns>
+        public static IQueryable<T> DoGenSearchConsideringGroupKey<T>(DbSet<T> dbSet, List<GenSearchItem> searchItems) where T : class
+        {
+            if (searchItems == null || searchItems.Count == 0)
+            {
+                return dbSet;
+            }
+
+            var sql = GenSearchUtil.CreateConditionSqlConsideringGroupKey(searchItems);
+            // Console.WriteLine(sql);
+            return dbSet.Where(sql);
+        }
     }
 }

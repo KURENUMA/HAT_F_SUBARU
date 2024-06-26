@@ -9,8 +9,15 @@
             this.Value = Value;
         }
 
+        public FilterOption(string PropertyName, string Operator, object Value, string GroupKey)
+            : this(PropertyName, Operator, Value)
+        {
+            this.GroupKey = GroupKey;
+        }
+
         public string PropertyName { get; }
         public string Operator { get; }
         public object Value { get; }
+        public string GroupKey { get; }
     }
 }

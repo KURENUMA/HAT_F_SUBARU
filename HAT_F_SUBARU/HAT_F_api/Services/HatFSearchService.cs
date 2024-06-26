@@ -1009,15 +1009,15 @@ namespace HAT_F_api.Services
         public async Task<List<ViewPurchaseBillingDetail>> GetViewPurchaseBillingDetailAsync(ViewPurchaseBillingDetailCondition condition, int row = 200)
         {
             var query = _hatFContext.ViewPurchaseBillingDetails
-                //.Where(v => string.IsNullOrEmpty(condition.仕入先コード) || v.仕入先コード == condition.仕入先コード)
-                //.Where(v => string.IsNullOrEmpty(condition.Hat注文番号) || v.Hat注文番号 == condition.Hat注文番号)
-                //.Where(v => !condition.仕入支払年月日From.HasValue || v.仕入支払年月日 >= (condition.仕入支払年月日From.Value.Date))
-                //.Where(v => !condition.仕入支払年月日To.HasValue || v.仕入支払年月日 < (condition.仕入支払年月日To.Value.Date.AddDays(1)))
-                //.OrderBy(v => v.Hat注文番号)
-                .OrderBy(v => v.伝票番号)
-                //.ThenBy(v => v.Hページ番号)
-                //.ThenBy(v => v.H行番号)
-                .Take(row)
+                .Where(v => string.IsNullOrEmpty(condition.仕入先コード) || (v.F仕入先コード == condition.仕入先コード || v.M仕入先コード == condition.仕入先コード))
+                .Where(v => string.IsNullOrEmpty(condition.Hat注文番号) || (v.F注文番号 == condition.Hat注文番号 || v.M注文番号 == condition.Hat注文番号))
+                .Where(v => !condition.納日From.HasValue || (v.F納日 >= condition.納日From.Value.Date || v.M納入日 >= condition.納日From.Value.Date))
+                .Where(v => !condition.納日To.HasValue || (v.F納日 < condition.納日To.Value.Date.AddDays(1) || v.M納入日 < condition.納日To.Value.Date.AddDays(1)))
+                .OrderBy(v => v.SaveKey == null)
+                .ThenBy(v => v.F注文番号)
+                .ThenBy(v => v.伝票番号)
+                .ThenBy(v => v.DenSort)
+                .ThenBy(v => v.DenNoLine)
                 ;
             return await query.ToListAsync();
         }

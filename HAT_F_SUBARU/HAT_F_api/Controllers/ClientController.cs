@@ -867,9 +867,11 @@ namespace HAT_F_api.Controllers
 
             return await ApiLogicRunner.RunAsync(async () =>
             {
-                var datas = await _purchaseService.ToPurchaseDatasAsync(updateRequest);
-
-                return await _purchaseService.PutPurchaseDatasAsync(datas);
+                using var transaction = await _context.Database.BeginTransactionAsync();
+                var result = await _purchaseService.UpsertPuDetailsAsync(updateRequest);
+                await _purchaseService.UpdatePuAsync(updateRequest);
+                await transaction.CommitAsync();
+                return result;
             });
         }
 
