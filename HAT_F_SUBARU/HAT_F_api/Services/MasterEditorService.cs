@@ -425,11 +425,10 @@ namespace HAT_F_api.Services
             return rowsAffected;
         }
 
-        public IQueryable<DestinationsMst> GetDestinationsMst(string custCode, short? distNo, string genbaCode, int rows, int page)
+        public IQueryable<DestinationsMst> GetDestinationsMst(string custCode, string genbaCode, int rows, int page)
         {
             var query = _hatFContext.DestinationsMsts
                 .Where(x => string.IsNullOrEmpty(custCode) || x.CustCode == custCode)
-                .Where(x => !distNo.HasValue || x.DistNo == distNo.Value)
                 .Where(x => string.IsNullOrEmpty(genbaCode) || x.GenbaCode == genbaCode)
                 .Skip(rows * (page - 1)).Take(rows);
 
@@ -442,18 +441,11 @@ namespace HAT_F_api.Services
 
             var query = _hatFContext.DestinationsMsts
                             .Where(x => x.CustCode == destinationsMst.CustCode)
-                            .Where(x => x.DistNo == destinationsMst.DistNo);
+                            .Where(x => x.GenbaCode == destinationsMst.GenbaCode);
 
             var existedDestinationsMst = await query.SingleOrDefaultAsync();
             if (existedDestinationsMst == null)
             {
-                var distNoQquery = _hatFContext.DestinationsMsts
-                            .Where(x => x.CustCode == destinationsMst.CustCode)
-                            .OrderByDescending(x => x.DistNo);
-
-                int maxDistNo = distNoQquery.FirstOrDefault()?.DistNo ?? 0;
-                destinationsMst.DistNo = (short)(maxDistNo + 1);
-
                 _hatFContext.DestinationsMsts.Add(destinationsMst);
             }
             else

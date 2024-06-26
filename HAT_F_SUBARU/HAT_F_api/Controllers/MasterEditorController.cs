@@ -488,8 +488,8 @@ namespace HAT_F_api.Controllers
         /// <summary>
         ///出荷先（現場）検索
         /// </summary>
-        [HttpGet("destinations-mst/{custCode:?}/{custSubNo:?}/{distNo:?}")]
-        public async Task<ActionResult<ApiResponse<List<DestinationsMstEx>>>> GetDestinationsMstAsync(string custCode = null, short? distNo = null, [FromQuery] string genbaCode = null, [FromQuery] int rows = 200, [FromQuery] int page = 1)
+        [HttpGet("destinations-mst/{custCode:?}/{genbaCode:?}")]
+        public async Task<ActionResult<ApiResponse<List<DestinationsMstEx>>>> GetDestinationsMstAsync(string custCode = null, string genbaCode = null, [FromQuery] int rows = 200, [FromQuery] int page = 1)
         {
             return await ApiLogicRunner.RunAsync(async () =>
             {
@@ -502,7 +502,7 @@ namespace HAT_F_api.Controllers
                 });
                 var mapper = config.CreateMapper();
 
-                var query = _masterEditorService.GetDestinationsMst(custCode, distNo, genbaCode, rows, page);
+                var query = _masterEditorService.GetDestinationsMst(custCode, genbaCode, rows, page);
                 var joinedQuery = AddJoinToDestinationsMstForDisplayName(query);
 
                 // 名称列付オブジェクトにコピーして返す

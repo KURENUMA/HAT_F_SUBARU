@@ -313,9 +313,9 @@ namespace HatFClient.Views.MasterEdit
 
             string custCode = (string)grid[grid.Row, nameof(DestinationsMstEx.CustCode)];
             //short custSubNo = (short)grid[grid.Row, nameof(DestinationsMstEx.CustSubNo)];
-            short distNo = (short)grid[grid.Row, nameof(DestinationsMstEx.DistNo)];
+            //short distNo = (short)grid[grid.Row, nameof(DestinationsMstEx.DistNo)];
 
-            using (var form = new ME_DestinaitonsMstDetail(custCode, distNo))
+            using (var form = new ME_DestinaitonsMstDetail(custCode, 0))
             {
                 if (DialogHelper.IsPositiveResult(form.ShowDialog()))
                 {

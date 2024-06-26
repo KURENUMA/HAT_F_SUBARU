@@ -1833,11 +1833,11 @@ namespace HAT_F_api.Controllers
         /// 出荷先（現場）検索
         /// </summary>
         [HttpGet("destinations-mst/")]
-        public async Task<ActionResult<ApiResponse<List<DestinationsMst>>>> GetDestinationsMstAsync([FromQuery] string custCode = null, [FromQuery] short? distNo = null, [FromQuery] string genbaCode = null, [FromQuery] int rows = 200, [FromQuery] int page = 1)
+        public async Task<ActionResult<ApiResponse<List<DestinationsMst>>>> GetDestinationsMstAsync([FromQuery] string custCode = null, [FromQuery] string genbaCode = null, [FromQuery] int rows = 200, [FromQuery] int page = 1)
         {
             return await ApiLogicRunner.RunAsync(async () =>
             {
-                var query = _hatFSearchService.GetDestinationsMst(custCode, distNo, genbaCode);
+                var query = _hatFSearchService.GetDestinationsMst(custCode, genbaCode);
                 query = query
                     .OrderBy(x => x.CustCode)
                     .Skip((page - 1) * rows)

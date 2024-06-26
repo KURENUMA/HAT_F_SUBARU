@@ -125,7 +125,7 @@ namespace HatFClient.Views.MasterEdit
                 //item.CustSubNo = _custSubNo ?? 0;       // 顧客枝番
 
                 item.GenbaCode = txtGenbaCode.Text;     // 現場CD               
-                item.DistNo = 0;    // 出荷先番号はサーバーで自動採番する
+                //item.DistNo = 0;    // 出荷先番号はサーバーで自動採番する
             }
 
             item.Deleted = chkDeleted.Checked;
@@ -305,7 +305,7 @@ namespace HatFClient.Views.MasterEdit
             txtCustName.Text = CreateItemInfo(customersMst.CustCode, customersMst.CustName);
 
             txtGenbaCode.Text = item.GenbaCode;
-            txtDistNo.Text = this.IsUpdateMode ? item.DistNo.ToString() : "(新規)";
+            //txtDistNo.Text = this.IsUpdateMode ? item.DistNo.ToString() : "(新規)";
 
             txtDistName1.Text = item.DistName1;
             txtDistName2.Text = item.DistName2;
