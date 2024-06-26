@@ -423,13 +423,13 @@ namespace HatFClient.Views.MasterEdit
             {
                 SetComboBoxValue(cmbCustArFlag, item.CustArFlag);
 
-                SetComboBoxValue(cmbCustCloseDay1, item.CustCloseDate1);
-                SetComboBoxValue(cmbCustPayMonth1, item.CustPayDates1);
-                SetComboBoxValue(cmbCustPayMethod1, item.CustPayMethod1);
+                SetComboBoxValue(cmbCustCloseDay1, item.CustCloseDate);
+                //SetComboBoxValue(cmbCustPayMonth1, item.CustPayDates1);
+                //SetComboBoxValue(cmbCustPayMethod1, item.CustPayMethod1);
 
-                SetComboBoxValue(cmbCustCloseDay2, item.CustCloseDate2);
-                SetComboBoxValue(cmbCustPayMonth2, item.CustPayDates2);
-                SetComboBoxValue(cmbCustPayMethod2, item.CustPayMethod2);
+                //SetComboBoxValue(cmbCustCloseDay2, item.CustCloseDate2);
+                //SetComboBoxValue(cmbCustPayMonth2, item.CustPayDates2);
+                //SetComboBoxValue(cmbCustPayMethod2, item.CustPayMethod2);
             }
 
             // キーマン表示グリッド
@@ -474,13 +474,13 @@ namespace HatFClient.Views.MasterEdit
             {
                 item.CustArFlag = (short?)cmbCustArFlag.SelectedValue;
 
-                item.CustCloseDate1 = (short?)cmbCustCloseDay1.SelectedValue;
-                item.CustPayDates1 = (short?)cmbCustPayMonth1.SelectedValue;
-                item.CustPayMethod1 = (short?)cmbCustPayMethod1.SelectedValue;
+                item.CustCloseDate = (short?)cmbCustCloseDay1.SelectedValue;
+                //item.CustPayDates1 = (short?)cmbCustPayMonth1.SelectedValue;
+                //item.CustPayMethod1 = (short?)cmbCustPayMethod1.SelectedValue;
 
-                item.CustCloseDate2 = (short?)cmbCustCloseDay2.SelectedValue;
-                item.CustPayDates2 = (short?)cmbCustPayMonth2.SelectedValue;
-                item.CustPayMethod2 = (short?)cmbCustPayMethod2.SelectedValue;
+                //item.CustCloseDate2 = (short?)cmbCustCloseDay2.SelectedValue;
+                //item.CustPayDates2 = (short?)cmbCustPayMonth2.SelectedValue;
+                //item.CustPayMethod2 = (short?)cmbCustPayMethod2.SelectedValue;
             }
         }
 

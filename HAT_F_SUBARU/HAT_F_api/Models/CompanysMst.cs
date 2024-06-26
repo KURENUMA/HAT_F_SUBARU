@@ -90,6 +90,11 @@ public partial class CompanysMst
     /// </summary>
     public string InvoiceRegistNumber { get; set; }
 
+    /// <summary>
+    /// マネーフォワード連携・取引先コード
+    /// </summary>
+    public string MfCompCode { get; set; }
+
     public DateTime? DeleteDate { get; set; }
 
     public bool Deleted { get; set; }

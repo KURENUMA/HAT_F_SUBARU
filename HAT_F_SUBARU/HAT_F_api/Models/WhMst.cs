@@ -19,7 +19,7 @@ public partial class WhMst
     public string WhName { get; set; }
 
     /// <summary>
-    /// 倉庫区分,N:通常倉庫 C:得意先 S:仕入先 D:部門倉庫 P:製品倉庫 M:原材料倉庫
+    /// 倉庫区分,N:通常倉庫(HAT-F) S:仕入先(マルマ) 不使用⇒C:得意先 D:部門倉庫 P:製品倉庫 M:原材料倉庫
     /// </summary>
     public string WhType { get; set; }
 

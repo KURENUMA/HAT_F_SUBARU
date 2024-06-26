@@ -19,7 +19,7 @@ public partial class ViewInvoiceBatch
 
     public string 顧客コード { get; set; }
 
-    public short 顧客枝番 { get; set; }
+    public short? 顧客枝番 { get; set; }
 
     public string 請求先コード { get; set; }
 

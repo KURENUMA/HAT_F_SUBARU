@@ -68,6 +68,11 @@ public partial class SupplierMst
     /// </summary>
     public string SupEmail { get; set; }
 
+    /// <summary>
+    /// 発注先種別,null/0:未設定 1:橋本本体 2:橋本本体以外
+    /// </summary>
+    public short? SupplierType { get; set; }
+
     public string PayeeCode { get; set; }
 
     /// <summary>
