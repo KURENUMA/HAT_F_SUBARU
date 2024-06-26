@@ -228,7 +228,7 @@ namespace HatFClient.Views.Warehousing
             var sokoComboBoxItems = new List<OptionData>(divSokos.Count());
             divSokos.ToList().ForEach(item =>
             {
-                sokoComboBoxItems.Add(new OptionData() { Code = item.Code, Name = $"{item.Code}:{item.Name}" });
+                sokoComboBoxItems.Add(new OptionData() { Code = item.WhCode, Name = $"{item.WhCode}:{item.WhName}" });
             });
 
             cboWarehouse.DisplayMember = nameof(OptionData.Name);

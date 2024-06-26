@@ -1551,6 +1551,7 @@
             this.radioHAT.TabIndex = 0;
             this.radioHAT.Text = "HAT";
             this.radioHAT.UseVisualStyleBackColor = true;
+            this.radioHAT.CheckedChanged += new System.EventHandler(this.RadioHAT_CheckedChanged);
             // 
             // radioHAT_EXCEPT
             // 
@@ -1638,7 +1639,7 @@
             this.dateHAT_NYUKABI.LoopPosition = false;
             this.dateHAT_NYUKABI.MaxLength = 8;
             this.dateHAT_NYUKABI.Name = "dateHAT_NYUKABI";
-            this.dateHAT_NYUKABI.Size = new System.Drawing.Size(115, 21);
+            this.dateHAT_NYUKABI.Size = new System.Drawing.Size(115, 23);
             this.dateHAT_NYUKABI.TabIndex = 70;
             this.dateHAT_NYUKABI.Tag = null;
             this.dateHAT_NYUKABI.VisibleButtons = C1.Win.C1Input.DropDownControlButtonFlags.DropDown;
@@ -1669,7 +1670,7 @@
             this.dateNOUKI.LoopPosition = false;
             this.dateNOUKI.MaxLength = 8;
             this.dateNOUKI.Name = "dateNOUKI";
-            this.dateNOUKI.Size = new System.Drawing.Size(115, 21);
+            this.dateNOUKI.Size = new System.Drawing.Size(115, 23);
             this.dateNOUKI.TabIndex = 52;
             this.dateNOUKI.Tag = null;
             this.dateNOUKI.VisibleButtons = C1.Win.C1Input.DropDownControlButtonFlags.DropDown;

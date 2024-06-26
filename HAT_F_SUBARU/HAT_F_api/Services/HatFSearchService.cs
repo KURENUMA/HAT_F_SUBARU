@@ -66,7 +66,7 @@ namespace HAT_F_api.Services
             init.DivShiresakis = await _hatFContext.SupplierMsts.Select(e => new OptionData { Code = e.SupCode, Name = e.SupName }).Take(100).ToListAsync();
 
             //init.DivSokos = await _context.DivSokos.Select(e => new OptionData { Code = e.SokoCd, Name = e.SokoName }).ToListAsync();
-            init.DivSokos = await _hatFContext.WhMsts.Select(e => new OptionData { Code = e.WhCode, Name = e.WhName }).ToListAsync();
+            init.DivSokos = await _hatFContext.WhMsts.ToListAsync();
 
             //init.DivTokuis = await _hatFContext.CompanysMsts.Select(e => new OptionData { Code = e.CompCode, Name = e.CompName }).Take(100).ToListAsync();
 

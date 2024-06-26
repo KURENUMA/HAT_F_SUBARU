@@ -17,7 +17,7 @@ namespace HAT_F_api.CustomModels
         [Obsolete("仕入先マスタ(SUPPLIER_MST)のデータ量は多くなるためClientInitから削除予定です。別途、適切な量で取得してください。")]
         public IEnumerable<OptionData> DivShiresakis { get; set; }
 
-        public IEnumerable<OptionData> DivSokos { get; set; }
+        public IEnumerable<WhMst> DivSokos { get; set; }
         //public IEnumerable<OptionData> DivTokuis { get; set; }
         public IEnumerable<OptionData> DivUnchins { get; set; }
         public IEnumerable<OptionData> DivUriages { get; set; }

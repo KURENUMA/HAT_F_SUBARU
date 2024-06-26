@@ -340,7 +340,7 @@ namespace HatFClient.Views.Warehousing
             var sokoComboBoxItems = new List<OptionData>(divSokos.Count());
             divSokos.ToList().ForEach(item =>
             {
-                sokoComboBoxItems.Add(new OptionData() { Code = item.Code, Name = $"{item.Code}:{item.Name}" });
+                sokoComboBoxItems.Add(new OptionData() { Code = item.WhCode, Name = $"{item.WhCode}:{item.WhName}" });
             });
 
             cboWarehouse.DisplayMember = nameof(OptionData.Name);
@@ -452,7 +452,7 @@ namespace HatFClient.Views.Warehousing
             grid.Cols["WhCode"].Caption = "倉庫";
             grid.Cols["WhCode"].Width = 100;
             grid.Cols["WhCode"].AllowEditing = false;
-            grid.Cols["WhCode"].DataMap = ToDataMap(ClientRepo.GetInstance().Options.DivSokos);
+            grid.Cols["WhCode"].DataMap = ToDataMap(ClientRepo.GetInstance().Options.DivSokos.Select(x => new OptionData() { Code = x.WhName, Name = x.WhName }));
 
             grid.Cols["ProdCode"].Caption = "商品コード";
             grid.Cols["ProdCode"].Width = 250;
