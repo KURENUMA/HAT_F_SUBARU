@@ -58,8 +58,45 @@ namespace HatFClient.Views.ConstructionProject
             }
             //cmbORDER_CONFIDENCE.Items.AddRange(new[] { "A", "B", "C", "受注", "違注" });
             cmbORDER_STATE.Items.AddRange(new[] { "引合", "見積作成", "見積提出", "受注済", "完了" });
-            cmbCONSTRUCTION_TYPE.Items.AddRange(new[] { "マンション" });
-            cmbCONSTRUCTION_INDUSTRY.Items.AddRange(new[] { "大手サブコン" });
+
+            // 種別の設定
+            cmbCONSTRUCTION_TYPE.Items.AddRange(new[]
+            {
+                "戸建",
+                "HM・HB",
+                "マンション",
+                "アパート",
+                "工場",
+                "事務所",
+                "宿泊施設",
+                "店舗",
+                "学校",
+                "病院",
+                "土木",
+                "RF住宅",
+                "RF非住宅",
+                "高齢者施設",
+                "太陽光",
+                "その他"
+            });
+
+            // 業種の設定
+            cmbCONSTRUCTION_INDUSTRY.Items.AddRange(new[]
+            {
+                "水工店",
+                "燃料店",
+                "リノベーション",
+                "大手RF",
+                "DV",
+                "大手サブコン",
+                "地場サブコン",
+                "工務店",
+                "中小RF",
+                "プラント",
+                "ゼネコン",
+                "HM(PB)",
+                "その他"
+            });
             EnableControlList = GetEnabledControlList();
             DisableControlList = GetDisableControlList();
         }
@@ -139,13 +176,13 @@ namespace HatFClient.Views.ConstructionProject
             dateINQUIRY_DATE.Value = ConstructionData.引合日;
 
             short? constructionType = ConstructionData.建設種別;
-            if (constructionType.HasValue && constructionType.Value >= 0 && constructionType.Value <= 1)
+            if (constructionType.HasValue && constructionType.Value >= 0 && constructionType.Value <= 15)
             {
                 cmbCONSTRUCTION_TYPE.SelectedIndex = constructionType.Value;
             }
 
             short? constructionIndustry = ConstructionData.建設業種;
-            if (constructionIndustry.HasValue && constructionIndustry.Value >= 0 && constructionIndustry.Value <= 1)
+            if (constructionIndustry.HasValue && constructionIndustry.Value >= 0 && constructionIndustry.Value <= 12)
             {
                 cmbCONSTRUCTION_INDUSTRY.SelectedIndex = constructionIndustry.Value;
             }
