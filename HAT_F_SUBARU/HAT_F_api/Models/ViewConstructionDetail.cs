@@ -61,9 +61,9 @@ public partial class ViewConstructionDetail
 
     public string 建設会社代表者名 { get; set; }
 
-    public short? 建設種別 { get; set; }
+    public string 建設種別 { get; set; }
 
-    public short? 建設業種 { get; set; }
+    public string 建設業種 { get; set; }
 
     public string 建設会社tel { get; set; }
 

@@ -15,6 +15,8 @@ public partial class HatFContext : DbContext
     {
     }
 
+    public virtual DbSet<Amadoi> Amadois { get; set; }
+
     public virtual DbSet<AmounCheckLock> AmounCheckLocks { get; set; }
 
     public virtual DbSet<Announcement> Announcements { get; set; }
@@ -24,6 +26,8 @@ public partial class HatFContext : DbContext
     public virtual DbSet<ApprovalProcedure> ApprovalProcedures { get; set; }
 
     public virtual DbSet<ApprovalTarget> ApprovalTargets { get; set; }
+
+    public virtual DbSet<ApprovalTarget0618m> ApprovalTarget0618ms { get; set; }
 
     public virtual DbSet<BankAcutMst> BankAcutMsts { get; set; }
 
@@ -46,6 +50,8 @@ public partial class HatFContext : DbContext
     public virtual DbSet<DeptMst> DeptMsts { get; set; }
 
     public virtual DbSet<DestinationsMst> DestinationsMsts { get; set; }
+
+    public virtual DbSet<DestinationsMstTemp> DestinationsMstTemps { get; set; }
 
     public virtual DbSet<DivAuth> DivAuths { get; set; }
 
@@ -107,6 +113,8 @@ public partial class HatFContext : DbContext
 
     public virtual DbSet<KTankaSale> KTankaSales { get; set; }
 
+    public virtual DbSet<KTankaSale1> KTankaSales1 { get; set; }
+
     public virtual DbSet<PayeeMst> PayeeMsts { get; set; }
 
     public virtual DbSet<PostAddress> PostAddresses { get; set; }
@@ -117,15 +125,31 @@ public partial class HatFContext : DbContext
 
     public virtual DbSet<Pu> Pus { get; set; }
 
+    public virtual DbSet<Pu0530> Pu0530s { get; set; }
+
     public virtual DbSet<PuBilling> PuBillings { get; set; }
 
     public virtual DbSet<PuDetail> PuDetails { get; set; }
 
+    public virtual DbSet<PuDetails0530> PuDetails0530s { get; set; }
+
+    public virtual DbSet<PuDetails0603> PuDetails0603s { get; set; }
+
+    public virtual DbSet<PuDetailsKoiso> PuDetailsKoisos { get; set; }
+
     public virtual DbSet<PuImport> PuImports { get; set; }
+
+    public virtual DbSet<PuKoiso> PuKoisos { get; set; }
 
     public virtual DbSet<ReturningProduct> ReturningProducts { get; set; }
 
+    public virtual DbSet<ReturningProduct1> ReturningProducts1 { get; set; }
+
+    public virtual DbSet<ReturningProductsDel0606> ReturningProductsDel0606s { get; set; }
+
     public virtual DbSet<ReturningProductsDetail> ReturningProductsDetails { get; set; }
+
+    public virtual DbSet<ReturningProductsDetail1> ReturningProductsDetails1 { get; set; }
 
     public virtual DbSet<Sale> Sales { get; set; }
 
@@ -133,11 +157,21 @@ public partial class HatFContext : DbContext
 
     public virtual DbSet<SalesDetail> SalesDetails { get; set; }
 
+    public virtual DbSet<SalesDetail1> SalesDetails1 { get; set; }
+
+    public virtual DbSet<SalesDetails0530> SalesDetails0530s { get; set; }
+
+    public virtual DbSet<SalesDetails0618m> SalesDetails0618ms { get; set; }
+
     public virtual DbSet<SalesEditLock> SalesEditLocks { get; set; }
 
     public virtual DbSet<Stock> Stocks { get; set; }
 
+    public virtual DbSet<Stock1> Stocks1 { get; set; }
+
     public virtual DbSet<StockHistory> StockHistories { get; set; }
+
+    public virtual DbSet<StockHistory1> StockHistories1 { get; set; }
 
     public virtual DbSet<StockInventory> StockInventories { get; set; }
 
@@ -160,6 +194,8 @@ public partial class HatFContext : DbContext
     public virtual DbSet<UserAssignedRole> UserAssignedRoles { get; set; }
 
     public virtual DbSet<UserAuthentication> UserAuthentications { get; set; }
+
+    public virtual DbSet<ViewAmadoi> ViewAmadois { get; set; }
 
     public virtual DbSet<ViewConstruction> ViewConstructions { get; set; }
 
@@ -190,6 +226,8 @@ public partial class HatFContext : DbContext
     public virtual DbSet<ViewOrder> ViewOrders { get; set; }
 
     public virtual DbSet<ViewProductStock> ViewProductStocks { get; set; }
+
+    public virtual DbSet<ViewPuDetail> ViewPuDetails { get; set; }
 
     public virtual DbSet<ViewPurchaseBilling> ViewPurchaseBillings { get; set; }
 
@@ -239,12 +277,95 @@ public partial class HatFContext : DbContext
 
     public virtual DbSet<WhMst> WhMsts { get; set; }
 
+    public virtual DbSet<WhMst1> WhMsts1 { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseSqlServer("Name=ConnectionStrings:DBConnectString");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.UseCollation("Japanese_CI_AS");
+
+        modelBuilder.Entity<Amadoi>(entity =>
+        {
+            entity.HasKey(e => new { e.DenkaNo, e.DenkaSort }).HasName("AMADOI_PKC");
+
+            entity.ToTable("AMADOI", tb => tb.HasComment("雨どいデータ情報:雨どいデータ情報を格納するテーブル"));
+
+            entity.Property(e => e.DenkaNo)
+                .HasMaxLength(12)
+                .HasComment("電化管理番号")
+                .HasColumnName("DENKA_NO");
+            entity.Property(e => e.DenkaSort)
+                .HasMaxLength(3)
+                .HasComment("表示順")
+                .HasColumnName("DENKA_SORT");
+            entity.Property(e => e.AppropState)
+                .HasComment("計上ステータス,0:未計上/1:計上済")
+                .HasColumnName("APPROP_STATE");
+            entity.Property(e => e.Color)
+                .HasMaxLength(10)
+                .HasComment("顧客色表記:マッピングなし")
+                .HasColumnName("COLOR");
+            entity.Property(e => e.ColorName)
+                .HasMaxLength(10)
+                .HasComment("色呼称:マッピングなし")
+                .HasColumnName("COLOR_NAME");
+            entity.Property(e => e.ColorR3code)
+                .HasMaxLength(4)
+                .HasComment("色R3コード:マッピングなし")
+                .HasColumnName("COLOR_R3CODE");
+            entity.Property(e => e.CreateDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("作成日時")
+                .HasColumnType("datetime")
+                .HasColumnName("CREATE_DATE");
+            entity.Property(e => e.Creator)
+                .HasComment("作成者")
+                .HasColumnName("CREATOR");
+            entity.Property(e => e.Hinmei)
+                .HasMaxLength(30)
+                .HasComment("顧客品名")
+                .HasColumnName("HINMEI");
+            entity.Property(e => e.HinmokuCd)
+                .HasMaxLength(24)
+                .HasComment("品目CD")
+                .HasColumnName("HINMOKU_CD");
+            entity.Property(e => e.HinmokuName)
+                .HasMaxLength(30)
+                .HasComment("品目テキスト")
+                .HasColumnName("HINMOKU_NAME");
+            entity.Property(e => e.HoseiSuryo)
+                .HasComment("補正数量:マッピングなし")
+                .HasColumnName("HOSEI_SURYO");
+            entity.Property(e => e.KihonSuryo)
+                .HasComment("基本数量")
+                .HasColumnName("KIHON_SURYO");
+            entity.Property(e => e.Kikaku)
+                .HasMaxLength(20)
+                .HasComment("顧客規格")
+                .HasColumnName("KIKAKU");
+            entity.Property(e => e.MushoTanka)
+                .HasComment("無償扱い単価:マッピングなし")
+                .HasColumnType("decimal(11, 2)")
+                .HasColumnName("MUSHO_TANKA");
+            entity.Property(e => e.Tani)
+                .HasMaxLength(10)
+                .HasComment("単位")
+                .HasColumnName("TANI");
+            entity.Property(e => e.UpdateDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("更新日時")
+                .HasColumnType("datetime")
+                .HasColumnName("UPDATE_DATE");
+            entity.Property(e => e.Updater)
+                .HasComment("更新者")
+                .HasColumnName("UPDATER");
+            entity.Property(e => e.YushoTanka)
+                .HasComment("有償扱い単価:マッピングなし")
+                .HasColumnType("decimal(11, 2)")
+                .HasColumnName("YUSHO_TANKA");
+        });
 
         modelBuilder.Entity<AmounCheckLock>(entity =>
         {
@@ -477,6 +598,50 @@ public partial class HatFContext : DbContext
             entity.Property(e => e.Updater)
                 .HasComment("更新者名")
                 .HasColumnName("UPDATER");
+        });
+
+        modelBuilder.Entity<ApprovalTarget0618m>(entity =>
+        {
+            entity.HasKey(e => new { e.ApprovalTargetId, e.ApprovalTargetSub }).HasName("APPROVAL_TARGET_0618M_PKC");
+
+            entity.ToTable("APPROVAL_TARGET_0618M");
+
+            entity.Property(e => e.ApprovalTargetId)
+                .HasMaxLength(20)
+                .HasColumnName("APPROVAL_TARGET_ID");
+            entity.Property(e => e.ApprovalTargetSub).HasColumnName("APPROVAL_TARGET_SUB");
+            entity.Property(e => e.CompCode)
+                .HasMaxLength(8)
+                .HasColumnName("COMP_CODE");
+            entity.Property(e => e.CorrectionQuantity).HasColumnName("CORRECTION_QUANTITY");
+            entity.Property(e => e.CreateDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime")
+                .HasColumnName("CREATE_DATE");
+            entity.Property(e => e.Creator).HasColumnName("CREATOR");
+            entity.Property(e => e.PoPrice)
+                .HasColumnType("decimal(11, 2)")
+                .HasColumnName("PO_PRICE");
+            entity.Property(e => e.SalesCd)
+                .HasMaxLength(2)
+                .HasColumnName("SALES_CD");
+            entity.Property(e => e.SalesNo)
+                .HasMaxLength(10)
+                .HasColumnName("SALES_NO");
+            entity.Property(e => e.SalesQuantity).HasColumnName("SALES_QUANTITY");
+            entity.Property(e => e.SalesRowNo).HasColumnName("SALES_ROW_NO");
+            entity.Property(e => e.SalesUnitPrice)
+                .HasColumnType("decimal(11, 2)")
+                .HasColumnName("SALES_UNIT_PRICE");
+            entity.Property(e => e.SupCode)
+                .HasMaxLength(8)
+                .HasColumnName("SUP_CODE");
+            entity.Property(e => e.SupSubNo).HasColumnName("SUP_SUB_NO");
+            entity.Property(e => e.UpdateDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime")
+                .HasColumnName("UPDATE_DATE");
+            entity.Property(e => e.Updater).HasColumnName("UPDATER");
         });
 
         modelBuilder.Entity<BankAcutMst>(entity =>
@@ -1504,51 +1669,35 @@ public partial class HatFContext : DbContext
 
         modelBuilder.Entity<CorrectionDeliveryCheck>(entity =>
         {
-            entity.HasKey(e => e.CorrectionDeliveryCheckId).HasName("PK__CORRECTI__561EA365B77F4682");
+            entity.HasKey(e => e.CorrectionDeliveryCheckId).HasName("PK__CORRECTI__561EA3653A143665");
 
-            entity.ToTable("CORRECTION_DELIVERY_CHECK", tb => tb.HasComment("納品一覧表（訂正・返品）チェック"));
+            entity.ToTable("CORRECTION_DELIVERY_CHECK");
 
-            entity.Property(e => e.CorrectionDeliveryCheckId)
-                .HasComment("納品一覧表（訂正・返品）チェックID")
-                .HasColumnName("CORRECTION_DELIVERY_CHECK_ID");
+            entity.Property(e => e.CorrectionDeliveryCheckId).HasColumnName("CORRECTION_DELIVERY_CHECK_ID");
             entity.Property(e => e.CheckDatetime)
-                .HasComment("チェック日時")
                 .HasColumnType("datetime")
                 .HasColumnName("CHECK_DATETIME");
-            entity.Property(e => e.CheckerId)
-                .HasComment("チェック者")
-                .HasColumnName("CHECKER_ID");
+            entity.Property(e => e.CheckerId).HasColumnName("CHECKER_ID");
             entity.Property(e => e.CheckerPost)
                 .HasMaxLength(20)
-                .HasComment("チェック者役職")
                 .HasColumnName("CHECKER_POST");
             entity.Property(e => e.Comment)
                 .HasMaxLength(1000)
-                .HasComment("コメント")
                 .HasColumnName("COMMENT");
             entity.Property(e => e.CreateDate)
                 .HasDefaultValueSql("(getdate())")
-                .HasComment("作成日時")
                 .HasColumnType("datetime")
                 .HasColumnName("CREATE_DATE");
-            entity.Property(e => e.Creator)
-                .HasComment("作成者名")
-                .HasColumnName("CREATOR");
-            entity.Property(e => e.RowNo)
-                .HasComment("売上行番号")
-                .HasColumnName("ROW_NO");
+            entity.Property(e => e.Creator).HasColumnName("CREATOR");
+            entity.Property(e => e.RowNo).HasColumnName("ROW_NO");
             entity.Property(e => e.SalesNo)
                 .HasMaxLength(10)
-                .HasComment("売上番号")
                 .HasColumnName("SALES_NO");
             entity.Property(e => e.UpdateDate)
                 .HasDefaultValueSql("(getdate())")
-                .HasComment("更新日時")
                 .HasColumnType("datetime")
                 .HasColumnName("UPDATE_DATE");
-            entity.Property(e => e.Updater)
-                .HasComment("更新者名")
-                .HasColumnName("UPDATER");
+            entity.Property(e => e.Updater).HasColumnName("UPDATER");
         });
 
         modelBuilder.Entity<Credit>(entity =>
@@ -1879,6 +2028,96 @@ public partial class HatFContext : DbContext
             entity.HasKey(e => new { e.CustCode, e.CustSubNo, e.DistNo });
 
             entity.ToTable("DESTINATIONS_MST", tb => tb.HasComment("出荷先マスタ"));
+
+            entity.Property(e => e.CustCode)
+                .HasMaxLength(12)
+                .HasDefaultValueSql("((0))")
+                .HasColumnName("CUST_CODE");
+            entity.Property(e => e.CustSubNo)
+                .HasComment("顧客枝番")
+                .HasColumnName("CUST_SUB_NO");
+            entity.Property(e => e.DistNo)
+                .HasComment("出荷先番号")
+                .HasColumnName("DIST_NO");
+            entity.Property(e => e.Address1)
+                .HasMaxLength(40)
+                .HasComment("出荷先住所１")
+                .HasColumnName("ADDRESS1");
+            entity.Property(e => e.Address2)
+                .HasMaxLength(40)
+                .HasComment("出荷先住所２")
+                .HasColumnName("ADDRESS2");
+            entity.Property(e => e.Address3)
+                .HasMaxLength(40)
+                .HasComment("出荷先住所３")
+                .HasColumnName("ADDRESS3");
+            entity.Property(e => e.AreaCode)
+                .HasMaxLength(10)
+                .IsUnicode(false)
+                .HasComment("地域コード")
+                .HasColumnName("AREA_CODE");
+            entity.Property(e => e.CompCode)
+                .HasMaxLength(8)
+                .HasComment("取引先コード")
+                .HasColumnName("COMP_CODE");
+            entity.Property(e => e.CreateDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("作成日時")
+                .HasColumnType("datetime")
+                .HasColumnName("CREATE_DATE");
+            entity.Property(e => e.Creator)
+                .HasComment("作成者名")
+                .HasColumnName("CREATOR");
+            entity.Property(e => e.Deleted)
+                .HasComment("削除済")
+                .HasColumnName("DELETED");
+            entity.Property(e => e.DestFax)
+                .HasMaxLength(40)
+                .HasComment("出荷先電話FAX")
+                .HasColumnName("DEST_FAX");
+            entity.Property(e => e.DestTel)
+                .HasMaxLength(40)
+                .HasComment("出荷先電話番号")
+                .HasColumnName("DEST_TEL");
+            entity.Property(e => e.DistName1)
+                .HasMaxLength(40)
+                .HasComment("出荷先名１")
+                .HasColumnName("DIST_NAME1");
+            entity.Property(e => e.DistName2)
+                .HasMaxLength(40)
+                .HasComment("出荷先名２")
+                .HasColumnName("DIST_NAME2");
+            entity.Property(e => e.GenbaCode)
+                .HasMaxLength(3)
+                .HasColumnName("GENBA_CODE");
+            entity.Property(e => e.KojitenCode)
+                .HasMaxLength(6)
+                .HasComment("工事店コード")
+                .HasColumnName("KOJITEN_CODE");
+            entity.Property(e => e.Remarks)
+                .HasMaxLength(500)
+                .HasComment("備考")
+                .HasColumnName("REMARKS");
+            entity.Property(e => e.UpdateDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("更新日時")
+                .HasColumnType("datetime")
+                .HasColumnName("UPDATE_DATE");
+            entity.Property(e => e.Updater)
+                .HasComment("更新者名")
+                .HasColumnName("UPDATER");
+            entity.Property(e => e.ZipCode)
+                .HasMaxLength(8)
+                .IsFixedLength()
+                .HasComment("出荷先郵便番号")
+                .HasColumnName("ZIP_CODE");
+        });
+
+        modelBuilder.Entity<DestinationsMstTemp>(entity =>
+        {
+            entity.HasKey(e => new { e.CustCode, e.CustSubNo, e.DistNo });
+
+            entity.ToTable("DESTINATIONS_MST_temp", tb => tb.HasComment("出荷先マスタ"));
 
             entity.Property(e => e.CustCode)
                 .HasMaxLength(12)
@@ -2382,7 +2621,7 @@ public partial class HatFContext : DbContext
 
         modelBuilder.Entity<FosJyuchuD>(entity =>
         {
-            entity.HasKey(e => new { e.SaveKey, e.DenSort, e.DenNoLine }).HasName("PK__FOS_JYUC__859A8D455D0F14C3");
+            entity.HasKey(e => new { e.SaveKey, e.DenSort, e.DenNoLine }).HasName("PK__FOS_JYUC__859A8D45835F1DDD");
 
             entity.ToTable("FOS_JYUCHU_D", tb => tb.HasComment("受注詳細"));
 
@@ -4043,8 +4282,6 @@ public partial class HatFContext : DbContext
 
             entity.ToTable("K_TANKA_PURCHASE", tb => tb.HasComment("契約単価・仕入"));
 
-            entity.HasIndex(e => e.ChangeApplicationId, "K_TANKA_PURCHASE_CHANGE_APPLICATION_ID");
-
             entity.Property(e => e.ProdCode)
                 .HasMaxLength(50)
                 .HasComment("商品コード")
@@ -4102,8 +4339,6 @@ public partial class HatFContext : DbContext
 
             entity.ToTable("K_TANKA_SALES", tb => tb.HasComment("契約単価・販売"));
 
-            entity.HasIndex(e => e.ChangeApplicationId, "K_TANKA_SALES_CHANGE_APPLICATION_ID");
-
             entity.Property(e => e.ProdCode)
                 .HasMaxLength(50)
                 .HasComment("商品コード")
@@ -4155,24 +4390,68 @@ public partial class HatFContext : DbContext
                 .HasColumnName("UPDATER");
         });
 
+        modelBuilder.Entity<KTankaSale1>(entity =>
+        {
+            entity.HasKey(e => new { e.ProdCode, e.CustCode, e.Sign, e.StartDate }).HasName("K_TANKA_SALES_PKC_");
+
+            entity.ToTable("K_TANKA_SALES_", tb => tb.HasComment("契約単価・販売"));
+
+            entity.Property(e => e.ProdCode)
+                .HasMaxLength(50)
+                .HasComment("商品コード")
+                .HasColumnName("PROD_CODE");
+            entity.Property(e => e.CustCode)
+                .HasMaxLength(8)
+                .HasComment("顧客コード(6桁)")
+                .HasColumnName("CUST_CODE");
+            entity.Property(e => e.Sign)
+                .HasMaxLength(1)
+                .HasComment("記号")
+                .HasColumnName("SIGN");
+            entity.Property(e => e.StartDate)
+                .HasComment("開始日")
+                .HasColumnType("datetime")
+                .HasColumnName("START_DATE");
+            entity.Property(e => e.Approved)
+                .HasDefaultValue(false)
+                .HasComment("承認済")
+                .HasColumnName("APPROVED");
+            entity.Property(e => e.ChangeApplicationId)
+                .HasMaxLength(20)
+                .HasComment("変更申請ID")
+                .HasColumnName("CHANGE_APPLICATION_ID");
+            entity.Property(e => e.CreateDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("作成日時")
+                .HasColumnType("datetime")
+                .HasColumnName("CREATE_DATE");
+            entity.Property(e => e.Creator)
+                .HasComment("作成者名")
+                .HasColumnName("CREATOR");
+            entity.Property(e => e.Rate)
+                .HasComment("掛率")
+                .HasColumnType("decimal(9, 2)")
+                .HasColumnName("RATE");
+            entity.Property(e => e.UpdateDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("更新日時")
+                .HasColumnType("datetime")
+                .HasColumnName("UPDATE_DATE");
+            entity.Property(e => e.Updater)
+                .HasComment("更新者名")
+                .HasColumnName("UPDATER");
+        });
+
         modelBuilder.Entity<PayeeMst>(entity =>
         {
             entity.HasKey(e => e.PayeeCode).HasName("PAYEE_MST_PKC");
 
-            entity.ToTable("PAYEE_MST", tb => tb.HasComment("支払先マスタ★"));
+            entity.ToTable("PAYEE_MST", tb => tb.HasComment("支払先マスタ"));
 
             entity.Property(e => e.PayeeCode)
                 .HasMaxLength(8)
                 .HasComment("支払先コード, (仕入先CD前4桁と一致）")
                 .HasColumnName("PAYEE_CODE");
-            entity.Property(e => e.ABankBlncCode)
-                .HasMaxLength(3)
-                .HasComment("全銀協支店コード★")
-                .HasColumnName("A_BANK_BLNC_CODE");
-            entity.Property(e => e.ABankCode)
-                .HasMaxLength(4)
-                .HasComment("全銀協銀行コード★")
-                .HasColumnName("A_BANK_CODE");
             entity.Property(e => e.Address1)
                 .HasMaxLength(40)
                 .HasComment("住所１")
@@ -4185,26 +4464,6 @@ public partial class HatFContext : DbContext
                 .HasMaxLength(40)
                 .HasComment("住所3★追加")
                 .HasColumnName("ADDRESS3");
-            entity.Property(e => e.BankActName)
-                .HasMaxLength(20)
-                .HasComment("銀行口座名義人★")
-                .HasColumnName("BANK_ACT_NAME");
-            entity.Property(e => e.BankActType)
-                .HasMaxLength(1)
-                .HasComment("銀行口座種別,O:普通 C:当座★")
-                .HasColumnName("BANK_ACT_TYPE");
-            entity.Property(e => e.BankBlncName)
-                .HasMaxLength(20)
-                .HasComment("銀行支店名★")
-                .HasColumnName("BANK_BLNC_NAME");
-            entity.Property(e => e.BankName)
-                .HasMaxLength(20)
-                .HasComment("銀行名★")
-                .HasColumnName("BANK_NAME");
-            entity.Property(e => e.BankNo)
-                .HasMaxLength(12)
-                .HasComment("銀行口座番号★")
-                .HasColumnName("BANK_NO");
             entity.Property(e => e.CreateDate)
                 .HasDefaultValueSql("(getdate())")
                 .HasComment("作成日時")
@@ -4220,10 +4479,6 @@ public partial class HatFContext : DbContext
                 .HasDefaultValue(false)
                 .HasComment("削除済★追加")
                 .HasColumnName("DELETED");
-            entity.Property(e => e.ErmcUserNo)
-                .HasMaxLength(9)
-                .HasComment("でんさいコード（利用者番号）★:Electronically Recorded Monetary Claims")
-                .HasColumnName("ERMC_USER_NO");
             entity.Property(e => e.Fax)
                 .HasMaxLength(15)
                 .HasComment("FAX★追加")
@@ -4236,16 +4491,12 @@ public partial class HatFContext : DbContext
                 .HasMaxLength(14)
                 .HasComment("インボイス登録番号")
                 .HasColumnName("INVOICE_REGIST_NUMBER");
-            entity.Property(e => e.MaxCredit)
-                .HasComment("与信限度額")
-                .HasColumnName("MAX_CREDIT");
             entity.Property(e => e.NoSalesFlg)
                 .HasDefaultValue((short)0)
                 .HasComment("取引禁止フラグ")
                 .HasColumnName("NO_SALES_FLG");
             entity.Property(e => e.PayMethodType)
-                .HasDefaultValue((short)1)
-                .HasComment("支払方法区分,1:振込,2:手形,3:でんさい:デフォルトの支払方法")
+                .HasComment("支払方法区分,1:振込,2:手形")
                 .HasColumnName("PAY_METHOD_TYPE");
             entity.Property(e => e.PayeeBranchName)
                 .HasMaxLength(40)
@@ -4281,9 +4532,6 @@ public partial class HatFContext : DbContext
                 .HasMaxLength(15)
                 .HasComment("TEL★追加")
                 .HasColumnName("TEL");
-            entity.Property(e => e.TempCreditUp)
-                .HasComment("与信一時増加枠")
-                .HasColumnName("TEMP_CREDIT_UP");
             entity.Property(e => e.UpdateDate)
                 .HasDefaultValueSql("(getdate())")
                 .HasComment("更新日時")
@@ -4534,6 +4782,88 @@ public partial class HatFContext : DbContext
                 .HasColumnName("UPDATER");
         });
 
+        modelBuilder.Entity<Pu0530>(entity =>
+        {
+            entity.HasKey(e => e.PuNo).HasName("PU_PKC_0530");
+
+            entity.ToTable("PU_0530", tb => tb.HasComment("仕入データ"));
+
+            entity.Property(e => e.PuNo)
+                .HasMaxLength(30)
+                .HasComment("仕入番号:発注番号+仕入先コード+YYYYMM")
+                .HasColumnName("PU_NO");
+            entity.Property(e => e.CmpTax)
+                .HasComment("消費税金額")
+                .HasColumnType("decimal(11, 2)")
+                .HasColumnName("CMP_TAX");
+            entity.Property(e => e.CreateDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("作成日時")
+                .HasColumnType("datetime")
+                .HasColumnName("CREATE_DATE");
+            entity.Property(e => e.Creator)
+                .HasComment("作成者名")
+                .HasColumnName("CREATOR");
+            entity.Property(e => e.DenFlg)
+                .HasMaxLength(2)
+                .HasComment("伝区")
+                .HasColumnName("DEN_FLG");
+            entity.Property(e => e.DenNo)
+                .HasMaxLength(20)
+                .HasComment("伝票番号:M伝票番号")
+                .HasColumnName("DEN_NO");
+            entity.Property(e => e.DeptCode)
+                .IsRequired()
+                .HasMaxLength(6)
+                .HasComment("部門コード")
+                .HasColumnName("DEPT_CODE");
+            entity.Property(e => e.EmpId)
+                .HasComment("仕入担当者ID（社員ID）:データ取込を実施した社員？（追加項目）")
+                .HasColumnName("EMP_ID");
+            entity.Property(e => e.HatOrderNo)
+                .HasMaxLength(10)
+                .HasComment("HAT-F注文番号")
+                .HasColumnName("HAT_ORDER_NO");
+            entity.Property(e => e.PoNo)
+                .HasMaxLength(10)
+                .HasComment("発注番号:受注ヘッダ.HAT_ORDER_NO")
+                .HasColumnName("PO_NO");
+            entity.Property(e => e.PuAmmount)
+                .HasComment("仕入金額合計（M金額）")
+                .HasColumnType("decimal(11, 2)")
+                .HasColumnName("PU_AMMOUNT");
+            entity.Property(e => e.PuDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("仕入日（納入日）")
+                .HasColumnType("datetime")
+                .HasColumnName("PU_DATE");
+            entity.Property(e => e.SlipComment)
+                .HasMaxLength(1000)
+                .HasComment("備考")
+                .HasColumnName("SLIP_COMMENT");
+            entity.Property(e => e.StartDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("開始日")
+                .HasColumnType("datetime")
+                .HasColumnName("START_DATE");
+            entity.Property(e => e.SupCode)
+                .IsRequired()
+                .HasMaxLength(8)
+                .HasComment("仕入先コード")
+                .HasColumnName("SUP_CODE");
+            entity.Property(e => e.SupSubNo)
+                .HasComment("仕入先枝番")
+                .HasColumnName("SUP_SUB_NO");
+            entity.Property(e => e.UpdateDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("更新日時")
+                .HasColumnType("datetime")
+                .HasColumnName("UPDATE_DATE");
+            entity.Property(e => e.Updater)
+                .HasComment("更新者名")
+                .HasColumnName("UPDATER");
+        });
+
         modelBuilder.Entity<PuBilling>(entity =>
         {
             entity
@@ -4604,7 +4934,7 @@ public partial class HatFContext : DbContext
 
         modelBuilder.Entity<PuDetail>(entity =>
         {
-            entity.HasKey(e => new { e.PuRowNo, e.PuNo }).HasName("PU_DETAILS_PKC");
+            entity.HasKey(e => new { e.PuRowNo, e.PuNo }).HasName("PU_DETAILS_PKC_");
 
             entity.ToTable("PU_DETAILS", tb => tb.HasComment("仕入データ明細"));
 
@@ -4684,6 +5014,300 @@ public partial class HatFContext : DbContext
                 .HasMaxLength(1)
                 .HasComment("消費税率区分:B:10%、8:8%、Z:非課税")
                 .HasColumnName("TAX_RATE_CD");
+            entity.Property(e => e.UpdateDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("更新日時")
+                .HasColumnType("datetime")
+                .HasColumnName("UPDATE_DATE");
+            entity.Property(e => e.Updater)
+                .HasComment("更新者名")
+                .HasColumnName("UPDATER");
+            entity.Property(e => e.WhCode)
+                .HasMaxLength(3)
+                .HasComment("倉庫コード:倉庫入庫時に設定される（直送の場合NULLのため必須を外す）")
+                .HasColumnName("WH_CODE");
+        });
+
+        modelBuilder.Entity<PuDetails0530>(entity =>
+        {
+            entity.HasKey(e => new { e.PuRowNo, e.PuNo }).HasName("PU_DETAILS_PKC_0530");
+
+            entity.ToTable("PU_DETAILS_0530", tb => tb.HasComment("仕入データ明細"));
+
+            entity.Property(e => e.PuRowNo)
+                .HasComment("仕入行番号")
+                .HasColumnName("PU_ROW_NO");
+            entity.Property(e => e.PuNo)
+                .HasMaxLength(30)
+                .HasComment("仕入番号:発注番号+仕入先コード+YYYYMM")
+                .HasColumnName("PU_NO");
+            entity.Property(e => e.ApprovalTargetId)
+                .HasMaxLength(20)
+                .HasComment("承認対象ID")
+                .HasColumnName("APPROVAL_TARGET_ID");
+            entity.Property(e => e.CheckStatus)
+                .HasComment("照合ステータス(0:未確認/1:編集中/2:確認済/3:未決/4:違算/5:未請求)")
+                .HasColumnName("CHECK_STATUS");
+            entity.Property(e => e.Chuban)
+                .HasMaxLength(15)
+                .HasColumnName("CHUBAN");
+            entity.Property(e => e.CreateDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("作成日時")
+                .HasColumnType("datetime")
+                .HasColumnName("CREATE_DATE");
+            entity.Property(e => e.Creator)
+                .HasComment("作成者名")
+                .HasColumnName("CREATOR");
+            entity.Property(e => e.OriginalPuNo)
+                .HasMaxLength(30)
+                .HasComment("元仕入番号")
+                .HasColumnName("ORIGINAL_PU_NO");
+            entity.Property(e => e.OriginalPuRowNo)
+                .HasComment("元仕入行番号")
+                .HasColumnName("ORIGINAL_PU_ROW_NO");
+            entity.Property(e => e.PoPrice)
+                .HasDefaultValue(0m)
+                .HasComment("仕入単価（M単価）")
+                .HasColumnType("decimal(11, 2)")
+                .HasColumnName("PO_PRICE");
+            entity.Property(e => e.PoRowNo)
+                .IsRequired()
+                .HasMaxLength(20)
+                .HasComment("発注行番号:発注データ明細.PO_ROW_NO")
+                .HasColumnName("PO_ROW_NO");
+            entity.Property(e => e.ProdCode)
+                .IsRequired()
+                .HasMaxLength(50)
+                .HasComment("商品コード:（取込データの値を設定？）")
+                .HasColumnName("PROD_CODE");
+            entity.Property(e => e.ProdName)
+                .IsRequired()
+                .HasMaxLength(100)
+                .HasComment("商品名:（取込データの値を設定？）")
+                .HasColumnName("PROD_NAME");
+            entity.Property(e => e.PuPayYearMonth)
+                .HasComment("仕入支払年月")
+                .HasColumnType("datetime")
+                .HasColumnName("PU_PAY_YEAR_MONTH");
+            entity.Property(e => e.PuQuantity)
+                .HasDefaultValue((short)1)
+                .HasComment("仕入数量（M数量）")
+                .HasColumnName("PU_QUANTITY");
+            entity.Property(e => e.PuRowDspNo)
+                .IsRequired()
+                .HasMaxLength(30)
+                .HasComment("仕入行表示番号（M注番）")
+                .HasColumnName("PU_ROW_DSP_NO");
+            entity.Property(e => e.UpdateDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("更新日時")
+                .HasColumnType("datetime")
+                .HasColumnName("UPDATE_DATE");
+            entity.Property(e => e.Updater)
+                .HasComment("更新者名")
+                .HasColumnName("UPDATER");
+            entity.Property(e => e.WhCode)
+                .HasMaxLength(3)
+                .HasComment("倉庫コード:倉庫入庫時に設定される（直送の場合NULLのため必須を外す）")
+                .HasColumnName("WH_CODE");
+        });
+
+        modelBuilder.Entity<PuDetails0603>(entity =>
+        {
+            entity.HasKey(e => new { e.PuRowNo, e.PuNo }).HasName("PU_DETAILS_PKC_0603");
+
+            entity.ToTable("PU_DETAILS_0603", tb => tb.HasComment("仕入データ明細"));
+
+            entity.Property(e => e.PuRowNo)
+                .HasComment("仕入行番号")
+                .HasColumnName("PU_ROW_NO");
+            entity.Property(e => e.PuNo)
+                .HasMaxLength(30)
+                .HasComment("仕入番号:発注番号+仕入先コード+YYYYMM")
+                .HasColumnName("PU_NO");
+            entity.Property(e => e.ApprovalTargetId)
+                .HasMaxLength(20)
+                .HasComment("承認対象ID")
+                .HasColumnName("APPROVAL_TARGET_ID");
+            entity.Property(e => e.CheckStatus)
+                .HasComment("照合ステータス(0:未確認/1:編集中/2:確認済/3:未決/4:違算/5:未請求)")
+                .HasColumnName("CHECK_STATUS");
+            entity.Property(e => e.Chuban)
+                .HasMaxLength(15)
+                .HasColumnName("CHUBAN");
+            entity.Property(e => e.CreateDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("作成日時")
+                .HasColumnType("datetime")
+                .HasColumnName("CREATE_DATE");
+            entity.Property(e => e.Creator)
+                .HasComment("作成者名")
+                .HasColumnName("CREATOR");
+            entity.Property(e => e.OriginalPuNo)
+                .HasMaxLength(30)
+                .HasComment("元仕入番号")
+                .HasColumnName("ORIGINAL_PU_NO");
+            entity.Property(e => e.OriginalPuRowNo)
+                .HasComment("元仕入行番号")
+                .HasColumnName("ORIGINAL_PU_ROW_NO");
+            entity.Property(e => e.PoPrice)
+                .HasDefaultValue(0m)
+                .HasComment("仕入単価（M単価）")
+                .HasColumnType("decimal(11, 2)")
+                .HasColumnName("PO_PRICE");
+            entity.Property(e => e.PoRowNo)
+                .IsRequired()
+                .HasMaxLength(20)
+                .HasComment("発注行番号:発注データ明細.PO_ROW_NO")
+                .HasColumnName("PO_ROW_NO");
+            entity.Property(e => e.ProdCode)
+                .IsRequired()
+                .HasMaxLength(50)
+                .HasComment("商品コード:（取込データの値を設定？）")
+                .HasColumnName("PROD_CODE");
+            entity.Property(e => e.ProdName)
+                .IsRequired()
+                .HasMaxLength(100)
+                .HasComment("商品名:（取込データの値を設定？）")
+                .HasColumnName("PROD_NAME");
+            entity.Property(e => e.PuCorrectionType)
+                .HasMaxLength(2)
+                .HasComment("仕入訂正区分")
+                .HasColumnName("PU_CORRECTION_TYPE");
+            entity.Property(e => e.PuPayYearMonth)
+                .HasComment("仕入支払年月")
+                .HasColumnType("datetime")
+                .HasColumnName("PU_PAY_YEAR_MONTH");
+            entity.Property(e => e.PuQuantity)
+                .HasComment("仕入数量（M数量）")
+                .HasColumnName("PU_QUANTITY");
+            entity.Property(e => e.PuRowDspNo)
+                .IsRequired()
+                .HasMaxLength(30)
+                .HasComment("仕入行表示番号（M注番）")
+                .HasColumnName("PU_ROW_DSP_NO");
+            entity.Property(e => e.UpdateDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("更新日時")
+                .HasColumnType("datetime")
+                .HasColumnName("UPDATE_DATE");
+            entity.Property(e => e.Updater)
+                .HasComment("更新者名")
+                .HasColumnName("UPDATER");
+            entity.Property(e => e.WhCode)
+                .HasMaxLength(3)
+                .HasComment("倉庫コード:倉庫入庫時に設定される（直送の場合NULLのため必須を外す）")
+                .HasColumnName("WH_CODE");
+        });
+
+        modelBuilder.Entity<PuDetailsKoiso>(entity =>
+        {
+            entity.HasKey(e => new { e.PuRowNo, e.PuNo }).HasName("PU_DETAILS_PKC_KOISO");
+
+            entity.ToTable("PU_DETAILS_KOISO", tb => tb.HasComment("仕入データ明細"));
+
+            entity.Property(e => e.PuRowNo)
+                .HasComment("仕入行番号")
+                .HasColumnName("PU_ROW_NO");
+            entity.Property(e => e.PuNo)
+                .HasMaxLength(30)
+                .HasComment("仕入番号:発注番号+仕入先コード+YYYYMM")
+                .HasColumnName("PU_NO");
+            entity.Property(e => e.ApprovalTargetId)
+                .HasMaxLength(20)
+                .HasComment("承認対象ID★（削除予定）")
+                .HasColumnName("APPROVAL_TARGET_ID");
+            entity.Property(e => e.CheckStatus)
+                .HasComment("照合ステータス★:NULLor0:未確認/1:編集中/2:確認済/3:未決/4:違算")
+                .HasColumnName("CHECK_STATUS");
+            entity.Property(e => e.Chuban)
+                .HasMaxLength(15)
+                .HasComment("F注番★")
+                .HasColumnName("CHUBAN");
+            entity.Property(e => e.CreateDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("作成日時")
+                .HasColumnType("datetime")
+                .HasColumnName("CREATE_DATE");
+            entity.Property(e => e.Creator)
+                .HasComment("作成者名")
+                .HasColumnName("CREATOR");
+            entity.Property(e => e.DelFlg)
+                .HasMaxLength(1)
+                .HasComment("削除フラグ")
+                .HasColumnName("DEL_FLG");
+            entity.Property(e => e.DenFlg)
+                .HasMaxLength(2)
+                .HasComment("伝区★")
+                .HasColumnName("DEN_FLG");
+            entity.Property(e => e.DenNo)
+                .HasMaxLength(20)
+                .HasComment("伝票番号")
+                .HasColumnName("DEN_NO");
+            entity.Property(e => e.HatOrderNo)
+                .HasMaxLength(10)
+                .HasComment("HAT-F注文番号★")
+                .HasColumnName("HAT_ORDER_NO");
+            entity.Property(e => e.Noubi)
+                .HasComment("納入日★")
+                .HasColumnName("NOUBI");
+            entity.Property(e => e.OriginalPuNo)
+                .HasMaxLength(30)
+                .HasComment("元仕入番号★（削除予定）")
+                .HasColumnName("ORIGINAL_PU_NO");
+            entity.Property(e => e.OriginalPuRowNo)
+                .HasComment("元仕入行番号★（削除予定）")
+                .HasColumnName("ORIGINAL_PU_ROW_NO");
+            entity.Property(e => e.PoPrice)
+                .HasDefaultValue(0m)
+                .HasComment("仕入単価（M単価）")
+                .HasColumnType("decimal(11, 2)")
+                .HasColumnName("PO_PRICE");
+            entity.Property(e => e.PoRowNo)
+                .IsRequired()
+                .HasMaxLength(20)
+                .HasComment("子番:発注行番号")
+                .HasColumnName("PO_ROW_NO");
+            entity.Property(e => e.ProdCode)
+                .HasMaxLength(50)
+                .HasComment("商品コード")
+                .HasColumnName("PROD_CODE");
+            entity.Property(e => e.ProdName)
+                .HasMaxLength(100)
+                .HasComment("商品名")
+                .HasColumnName("PROD_NAME");
+            entity.Property(e => e.PuCorrectionType)
+                .HasMaxLength(2)
+                .HasComment("仕入訂正区分")
+                .HasColumnName("PU_CORRECTION_TYPE");
+            entity.Property(e => e.PuKbn)
+                .HasMaxLength(5)
+                .HasComment("区分★:0orNULL:売上")
+                .HasColumnName("PU_KBN");
+            entity.Property(e => e.PuPayDate)
+                .HasComment("仕入支払年月日★")
+                .HasColumnName("PU_PAY_DATE");
+            entity.Property(e => e.PuPayYearMonth)
+                .HasComment("仕入支払年月★")
+                .HasColumnType("datetime")
+                .HasColumnName("PU_PAY_YEAR_MONTH");
+            entity.Property(e => e.PuQuantity)
+                .HasComment("仕入数量（M数量）")
+                .HasColumnType("decimal(11, 2)")
+                .HasColumnName("PU_QUANTITY");
+            entity.Property(e => e.PuRowDspNo)
+                .IsRequired()
+                .HasMaxLength(30)
+                .HasComment("納品書番号:仕入行表示番号")
+                .HasColumnName("PU_ROW_DSP_NO");
+            entity.Property(e => e.TaxFlg)
+                .HasMaxLength(5)
+                .HasComment("消費税★")
+                .HasColumnName("TAX_FLG");
+            entity.Property(e => e.TaxRate)
+                .HasComment("消費税率★")
+                .HasColumnName("TAX_RATE");
             entity.Property(e => e.UpdateDate)
                 .HasDefaultValueSql("(getdate())")
                 .HasComment("更新日時")
@@ -4783,6 +5407,81 @@ public partial class HatFContext : DbContext
                 .HasColumnName("UPDATER");
         });
 
+        modelBuilder.Entity<PuKoiso>(entity =>
+        {
+            entity.HasKey(e => e.PuNo).HasName("PU_PKC_KOISO");
+
+            entity.ToTable("PU_KOISO", tb => tb.HasComment("仕入データ"));
+
+            entity.Property(e => e.PuNo)
+                .HasMaxLength(30)
+                .HasComment("仕入番号")
+                .HasColumnName("PU_NO");
+            entity.Property(e => e.CmpTax)
+                .HasComment("消費税金額")
+                .HasColumnType("decimal(11, 2)")
+                .HasColumnName("CMP_TAX");
+            entity.Property(e => e.CreateDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("作成日時")
+                .HasColumnType("datetime")
+                .HasColumnName("CREATE_DATE");
+            entity.Property(e => e.Creator)
+                .HasComment("作成者名")
+                .HasColumnName("CREATOR");
+            entity.Property(e => e.DeptCode)
+                .IsRequired()
+                .HasMaxLength(6)
+                .HasComment("部門コード")
+                .HasColumnName("DEPT_CODE");
+            entity.Property(e => e.EmpId)
+                .HasComment("仕入担当者ID（社員ID）★")
+                .HasColumnName("EMP_ID");
+            entity.Property(e => e.HatOrderNo)
+                .HasMaxLength(10)
+                .HasComment("HAT-F注文番号★")
+                .HasColumnName("HAT_ORDER_NO");
+            entity.Property(e => e.PaySupCode)
+                .IsRequired()
+                .HasMaxLength(8)
+                .HasComment("支払先コード★")
+                .HasColumnName("PAY_SUP_CODE");
+            entity.Property(e => e.PuAmmount)
+                .HasComment("仕入金額合計（M金額）")
+                .HasColumnType("decimal(11, 2)")
+                .HasColumnName("PU_AMMOUNT");
+            entity.Property(e => e.PuDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("仕入日")
+                .HasColumnType("datetime")
+                .HasColumnName("PU_DATE");
+            entity.Property(e => e.SlipComment)
+                .HasMaxLength(1000)
+                .HasComment("備考")
+                .HasColumnName("SLIP_COMMENT");
+            entity.Property(e => e.StartDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("開始日")
+                .HasColumnType("datetime")
+                .HasColumnName("START_DATE");
+            entity.Property(e => e.SupCode)
+                .IsRequired()
+                .HasMaxLength(8)
+                .HasComment("仕入先コード")
+                .HasColumnName("SUP_CODE");
+            entity.Property(e => e.SupSubNo)
+                .HasComment("仕入先枝番")
+                .HasColumnName("SUP_SUB_NO");
+            entity.Property(e => e.UpdateDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("更新日時")
+                .HasColumnType("datetime")
+                .HasColumnName("UPDATE_DATE");
+            entity.Property(e => e.Updater)
+                .HasComment("更新者名")
+                .HasColumnName("UPDATER");
+        });
+
         modelBuilder.Entity<ReturningProduct>(entity =>
         {
             entity.HasKey(e => e.ReturningProductsId).HasName("RETURNING_PRODUCTS_PKC");
@@ -4817,6 +5516,106 @@ public partial class HatFContext : DbContext
                 .HasMaxLength(20)
                 .HasComment("入庫承認要求番号")
                 .HasColumnName("STOCK_APPROVAL_ID");
+            entity.Property(e => e.UpdateDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("更新日時")
+                .HasColumnType("datetime")
+                .HasColumnName("UPDATE_DATE");
+            entity.Property(e => e.Updater)
+                .HasComment("更新者名")
+                .HasColumnName("UPDATER");
+        });
+
+        modelBuilder.Entity<ReturningProduct1>(entity =>
+        {
+            entity.HasKey(e => e.ReturningProductsId).HasName("RETURNING_PRODUCTS_PKC_");
+
+            entity.ToTable("RETURNING_PRODUCTS_", tb => tb.HasComment("返品データ★"));
+
+            entity.Property(e => e.ReturningProductsId)
+                .HasMaxLength(10)
+                .HasComment("返品ID")
+                .HasColumnName("RETURNING_PRODUCTS_ID");
+            entity.Property(e => e.ApprovalId)
+                .HasMaxLength(20)
+                .HasComment("承認要求番号")
+                .HasColumnName("APPROVAL_ID");
+            entity.Property(e => e.CreateDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("作成日時")
+                .HasColumnType("datetime")
+                .HasColumnName("CREATE_DATE");
+            entity.Property(e => e.Creator)
+                .HasComment("作成者名")
+                .HasColumnName("CREATOR");
+            entity.Property(e => e.RefundApprovalId)
+                .HasMaxLength(20)
+                .HasComment("返金承認要求番号")
+                .HasColumnName("REFUND_APPROVAL_ID");
+            entity.Property(e => e.ReturnConfirmationDate)
+                .HasComment("返品入庫確認日時")
+                .HasColumnType("datetime")
+                .HasColumnName("RETURN_CONFIRMATION_DATE");
+            entity.Property(e => e.ReturnConfirmationId)
+                .HasComment("返品入庫確認者ID")
+                .HasColumnName("RETURN_CONFIRMATION_ID");
+            entity.Property(e => e.ReturnConfirmationStatus)
+                .HasComment("返品入庫確認状況")
+                .HasColumnName("RETURN_CONFIRMATION_STATUS");
+            entity.Property(e => e.ReturnDate)
+                .HasComment("返品日時")
+                .HasColumnType("datetime")
+                .HasColumnName("RETURN_DATE");
+            entity.Property(e => e.StockApprovalId)
+                .HasMaxLength(20)
+                .HasComment("入庫承認要求番号")
+                .HasColumnName("STOCK_APPROVAL_ID");
+            entity.Property(e => e.UpdateDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("更新日時")
+                .HasColumnType("datetime")
+                .HasColumnName("UPDATE_DATE");
+            entity.Property(e => e.Updater)
+                .HasComment("更新者名")
+                .HasColumnName("UPDATER");
+        });
+
+        modelBuilder.Entity<ReturningProductsDel0606>(entity =>
+        {
+            entity.HasKey(e => e.ReturningProductsId).HasName("RETURNING_PRODUCTS_PKC_0606");
+
+            entity.ToTable("RETURNING_PRODUCTS_del0606", tb => tb.HasComment("返品データ★"));
+
+            entity.Property(e => e.ReturningProductsId)
+                .HasMaxLength(10)
+                .HasComment("返品ID")
+                .HasColumnName("RETURNING_PRODUCTS_ID");
+            entity.Property(e => e.ApprovalId)
+                .HasMaxLength(20)
+                .HasComment("承認要求番号")
+                .HasColumnName("APPROVAL_ID");
+            entity.Property(e => e.CreateDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("作成日時")
+                .HasColumnType("datetime")
+                .HasColumnName("CREATE_DATE");
+            entity.Property(e => e.Creator)
+                .HasComment("作成者名")
+                .HasColumnName("CREATOR");
+            entity.Property(e => e.ReturnConfirmationDate)
+                .HasComment("返品入庫確認日時")
+                .HasColumnType("datetime")
+                .HasColumnName("RETURN_CONFIRMATION_DATE");
+            entity.Property(e => e.ReturnConfirmationId)
+                .HasComment("返品入庫確認者ID")
+                .HasColumnName("RETURN_CONFIRMATION_ID");
+            entity.Property(e => e.ReturnConfirmationStatus)
+                .HasComment("返品入庫確認状況")
+                .HasColumnName("RETURN_CONFIRMATION_STATUS");
+            entity.Property(e => e.ReturnDate)
+                .HasComment("返品日時")
+                .HasColumnType("datetime")
+                .HasColumnName("RETURN_DATE");
             entity.Property(e => e.UpdateDate)
                 .HasDefaultValueSql("(getdate())")
                 .HasComment("更新日時")
@@ -4874,6 +5673,76 @@ public partial class HatFContext : DbContext
                 .HasMaxLength(2)
                 .HasComment("売区")
                 .HasColumnName("SALES_CD");
+            entity.Property(e => e.SalesNo)
+                .HasMaxLength(10)
+                .HasComment("売上番号")
+                .HasColumnName("SALES_NO");
+            entity.Property(e => e.SalesRowNo)
+                .HasComment("売上行番号")
+                .HasColumnName("SALES_ROW_NO");
+            entity.Property(e => e.SellUnitPrice)
+                .HasDefaultValue(0m)
+                .HasComment("販売単価")
+                .HasColumnType("decimal(11, 2)")
+                .HasColumnName("SELL_UNIT_PRICE");
+            entity.Property(e => e.StockUnitPrice)
+                .HasDefaultValue(0m)
+                .HasComment("在庫単価")
+                .HasColumnType("decimal(11, 2)")
+                .HasColumnName("STOCK_UNIT_PRICE");
+            entity.Property(e => e.UpdateDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("更新日時")
+                .HasColumnType("datetime")
+                .HasColumnName("UPDATE_DATE");
+            entity.Property(e => e.Updater)
+                .HasComment("更新者名")
+                .HasColumnName("UPDATER");
+        });
+
+        modelBuilder.Entity<ReturningProductsDetail1>(entity =>
+        {
+            entity.HasKey(e => new { e.ReturningProductsId, e.RowNo }).HasName("RETURNING_PRODUCTS_DETAILS_PKC_");
+
+            entity.ToTable("RETURNING_PRODUCTS_DETAILS_", tb => tb.HasComment("返品データ明細★"));
+
+            entity.Property(e => e.ReturningProductsId)
+                .HasMaxLength(10)
+                .HasComment("返品ID")
+                .HasColumnName("RETURNING_PRODUCTS_ID");
+            entity.Property(e => e.RowNo)
+                .HasComment("行番号")
+                .HasColumnName("ROW_NO");
+            entity.Property(e => e.CreateDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("作成日時")
+                .HasColumnType("datetime")
+                .HasColumnName("CREATE_DATE");
+            entity.Property(e => e.Creator)
+                .HasComment("作成者名")
+                .HasColumnName("CREATOR");
+            entity.Property(e => e.DenNo)
+                .HasMaxLength(20)
+                .HasComment("伝票番号")
+                .HasColumnName("DEN_NO");
+            entity.Property(e => e.ProdCode)
+                .HasMaxLength(50)
+                .HasComment("商品コード")
+                .HasColumnName("PROD_CODE");
+            entity.Property(e => e.Quantity)
+                .HasComment("売上数量")
+                .HasColumnName("QUANTITY");
+            entity.Property(e => e.RefundUnitPrice)
+                .HasDefaultValue(0m)
+                .HasComment("返金単価")
+                .HasColumnType("decimal(11, 2)")
+                .HasColumnName("REFUND_UNIT_PRICE");
+            entity.Property(e => e.ReturnQuantity)
+                .HasComment("返品数量")
+                .HasColumnName("RETURN_QUANTITY");
+            entity.Property(e => e.ReturnRequestQuantity)
+                .HasComment("返品依頼数量")
+                .HasColumnName("RETURN_REQUEST_QUANTITY");
             entity.Property(e => e.SalesNo)
                 .HasMaxLength(10)
                 .HasComment("売上番号")
@@ -5169,6 +6038,321 @@ public partial class HatFContext : DbContext
                 .HasColumnName("UPDATER");
         });
 
+        modelBuilder.Entity<SalesDetail1>(entity =>
+        {
+            entity.HasKey(e => new { e.SalesNo, e.RowNo }).HasName("SALES_DETAILS_PKC_");
+
+            entity.ToTable("SALES_DETAILS_", tb => tb.HasComment("売上データ明細"));
+
+            entity.Property(e => e.SalesNo)
+                .HasMaxLength(10)
+                .HasComment("売上番号")
+                .HasColumnName("SALES_NO");
+            entity.Property(e => e.RowNo)
+                .HasComment("売上行番号")
+                .HasColumnName("ROW_NO");
+            entity.Property(e => e.AccountTitle)
+                .HasMaxLength(30)
+                .HasComment("勘定科目")
+                .HasColumnName("ACCOUNT_TITLE");
+            entity.Property(e => e.ApprovalTargetId)
+                .HasMaxLength(20)
+                .HasComment("承認対象ID")
+                .HasColumnName("APPROVAL_TARGET_ID");
+            entity.Property(e => e.AutoJournalDate)
+                .HasComment("自動仕訳処理日")
+                .HasColumnType("datetime")
+                .HasColumnName("AUTO_JOURNAL_DATE");
+            entity.Property(e => e.Chuban)
+                .HasMaxLength(15)
+                .HasComment("H注番")
+                .HasColumnName("CHUBAN");
+            entity.Property(e => e.CreateDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("作成日時")
+                .HasColumnType("datetime")
+                .HasColumnName("CREATE_DATE");
+            entity.Property(e => e.Creator)
+                .HasComment("作成者名")
+                .HasColumnName("CREATOR");
+            entity.Property(e => e.DeliveredQty)
+                .HasDefaultValue((short)0)
+                .HasComment("出荷数量")
+                .HasColumnName("DELIVERED_QTY");
+            entity.Property(e => e.DenFlg)
+                .HasMaxLength(2)
+                .HasComment("伝区")
+                .HasColumnName("DEN_FLG");
+            entity.Property(e => e.DenNo)
+                .HasMaxLength(20)
+                .HasComment("伝票番号")
+                .HasColumnName("DEN_NO");
+            entity.Property(e => e.Discount)
+                .HasComment("値引金額")
+                .HasColumnType("decimal(11, 2)")
+                .HasColumnName("DISCOUNT");
+            entity.Property(e => e.HatOrderNo)
+                .HasMaxLength(10)
+                .HasComment("HAT注文番号")
+                .HasColumnName("HAT_ORDER_NO");
+            entity.Property(e => e.InvoiceDelayType)
+                .HasComment("請求遅延区分")
+                .HasColumnName("INVOICE_DELAY_TYPE");
+            entity.Property(e => e.InvoiceNo)
+                .HasMaxLength(10)
+                .HasComment("請求番号")
+                .HasColumnName("INVOICE_NO");
+            entity.Property(e => e.InvoicedDate)
+                .HasComment("請求日")
+                .HasColumnType("datetime")
+                .HasColumnName("INVOICED_DATE");
+            entity.Property(e => e.Item)
+                .HasMaxLength(30)
+                .HasComment("品目")
+                .HasColumnName("ITEM");
+            entity.Property(e => e.OriginalRowNo)
+                .HasComment("元売上行番号")
+                .HasColumnName("ORIGINAL_ROW_NO");
+            entity.Property(e => e.OriginalSalesNo)
+                .HasMaxLength(10)
+                .HasComment("元売上番号")
+                .HasColumnName("ORIGINAL_SALES_NO");
+            entity.Property(e => e.ProdCode)
+                .HasMaxLength(50)
+                .HasComment("商品コード")
+                .HasColumnName("PROD_CODE");
+            entity.Property(e => e.ProdName)
+                .HasMaxLength(100)
+                .HasComment("商品名")
+                .HasColumnName("PROD_NAME");
+            entity.Property(e => e.Quantity)
+                .HasComment("売上数量")
+                .HasColumnName("QUANTITY");
+            entity.Property(e => e.SalesCorrectionType)
+                .HasMaxLength(2)
+                .HasComment("売上訂正区分")
+                .HasColumnName("SALES_CORRECTION_TYPE");
+            entity.Property(e => e.Summary)
+                .HasMaxLength(30)
+                .HasComment("摘要")
+                .HasColumnName("SUMMARY");
+            entity.Property(e => e.Unitprice)
+                .HasComment("販売単価")
+                .HasColumnType("decimal(11, 2)")
+                .HasColumnName("UNITPRICE");
+            entity.Property(e => e.UpdateDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("更新日時")
+                .HasColumnType("datetime")
+                .HasColumnName("UPDATE_DATE");
+            entity.Property(e => e.Updater)
+                .HasComment("更新者名")
+                .HasColumnName("UPDATER");
+        });
+
+        modelBuilder.Entity<SalesDetails0530>(entity =>
+        {
+            entity.HasKey(e => new { e.SalesNo, e.RowNo }).HasName("SALES_DETAILS_PKC_0530");
+
+            entity.ToTable("SALES_DETAILS_0530", tb => tb.HasComment("売上データ明細"));
+
+            entity.Property(e => e.SalesNo)
+                .HasMaxLength(10)
+                .HasComment("売上番号")
+                .HasColumnName("SALES_NO");
+            entity.Property(e => e.RowNo)
+                .HasComment("売上行番号")
+                .HasColumnName("ROW_NO");
+            entity.Property(e => e.AccountTitle)
+                .HasMaxLength(30)
+                .HasComment("勘定科目")
+                .HasColumnName("ACCOUNT_TITLE");
+            entity.Property(e => e.ApprovalTargetId)
+                .HasMaxLength(20)
+                .HasComment("承認対象ID")
+                .HasColumnName("APPROVAL_TARGET_ID");
+            entity.Property(e => e.AutoJournalDate)
+                .HasComment("自動仕訳処理日")
+                .HasColumnType("datetime")
+                .HasColumnName("AUTO_JOURNAL_DATE");
+            entity.Property(e => e.Chuban)
+                .HasMaxLength(15)
+                .HasComment("H注番")
+                .HasColumnName("CHUBAN");
+            entity.Property(e => e.CreateDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("作成日時")
+                .HasColumnType("datetime")
+                .HasColumnName("CREATE_DATE");
+            entity.Property(e => e.Creator)
+                .HasComment("作成者名")
+                .HasColumnName("CREATOR");
+            entity.Property(e => e.DeliveredQty)
+                .HasDefaultValue((short)0)
+                .HasComment("出荷数量")
+                .HasColumnName("DELIVERED_QTY");
+            entity.Property(e => e.DenFlg)
+                .HasMaxLength(2)
+                .HasComment("伝区")
+                .HasColumnName("DEN_FLG");
+            entity.Property(e => e.DenNo)
+                .HasMaxLength(20)
+                .HasComment("伝票番号")
+                .HasColumnName("DEN_NO");
+            entity.Property(e => e.Discount)
+                .HasComment("値引金額")
+                .HasColumnType("decimal(11, 2)")
+                .HasColumnName("DISCOUNT");
+            entity.Property(e => e.HatOrderNo)
+                .HasMaxLength(10)
+                .HasComment("HAT注文番号")
+                .HasColumnName("HAT_ORDER_NO");
+            entity.Property(e => e.InvoiceDelayType)
+                .HasComment("請求遅延区分")
+                .HasColumnName("INVOICE_DELAY_TYPE");
+            entity.Property(e => e.InvoiceNo)
+                .HasMaxLength(10)
+                .HasComment("請求番号")
+                .HasColumnName("INVOICE_NO");
+            entity.Property(e => e.InvoicedDate)
+                .HasComment("請求日")
+                .HasColumnType("datetime")
+                .HasColumnName("INVOICED_DATE");
+            entity.Property(e => e.Item)
+                .HasMaxLength(30)
+                .HasComment("品目")
+                .HasColumnName("ITEM");
+            entity.Property(e => e.OriginalRowNo)
+                .HasComment("元売上行番号")
+                .HasColumnName("ORIGINAL_ROW_NO");
+            entity.Property(e => e.OriginalSalesNo)
+                .HasMaxLength(10)
+                .HasComment("元売上番号")
+                .HasColumnName("ORIGINAL_SALES_NO");
+            entity.Property(e => e.ProdCode)
+                .HasMaxLength(50)
+                .HasComment("商品コード")
+                .HasColumnName("PROD_CODE");
+            entity.Property(e => e.ProdName)
+                .HasMaxLength(100)
+                .HasComment("商品名")
+                .HasColumnName("PROD_NAME");
+            entity.Property(e => e.Quantity)
+                .HasDefaultValue(1)
+                .HasComment("売上数量")
+                .HasColumnName("QUANTITY");
+            entity.Property(e => e.Summary)
+                .HasMaxLength(30)
+                .HasComment("摘要")
+                .HasColumnName("SUMMARY");
+            entity.Property(e => e.Unitprice)
+                .HasComment("販売単価")
+                .HasColumnType("decimal(11, 2)")
+                .HasColumnName("UNITPRICE");
+            entity.Property(e => e.UpdateDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("更新日時")
+                .HasColumnType("datetime")
+                .HasColumnName("UPDATE_DATE");
+            entity.Property(e => e.Updater)
+                .HasComment("更新者名")
+                .HasColumnName("UPDATER");
+        });
+
+        modelBuilder.Entity<SalesDetails0618m>(entity =>
+        {
+            entity.HasKey(e => new { e.SalesNo, e.RowNo }).HasName("SALES_DETAILS_0618M_PKC");
+
+            entity.ToTable("SALES_DETAILS_0618M");
+
+            entity.Property(e => e.SalesNo)
+                .HasMaxLength(10)
+                .HasColumnName("SALES_NO");
+            entity.Property(e => e.RowNo).HasColumnName("ROW_NO");
+            entity.Property(e => e.AccountTitle)
+                .HasMaxLength(30)
+                .HasColumnName("ACCOUNT_TITLE");
+            entity.Property(e => e.ApprovalTargetId)
+                .HasMaxLength(20)
+                .HasColumnName("APPROVAL_TARGET_ID");
+            entity.Property(e => e.AutoJournalDate)
+                .HasColumnType("datetime")
+                .HasColumnName("AUTO_JOURNAL_DATE");
+            entity.Property(e => e.Chuban)
+                .HasMaxLength(15)
+                .HasColumnName("CHUBAN");
+            entity.Property(e => e.CreateDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime")
+                .HasColumnName("CREATE_DATE");
+            entity.Property(e => e.Creator).HasColumnName("CREATOR");
+            entity.Property(e => e.DeliveredQty)
+                .HasDefaultValue((short)0)
+                .HasColumnName("DELIVERED_QTY");
+            entity.Property(e => e.DenFlg)
+                .HasMaxLength(2)
+                .HasColumnName("DEN_FLG");
+            entity.Property(e => e.DenNo)
+                .HasMaxLength(20)
+                .HasColumnName("DEN_NO");
+            entity.Property(e => e.DenNoLine)
+                .HasMaxLength(1)
+                .HasColumnName("DEN_NO_LINE");
+            entity.Property(e => e.DenSort)
+                .HasMaxLength(3)
+                .HasColumnName("DEN_SORT");
+            entity.Property(e => e.Discount)
+                .HasColumnType("decimal(11, 2)")
+                .HasColumnName("DISCOUNT");
+            entity.Property(e => e.HatOrderNo)
+                .HasMaxLength(10)
+                .HasColumnName("HAT_ORDER_NO");
+            entity.Property(e => e.InvoiceDelayType).HasColumnName("INVOICE_DELAY_TYPE");
+            entity.Property(e => e.InvoiceNo)
+                .HasMaxLength(10)
+                .HasColumnName("INVOICE_NO");
+            entity.Property(e => e.InvoicedDate)
+                .HasColumnType("datetime")
+                .HasColumnName("INVOICED_DATE");
+            entity.Property(e => e.Item)
+                .HasMaxLength(30)
+                .HasColumnName("ITEM");
+            entity.Property(e => e.OriginalRowNo).HasColumnName("ORIGINAL_ROW_NO");
+            entity.Property(e => e.OriginalSalesNo)
+                .HasMaxLength(10)
+                .HasColumnName("ORIGINAL_SALES_NO");
+            entity.Property(e => e.ProdCode)
+                .HasMaxLength(50)
+                .HasColumnName("PROD_CODE");
+            entity.Property(e => e.ProdName)
+                .HasMaxLength(100)
+                .HasColumnName("PROD_NAME");
+            entity.Property(e => e.Quantity).HasColumnName("QUANTITY");
+            entity.Property(e => e.SalesCd)
+                .HasMaxLength(2)
+                .HasColumnName("SALES_CD");
+            entity.Property(e => e.SalesCorrectionType)
+                .HasMaxLength(2)
+                .HasColumnName("SALES_CORRECTION_TYPE");
+            entity.Property(e => e.SaveKey)
+                .HasMaxLength(24)
+                .HasColumnName("SAVE_KEY");
+            entity.Property(e => e.Summary)
+                .HasMaxLength(30)
+                .HasColumnName("SUMMARY");
+            entity.Property(e => e.SupCode)
+                .HasMaxLength(8)
+                .HasColumnName("SUP_CODE");
+            entity.Property(e => e.Unitprice)
+                .HasColumnType("decimal(11, 2)")
+                .HasColumnName("UNITPRICE");
+            entity.Property(e => e.UpdateDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime")
+                .HasColumnName("UPDATE_DATE");
+            entity.Property(e => e.Updater).HasColumnName("UPDATER");
+        });
+
         modelBuilder.Entity<SalesEditLock>(entity =>
         {
             entity.HasKey(e => e.HatOrderNo).HasName("SALES_EDIT_LOCK_PKC");
@@ -5272,6 +6456,70 @@ public partial class HatFContext : DbContext
                 .HasColumnName("VALID");
         });
 
+        modelBuilder.Entity<Stock1>(entity =>
+        {
+            entity.HasKey(e => new { e.WhCode, e.ProdCode, e.RotNo, e.StockType, e.QualityType }).IsClustered(false);
+
+            entity.ToTable("STOCK_", tb => tb.HasComment("在庫データ"));
+
+            entity.Property(e => e.WhCode)
+                .HasMaxLength(3)
+                .HasComment("倉庫コード")
+                .HasColumnName("WH_CODE");
+            entity.Property(e => e.ProdCode)
+                .HasMaxLength(50)
+                .HasComment("商品コード")
+                .HasColumnName("PROD_CODE");
+            entity.Property(e => e.RotNo)
+                .HasMaxLength(20)
+                .HasComment("ロット番号")
+                .HasColumnName("ROT_NO");
+            entity.Property(e => e.StockType)
+                .HasMaxLength(1)
+                .HasDefaultValue("1")
+                .HasComment("在庫区分,1:自社在庫 2:預り在庫")
+                .HasColumnName("STOCK_TYPE");
+            entity.Property(e => e.QualityType)
+                .HasMaxLength(1)
+                .HasDefaultValue("G")
+                .HasComment("良品区分,G:良品 F:不良品 U:未検品")
+                .HasColumnName("QUALITY_TYPE");
+            entity.Property(e => e.Actual)
+                .HasDefaultValue((short)1)
+                .HasComment("実在庫数")
+                .HasColumnName("ACTUAL");
+            entity.Property(e => e.CreateDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("作成日時")
+                .HasColumnType("datetime")
+                .HasColumnName("CREATE_DATE");
+            entity.Property(e => e.Creator)
+                .HasComment("作成者名")
+                .HasColumnName("CREATOR");
+            entity.Property(e => e.LastDeliveryDate)
+                .HasComment("最終出荷日")
+                .HasColumnType("datetime")
+                .HasColumnName("LAST_DELIVERY_DATE");
+            entity.Property(e => e.RowVer)
+                .IsRequired()
+                .IsRowVersion()
+                .IsConcurrencyToken()
+                .HasComment("楽観的排他ロック用行バージョン,(スキャフォールドでTimestamp属性は付与されません)")
+                .HasColumnName("ROW_VER");
+            entity.Property(e => e.UpdateDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("更新日時")
+                .HasColumnType("datetime")
+                .HasColumnName("UPDATE_DATE");
+            entity.Property(e => e.Updater)
+                .HasComment("更新者名")
+                .HasColumnName("UPDATER");
+            entity.Property(e => e.Valid)
+                .HasDefaultValue((short)1)
+                .HasComment("有効在庫数")
+                .HasColumnName("VALID");
+        });
+
         modelBuilder.Entity<StockHistory>(entity =>
         {
             entity.HasKey(e => new { e.WhCode, e.ProdCode, e.RotNo, e.StockType, e.QualityType, e.LastDeliveryDate }).IsClustered(false);
@@ -5324,6 +6572,69 @@ public partial class HatFContext : DbContext
                 .HasMaxLength(1)
                 .HasComment("ランク")
                 .HasColumnName("STOCK_RANK");
+            entity.Property(e => e.UpdateDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("更新日時")
+                .HasColumnType("datetime")
+                .HasColumnName("UPDATE_DATE");
+            entity.Property(e => e.Updater)
+                .HasComment("更新者名")
+                .HasColumnName("UPDATER");
+            entity.Property(e => e.Valid)
+                .HasDefaultValue((short)1)
+                .HasComment("有効在庫数")
+                .HasColumnName("VALID");
+            entity.Property(e => e.ValidBara).HasColumnName("VALID_BARA");
+        });
+
+        modelBuilder.Entity<StockHistory1>(entity =>
+        {
+            entity.HasKey(e => new { e.WhCode, e.ProdCode, e.RotNo, e.StockType, e.QualityType, e.LastDeliveryDate }).IsClustered(false);
+
+            entity.ToTable("STOCK_HISTORY_");
+
+            entity.Property(e => e.WhCode)
+                .HasMaxLength(3)
+                .HasComment("倉庫コード")
+                .HasColumnName("WH_CODE");
+            entity.Property(e => e.ProdCode)
+                .HasMaxLength(50)
+                .HasComment("商品コード")
+                .HasColumnName("PROD_CODE");
+            entity.Property(e => e.RotNo)
+                .HasMaxLength(20)
+                .HasComment("ロット番号")
+                .HasColumnName("ROT_NO");
+            entity.Property(e => e.StockType)
+                .HasMaxLength(1)
+                .HasDefaultValue("1")
+                .HasComment("在庫区分,1:自社在庫 2:預り在庫")
+                .HasColumnName("STOCK_TYPE");
+            entity.Property(e => e.QualityType)
+                .HasMaxLength(1)
+                .HasDefaultValue("G")
+                .HasComment("良品区分,G:良品 F:不良品 U:未検品")
+                .HasColumnName("QUALITY_TYPE");
+            entity.Property(e => e.LastDeliveryDate)
+                .HasComment("最終出荷日")
+                .HasColumnType("datetime")
+                .HasColumnName("LAST_DELIVERY_DATE");
+            entity.Property(e => e.Actual)
+                .HasDefaultValue((short)1)
+                .HasComment("実在庫数")
+                .HasColumnName("ACTUAL");
+            entity.Property(e => e.ActualBara).HasColumnName("ACTUAL_BARA");
+            entity.Property(e => e.BeginningPeriod)
+                .HasDefaultValue(false)
+                .HasColumnName("BEGINNING_PERIOD");
+            entity.Property(e => e.CreateDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("作成日時")
+                .HasColumnType("datetime")
+                .HasColumnName("CREATE_DATE");
+            entity.Property(e => e.Creator)
+                .HasComment("作成者名")
+                .HasColumnName("CREATOR");
             entity.Property(e => e.UpdateDate)
                 .HasDefaultValueSql("(getdate())")
                 .HasComment("更新日時")
@@ -5622,9 +6933,7 @@ public partial class HatFContext : DbContext
 
         modelBuilder.Entity<SupplierMst>(entity =>
         {
-            entity.HasKey(e => new { e.SupCode, e.SupSubNo })
-                .HasName("PK_SUPPLIER_MST_0509")
-                .IsClustered(false);
+            entity.HasKey(e => new { e.SupCode, e.SupSubNo }).IsClustered(false);
 
             entity.ToTable("SUPPLIER_MST", tb => tb.HasComment("仕入先マスタ"));
 
@@ -5890,6 +7199,34 @@ public partial class HatFContext : DbContext
                 .HasColumnName("LOGIN_PASSWORD");
         });
 
+        modelBuilder.Entity<ViewAmadoi>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("VIEW_AMADOI");
+
+            entity.Property(e => e.単位).HasMaxLength(10);
+            entity.Property(e => e.品目cd)
+                .HasMaxLength(24)
+                .HasColumnName("品目CD");
+            entity.Property(e => e.品目テキスト).HasMaxLength(30);
+            entity.Property(e => e.有償扱い単価).HasColumnType("decimal(11, 2)");
+            entity.Property(e => e.無償扱い単価).HasColumnType("decimal(11, 2)");
+            entity.Property(e => e.色r3コード)
+                .HasMaxLength(4)
+                .HasColumnName("色R3コード");
+            entity.Property(e => e.色呼称).HasMaxLength(10);
+            entity.Property(e => e.表示順)
+                .IsRequired()
+                .HasMaxLength(3);
+            entity.Property(e => e.電化管理番号)
+                .IsRequired()
+                .HasMaxLength(12);
+            entity.Property(e => e.顧客品名).HasMaxLength(30);
+            entity.Property(e => e.顧客色表記).HasMaxLength(10);
+            entity.Property(e => e.顧客規格).HasMaxLength(20);
+        });
+
         modelBuilder.Entity<ViewConstruction>(entity =>
         {
             entity
@@ -5942,6 +7279,8 @@ public partial class HatFContext : DbContext
                 .HasColumnName("建設会社TEL");
             entity.Property(e => e.建設会社代表者名).HasMaxLength(50);
             entity.Property(e => e.建設会社名).HasMaxLength(50);
+            entity.Property(e => e.建設業種).HasMaxLength(15);
+            entity.Property(e => e.建設種別).HasMaxLength(15);
             entity.Property(e => e.引合日).HasColumnType("datetime");
             entity.Property(e => e.得意先コード)
                 .IsRequired()
@@ -6077,9 +7416,9 @@ public partial class HatFContext : DbContext
             entity.Property(e => e.伝票区分).HasMaxLength(2);
             entity.Property(e => e.伝票区分名).HasMaxLength(50);
             entity.Property(e => e.伝票番号).HasMaxLength(6);
-            entity.Property(e => e.利率).HasColumnType("decimal(25, 14)");
-            entity.Property(e => e.商品コード).HasMaxLength(24);
-            entity.Property(e => e.商品名).HasMaxLength(30);
+            entity.Property(e => e.利率).HasColumnType("decimal(26, 14)");
+            entity.Property(e => e.商品コード).HasMaxLength(50);
+            entity.Property(e => e.商品名).HasMaxLength(100);
             entity.Property(e => e.営業担当者名).HasMaxLength(20);
             entity.Property(e => e.売上単価).HasColumnType("decimal(11, 2)");
             entity.Property(e => e.売上掛率).HasColumnType("decimal(9, 2)");
@@ -6307,32 +7646,105 @@ public partial class HatFContext : DbContext
             entity.Property(e => e.商品名フル).HasMaxLength(100);
         });
 
+        modelBuilder.Entity<ViewPuDetail>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("VIEW_PU_DETAILS");
+
+            entity.Property(e => e.ApprovalTargetId)
+                .HasMaxLength(20)
+                .HasColumnName("APPROVAL_TARGET_ID");
+            entity.Property(e => e.CheckStatus).HasColumnName("CHECK_STATUS");
+            entity.Property(e => e.HatOrderNo)
+                .HasMaxLength(10)
+                .HasColumnName("HAT_ORDER_NO");
+            entity.Property(e => e.Noubi).HasColumnName("NOUBI");
+            entity.Property(e => e.OriginalPuNo)
+                .HasMaxLength(30)
+                .HasColumnName("ORIGINAL_PU_NO");
+            entity.Property(e => e.OriginalPuRowNo).HasColumnName("ORIGINAL_PU_ROW_NO");
+            entity.Property(e => e.PaySupCode)
+                .HasMaxLength(8)
+                .HasColumnName("PAY_SUP_CODE");
+            entity.Property(e => e.PoPrice)
+                .HasColumnType("decimal(11, 2)")
+                .HasColumnName("PO_PRICE");
+            entity.Property(e => e.PoRowNo)
+                .IsRequired()
+                .HasMaxLength(20)
+                .HasColumnName("PO_ROW_NO");
+            entity.Property(e => e.ProdCode)
+                .HasMaxLength(50)
+                .HasColumnName("PROD_CODE");
+            entity.Property(e => e.ProdName)
+                .HasMaxLength(100)
+                .HasColumnName("PROD_NAME");
+            entity.Property(e => e.PuCorrectionType)
+                .HasMaxLength(2)
+                .HasColumnName("PU_CORRECTION_TYPE");
+            entity.Property(e => e.PuKbn)
+                .HasMaxLength(5)
+                .HasColumnName("PU_KBN");
+            entity.Property(e => e.PuNo)
+                .IsRequired()
+                .HasMaxLength(30)
+                .HasColumnName("PU_NO");
+            entity.Property(e => e.PuPayDate).HasColumnName("PU_PAY_DATE");
+            entity.Property(e => e.PuPayYearMonth)
+                .HasColumnType("datetime")
+                .HasColumnName("PU_PAY_YEAR_MONTH");
+            entity.Property(e => e.PuQuantity)
+                .HasColumnType("decimal(11, 2)")
+                .HasColumnName("PU_QUANTITY");
+            entity.Property(e => e.PuRowDspNo)
+                .IsRequired()
+                .HasMaxLength(30)
+                .HasColumnName("PU_ROW_DSP_NO");
+            entity.Property(e => e.PuRowNo).HasColumnName("PU_ROW_NO");
+            entity.Property(e => e.SlipComment)
+                .HasMaxLength(1000)
+                .HasColumnName("SLIP_COMMENT");
+            entity.Property(e => e.SupCode)
+                .HasMaxLength(8)
+                .HasColumnName("SUP_CODE");
+            entity.Property(e => e.TaxFlg)
+                .HasMaxLength(5)
+                .HasColumnName("TAX_FLG");
+            entity.Property(e => e.TaxRate).HasColumnName("TAX_RATE");
+            entity.Property(e => e.WhCode)
+                .HasMaxLength(3)
+                .HasColumnName("WH_CODE");
+        });
+
         modelBuilder.Entity<ViewPurchaseBilling>(entity =>
         {
             entity
                 .HasNoKey()
                 .ToView("VIEW_PURCHASE_BILLING");
 
-            entity.Property(e => e.Hat注文番号)
-                .HasMaxLength(10)
-                .HasColumnName("HAT注文番号");
-            entity.Property(e => e.ステータス)
-                .IsRequired()
-                .HasMaxLength(1)
-                .IsUnicode(false);
-            entity.Property(e => e.仕入先コード).HasMaxLength(6);
-            entity.Property(e => e.仕入先名).HasMaxLength(60);
-            entity.Property(e => e.仕入支払年月日).HasColumnType("datetime");
+            entity.Property(e => e.F仕入先).HasMaxLength(60);
+            entity.Property(e => e.F仕入先コード).HasMaxLength(6);
+            entity.Property(e => e.F単価).HasColumnType("decimal(11, 2)");
+            entity.Property(e => e.F商品コード).HasMaxLength(50);
+            entity.Property(e => e.F商品名).HasMaxLength(100);
+            entity.Property(e => e.F注文番号).HasMaxLength(10);
+            entity.Property(e => e.F注番).HasMaxLength(15);
+            entity.Property(e => e.F金額).HasColumnType("decimal(22, 2)");
+            entity.Property(e => e.M仕入先コード).HasMaxLength(8);
+            entity.Property(e => e.M商品コード).HasMaxLength(50);
+            entity.Property(e => e.M商品名).HasMaxLength(100);
+            entity.Property(e => e.M数量).HasColumnType("decimal(11, 2)");
+            entity.Property(e => e.M注文番号).HasMaxLength(10);
+            entity.Property(e => e.M注番).HasMaxLength(15);
+            entity.Property(e => e.M納品書番号).HasMaxLength(30);
+            entity.Property(e => e.M金額).HasColumnType("decimal(23, 4)");
+            entity.Property(e => e.伝区).HasMaxLength(2);
             entity.Property(e => e.伝票番号).HasMaxLength(6);
-            entity.Property(e => e.入力日).HasColumnType("datetime");
-            entity.Property(e => e.入力者).HasMaxLength(20);
-            entity.Property(e => e.受注番号).HasMaxLength(12);
-            entity.Property(e => e.営業担当).HasMaxLength(20);
-            entity.Property(e => e.得意先名).HasMaxLength(60);
-            entity.Property(e => e.得意先営業担当).HasMaxLength(20);
-            entity.Property(e => e.物件コード).HasMaxLength(20);
-            entity.Property(e => e.物件名).HasMaxLength(50);
-            entity.Property(e => e.発注金額合計).HasColumnType("decimal(38, 2)");
+            entity.Property(e => e.照合ステータス)
+                .IsRequired()
+                .HasMaxLength(4)
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<ViewPurchaseBillingDetail>(entity =>
@@ -6341,41 +7753,47 @@ public partial class HatFContext : DbContext
                 .HasNoKey()
                 .ToView("VIEW_PURCHASE_BILLING_DETAIL");
 
-            entity.Property(e => e.Hat注文番号)
-                .HasMaxLength(10)
-                .HasColumnName("HAT注文番号");
-            entity.Property(e => e.Hページ番号)
-                .IsRequired()
-                .HasMaxLength(3);
-            entity.Property(e => e.H単価).HasColumnType("decimal(11, 2)");
-            entity.Property(e => e.H子番)
-                .IsRequired()
-                .HasMaxLength(4);
-            entity.Property(e => e.H注番).HasMaxLength(15);
-            entity.Property(e => e.H行番号)
-                .IsRequired()
-                .HasMaxLength(1);
-            entity.Property(e => e.H金額).HasColumnType("decimal(22, 2)");
+            entity.Property(e => e.DenNoLine)
+                .HasMaxLength(1)
+                .HasColumnName("DEN_NO_LINE");
+            entity.Property(e => e.DenSort)
+                .HasMaxLength(3)
+                .HasColumnName("DEN_SORT");
+            entity.Property(e => e.F仕入先).HasMaxLength(60);
+            entity.Property(e => e.F仕入先コード).HasMaxLength(6);
+            entity.Property(e => e.F倉庫コード).HasMaxLength(2);
+            entity.Property(e => e.F単価).HasColumnType("decimal(11, 2)");
+            entity.Property(e => e.F受発注者部門コード).HasMaxLength(6);
+            entity.Property(e => e.F商品コード).HasMaxLength(50);
+            entity.Property(e => e.F商品名).HasMaxLength(100);
+            entity.Property(e => e.F子番).HasMaxLength(1);
+            entity.Property(e => e.F注文番号).HasMaxLength(10);
+            entity.Property(e => e.F注番).HasMaxLength(15);
+            entity.Property(e => e.F消費税区分).HasMaxLength(1);
+            entity.Property(e => e.F金額).HasColumnType("decimal(22, 2)");
+            entity.Property(e => e.M仕入先コード).HasMaxLength(8);
+            entity.Property(e => e.M伝区).HasMaxLength(2);
             entity.Property(e => e.M伝票番号).HasMaxLength(20);
+            entity.Property(e => e.M区分).HasMaxLength(5);
             entity.Property(e => e.M単価).HasColumnType("decimal(11, 2)");
-            entity.Property(e => e.M注番).HasMaxLength(30);
-            entity.Property(e => e.M納日).HasColumnType("datetime");
-            entity.Property(e => e.M金額).HasColumnType("decimal(17, 2)");
-            entity.Property(e => e.仕入先).HasMaxLength(60);
-            entity.Property(e => e.仕入先コード).HasMaxLength(6);
-            entity.Property(e => e.仕入担当者id).HasColumnName("仕入担当者ID");
-            entity.Property(e => e.仕入支払年月日).HasColumnType("datetime");
+            entity.Property(e => e.M商品コード).HasMaxLength(50);
+            entity.Property(e => e.M商品名).HasMaxLength(100);
+            entity.Property(e => e.M数量).HasColumnType("decimal(11, 2)");
+            entity.Property(e => e.M注文番号).HasMaxLength(10);
+            entity.Property(e => e.M注番).HasMaxLength(15);
+            entity.Property(e => e.M消費税区分).HasMaxLength(5);
+            entity.Property(e => e.M納品書番号).HasMaxLength(30);
+            entity.Property(e => e.M金額).HasColumnType("decimal(23, 4)");
+            entity.Property(e => e.SaveKey)
+                .HasMaxLength(24)
+                .HasColumnName("SAVE_KEY");
             entity.Property(e => e.仕入番号).HasMaxLength(30);
             entity.Property(e => e.伝区).HasMaxLength(2);
-            entity.Property(e => e.伝票区分).HasMaxLength(2);
             entity.Property(e => e.伝票番号).HasMaxLength(6);
-            entity.Property(e => e.商品コード).HasMaxLength(50);
-            entity.Property(e => e.商品名).HasMaxLength(100);
-            entity.Property(e => e.得意先).HasMaxLength(60);
-            entity.Property(e => e.得意先コード).HasMaxLength(6);
-            entity.Property(e => e.物件コード).HasMaxLength(20);
-            entity.Property(e => e.物件名).HasMaxLength(50);
-            entity.Property(e => e.部門コード).HasMaxLength(6);
+            entity.Property(e => e.照合ステータス)
+                .IsRequired()
+                .HasMaxLength(4)
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<ViewPurchaseReceiving>(entity =>
@@ -6399,10 +7817,12 @@ public partial class HatFContext : DbContext
             entity.Property(e => e.受注番号).HasMaxLength(12);
             entity.Property(e => e.営業担当).HasMaxLength(20);
             entity.Property(e => e.得意先名).HasMaxLength(60);
-            entity.Property(e => e.得意先営業担当).HasMaxLength(20);
+            entity.Property(e => e.得意先営業担当)
+                .IsRequired()
+                .HasMaxLength(15)
+                .IsUnicode(false);
             entity.Property(e => e.物件コード).HasMaxLength(20);
             entity.Property(e => e.物件名).HasMaxLength(50);
-            entity.Property(e => e.発注金額合計).HasColumnType("decimal(38, 2)");
         });
 
         modelBuilder.Entity<ViewPurchaseReceivingDetail>(entity =>
@@ -6430,12 +7850,10 @@ public partial class HatFContext : DbContext
             entity.Property(e => e.M金額).HasColumnType("decimal(17, 2)");
             entity.Property(e => e.仕入先).HasMaxLength(60);
             entity.Property(e => e.仕入先コード).HasMaxLength(6);
-            entity.Property(e => e.仕入番号).HasMaxLength(30);
-            entity.Property(e => e.伝区).HasMaxLength(2);
             entity.Property(e => e.伝票区分).HasMaxLength(2);
             entity.Property(e => e.伝票番号).HasMaxLength(6);
-            entity.Property(e => e.商品コード).HasMaxLength(50);
-            entity.Property(e => e.商品名).HasMaxLength(100);
+            entity.Property(e => e.商品コード).HasMaxLength(24);
+            entity.Property(e => e.商品名).HasMaxLength(30);
             entity.Property(e => e.得意先).HasMaxLength(60);
             entity.Property(e => e.得意先コード).HasMaxLength(6);
             entity.Property(e => e.物件コード).HasMaxLength(20);
@@ -7017,6 +8435,60 @@ public partial class HatFContext : DbContext
                 .HasMaxLength(40)
                 .HasComment("住所３")
                 .HasColumnName("ADDRESS3");
+            entity.Property(e => e.CreateDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("作成日時")
+                .HasColumnType("datetime")
+                .HasColumnName("CREATE_DATE");
+            entity.Property(e => e.Creator)
+                .HasComment("作成者名")
+                .HasColumnName("CREATOR");
+            entity.Property(e => e.State)
+                .HasMaxLength(4)
+                .HasComment("都道府県")
+                .HasColumnName("STATE");
+            entity.Property(e => e.UpdateDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("更新日時")
+                .HasColumnType("datetime")
+                .HasColumnName("UPDATE_DATE");
+            entity.Property(e => e.Updater)
+                .HasComment("更新者名")
+                .HasColumnName("UPDATER");
+            entity.Property(e => e.WhName)
+                .HasMaxLength(20)
+                .HasComment("倉庫名")
+                .HasColumnName("WH_NAME");
+            entity.Property(e => e.WhType)
+                .HasMaxLength(1)
+                .HasDefaultValue("N")
+                .HasComment("倉庫区分,N:通常倉庫 C:得意先 S:仕入先 D:部門倉庫 P:製品倉庫 M:原材料倉庫")
+                .HasColumnName("WH_TYPE");
+            entity.Property(e => e.ZipCode)
+                .HasMaxLength(8)
+                .IsFixedLength()
+                .HasComment("郵便番号")
+                .HasColumnName("ZIP_CODE");
+        });
+
+        modelBuilder.Entity<WhMst1>(entity =>
+        {
+            entity.HasKey(e => e.WhCode);
+
+            entity.ToTable("WH_MST_", tb => tb.HasComment("倉庫マスタ"));
+
+            entity.Property(e => e.WhCode)
+                .HasMaxLength(3)
+                .HasComment("倉庫コード")
+                .HasColumnName("WH_CODE");
+            entity.Property(e => e.Address1)
+                .HasMaxLength(40)
+                .HasComment("住所１")
+                .HasColumnName("ADDRESS1");
+            entity.Property(e => e.Address2)
+                .HasMaxLength(40)
+                .HasComment("住所２")
+                .HasColumnName("ADDRESS2");
             entity.Property(e => e.CreateDate)
                 .HasDefaultValueSql("(getdate())")
                 .HasComment("作成日時")

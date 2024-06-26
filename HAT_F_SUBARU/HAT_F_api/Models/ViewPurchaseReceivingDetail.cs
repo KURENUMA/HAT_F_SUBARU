@@ -56,10 +56,4 @@ public partial class ViewPurchaseReceivingDetail
     public string H行番号 { get; set; }
 
     public string Hページ番号 { get; set; }
-
-    public string 伝区 { get; set; }
-
-    public string 仕入番号 { get; set; }
-
-    public short? 仕入行番号 { get; set; }
 }

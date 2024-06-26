@@ -19,7 +19,7 @@ public partial class ViewPurchaseReceiving
 
     public string 仕入先名 { get; set; }
 
-    public decimal? 発注金額合計 { get; set; }
+    public int 発注金額合計 { get; set; }
 
     public DateTime? 納期 { get; set; }
 
@@ -34,8 +34,6 @@ public partial class ViewPurchaseReceiving
     public string 得意先営業担当 { get; set; }
 
     public string ステータス { get; set; }
-
-    public short? 仕入先締日 { get; set; }
 
     public short? 仕入先支払月 { get; set; }
 

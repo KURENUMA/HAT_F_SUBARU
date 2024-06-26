@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace HAT_F_api.Models;
 
 /// <summary>
-/// 支払先マスタ★
+/// 支払先マスタ
 /// </summary>
 public partial class PayeeMst
 {
@@ -99,64 +99,14 @@ public partial class PayeeMst
     public short? SupPayDates { get; set; }
 
     /// <summary>
-    /// 支払方法区分,1:振込,2:手形,3:でんさい:デフォルトの支払方法
+    /// 支払方法区分,1:振込,2:手形
     /// </summary>
     public short? PayMethodType { get; set; }
-
-    /// <summary>
-    /// 与信限度額
-    /// </summary>
-    public long? MaxCredit { get; set; }
-
-    /// <summary>
-    /// 与信一時増加枠
-    /// </summary>
-    public long? TempCreditUp { get; set; }
 
     /// <summary>
     /// インボイス登録番号
     /// </summary>
     public string InvoiceRegistNumber { get; set; }
-
-    /// <summary>
-    /// 全銀協銀行コード★
-    /// </summary>
-    public string ABankCode { get; set; }
-
-    /// <summary>
-    /// 全銀協支店コード★
-    /// </summary>
-    public string ABankBlncCode { get; set; }
-
-    /// <summary>
-    /// 銀行名★
-    /// </summary>
-    public string BankName { get; set; }
-
-    /// <summary>
-    /// 銀行支店名★
-    /// </summary>
-    public string BankBlncName { get; set; }
-
-    /// <summary>
-    /// 銀行口座番号★
-    /// </summary>
-    public string BankNo { get; set; }
-
-    /// <summary>
-    /// 銀行口座種別,O:普通 C:当座★
-    /// </summary>
-    public string BankActType { get; set; }
-
-    /// <summary>
-    /// 銀行口座名義人★
-    /// </summary>
-    public string BankActName { get; set; }
-
-    /// <summary>
-    /// でんさいコード（利用者番号）★:Electronically Recorded Monetary Claims
-    /// </summary>
-    public string ErmcUserNo { get; set; }
 
     /// <summary>
     /// 削除日★追加

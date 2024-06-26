@@ -11,11 +11,11 @@ public partial class ViewStockRefill
 
     public string 商品コード { get; set; }
 
+    public string ランク { get; set; }
+
     public string 商品分類コード { get; set; }
 
     public string 商品分類名 { get; set; }
-
-    public string ランク { get; set; }
 
     public string 仕入先コード { get; set; }
 

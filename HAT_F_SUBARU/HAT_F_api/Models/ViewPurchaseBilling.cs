@@ -5,43 +5,51 @@ namespace HAT_F_api.Models;
 
 public partial class ViewPurchaseBilling
 {
-    public string 物件コード { get; set; }
+    public string 照合ステータス { get; set; }
 
-    public string 物件名 { get; set; }
+    public string F仕入先コード { get; set; }
 
-    public string 受注番号 { get; set; }
-
-    public string Hat注文番号 { get; set; }
+    public string F仕入先 { get; set; }
 
     public string 伝票番号 { get; set; }
 
-    public string 仕入先コード { get; set; }
+    public string 伝区 { get; set; }
 
-    public string 仕入先名 { get; set; }
+    public DateTime? F納日 { get; set; }
 
-    public decimal? 発注金額合計 { get; set; }
+    public string F注文番号 { get; set; }
 
-    public DateTime? 納期 { get; set; }
+    public string F注番 { get; set; }
 
-    public DateTime 入力日 { get; set; }
+    public string F商品コード { get; set; }
 
-    public string 入力者 { get; set; }
+    public string F商品名 { get; set; }
 
-    public string 営業担当 { get; set; }
+    public int? F数量 { get; set; }
 
-    public string 得意先名 { get; set; }
+    public decimal? F単価 { get; set; }
 
-    public string 得意先営業担当 { get; set; }
+    public decimal? F金額 { get; set; }
 
-    public string ステータス { get; set; }
+    public short? F消費税率 { get; set; }
 
-    public DateTime? 仕入支払年月日 { get; set; }
+    public string M仕入先コード { get; set; }
 
-    public short? 仕入先締日 { get; set; }
+    public string M納品書番号 { get; set; }
 
-    public short? 仕入先支払月 { get; set; }
+    public DateTime? M納入日 { get; set; }
 
-    public short? 仕入先支払日 { get; set; }
+    public string M注文番号 { get; set; }
 
-    public short? 仕入先支払方法区分 { get; set; }
+    public string M注番 { get; set; }
+
+    public string M商品コード { get; set; }
+
+    public string M商品名 { get; set; }
+
+    public decimal? M数量 { get; set; }
+
+    public decimal? M金額 { get; set; }
+
+    public short? M消費税率 { get; set; }
 }
