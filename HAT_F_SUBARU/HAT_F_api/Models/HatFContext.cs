@@ -1420,6 +1420,10 @@ public partial class HatFContext : DbContext
             entity.Property(e => e.Nouki)
                 .HasComment("納日")
                 .HasColumnName("NOUKI");
+            entity.Property(e => e.ShiresakiCd)
+                .HasMaxLength(6)
+                .HasComment("仕入")
+                .HasColumnName("SHIRESAKI_CD");
             entity.Property(e => e.SiiKake)
                 .HasComment("掛率(仕入)")
                 .HasColumnType("decimal(9, 2)")
@@ -1464,6 +1468,7 @@ public partial class HatFContext : DbContext
                 .HasColumnType("decimal(11, 2)")
                 .HasColumnName("URI_TAN");
         });
+
 
         modelBuilder.Entity<ConstructionLock>(entity =>
         {

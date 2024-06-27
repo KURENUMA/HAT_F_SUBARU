@@ -1286,12 +1286,59 @@ namespace HAT_F_api.Services
         /// <summary>物件詳細の詳細データ取得</summary>
         /// <param name="constructionCode">物件番号</param>
         /// <returns>クエリ</returns>
-        public async Task<List<ConstructionDetail>> GetConstructionDetailDetailAsync(string constructionCode)
+        public async Task<List<ConstructionDetailEx>> GetConstructionDetailDetailAsync(string constructionCode)
         {
-            return await _hatFContext.ConstructionDetails
-                                        .Where(x => x.ConstructionCode == constructionCode)
-                                        .OrderBy(x => x.Koban)
-                                        .ToListAsync();
+            var query = _hatFContext.ConstructionDetails
+                                       .Where(x => x.ConstructionCode == constructionCode);
+
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<ConstructionDetail, ConstructionDetailEx>();
+            });
+            var mapper = config.CreateMapper();
+            var joinedQuery = AddJoinToConstructionDetailForDisplayName((IQueryable<ConstructionDetail>)query);
+
+            // 名称列付オブジェクトにコピーして返す
+            var src = await joinedQuery.ToListAsync();
+            var dest = new List<ConstructionDetailEx>(src.Count);
+            foreach (var srcItem in src)
+            {
+                var destItem = mapper.Map<ConstructionDetailEx>(srcItem.ConstructionDetail);
+                destItem.ShiresakiName = srcItem.SupplierName;
+                dest.Add(destItem);
+            }
+            return dest;
+
+        }
+
+        private IQueryable<ConstructionDetailSupplier> AddJoinToConstructionDetailForDisplayName(IQueryable<ConstructionDetail> query)
+        {
+            var newQuery = query
+                    .GroupJoin(_hatFContext.SupplierMsts,
+                        dest => dest.ShiresakiCd,
+                        cust => cust.SupCode,
+                        (dest, cust) => new { ConstructionDetail = dest, Supplier = cust }
+                    )
+                    .SelectMany(
+                        x => x.Supplier.DefaultIfEmpty(),
+                        (x, cust) => new
+                        {
+                            ConstructionDetail = x.ConstructionDetail,
+                            Supplier = (cust != null) ? cust.SupName : "",
+                        }
+                    )
+                    .OrderBy(x => x.ConstructionDetail.ConstructionCode)
+                    .Select(x => new ConstructionDetailSupplier 
+                    { ConstructionDetail = x.ConstructionDetail, SupplierName = x.Supplier });
+
+            return newQuery;
+        }
+
+        // 内部処理用
+        private class ConstructionDetailSupplier
+        {
+            public ConstructionDetail ConstructionDetail { get; set; }
+            public string SupplierName { get; set; }
         }
     }
 }
