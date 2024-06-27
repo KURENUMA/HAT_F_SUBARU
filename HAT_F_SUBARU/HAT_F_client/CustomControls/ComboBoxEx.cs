@@ -183,9 +183,12 @@ namespace HatFClient.CustomControls
             log($"SelectedValueChanged: {this.inited}");
             if (this.Text.Length == 0) {
                 resetItems();
-                if (!this.DroppedDown && this.inited) {
-                    this.DroppedDown = true;
-                }
+
+                // 選択値が変更された場合にコンボボックスの値を再設定してドロップダウンを開く理由は不明だが
+                // 何かしらの問題があり再設定が必要だったと考えられるためドロップダウンを開く処理のみ無効とする
+                //if (!this.DroppedDown && this.inited) {
+                //    this.DroppedDown = true;
+                //}
             }
         }
 
