@@ -1,6 +1,4 @@
-﻿using System.Reflection.Emit;
-
-namespace HatFClient.Common
+﻿namespace HatFClient.Common
 {
     /// <summary>値の変更を検知可能にするクラス</summary>
     internal class ValueHandler<T>
@@ -8,13 +6,13 @@ namespace HatFClient.Common
         /// <summary>イベントハンドラ定義</summary>
         /// <param name="oldValue">変更前の値</param>
         /// <param name="newValue">変更後の値</param>
-        public delegate void ChangedEventHandler(T oldValue, T newValue);
+        public delegate void ChangeEventHandler(T oldValue, T newValue);
 
         /// <summary>変更前</summary>
-        public event ChangedEventHandler ValueChanging;
+        public event ChangeEventHandler ValueChanging;
 
         /// <summary>変更後</summary>
-        public event ChangedEventHandler ValueChanged;
+        public event ChangeEventHandler ValueChanged;
 
         /// <summary>値実体</summary>
         private T _value;
