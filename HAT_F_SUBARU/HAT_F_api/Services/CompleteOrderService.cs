@@ -96,6 +96,37 @@ namespace HAT_F_api.Services
                 .Where(c => !string.IsNullOrEmpty(request.KoujitenCd) && c.ConstCode == request.KoujitenCd)
                 .FirstOrDefaultAsync();
 
+            var recvName1 = string.Empty;
+            var recvName2 = string.Empty;
+            var recvTel = string.Empty;
+            var recvPost = string.Empty;
+            var recvAddr1 = string.Empty;
+            var recvAddr2 = string.Empty;
+            var recvAddr3 = string.Empty;
+
+            // 得意先コードと現場コードがある場合は出荷先マスタを参照
+            if (!string.IsNullOrEmpty(request.TokuiCd) && !string.IsNullOrEmpty(request.GenbaCd))
+            {
+                recvName1 = destination?.DistName1;
+                recvName2 = destination?.DistName2;
+                recvTel = destination?.DestTel;
+                recvPost = destination?.ZipCode;
+                recvAddr1 = destination?.Address1;
+                recvAddr2 = destination?.Address2;
+                recvAddr3 = destination?.Address3;
+            }
+            // 得意先コードと工事店コードがある場合は工事店マスタを参照
+            else if (!string.IsNullOrEmpty(request.TokuiCd) && !string.IsNullOrEmpty(request.KoujitenCd))
+            {
+                recvName1 = koujiten?.ConstName;
+                recvName2 = string.Empty;
+                recvTel = koujiten?.ConstTel;
+                recvPost = koujiten?.ConstZipCode;
+                recvAddr1 = koujiten?.ConstAddress1;
+                recvAddr2 = koujiten?.ConstAddress2;
+                recvAddr3 = koujiten?.ConstAddress3;
+            }
+
             return new CompleteHeaderResult()
             {
                 // 担当者Cd
