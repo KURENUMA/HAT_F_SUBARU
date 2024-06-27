@@ -35,7 +35,8 @@
     <Compile Include="..\HAT_F_api\CustomModels\CompleteDetailsResultPage.cs" Link="CustomModels\CompleteDetailsResultPage.cs" />
     <Compile Include="..\HAT_F_api\CustomModels\CompleteHeaderRequest.cs" Link="CustomModels\CompleteHeaderRequest.cs" />
     <Compile Include="..\HAT_F_api\CustomModels\CompleteHeaderResult.cs" Link="CustomModels\CompleteHeaderResult.cs" />
-    <Compile Include="..\HAT_F_api\CustomModels\CriteriaDefinitionAttribute.cs" Link="CustomModels\CriteriaDefinitionAttribute.cs" />
+	<Compile Include="..\HAT_F_api\CustomModels\ConstructionDetailEx.cs" Link="CustomModels\ConstructionDetailEx.cs" />
+	<Compile Include="..\HAT_F_api\CustomModels\CriteriaDefinitionAttribute.cs" Link="CustomModels\CriteriaDefinitionAttribute.cs" />
     <Compile Include="..\HAT_F_api\CustomModels\CustomersMstEx.cs" Link="CustomModels\CustomersMstEx.cs" />
     <Compile Include="..\HAT_F_api\CustomModels\DestinationsMstEx.cs" Link="CustomModels\DestinationsMstEx.cs" />
     <Compile Include="..\HAT_F_api\CustomModels\Errors.cs" Link="CustomModels\Errors.cs" />

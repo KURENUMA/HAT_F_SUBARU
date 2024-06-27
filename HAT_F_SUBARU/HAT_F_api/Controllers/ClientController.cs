@@ -1502,7 +1502,7 @@ namespace HAT_F_api.Controllers
         /// <param name="constructionCode">物件番号</param>
         /// <returns>検索結果</returns>
         [HttpGet("construction-detail-detail")]
-        public async Task<ActionResult<ApiResponse<List<ConstructionDetail>>>> GetConstructionDetailDetailAsync(string constructionCode)
+        public async Task<ActionResult<ApiResponse<List<ConstructionDetailEx>>>> GetConstructionDetailDetailAsync(string constructionCode)
         {
             return await ApiLogicRunner.RunAsync(async () =>
             {
