@@ -238,7 +238,7 @@
             // 
             this.lblRECV_ADD1.AutoSize = true;
             this.lblRECV_ADD1.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.lblRECV_ADD1.Location = new System.Drawing.Point(227, 153);
+            this.lblRECV_ADD1.Location = new System.Drawing.Point(227, 156);
             this.lblRECV_ADD1.Name = "lblRECV_ADD1";
             this.lblRECV_ADD1.Size = new System.Drawing.Size(31, 15);
             this.lblRECV_ADD1.TabIndex = 9;
@@ -258,7 +258,7 @@
             // 
             this.txtRECV_ADD1.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtRECV_ADD1.ImeMode = System.Windows.Forms.ImeMode.On;
-            this.txtRECV_ADD1.Location = new System.Drawing.Point(277, 150);
+            this.txtRECV_ADD1.Location = new System.Drawing.Point(277, 153);
             this.txtRECV_ADD1.MaxLength = 30;
             this.txtRECV_ADD1.Name = "txtRECV_ADD1";
             this.txtRECV_ADD1.Size = new System.Drawing.Size(412, 23);
@@ -665,7 +665,6 @@
             // 
             // lblUpdate2
             // 
-            this.lblUpdate2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblUpdate2.AutoSize = true;
             this.lblUpdate2.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.lblUpdate2.ForeColor = System.Drawing.Color.Red;

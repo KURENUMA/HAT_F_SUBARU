@@ -291,6 +291,7 @@ namespace HatFClient.Views.ConstructionProject
                 data.ConstructionCode = constructionCode;
                 data.Koban = rowIndex;
                 data.AppropState = (short?)grd_D.GetData(rowIndex, "ステータス") ?? 0; //0:未計上を設定
+                data.ShiresakiCd = grd_D.GetData(rowIndex, "仕入先コード")?.ToString();
                 data.SyohinCd = grd_D.GetData(rowIndex, "商品コード")?.ToString();
                 data.SyohinName = grd_D.GetData(rowIndex, "商品名")?.ToString();
                 data.Suryo = (int?)grd_D.GetData(rowIndex, "数量") ?? null;
@@ -750,7 +751,7 @@ namespace HatFClient.Views.ConstructionProject
         {
             grd_D.CellButtonClick += new C1.Win.C1FlexGrid.RowColEventHandler(c1FlexGrid1_CellButtonClick);
             // 初期設定（列数、行数、フォント）
-            grd_D.Cols.Count = 15;
+            grd_D.Cols.Count = 17;
             grd_D.Rows.Count = 2; //初期表示用
             grd_D.Select(1, grd_D.Cols["商品コード"].Index);
             grd_D.Font = new System.Drawing.Font("メイリオ", 9);
@@ -763,6 +764,8 @@ namespace HatFClient.Views.ConstructionProject
             foreach (var item in griddata)
             {
                 grd_D[row, "ステータス"] = item.AppropState;
+                grd_D[row, "仕入先コード"] = item.ShiresakiCd;
+                grd_D[row, "仕入先名"] = item.ShiresakiName;
                 grd_D[row, "商品コード"] = item.SyohinCd;
                 grd_D[row, "商品名"] = item.SyohinName;
                 grd_D[row, "数量"] = item.Suryo;
@@ -821,20 +824,43 @@ namespace HatFClient.Views.ConstructionProject
 
         private void c1FlexGrid1_CellButtonClick(object sender, C1.Win.C1FlexGrid.RowColEventArgs e)
         {
-            using (Views.MasterSearch.MS_Syohin dlg = new())
+            
+            switch (e.Col)
             {
-                //物件詳細は仕入先なし
-                dlg.TxtSHIRESAKI_CD = "";
-                dlg.TxtSYOHIN_CD = grd_D.GetDataDisplay(e.Row, e.Col);
-                switch (dlg.ShowDialog())
-                {
-                    case DialogResult.OK:
-                        grd_D.SetData(e.Row, grd_D.Cols["商品コード"].Index, dlg.StrMsSyohinCode);
-                        grd_D.SetData(e.Row, grd_D.Cols["商品名"].Index, dlg.StrMsSyohinName);
-                        break;
-                    default:
-                        break;
-                }
+                case 3: //仕入
+                    using (Views.MasterSearch.MS_ShiresakiBunrui dlg = new())
+                    {
+                        dlg.TxtTEAM_CD = this.txtTEAM_CD.Text;
+                        dlg.TxtSHIRESAKI_CD = grd_D.GetDataDisplay(e.Row, e.Col);
+                        switch (dlg.ShowDialog())
+                        {
+                            case DialogResult.OK:
+                                grd_D.SetData(e.Row, grd_D.Cols["仕入先コード"].Index,dlg.StrMsShiresakiCode);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    break;
+
+                case 4: //商品コード
+                case 5: //商品名
+                    using (Views.MasterSearch.MS_Syohin dlg = new())
+                    {
+                        //物件詳細は仕入先なし
+                        dlg.TxtSHIRESAKI_CD = "";
+                        dlg.TxtSYOHIN_CD = grd_D.GetDataDisplay(e.Row, e.Col);
+                        switch (dlg.ShowDialog())
+                        {
+                            case DialogResult.OK:
+                                grd_D.SetData(e.Row, grd_D.Cols["商品コード"].Index, dlg.StrMsSyohinCode);
+                                grd_D.SetData(e.Row, grd_D.Cols["商品名"].Index, dlg.StrMsSyohinName);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    break;
             }
         }
 
@@ -870,14 +896,14 @@ namespace HatFClient.Views.ConstructionProject
             grd_D.Rows.Add();
         }
 
-        private async Task<List<HAT_F_api.Models.ConstructionDetail>> GetGridData()
+        private async Task<List<HAT_F_api.CustomModels.ConstructionDetailEx>> GetGridData()
         {
             var parameters = new Dictionary<string, object>()
             {
                         { "constructionCode",constructionCode }
             };
 
-            var apiResponse = await Program.HatFApiClient.GetAsync<List<HAT_F_api.Models.ConstructionDetail>>(
+            var apiResponse = await Program.HatFApiClient.GetAsync<List<HAT_F_api.CustomModels.ConstructionDetailEx>>(
                       ApiResources.HatF.Client.ConstructionDetailDetail, parameters);   // 一覧取得API
 
             return apiResponse.Data;
@@ -969,7 +995,9 @@ namespace HatFClient.Views.ConstructionProject
             DataTable dt = GetCheckedData(grd_D);
 
             var grouped = from row in dt.AsEnumerable()
-                          group row by row.Field<string>("納期") into grp
+                          group row by new 
+                          { nouki = row.Field<string>("納期"),
+                              shiresaki = row.Field<string>("仕入先コード")} into grp
                           select grp;
 
             List<List<DataRow>> pageList = new List<List<DataRow>>();
