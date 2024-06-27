@@ -40,33 +40,23 @@
             this.gbCONSTRUCTTON_INFO = new System.Windows.Forms.GroupBox();
             this.btnKANA = new System.Windows.Forms.Button();
             this.lblRECV_BUILDING = new System.Windows.Forms.Label();
-            this.txtRECV_BUILDING = new HatFClient.CustomControls.TextBoxChar();
             this.lblRECV_ADD1 = new System.Windows.Forms.Label();
             this.lblRECV_POSTCODE = new System.Windows.Forms.Label();
-            this.txtRECV_ADD1 = new HatFClient.CustomControls.TextBoxChar();
-            this.txtRECV_POSTCODE = new HatFClient.CustomControls.TextBoxChar();
-            this.txtCONSTRUCTION_KANA = new HatFClient.CustomControls.TextBoxChar();
             this.lblCONSTRUCTION_KANA = new System.Windows.Forms.Label();
-            this.txtCONSTRUCTION_NAME = new HatFClient.CustomControls.TextBoxChar();
             this.lblONSTRUCTION_NAME = new System.Windows.Forms.Label();
             this.lblTOKUI_NAME = new System.Windows.Forms.Label();
             this.btnTOKUI_SEARCH = new System.Windows.Forms.Button();
             this.lblTOKUI_CD = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.txtKMAN_CD = new HatFClient.CustomControls.TextBoxChar();
             this.lblKMAN_CD = new System.Windows.Forms.Label();
-            this.txtTOKUI_NAME = new HatFClient.CustomControls.TextBoxChar();
-            this.txtTOKUI_CD = new HatFClient.CustomControls.TextBoxChar();
             this.lblCOMMENT = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.cmbCONSTRUCTION_INDUSTRY = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
             this.cmbCONSTRUCTION_TYPE = new System.Windows.Forms.ComboBox();
             this.lblCONSTRUCTION_TYPE = new System.Windows.Forms.Label();
-            this.dateINQUIRY_DATE = new HatFClient.CustomControls.C1DateInputEx();
             this.lblINQUIRY_DATE = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
-            this.txtCONSTRUCTOR_NAME = new HatFClient.CustomControls.TextBoxChar();
             this.cmbORDER_STATE = new System.Windows.Forms.ComboBox();
             this.lblORDER_STATE = new System.Windows.Forms.Label();
             this.btnAppSheet = new System.Windows.Forms.Button();
@@ -80,7 +70,17 @@
             this.lblUpdate2 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.btnCopy = new System.Windows.Forms.Button();
+            this.dateINQUIRY_DATE = new HatFClient.CustomControls.C1DateInputEx();
+            this.txtCONSTRUCTOR_NAME = new HatFClient.CustomControls.TextBoxChar();
             this.txtCOMMENT = new HatFClient.CustomControls.TextBoxChar();
+            this.txtKMAN_CD = new HatFClient.CustomControls.TextBoxChar();
+            this.txtTOKUI_NAME = new HatFClient.CustomControls.TextBoxChar();
+            this.txtTOKUI_CD = new HatFClient.CustomControls.TextBoxChar();
+            this.txtRECV_BUILDING = new HatFClient.CustomControls.TextBoxChar();
+            this.txtRECV_ADD1 = new HatFClient.CustomControls.TextBoxChar();
+            this.txtRECV_POSTCODE = new HatFClient.CustomControls.TextBoxChar();
+            this.txtCONSTRUCTION_KANA = new HatFClient.CustomControls.TextBoxChar();
+            this.txtCONSTRUCTION_NAME = new HatFClient.CustomControls.TextBoxChar();
             this.blobStrageForm1 = new HatFClient.CustomControls.BlobStrage.BlobStrageForm();
             this.txtMANAGER_ID = new HatFClient.CustomControls.TextBoxChar();
             this.txtTEAM_CD = new HatFClient.CustomControls.TextBoxChar();
@@ -88,9 +88,9 @@
             this.gbCONSTRUCTTON_INFO.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dateINQUIRY_DATE)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grd_D)).BeginInit();
             this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dateINQUIRY_DATE)).BeginInit();
             this.SuspendLayout();
             // 
             // btnCancel
@@ -169,7 +169,7 @@
             // 
             this.lblTEAM_CD.AutoSize = true;
             this.lblTEAM_CD.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.lblTEAM_CD.Location = new System.Drawing.Point(487, 25);
+            this.lblTEAM_CD.Location = new System.Drawing.Point(484, 25);
             this.lblTEAM_CD.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblTEAM_CD.Name = "lblTEAM_CD";
             this.lblTEAM_CD.Size = new System.Drawing.Size(84, 15);
@@ -227,16 +227,6 @@
             this.lblRECV_BUILDING.TabIndex = 11;
             this.lblRECV_BUILDING.Text = "ビル名等";
             // 
-            // txtRECV_BUILDING
-            // 
-            this.txtRECV_BUILDING.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.txtRECV_BUILDING.ImeMode = System.Windows.Forms.ImeMode.On;
-            this.txtRECV_BUILDING.Location = new System.Drawing.Point(108, 192);
-            this.txtRECV_BUILDING.MaxLength = 50;
-            this.txtRECV_BUILDING.Name = "txtRECV_BUILDING";
-            this.txtRECV_BUILDING.Size = new System.Drawing.Size(534, 23);
-            this.txtRECV_BUILDING.TabIndex = 6;
-            // 
             // lblRECV_ADD1
             // 
             this.lblRECV_ADD1.AutoSize = true;
@@ -257,39 +247,6 @@
             this.lblRECV_POSTCODE.TabIndex = 7;
             this.lblRECV_POSTCODE.Text = "現場〒";
             // 
-            // txtRECV_ADD1
-            // 
-            this.txtRECV_ADD1.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.txtRECV_ADD1.ImeMode = System.Windows.Forms.ImeMode.On;
-            this.txtRECV_ADD1.Location = new System.Drawing.Point(277, 153);
-            this.txtRECV_ADD1.MaxLength = 30;
-            this.txtRECV_ADD1.Name = "txtRECV_ADD1";
-            this.txtRECV_ADD1.Size = new System.Drawing.Size(365, 23);
-            this.txtRECV_ADD1.TabIndex = 5;
-            // 
-            // txtRECV_POSTCODE
-            // 
-            this.txtRECV_POSTCODE.BackColor = System.Drawing.SystemColors.Window;
-            this.txtRECV_POSTCODE.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Bold);
-            this.txtRECV_POSTCODE.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.txtRECV_POSTCODE.ImeMode = System.Windows.Forms.ImeMode.Disable;
-            this.txtRECV_POSTCODE.Location = new System.Drawing.Point(108, 150);
-            this.txtRECV_POSTCODE.MaxLength = 8;
-            this.txtRECV_POSTCODE.Name = "txtRECV_POSTCODE";
-            this.txtRECV_POSTCODE.Size = new System.Drawing.Size(84, 23);
-            this.txtRECV_POSTCODE.TabIndex = 4;
-            this.txtRECV_POSTCODE.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // txtCONSTRUCTION_KANA
-            // 
-            this.txtCONSTRUCTION_KANA.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.txtCONSTRUCTION_KANA.ImeMode = System.Windows.Forms.ImeMode.On;
-            this.txtCONSTRUCTION_KANA.Location = new System.Drawing.Point(108, 69);
-            this.txtCONSTRUCTION_KANA.MaxLength = 50;
-            this.txtCONSTRUCTION_KANA.Name = "txtCONSTRUCTION_KANA";
-            this.txtCONSTRUCTION_KANA.Size = new System.Drawing.Size(534, 23);
-            this.txtCONSTRUCTION_KANA.TabIndex = 3;
-            // 
             // lblCONSTRUCTION_KANA
             // 
             this.lblCONSTRUCTION_KANA.AutoSize = true;
@@ -299,16 +256,6 @@
             this.lblCONSTRUCTION_KANA.Size = new System.Drawing.Size(78, 15);
             this.lblCONSTRUCTION_KANA.TabIndex = 2;
             this.lblCONSTRUCTION_KANA.Text = "物件名フリガナ";
-            // 
-            // txtCONSTRUCTION_NAME
-            // 
-            this.txtCONSTRUCTION_NAME.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.txtCONSTRUCTION_NAME.ImeMode = System.Windows.Forms.ImeMode.On;
-            this.txtCONSTRUCTION_NAME.Location = new System.Drawing.Point(108, 28);
-            this.txtCONSTRUCTION_NAME.MaxLength = 50;
-            this.txtCONSTRUCTION_NAME.Name = "txtCONSTRUCTION_NAME";
-            this.txtCONSTRUCTION_NAME.Size = new System.Drawing.Size(534, 23);
-            this.txtCONSTRUCTION_NAME.TabIndex = 1;
             // 
             // lblONSTRUCTION_NAME
             // 
@@ -368,18 +315,6 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "得意先情報";
             // 
-            // txtKMAN_CD
-            // 
-            this.txtKMAN_CD.BackColor = System.Drawing.SystemColors.Window;
-            this.txtKMAN_CD.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Bold);
-            this.txtKMAN_CD.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.txtKMAN_CD.ImeMode = System.Windows.Forms.ImeMode.On;
-            this.txtKMAN_CD.Location = new System.Drawing.Point(360, 63);
-            this.txtKMAN_CD.MaxLength = 2;
-            this.txtKMAN_CD.Name = "txtKMAN_CD";
-            this.txtKMAN_CD.Size = new System.Drawing.Size(132, 23);
-            this.txtKMAN_CD.TabIndex = 4;
-            // 
             // lblKMAN_CD
             // 
             this.lblKMAN_CD.AutoSize = true;
@@ -389,30 +324,6 @@
             this.lblKMAN_CD.Size = new System.Drawing.Size(62, 15);
             this.lblKMAN_CD.TabIndex = 39;
             this.lblKMAN_CD.Text = "キーマンCD";
-            // 
-            // txtTOKUI_NAME
-            // 
-            this.txtTOKUI_NAME.BackColor = System.Drawing.SystemColors.Window;
-            this.txtTOKUI_NAME.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Bold);
-            this.txtTOKUI_NAME.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.txtTOKUI_NAME.ImeMode = System.Windows.Forms.ImeMode.On;
-            this.txtTOKUI_NAME.Location = new System.Drawing.Point(114, 63);
-            this.txtTOKUI_NAME.MaxLength = 50;
-            this.txtTOKUI_NAME.Name = "txtTOKUI_NAME";
-            this.txtTOKUI_NAME.Size = new System.Drawing.Size(132, 23);
-            this.txtTOKUI_NAME.TabIndex = 3;
-            // 
-            // txtTOKUI_CD
-            // 
-            this.txtTOKUI_CD.BackColor = System.Drawing.SystemColors.Window;
-            this.txtTOKUI_CD.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Bold);
-            this.txtTOKUI_CD.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.txtTOKUI_CD.ImeMode = System.Windows.Forms.ImeMode.On;
-            this.txtTOKUI_CD.Location = new System.Drawing.Point(114, 26);
-            this.txtTOKUI_CD.MaxLength = 6;
-            this.txtTOKUI_CD.Name = "txtTOKUI_CD";
-            this.txtTOKUI_CD.Size = new System.Drawing.Size(132, 23);
-            this.txtTOKUI_CD.TabIndex = 1;
             // 
             // lblCOMMENT
             // 
@@ -483,37 +394,6 @@
             this.lblCONSTRUCTION_TYPE.TabIndex = 42;
             this.lblCONSTRUCTION_TYPE.Text = "種別";
             // 
-            // dateINQUIRY_DATE
-            // 
-            this.dateINQUIRY_DATE.Calendar.RightToLeft = System.Windows.Forms.RightToLeft.Inherit;
-            this.dateINQUIRY_DATE.DateTimeInput = false;
-            this.dateINQUIRY_DATE.DisplayFormat.CustomFormat = "yy/MM/dd";
-            this.dateINQUIRY_DATE.DisplayFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat;
-            this.dateINQUIRY_DATE.DisplayFormat.Inherit = ((C1.Win.C1Input.FormatInfoInheritFlags)(((((C1.Win.C1Input.FormatInfoInheritFlags.NullText | C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) 
-            | C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) 
-            | C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) 
-            | C1.Win.C1Input.FormatInfoInheritFlags.CalendarType)));
-            this.dateINQUIRY_DATE.EditFormat.CustomFormat = "yy/MM/dd";
-            this.dateINQUIRY_DATE.EditFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat;
-            this.dateINQUIRY_DATE.EditFormat.Inherit = ((C1.Win.C1Input.FormatInfoInheritFlags)(((((C1.Win.C1Input.FormatInfoInheritFlags.NullText | C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) 
-            | C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) 
-            | C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) 
-            | C1.Win.C1Input.FormatInfoInheritFlags.CalendarType)));
-            this.dateINQUIRY_DATE.EditMask = "90/90/90";
-            this.dateINQUIRY_DATE.EmptyAsNull = true;
-            this.dateINQUIRY_DATE.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat;
-            this.dateINQUIRY_DATE.GapHeight = 0;
-            this.dateINQUIRY_DATE.ImagePadding = new System.Windows.Forms.Padding(0);
-            this.dateINQUIRY_DATE.ImeMode = System.Windows.Forms.ImeMode.Disable;
-            this.dateINQUIRY_DATE.Location = new System.Drawing.Point(307, 26);
-            this.dateINQUIRY_DATE.LoopPosition = false;
-            this.dateINQUIRY_DATE.MaxLength = 8;
-            this.dateINQUIRY_DATE.Name = "dateINQUIRY_DATE";
-            this.dateINQUIRY_DATE.Size = new System.Drawing.Size(115, 19);
-            this.dateINQUIRY_DATE.TabIndex = 2;
-            this.dateINQUIRY_DATE.Tag = null;
-            this.dateINQUIRY_DATE.VisibleButtons = C1.Win.C1Input.DropDownControlButtonFlags.DropDown;
-            // 
             // lblINQUIRY_DATE
             // 
             this.lblINQUIRY_DATE.AutoSize = true;
@@ -533,18 +413,6 @@
             this.label9.Size = new System.Drawing.Size(43, 15);
             this.label9.TabIndex = 33;
             this.label9.Text = "工事店";
-            // 
-            // txtCONSTRUCTOR_NAME
-            // 
-            this.txtCONSTRUCTOR_NAME.BackColor = System.Drawing.SystemColors.Window;
-            this.txtCONSTRUCTOR_NAME.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Bold);
-            this.txtCONSTRUCTOR_NAME.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.txtCONSTRUCTOR_NAME.ImeMode = System.Windows.Forms.ImeMode.On;
-            this.txtCONSTRUCTOR_NAME.Location = new System.Drawing.Point(79, 24);
-            this.txtCONSTRUCTOR_NAME.MaxLength = 6;
-            this.txtCONSTRUCTOR_NAME.Name = "txtCONSTRUCTOR_NAME";
-            this.txtCONSTRUCTOR_NAME.Size = new System.Drawing.Size(132, 23);
-            this.txtCONSTRUCTOR_NAME.TabIndex = 1;
             // 
             // cmbORDER_STATE
             // 
@@ -706,6 +574,49 @@
             this.btnCopy.Text = "選択対象のコピー";
             this.btnCopy.UseVisualStyleBackColor = true;
             // 
+            // dateINQUIRY_DATE
+            // 
+            this.dateINQUIRY_DATE.Calendar.RightToLeft = System.Windows.Forms.RightToLeft.Inherit;
+            this.dateINQUIRY_DATE.DateTimeInput = false;
+            this.dateINQUIRY_DATE.DisplayFormat.CustomFormat = "yy/MM/dd";
+            this.dateINQUIRY_DATE.DisplayFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat;
+            this.dateINQUIRY_DATE.DisplayFormat.Inherit = ((C1.Win.C1Input.FormatInfoInheritFlags)(((((C1.Win.C1Input.FormatInfoInheritFlags.NullText | C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) 
+            | C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) 
+            | C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) 
+            | C1.Win.C1Input.FormatInfoInheritFlags.CalendarType)));
+            this.dateINQUIRY_DATE.EditFormat.CustomFormat = "yy/MM/dd";
+            this.dateINQUIRY_DATE.EditFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat;
+            this.dateINQUIRY_DATE.EditFormat.Inherit = ((C1.Win.C1Input.FormatInfoInheritFlags)(((((C1.Win.C1Input.FormatInfoInheritFlags.NullText | C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) 
+            | C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) 
+            | C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) 
+            | C1.Win.C1Input.FormatInfoInheritFlags.CalendarType)));
+            this.dateINQUIRY_DATE.EditMask = "90/90/90";
+            this.dateINQUIRY_DATE.EmptyAsNull = true;
+            this.dateINQUIRY_DATE.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat;
+            this.dateINQUIRY_DATE.GapHeight = 0;
+            this.dateINQUIRY_DATE.ImagePadding = new System.Windows.Forms.Padding(0);
+            this.dateINQUIRY_DATE.ImeMode = System.Windows.Forms.ImeMode.Disable;
+            this.dateINQUIRY_DATE.Location = new System.Drawing.Point(307, 26);
+            this.dateINQUIRY_DATE.LoopPosition = false;
+            this.dateINQUIRY_DATE.MaxLength = 8;
+            this.dateINQUIRY_DATE.Name = "dateINQUIRY_DATE";
+            this.dateINQUIRY_DATE.Size = new System.Drawing.Size(115, 19);
+            this.dateINQUIRY_DATE.TabIndex = 2;
+            this.dateINQUIRY_DATE.Tag = null;
+            this.dateINQUIRY_DATE.VisibleButtons = C1.Win.C1Input.DropDownControlButtonFlags.DropDown;
+            // 
+            // txtCONSTRUCTOR_NAME
+            // 
+            this.txtCONSTRUCTOR_NAME.BackColor = System.Drawing.SystemColors.Window;
+            this.txtCONSTRUCTOR_NAME.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Bold);
+            this.txtCONSTRUCTOR_NAME.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.txtCONSTRUCTOR_NAME.ImeMode = System.Windows.Forms.ImeMode.On;
+            this.txtCONSTRUCTOR_NAME.Location = new System.Drawing.Point(79, 24);
+            this.txtCONSTRUCTOR_NAME.MaxLength = 6;
+            this.txtCONSTRUCTOR_NAME.Name = "txtCONSTRUCTOR_NAME";
+            this.txtCONSTRUCTOR_NAME.Size = new System.Drawing.Size(132, 23);
+            this.txtCONSTRUCTOR_NAME.TabIndex = 1;
+            // 
             // txtCOMMENT
             // 
             this.txtCOMMENT.BackColor = System.Drawing.SystemColors.Window;
@@ -719,6 +630,95 @@
             this.txtCOMMENT.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtCOMMENT.Size = new System.Drawing.Size(430, 73);
             this.txtCOMMENT.TabIndex = 15;
+            // 
+            // txtKMAN_CD
+            // 
+            this.txtKMAN_CD.BackColor = System.Drawing.SystemColors.Window;
+            this.txtKMAN_CD.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Bold);
+            this.txtKMAN_CD.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.txtKMAN_CD.ImeMode = System.Windows.Forms.ImeMode.On;
+            this.txtKMAN_CD.Location = new System.Drawing.Point(360, 63);
+            this.txtKMAN_CD.MaxLength = 2;
+            this.txtKMAN_CD.Name = "txtKMAN_CD";
+            this.txtKMAN_CD.Size = new System.Drawing.Size(132, 23);
+            this.txtKMAN_CD.TabIndex = 4;
+            // 
+            // txtTOKUI_NAME
+            // 
+            this.txtTOKUI_NAME.BackColor = System.Drawing.SystemColors.Window;
+            this.txtTOKUI_NAME.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Bold);
+            this.txtTOKUI_NAME.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.txtTOKUI_NAME.ImeMode = System.Windows.Forms.ImeMode.On;
+            this.txtTOKUI_NAME.Location = new System.Drawing.Point(114, 63);
+            this.txtTOKUI_NAME.MaxLength = 50;
+            this.txtTOKUI_NAME.Name = "txtTOKUI_NAME";
+            this.txtTOKUI_NAME.Size = new System.Drawing.Size(132, 23);
+            this.txtTOKUI_NAME.TabIndex = 3;
+            // 
+            // txtTOKUI_CD
+            // 
+            this.txtTOKUI_CD.BackColor = System.Drawing.SystemColors.Window;
+            this.txtTOKUI_CD.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Bold);
+            this.txtTOKUI_CD.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.txtTOKUI_CD.ImeMode = System.Windows.Forms.ImeMode.On;
+            this.txtTOKUI_CD.Location = new System.Drawing.Point(114, 26);
+            this.txtTOKUI_CD.MaxLength = 6;
+            this.txtTOKUI_CD.Name = "txtTOKUI_CD";
+            this.txtTOKUI_CD.Size = new System.Drawing.Size(132, 23);
+            this.txtTOKUI_CD.TabIndex = 1;
+            // 
+            // txtRECV_BUILDING
+            // 
+            this.txtRECV_BUILDING.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.txtRECV_BUILDING.ImeMode = System.Windows.Forms.ImeMode.On;
+            this.txtRECV_BUILDING.Location = new System.Drawing.Point(108, 192);
+            this.txtRECV_BUILDING.MaxLength = 50;
+            this.txtRECV_BUILDING.Name = "txtRECV_BUILDING";
+            this.txtRECV_BUILDING.Size = new System.Drawing.Size(534, 23);
+            this.txtRECV_BUILDING.TabIndex = 6;
+            // 
+            // txtRECV_ADD1
+            // 
+            this.txtRECV_ADD1.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.txtRECV_ADD1.ImeMode = System.Windows.Forms.ImeMode.On;
+            this.txtRECV_ADD1.Location = new System.Drawing.Point(277, 153);
+            this.txtRECV_ADD1.MaxLength = 30;
+            this.txtRECV_ADD1.Name = "txtRECV_ADD1";
+            this.txtRECV_ADD1.Size = new System.Drawing.Size(365, 23);
+            this.txtRECV_ADD1.TabIndex = 5;
+            // 
+            // txtRECV_POSTCODE
+            // 
+            this.txtRECV_POSTCODE.BackColor = System.Drawing.SystemColors.Window;
+            this.txtRECV_POSTCODE.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Bold);
+            this.txtRECV_POSTCODE.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.txtRECV_POSTCODE.ImeMode = System.Windows.Forms.ImeMode.Disable;
+            this.txtRECV_POSTCODE.Location = new System.Drawing.Point(108, 150);
+            this.txtRECV_POSTCODE.MaxLength = 8;
+            this.txtRECV_POSTCODE.Name = "txtRECV_POSTCODE";
+            this.txtRECV_POSTCODE.Size = new System.Drawing.Size(84, 23);
+            this.txtRECV_POSTCODE.TabIndex = 4;
+            this.txtRECV_POSTCODE.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // txtCONSTRUCTION_KANA
+            // 
+            this.txtCONSTRUCTION_KANA.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.txtCONSTRUCTION_KANA.ImeMode = System.Windows.Forms.ImeMode.On;
+            this.txtCONSTRUCTION_KANA.Location = new System.Drawing.Point(108, 69);
+            this.txtCONSTRUCTION_KANA.MaxLength = 50;
+            this.txtCONSTRUCTION_KANA.Name = "txtCONSTRUCTION_KANA";
+            this.txtCONSTRUCTION_KANA.Size = new System.Drawing.Size(534, 23);
+            this.txtCONSTRUCTION_KANA.TabIndex = 3;
+            // 
+            // txtCONSTRUCTION_NAME
+            // 
+            this.txtCONSTRUCTION_NAME.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.txtCONSTRUCTION_NAME.ImeMode = System.Windows.Forms.ImeMode.On;
+            this.txtCONSTRUCTION_NAME.Location = new System.Drawing.Point(108, 28);
+            this.txtCONSTRUCTION_NAME.MaxLength = 50;
+            this.txtCONSTRUCTION_NAME.Name = "txtCONSTRUCTION_NAME";
+            this.txtCONSTRUCTION_NAME.Size = new System.Drawing.Size(534, 23);
+            this.txtCONSTRUCTION_NAME.TabIndex = 1;
             // 
             // blobStrageForm1
             // 
@@ -747,7 +747,7 @@
             this.txtTEAM_CD.BackColor = System.Drawing.SystemColors.Window;
             this.txtTEAM_CD.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtTEAM_CD.ImeMode = System.Windows.Forms.ImeMode.On;
-            this.txtTEAM_CD.Location = new System.Drawing.Point(574, 22);
+            this.txtTEAM_CD.Location = new System.Drawing.Point(570, 22);
             this.txtTEAM_CD.Margin = new System.Windows.Forms.Padding(2);
             this.txtTEAM_CD.MaxLength = 3;
             this.txtTEAM_CD.Name = "txtTEAM_CD";
@@ -808,10 +808,10 @@
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dateINQUIRY_DATE)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.grd_D)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dateINQUIRY_DATE)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

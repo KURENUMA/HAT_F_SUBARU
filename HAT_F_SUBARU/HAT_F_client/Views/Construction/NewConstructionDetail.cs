@@ -1044,6 +1044,7 @@ namespace HatFClient.Views.ConstructionProject
                     FosJyuchuH = new FosJyuchuH(),
                     FosJyuchuDs = new List<FosJyuchuD>(),
                 };
+                page.FosJyuchuH.OrderState = "1"; //固定
                 page.FosJyuchuH.DenSort = DenSort.ToString();
                 page.FosJyuchuH.DenState = "5"; //固定
                 page.FosJyuchuH.DenNo = "00000" + DenSort; //一意の６桁番号　TODO 変更予定
@@ -1066,7 +1067,7 @@ namespace HatFClient.Views.ConstructionProject
                     fosJyuchuD.UriTan = HatFComParts.DoParseDecimal(dr["売上単価"]);          // 売上単価(FosJyuchuD)decimal
                     fosJyuchuD.SiiKake = HatFComParts.DoParseDecimal(dr["仕入掛率"]);        // 掛率(仕入)(FosJyuchuD)decimal
                     fosJyuchuD.SiiTan = HatFComParts.DoParseDecimal(dr["仕入単価"]);          // 仕入単価(FosJyuchuD)decimal
-                    fosJyuchuD.OrderState = "5";
+                    fosJyuchuD.OrderState = "1";
                     page.FosJyuchuDs.Add(fosJyuchuD);
                     DenNoCount++;
                 }
