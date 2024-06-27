@@ -262,9 +262,17 @@ namespace HAT_F_api.Services
         /// <returns></returns>
         public IQueryable<CompanysMst> GetCompanysMst(string compCode, int rows, int page)
         {
-            return _hatFContext.CompanysMsts
-                .Where(x=> string.IsNullOrEmpty(compCode) || x.CompCode == compCode)
-                .Skip(rows * (page - 1)).Take(rows);
+            var sql = _hatFContext.CompanysMsts
+                .Where(x => string.IsNullOrEmpty(compCode) || x.CompCode == compCode);
+            if (rows > 0 && page > 0)
+            {
+                sql = sql.Skip(rows * (page - 1));
+            }
+            if (rows > 0)
+            {
+                sql = sql.Take(rows);
+            }
+            return sql;
         }
 
         public async Task<int> PutCompanysMstAsnc(CompanysMst companysMst)
