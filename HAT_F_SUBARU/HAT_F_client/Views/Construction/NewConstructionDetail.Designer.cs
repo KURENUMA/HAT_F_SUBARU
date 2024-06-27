@@ -78,16 +78,19 @@
             this.btnDELETE_ROW = new System.Windows.Forms.Button();
             this.lblUpdate1 = new System.Windows.Forms.Label();
             this.lblUpdate2 = new System.Windows.Forms.Label();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.btnCopy = new System.Windows.Forms.Button();
             this.txtCOMMENT = new HatFClient.CustomControls.TextBoxChar();
+            this.blobStrageForm1 = new HatFClient.CustomControls.BlobStrage.BlobStrageForm();
             this.txtMANAGER_ID = new HatFClient.CustomControls.TextBoxChar();
             this.txtTEAM_CD = new HatFClient.CustomControls.TextBoxChar();
             this.txtCONSTRUCTTON_CODE = new HatFClient.CustomControls.TextBoxChar();
-            this.blobStrageForm1 = new HatFClient.CustomControls.BlobStrage.BlobStrageForm();
             this.gbCONSTRUCTTON_INFO.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dateINQUIRY_DATE)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grd_D)).BeginInit();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnCancel
@@ -108,7 +111,7 @@
             // 
             this.btnUpdateConstructio.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnUpdateConstructio.Font = new System.Drawing.Font("Meiryo UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.btnUpdateConstructio.Location = new System.Drawing.Point(973, 879);
+            this.btnUpdateConstructio.Location = new System.Drawing.Point(983, 879);
             this.btnUpdateConstructio.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnUpdateConstructio.Name = "btnUpdateConstructio";
             this.btnUpdateConstructio.Size = new System.Drawing.Size(120, 30);
@@ -121,7 +124,7 @@
             // btnUnlock
             // 
             this.btnUnlock.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnUnlock.Location = new System.Drawing.Point(1136, 72);
+            this.btnUnlock.Location = new System.Drawing.Point(1136, 84);
             this.btnUnlock.Name = "btnUnlock";
             this.btnUnlock.Size = new System.Drawing.Size(112, 23);
             this.btnUnlock.TabIndex = 99;
@@ -132,7 +135,7 @@
             // lblLockInfo
             // 
             this.lblLockInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblLockInfo.Location = new System.Drawing.Point(1104, 42);
+            this.lblLockInfo.Location = new System.Drawing.Point(1104, 55);
             this.lblLockInfo.Name = "lblLockInfo";
             this.lblLockInfo.Size = new System.Drawing.Size(152, 26);
             this.lblLockInfo.TabIndex = 20;
@@ -155,7 +158,7 @@
             // 
             this.lblCONSTRUCTTON_CODE.AutoSize = true;
             this.lblCONSTRUCTTON_CODE.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.lblCONSTRUCTTON_CODE.Location = new System.Drawing.Point(190, 26);
+            this.lblCONSTRUCTTON_CODE.Location = new System.Drawing.Point(164, 26);
             this.lblCONSTRUCTTON_CODE.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblCONSTRUCTTON_CODE.Name = "lblCONSTRUCTTON_CODE";
             this.lblCONSTRUCTTON_CODE.Size = new System.Drawing.Size(64, 15);
@@ -166,18 +169,18 @@
             // 
             this.lblTEAM_CD.AutoSize = true;
             this.lblTEAM_CD.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.lblTEAM_CD.Location = new System.Drawing.Point(484, 25);
+            this.lblTEAM_CD.Location = new System.Drawing.Point(487, 25);
             this.lblTEAM_CD.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblTEAM_CD.Name = "lblTEAM_CD";
-            this.lblTEAM_CD.Size = new System.Drawing.Size(36, 15);
+            this.lblTEAM_CD.Size = new System.Drawing.Size(84, 15);
             this.lblTEAM_CD.TabIndex = 28;
-            this.lblTEAM_CD.Text = "チーム";
+            this.lblTEAM_CD.Text = "班課（チーム）";
             // 
             // lblMANAGER_ID
             // 
             this.lblMANAGER_ID.AutoSize = true;
             this.lblMANAGER_ID.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.lblMANAGER_ID.Location = new System.Drawing.Point(674, 26);
+            this.lblMANAGER_ID.Location = new System.Drawing.Point(707, 26);
             this.lblMANAGER_ID.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblMANAGER_ID.Name = "lblMANAGER_ID";
             this.lblMANAGER_ID.Size = new System.Drawing.Size(43, 15);
@@ -199,7 +202,7 @@
             this.gbCONSTRUCTTON_INFO.Controls.Add(this.lblONSTRUCTION_NAME);
             this.gbCONSTRUCTTON_INFO.Location = new System.Drawing.Point(28, 195);
             this.gbCONSTRUCTTON_INFO.Name = "gbCONSTRUCTTON_INFO";
-            this.gbCONSTRUCTTON_INFO.Size = new System.Drawing.Size(919, 239);
+            this.gbCONSTRUCTTON_INFO.Size = new System.Drawing.Size(678, 239);
             this.gbCONSTRUCTTON_INFO.TabIndex = 8;
             this.gbCONSTRUCTTON_INFO.TabStop = false;
             this.gbCONSTRUCTTON_INFO.Text = "物件情報";
@@ -208,7 +211,7 @@
             // 
             this.btnKANA.Location = new System.Drawing.Point(108, 98);
             this.btnKANA.Name = "btnKANA";
-            this.btnKANA.Size = new System.Drawing.Size(89, 23);
+            this.btnKANA.Size = new System.Drawing.Size(112, 23);
             this.btnKANA.TabIndex = 2;
             this.btnKANA.Text = "カナ自動入力";
             this.btnKANA.UseVisualStyleBackColor = true;
@@ -231,7 +234,7 @@
             this.txtRECV_BUILDING.Location = new System.Drawing.Point(108, 192);
             this.txtRECV_BUILDING.MaxLength = 50;
             this.txtRECV_BUILDING.Name = "txtRECV_BUILDING";
-            this.txtRECV_BUILDING.Size = new System.Drawing.Size(581, 23);
+            this.txtRECV_BUILDING.Size = new System.Drawing.Size(534, 23);
             this.txtRECV_BUILDING.TabIndex = 6;
             // 
             // lblRECV_ADD1
@@ -261,7 +264,7 @@
             this.txtRECV_ADD1.Location = new System.Drawing.Point(277, 153);
             this.txtRECV_ADD1.MaxLength = 30;
             this.txtRECV_ADD1.Name = "txtRECV_ADD1";
-            this.txtRECV_ADD1.Size = new System.Drawing.Size(412, 23);
+            this.txtRECV_ADD1.Size = new System.Drawing.Size(365, 23);
             this.txtRECV_ADD1.TabIndex = 5;
             // 
             // txtRECV_POSTCODE
@@ -284,7 +287,7 @@
             this.txtCONSTRUCTION_KANA.Location = new System.Drawing.Point(108, 69);
             this.txtCONSTRUCTION_KANA.MaxLength = 50;
             this.txtCONSTRUCTION_KANA.Name = "txtCONSTRUCTION_KANA";
-            this.txtCONSTRUCTION_KANA.Size = new System.Drawing.Size(769, 23);
+            this.txtCONSTRUCTION_KANA.Size = new System.Drawing.Size(534, 23);
             this.txtCONSTRUCTION_KANA.TabIndex = 3;
             // 
             // lblCONSTRUCTION_KANA
@@ -304,7 +307,7 @@
             this.txtCONSTRUCTION_NAME.Location = new System.Drawing.Point(108, 28);
             this.txtCONSTRUCTION_NAME.MaxLength = 50;
             this.txtCONSTRUCTION_NAME.Name = "txtCONSTRUCTION_NAME";
-            this.txtCONSTRUCTION_NAME.Size = new System.Drawing.Size(769, 23);
+            this.txtCONSTRUCTION_NAME.Size = new System.Drawing.Size(534, 23);
             this.txtCONSTRUCTION_NAME.TabIndex = 1;
             // 
             // lblONSTRUCTION_NAME
@@ -413,10 +416,9 @@
             // 
             // lblCOMMENT
             // 
-            this.lblCOMMENT.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lblCOMMENT.AutoSize = true;
             this.lblCOMMENT.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.lblCOMMENT.Location = new System.Drawing.Point(855, 770);
+            this.lblCOMMENT.Location = new System.Drawing.Point(734, 195);
             this.lblCOMMENT.Name = "lblCOMMENT";
             this.lblCOMMENT.Size = new System.Drawing.Size(76, 15);
             this.lblCOMMENT.TabIndex = 34;
@@ -434,7 +436,7 @@
             this.groupBox2.Controls.Add(this.txtCONSTRUCTOR_NAME);
             this.groupBox2.Location = new System.Drawing.Point(573, 74);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(520, 104);
+            this.groupBox2.Size = new System.Drawing.Size(474, 104);
             this.groupBox2.TabIndex = 9;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "工事店情報";
@@ -550,7 +552,7 @@
             this.cmbORDER_STATE.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cmbORDER_STATE.FormattingEnabled = true;
             this.cmbORDER_STATE.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.cmbORDER_STATE.Location = new System.Drawing.Point(953, 25);
+            this.cmbORDER_STATE.Location = new System.Drawing.Point(974, 24);
             this.cmbORDER_STATE.Name = "cmbORDER_STATE";
             this.cmbORDER_STATE.Size = new System.Drawing.Size(140, 20);
             this.cmbORDER_STATE.TabIndex = 6;
@@ -559,7 +561,7 @@
             // 
             this.lblORDER_STATE.AutoSize = true;
             this.lblORDER_STATE.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.lblORDER_STATE.Location = new System.Drawing.Point(871, 26);
+            this.lblORDER_STATE.Location = new System.Drawing.Point(892, 26);
             this.lblORDER_STATE.Name = "lblORDER_STATE";
             this.lblORDER_STATE.Size = new System.Drawing.Size(76, 15);
             this.lblORDER_STATE.TabIndex = 45;
@@ -579,7 +581,7 @@
             // btnAccounting
             // 
             this.btnAccounting.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnAccounting.Location = new System.Drawing.Point(27, 797);
+            this.btnAccounting.Location = new System.Drawing.Point(11, 144);
             this.btnAccounting.Name = "btnAccounting";
             this.btnAccounting.Size = new System.Drawing.Size(112, 23);
             this.btnAccounting.TabIndex = 12;
@@ -591,7 +593,7 @@
             // 
             this.btnTransfer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnTransfer.Enabled = false;
-            this.btnTransfer.Location = new System.Drawing.Point(27, 838);
+            this.btnTransfer.Location = new System.Drawing.Point(11, 302);
             this.btnTransfer.Name = "btnTransfer";
             this.btnTransfer.Size = new System.Drawing.Size(112, 23);
             this.btnTransfer.TabIndex = 13;
@@ -600,9 +602,9 @@
             // 
             // btnDuplicate
             // 
-            this.btnDuplicate.Location = new System.Drawing.Point(380, 23);
+            this.btnDuplicate.Location = new System.Drawing.Point(354, 22);
             this.btnDuplicate.Name = "btnDuplicate";
-            this.btnDuplicate.Size = new System.Drawing.Size(73, 23);
+            this.btnDuplicate.Size = new System.Drawing.Size(112, 23);
             this.btnDuplicate.TabIndex = 3;
             this.btnDuplicate.Text = "重複チェック";
             this.btnDuplicate.UseVisualStyleBackColor = true;
@@ -611,10 +613,10 @@
             // btnADD_ROW
             // 
             this.btnADD_ROW.Font = new System.Drawing.Font("Meiryo UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.btnADD_ROW.Location = new System.Drawing.Point(1013, 411);
+            this.btnADD_ROW.Location = new System.Drawing.Point(10, 57);
             this.btnADD_ROW.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnADD_ROW.Name = "btnADD_ROW";
-            this.btnADD_ROW.Size = new System.Drawing.Size(80, 23);
+            this.btnADD_ROW.Size = new System.Drawing.Size(112, 23);
             this.btnADD_ROW.TabIndex = 100;
             this.btnADD_ROW.Text = "行追加";
             this.btnADD_ROW.UseVisualStyleBackColor = true;
@@ -629,12 +631,12 @@
             this.grd_D.ColumnInfo = resources.GetString("grd_D.ColumnInfo");
             this.grd_D.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.grd_D.KeyActionTab = C1.Win.C1FlexGrid.KeyActionEnum.MoveAcrossOut;
-            this.grd_D.Location = new System.Drawing.Point(27, 458);
+            this.grd_D.Location = new System.Drawing.Point(129, 23);
             this.grd_D.Name = "grd_D";
             this.grd_D.Rows.Count = 1;
             this.grd_D.Rows.DefaultSize = 30;
             this.grd_D.SelectionMode = C1.Win.C1FlexGrid.SelectionModeEnum.CellRange;
-            this.grd_D.Size = new System.Drawing.Size(1219, 294);
+            this.grd_D.Size = new System.Drawing.Size(1075, 345);
             this.grd_D.StyleInfo = resources.GetString("grd_D.StyleInfo");
             this.grd_D.TabIndex = 11;
             this.grd_D.AfterEdit += new C1.Win.C1FlexGrid.RowColEventHandler(this.grd_D_AfterEdit);
@@ -642,12 +644,12 @@
             // btnDELETE_ROW
             // 
             this.btnDELETE_ROW.Font = new System.Drawing.Font("Meiryo UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.btnDELETE_ROW.Location = new System.Drawing.Point(1126, 411);
+            this.btnDELETE_ROW.Location = new System.Drawing.Point(10, 100);
             this.btnDELETE_ROW.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnDELETE_ROW.Name = "btnDELETE_ROW";
-            this.btnDELETE_ROW.Size = new System.Drawing.Size(80, 23);
+            this.btnDELETE_ROW.Size = new System.Drawing.Size(112, 23);
             this.btnDELETE_ROW.TabIndex = 101;
-            this.btnDELETE_ROW.Text = "行削除";
+            this.btnDELETE_ROW.Text = "選択行削除";
             this.btnDELETE_ROW.UseVisualStyleBackColor = true;
             this.btnDELETE_ROW.Click += new System.EventHandler(this.btnDELETE_ROW_Click);
             // 
@@ -668,27 +670,64 @@
             this.lblUpdate2.AutoSize = true;
             this.lblUpdate2.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.lblUpdate2.ForeColor = System.Drawing.Color.Red;
-            this.lblUpdate2.Location = new System.Drawing.Point(30, 779);
+            this.lblUpdate2.Location = new System.Drawing.Point(8, 244);
             this.lblUpdate2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblUpdate2.Name = "lblUpdate2";
             this.lblUpdate2.Size = new System.Drawing.Size(118, 15);
             this.lblUpdate2.TabIndex = 103;
             this.lblUpdate2.Text = "アップデートで追加予定";
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox3.Controls.Add(this.btnCopy);
+            this.groupBox3.Controls.Add(this.grd_D);
+            this.groupBox3.Controls.Add(this.lblUpdate2);
+            this.groupBox3.Controls.Add(this.btnAccounting);
+            this.groupBox3.Controls.Add(this.btnADD_ROW);
+            this.groupBox3.Controls.Add(this.btnDELETE_ROW);
+            this.groupBox3.Controls.Add(this.btnTransfer);
+            this.groupBox3.Location = new System.Drawing.Point(27, 449);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(1219, 413);
+            this.groupBox3.TabIndex = 12;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "商品入力";
+            // 
+            // btnCopy
+            // 
+            this.btnCopy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnCopy.Enabled = false;
+            this.btnCopy.Location = new System.Drawing.Point(11, 262);
+            this.btnCopy.Name = "btnCopy";
+            this.btnCopy.Size = new System.Drawing.Size(112, 23);
+            this.btnCopy.TabIndex = 104;
+            this.btnCopy.Text = "選択対象のコピー";
+            this.btnCopy.UseVisualStyleBackColor = true;
+            // 
             // txtCOMMENT
             // 
-            this.txtCOMMENT.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.txtCOMMENT.BackColor = System.Drawing.SystemColors.Window;
             this.txtCOMMENT.Font = new System.Drawing.Font("Meiryo UI", 9F);
             this.txtCOMMENT.ForeColor = System.Drawing.SystemColors.WindowText;
             this.txtCOMMENT.ImeMode = System.Windows.Forms.ImeMode.On;
-            this.txtCOMMENT.Location = new System.Drawing.Point(858, 788);
+            this.txtCOMMENT.Location = new System.Drawing.Point(816, 195);
             this.txtCOMMENT.MaxLength = 1024;
             this.txtCOMMENT.Multiline = true;
             this.txtCOMMENT.Name = "txtCOMMENT";
             this.txtCOMMENT.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtCOMMENT.Size = new System.Drawing.Size(388, 73);
+            this.txtCOMMENT.Size = new System.Drawing.Size(430, 73);
             this.txtCOMMENT.TabIndex = 15;
+            // 
+            // blobStrageForm1
+            // 
+            this.blobStrageForm1.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.blobStrageForm1.Location = new System.Drawing.Point(712, 283);
+            this.blobStrageForm1.Name = "blobStrageForm1";
+            this.blobStrageForm1.Size = new System.Drawing.Size(534, 151);
+            this.blobStrageForm1.StrageId = null;
+            this.blobStrageForm1.TabIndex = 14;
             // 
             // txtMANAGER_ID
             // 
@@ -696,7 +735,7 @@
             this.txtMANAGER_ID.Enabled = false;
             this.txtMANAGER_ID.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtMANAGER_ID.ImeMode = System.Windows.Forms.ImeMode.On;
-            this.txtMANAGER_ID.Location = new System.Drawing.Point(721, 22);
+            this.txtMANAGER_ID.Location = new System.Drawing.Point(754, 22);
             this.txtMANAGER_ID.Margin = new System.Windows.Forms.Padding(2);
             this.txtMANAGER_ID.MaxLength = 20;
             this.txtMANAGER_ID.Name = "txtMANAGER_ID";
@@ -708,7 +747,7 @@
             this.txtTEAM_CD.BackColor = System.Drawing.SystemColors.Window;
             this.txtTEAM_CD.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtTEAM_CD.ImeMode = System.Windows.Forms.ImeMode.On;
-            this.txtTEAM_CD.Location = new System.Drawing.Point(529, 22);
+            this.txtTEAM_CD.Location = new System.Drawing.Point(574, 22);
             this.txtTEAM_CD.Margin = new System.Windows.Forms.Padding(2);
             this.txtTEAM_CD.MaxLength = 3;
             this.txtTEAM_CD.Name = "txtTEAM_CD";
@@ -720,23 +759,12 @@
             this.txtCONSTRUCTTON_CODE.BackColor = System.Drawing.SystemColors.Window;
             this.txtCONSTRUCTTON_CODE.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtCONSTRUCTTON_CODE.ImeMode = System.Windows.Forms.ImeMode.On;
-            this.txtCONSTRUCTTON_CODE.Location = new System.Drawing.Point(258, 22);
+            this.txtCONSTRUCTTON_CODE.Location = new System.Drawing.Point(232, 22);
             this.txtCONSTRUCTTON_CODE.Margin = new System.Windows.Forms.Padding(2);
             this.txtCONSTRUCTTON_CODE.MaxLength = 20;
             this.txtCONSTRUCTTON_CODE.Name = "txtCONSTRUCTTON_CODE";
             this.txtCONSTRUCTTON_CODE.Size = new System.Drawing.Size(117, 23);
             this.txtCONSTRUCTTON_CODE.TabIndex = 2;
-            // 
-            // blobStrageForm1
-            // 
-            this.blobStrageForm1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.blobStrageForm1.BackColor = System.Drawing.SystemColors.AppWorkspace;
-            this.blobStrageForm1.Location = new System.Drawing.Point(165, 758);
-            this.blobStrageForm1.Name = "blobStrageForm1";
-            this.blobStrageForm1.Size = new System.Drawing.Size(683, 151);
-            this.blobStrageForm1.StrageId = null;
-            this.blobStrageForm1.TabIndex = 14;
             // 
             // NewConstructionDetail
             // 
@@ -744,13 +772,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.ClientSize = new System.Drawing.Size(1269, 921);
-            this.Controls.Add(this.lblUpdate2);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.lblUpdate1);
-            this.Controls.Add(this.btnDELETE_ROW);
-            this.Controls.Add(this.btnADD_ROW);
             this.Controls.Add(this.btnDuplicate);
-            this.Controls.Add(this.btnTransfer);
-            this.Controls.Add(this.btnAccounting);
             this.Controls.Add(this.btnAppSheet);
             this.Controls.Add(this.cmbORDER_STATE);
             this.Controls.Add(this.lblORDER_STATE);
@@ -759,6 +783,7 @@
             this.Controls.Add(this.txtCOMMENT);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.gbCONSTRUCTTON_INFO);
+            this.Controls.Add(this.blobStrageForm1);
             this.Controls.Add(this.lblMANAGER_ID);
             this.Controls.Add(this.txtMANAGER_ID);
             this.Controls.Add(this.lblTEAM_CD);
@@ -768,10 +793,8 @@
             this.Controls.Add(this.btnUnlock);
             this.Controls.Add(this.lblLockInfo);
             this.Controls.Add(this.lblScreenMode);
-            this.Controls.Add(this.grd_D);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnUpdateConstructio);
-            this.Controls.Add(this.blobStrageForm1);
             this.KeyPreview = true;
             this.MinimumSize = new System.Drawing.Size(1285, 960);
             this.Name = "NewConstructionDetail";
@@ -787,6 +810,8 @@
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dateINQUIRY_DATE)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.grd_D)).EndInit();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -847,5 +872,7 @@
         private System.Windows.Forms.Button btnDELETE_ROW;
         private System.Windows.Forms.Label lblUpdate1;
         private System.Windows.Forms.Label lblUpdate2;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Button btnCopy;
     }
 }

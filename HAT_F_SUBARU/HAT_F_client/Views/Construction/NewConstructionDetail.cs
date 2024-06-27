@@ -578,6 +578,7 @@ namespace HatFClient.Views.ConstructionProject
             //list.Add(btnAccounting.Name);
             list.Add(btnTransfer.Name);
             list.Add(txtMANAGER_ID.Name);
+            list.Add(btnCopy.Name);
 
             return list;
         }
