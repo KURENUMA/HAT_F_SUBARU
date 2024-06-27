@@ -62,7 +62,7 @@ namespace HatFClient.CustomControls.Grids
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.panel1.BackColor = System.Drawing.Color.Transparent;
             this.panel1.Controls.Add(this.c1FlexGrid1);
             this.panel1.Controls.Add(this.pagination1);
             this.panel1.Location = new System.Drawing.Point(0, 0);
@@ -79,12 +79,12 @@ namespace HatFClient.CustomControls.Grids
             this.pagination1.TabIndex = 1;
             this.pagination1.TotalPages = 0;
             // 
-            // TemplateGrid
+            // DefaultGridPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.panel1);
-            this.Name = "TemplateGrid";
+            this.Name = "DefaultGridPage";
             this.Size = new System.Drawing.Size(1159, 618);
             this.Load += new System.EventHandler(this.ProjectGrid_Load);
             ((System.ComponentModel.ISupportInitialize)(this.c1FlexGrid1)).EndInit();

@@ -37,19 +37,16 @@ namespace HatFClient.Repository
         public List<PatternInfo> LoadPatterns()
         {
             var fName = getJsonFilePath();
-            // ファイルが存在しないときは全フィールドをセットしたデフォルトパターンを一つ生成
-            if (!File.Exists(fName))
+            var result = File.Exists(fName) ? 
+                JsonConvert.DeserializeObject<List<PatternInfo>>(File.ReadAllText(fName)) : new List<PatternInfo>();
+            if (!result.Any())
             {
-                var list = new List<PatternInfo>();
-                PatternInfo patternInfo = PatternInfo.createFullPattern(ModelName, "デフォルト");
-                list.Add(patternInfo);
-
+                // ファイルが存在しない場合またはリストが0件の場合に全フィールドをセットしたデフォルトパターンを一つ生成
+                result.Add(PatternInfo.createFullPattern(ModelName, "デフォルト"));
                 MakeSaveDirectory();
-                File.WriteAllText(fName, JsonConvert.SerializeObject(list));
-
-                return list;
+                File.WriteAllText(fName, JsonConvert.SerializeObject(result));
             }
-            return JsonConvert.DeserializeObject<List<PatternInfo>>(File.ReadAllText(fName));
+            return result;
         }
 
         public List<PatternInfo> SavePattern(PatternInfo patternInfo)
