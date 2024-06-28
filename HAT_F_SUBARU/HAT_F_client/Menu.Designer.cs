@@ -81,6 +81,7 @@
             this.tableLayoutPanelA = new System.Windows.Forms.TableLayoutPanel();
             this.label2 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.btnDeliverySchedules = new System.Windows.Forms.Button();
             this.panelAll.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
@@ -749,6 +750,7 @@
             this.tableLayoutPanelA.Controls.Add(this.btnMenu01, 0, 1);
             this.tableLayoutPanelA.Controls.Add(this.btnOrders, 1, 1);
             this.tableLayoutPanelA.Controls.Add(this.btnReadySales, 2, 1);
+            this.tableLayoutPanelA.Controls.Add(this.btnDeliverySchedules, 1, 2);
             this.tableLayoutPanelA.Location = new System.Drawing.Point(16, 26);
             this.tableLayoutPanelA.Name = "tableLayoutPanelA";
             this.tableLayoutPanelA.RowCount = 3;
@@ -778,6 +780,18 @@
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 20;
             this.pictureBox1.TabStop = false;
+            // 
+            // btnDeliverySchedules
+            // 
+            this.btnDeliverySchedules.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnDeliverySchedules.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.btnDeliverySchedules.Location = new System.Drawing.Point(252, 129);
+            this.btnDeliverySchedules.Name = "btnDeliverySchedules";
+            this.btnDeliverySchedules.Size = new System.Drawing.Size(194, 42);
+            this.btnDeliverySchedules.TabIndex = 11;
+            this.btnDeliverySchedules.Text = "得意先別納品予定一覧";
+            this.btnDeliverySchedules.UseVisualStyleBackColor = true;
+            this.btnDeliverySchedules.Click += new System.EventHandler(this.btnDeliverySchedules_Click);
             // 
             // Menu
             // 
@@ -869,5 +883,6 @@
         private System.Windows.Forms.Button btnPurchaseAmountCheck;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button txtPasswordSetting;
+        private System.Windows.Forms.Button btnDeliverySchedules;
     }
 }

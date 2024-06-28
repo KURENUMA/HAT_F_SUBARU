@@ -83,7 +83,7 @@ namespace HatFClient.Views.Purchase
 
             // グリッドの設定
             gridOrderManager = new GridOrderManager(_criteriaDefinitions);
-            projectGrid1 = new DefaultGrid(gridManager, gridOrderManager, false);
+            projectGrid1 = new DefaultGrid(gridManager, false);
             projectGrid1.Dock = DockStyle.Fill;
             projectGrid1.Visible = false;
             projectGrid1.c1FlexGrid1.AllowFiltering = true;

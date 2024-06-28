@@ -30,13 +30,13 @@ namespace HatFClient.CustomControls.Grids
             InitializeComponent();
         }
 
-        public DefaultGrid(IGridManager manager, GridOrderManager orderManager, bool initialSearch)
-            : this(manager, orderManager)
+        public DefaultGrid(IGridManager manager, bool initialSearch)
+            : this(manager)
         {
             _initialSearch = initialSearch;
         }
 
-        public DefaultGrid(IGridManager manager, GridOrderManager orderManager)
+        public DefaultGrid(IGridManager manager)
         {
             InitializeComponent();
 
