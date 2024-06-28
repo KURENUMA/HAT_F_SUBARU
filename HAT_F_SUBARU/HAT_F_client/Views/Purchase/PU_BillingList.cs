@@ -260,11 +260,11 @@ namespace HatFClient.Views.Purchase
             var index = _criteriaDefinitions.FindIndex(x => x.FieldName == nameof(ViewPurchaseBilling.仕入先コード));
             yield return new FilterCriteria(_criteriaDefinitions, index, FilterOperators.Contains, txtSupCode.Text.Trim(), false);
 
-            if (cmbPayMonth.FirstOfMonthValue.HasValue)
-            {
-                index = _criteriaDefinitions.FindIndex(x => x.FieldName == nameof(ViewPurchaseBilling.仕入支払年月日));
-                yield return new FilterCriteria(_criteriaDefinitions, index, cmbPayMonth.FirstOfMonthValue.Value, cmbPayMonth.EndOfMonthValue.Value, false);
-            }
+            //if (cmbPayMonth.FirstOfMonthValue.HasValue)
+            //{
+            //    index = _criteriaDefinitions.FindIndex(x => x.FieldName == nameof(ViewPurchaseBilling.仕入支払年月日));
+            //    yield return new FilterCriteria(_criteriaDefinitions, index, cmbPayMonth.FirstOfMonthValue.Value, cmbPayMonth.EndOfMonthValue.Value, false);
+            //}
             if (!string.IsNullOrEmpty(txtChuban.Text.Trim()))
             {
                 index = _criteriaDefinitions.FindIndex(x => x.FieldName == nameof(ViewPurchaseBilling.Hat注文番号));
@@ -367,7 +367,7 @@ namespace HatFClient.Views.Purchase
         {
             return filters
                 .Except(filters.Where(x => x.SelectedColumn.FieldName == nameof(ViewPurchaseBilling.仕入先コード)))
-                .Except(filters.Where(x => x.SelectedColumn.FieldName == nameof(ViewPurchaseBilling.仕入支払年月日)))
+                //.Except(filters.Where(x => x.SelectedColumn.FieldName == nameof(ViewPurchaseBilling.仕入支払年月日)))
                 .Except(filters.Where(x => x.SelectedColumn.FieldName == nameof(ViewPurchaseBilling.Hat注文番号)))
                 .Concat(BaseConditionToCriteria()).ToList();
         }
