@@ -78,7 +78,7 @@ namespace HatFClient.Views.Purchase
         {
             // 一部の項目は詳細検索画面に表示しない
             CriteriaHelper.ChangeVisible(_criteriaDefinitions, nameof(ViewPurchaseBilling.仕入先コード), false);
-            CriteriaHelper.ChangeVisible(_criteriaDefinitions, nameof(ViewPurchaseBilling.仕入支払年月日), false);
+            //CriteriaHelper.ChangeVisible(_criteriaDefinitions, nameof(ViewPurchaseBilling.仕入支払年月日), false);
             CriteriaHelper.ChangeVisible(_criteriaDefinitions, nameof(ViewPurchaseBilling.Hat注文番号), false);
 
             // グリッドの設定

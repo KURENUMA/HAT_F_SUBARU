@@ -831,7 +831,7 @@ namespace HAT_F_api.Services
 
                     wh = new Warehousing()
                     {
-                        WarehousingId = warehousingId++,
+                        // WarehousingId = warehousingId++, // DB側で自動採番（identity column） のため設定しない
                         WhCode = warehouseCode,
                         WarehousingDiv = "I", // 入庫
                         WarehousingDatetime = record.入出庫日時,
@@ -868,26 +868,27 @@ namespace HAT_F_api.Services
                     _hatFContext.Update(wh);
                 }
 
-                // TODO:楽観排他必要（在庫テーブルにバージョン列追加）
-                var stockQuery = _hatFContext.Stocks
-                    .Where(x => x.WhCode == warehouseCode)
-                    .Where(x => x.ProdCode == record.Hat商品コード)
-                    .Where(x => x.StockType == "2")   //TODO:定数化
-                    .Where(x => x.QualityType == "G");　//TODO:定数化
+                // TODO:在庫テーブルの反映
+                //// TODO:楽観排他必要（在庫テーブルにバージョン列追加）
+                //var stockQuery = _hatFContext.Stocks
+                //    .Where(x => x.WhCode == warehouseCode)
+                //    .Where(x => x.ProdCode == record.Hat商品コード)
+                //    .Where(x => x.StockType == "2")   //TODO:定数化
+                //    .Where(x => x.QualityType == "G");　//TODO:定数化
 
-                var stock = stockQuery.Single();
-                DateTime lastUpdateDateTime = stock.UpdateDate;
+                //var stock = stockQuery.Single();
+                //DateTime lastUpdateDateTime = stock.UpdateDate;
 
-                stock.Actual += (short)increasingAmount;
-                stock.Valid += (short)increasingAmount;
-                //stock.ActualBara += (short)record.入庫バラ数量;
-                //stock.ValidBara += (short)record.入庫バラ数量;
+                //stock.Actual += (short)increasingAmount;
+                //stock.Valid += (short)increasingAmount;
+                ////stock.ActualBara += (short)record.入庫バラ数量;
+                ////stock.ValidBara += (short)record.入庫バラ数量;
 
-                // 更新日時セット
-                _updateInfoSetter.SetUpdateInfo(stock);
+                //// 更新日時セット
+                //_updateInfoSetter.SetUpdateInfo(stock);
 
-                // UPDATE予約
-                _hatFContext.Update(stock);
+                //// UPDATE予約
+                //_hatFContext.Update(stock);
 
                 count++;
             }
