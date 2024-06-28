@@ -837,6 +837,7 @@ namespace HatFClient.Views.ConstructionProject
                         {
                             case DialogResult.OK:
                                 grd_D.SetData(e.Row, grd_D.Cols["仕入先コード"].Index,dlg.StrMsShiresakiCode);
+                                grd_D.SetData(e.Row, grd_D.Cols["仕入先名"].Index, dlg.StrMsShiresakiName);
                                 break;
                             default:
                                 break;
@@ -1069,6 +1070,12 @@ namespace HatFClient.Views.ConstructionProject
                 page.FosJyuchuH.DenNo = "00000" + DenSort; //一意の６桁番号　TODO 変更予定
                 page.FosJyuchuH.ConstructionCode = constructionCode; //物件コード
                 page.FosJyuchuH.DenFlg = "11"; //TODO 後で変更
+
+                //GRIDからFosJyuchuHに入れる
+                DataRow hdr = subGroup[0];
+                page.FosJyuchuH.ShiresakiCd = hdr["仕入先コード"].ToString();
+                page.FosJyuchuH.ShiresakiName = hdr["仕入先名"].ToString();
+                page.FosJyuchuH.Nouki = HatFComParts.DoParseDateTime(hdr["納期"]);
 
                 int DenNoCount = 1;
                 foreach (var dr in subGroup)
