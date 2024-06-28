@@ -1,6 +1,6 @@
 ﻿namespace HatFClient.Views.MasterEdit
 {
-    partial class ME_Supplier
+    partial class ME_Payee
     {
         /// <summary>
         /// Required designer variable.
@@ -164,7 +164,7 @@
             this.chkIncludeDeleted.UseVisualStyleBackColor = true;
             this.chkIncludeDeleted.CheckedChanged += new System.EventHandler(this.chkIncludeDeleted_CheckedChanged);
             // 
-            // ME_Supplier
+            // ME_Payee
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -183,9 +183,9 @@
             this.Controls.Add(this.btnSearch);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.MinimumSize = new System.Drawing.Size(1285, 960);
-            this.Name = "ME_Supplier";
+            this.Name = "ME_Payee";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "仕入先マスタ";
+            this.Text = "支払先マスタ";
             this.Load += new System.EventHandler(this.ME_Supplier_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -118,6 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="c1gCustomers.ColumnInfo" xml:space="preserve">
-    <value>6,1,0,0,0,-1,Columns:1{Name:"CustCode";Caption:"工事店コード";Style:"DataType:System.String;TextAlign:LeftCenter;";}	2{Width:125;Name:"CustName";Caption:"工事店名";}	3{Width:125;Name:"CustKana";Caption:"工事店名カナ";}	4{Width:125;Name:"CustUserName";Caption:"顧客担当者名";}	5{Width:125;Name:"CustUserDepName";Caption:"顧客部門名";}	</value>
+    <value>6,1,0,0,0,-1,Columns:1{Name:"CustCode";Caption:"顧客コード";Style:"DataType:System.String;TextAlign:LeftCenter;";}	2{Width:125;Name:"CustName";Caption:"顧客名";}	3{Width:125;Name:"CustKana";Caption:"顧客名カナ";}	4{Width:125;Name:"CustUserName";Caption:"顧客担当者名";}	5{Width:125;Name:"CustUserDepName";Caption:"顧客部門名";}	</value>
   </data>
 </root>

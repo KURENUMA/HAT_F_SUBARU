@@ -38,6 +38,7 @@
             this.btnCompany = new System.Windows.Forms.Button();
             this.btnCustomerMst = new System.Windows.Forms.Button();
             this.btnDestinationsMst = new System.Windows.Forms.Button();
+            this.btnKeyman = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // listBox1
@@ -140,7 +141,7 @@
             this.btnCustomerMst.Name = "btnCustomerMst";
             this.btnCustomerMst.Size = new System.Drawing.Size(182, 32);
             this.btnCustomerMst.TabIndex = 8;
-            this.btnCustomerMst.Text = "工事店 (顧客)";
+            this.btnCustomerMst.Text = "顧客";
             this.btnCustomerMst.UseVisualStyleBackColor = true;
             this.btnCustomerMst.Click += new System.EventHandler(this.btnCustomerMst_Click);
             // 
@@ -150,9 +151,19 @@
             this.btnDestinationsMst.Name = "btnDestinationsMst";
             this.btnDestinationsMst.Size = new System.Drawing.Size(182, 32);
             this.btnDestinationsMst.TabIndex = 9;
-            this.btnDestinationsMst.Text = "現場 (出荷先)";
+            this.btnDestinationsMst.Text = "出荷先 (現場)";
             this.btnDestinationsMst.UseVisualStyleBackColor = true;
             this.btnDestinationsMst.Click += new System.EventHandler(this.btnDestinationsMst_Click);
+            // 
+            // btnKeyman
+            // 
+            this.btnKeyman.Location = new System.Drawing.Point(210, 124);
+            this.btnKeyman.Name = "btnKeyman";
+            this.btnKeyman.Size = new System.Drawing.Size(182, 32);
+            this.btnKeyman.TabIndex = 10;
+            this.btnKeyman.Text = "顧客担当者 (キーマン)";
+            this.btnKeyman.UseVisualStyleBackColor = true;
+            this.btnKeyman.Click += new System.EventHandler(this.btnKeyman_Click);
             // 
             // ME_Menu
             // 
@@ -160,6 +171,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.ClientSize = new System.Drawing.Size(405, 444);
+            this.Controls.Add(this.btnKeyman);
             this.Controls.Add(this.btnDestinationsMst);
             this.Controls.Add(this.btnCustomerMst);
             this.Controls.Add(this.btnCompany);
@@ -194,5 +206,6 @@
         private System.Windows.Forms.Button btnCompany;
         private System.Windows.Forms.Button btnCustomerMst;
         private System.Windows.Forms.Button btnDestinationsMst;
+        private System.Windows.Forms.Button btnKeyman;
     }
 }

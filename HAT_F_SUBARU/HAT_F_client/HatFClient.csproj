@@ -537,11 +537,35 @@
     <Compile Include="Views\Invoice\InvoiceList.Designer.cs">
       <DependentUpon>InvoiceList.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\MasterEdit\ME_DestinaitonsMst.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\MasterEdit\ME_DestinaitonsMst.Designer.cs">
+      <DependentUpon>ME_DestinaitonsMst.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MasterEdit\ME_DestinaitonsMstDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\MasterEdit\ME_DestinaitonsMstDetail.Designer.cs">
+      <DependentUpon>ME_DestinaitonsMstDetail.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\MasterEdit\ME_PasswordSetting.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Views\MasterEdit\ME_PasswordSetting.Designer.cs">
       <DependentUpon>ME_PasswordSetting.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MasterEdit\ME_Supplier.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\MasterEdit\ME_Supplier.Designer.cs">
+      <DependentUpon>ME_Supplier.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MasterEdit\ME_SupplierDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\MasterEdit\ME_SupplierDetail.Designer.cs">
+      <DependentUpon>ME_SupplierDetail.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\ReturnReceiving\ReturnReceivingDetail.cs">
       <SubType>Form</SubType>
@@ -586,11 +610,11 @@
     <Compile Include="Views\MasterEdit\ME_CustomersMst.Designer.cs">
       <DependentUpon>ME_CustomersMst.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\MasterEdit\ME_DestinaitonsMst.cs">
+    <Compile Include="Views\MasterEdit\ME_CustomersUserMst.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Views\MasterEdit\ME_DestinaitonsMst.Designer.cs">
-      <DependentUpon>ME_DestinaitonsMst.cs</DependentUpon>
+    <Compile Include="Views\MasterEdit\ME_CustomersUserMst.Designer.cs">
+      <DependentUpon>ME_CustomersUserMst.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\MasterEdit\ME_CustomersMstDetail.cs">
       <SubType>Form</SubType>
@@ -598,11 +622,11 @@
     <Compile Include="Views\MasterEdit\ME_CustomersMstDetail.Designer.cs">
       <DependentUpon>ME_CustomersMstDetail.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\MasterEdit\ME_DestinaitonsMstDetail.cs">
+    <Compile Include="Views\MasterEdit\ME_CustomersUserMstDetail.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Views\MasterEdit\ME_DestinaitonsMstDetail.Designer.cs">
-      <DependentUpon>ME_DestinaitonsMstDetail.cs</DependentUpon>
+    <Compile Include="Views\MasterEdit\ME_CustomersUserMstDetail.Designer.cs">
+      <DependentUpon>ME_CustomersUserMstDetail.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\MasterSearch\MS_Customer.cs">
       <SubType>Form</SubType>
@@ -628,11 +652,11 @@
     <Compile Include="Views\MasterEdit\ME_CompanysMst.Designer.cs">
       <DependentUpon>ME_CompanysMst.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\MasterEdit\ME_SupplierDetail.cs">
+    <Compile Include="Views\MasterEdit\ME_PayeeDetail.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Views\MasterEdit\ME_SupplierDetail.Designer.cs">
-      <DependentUpon>ME_SupplierDetail.cs</DependentUpon>
+    <Compile Include="Views\MasterEdit\ME_PayeeDetail.Designer.cs">
+      <DependentUpon>ME_PayeeDetail.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\MasterEdit\ME_CompanysMstDetail.cs">
       <SubType>Form</SubType>
@@ -640,11 +664,11 @@
     <Compile Include="Views\MasterEdit\ME_CompanysMstDetail.Designer.cs">
       <DependentUpon>ME_CompanysMstDetail.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\MasterEdit\ME_Supplier.cs">
+    <Compile Include="Views\MasterEdit\ME_Payee.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Views\MasterEdit\ME_Supplier.Designer.cs">
-      <DependentUpon>ME_Supplier.cs</DependentUpon>
+    <Compile Include="Views\MasterEdit\ME_Payee.Designer.cs">
+      <DependentUpon>ME_Payee.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\MasterEdit\ME_SupplierViewModel.cs" />
     <Compile Include="Views\MasterEdit\ME_EmployeeDetail.cs">
@@ -1088,11 +1112,17 @@
     <EmbeddedResource Include="Views\MasterEdit\ME_CustomersMst.resx">
       <DependentUpon>ME_CustomersMst.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\MasterEdit\ME_DestinaitonsMst.resx">
-      <DependentUpon>ME_DestinaitonsMst.cs</DependentUpon>
+    <EmbeddedResource Include="Views\MasterEdit\ME_CustomersUserMst.resx">
+      <DependentUpon>ME_CustomersUserMst.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\MasterEdit\ME_CustomersMstDetail.resx">
       <DependentUpon>ME_CustomersMstDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MasterEdit\ME_DestinaitonsMst.resx">
+      <DependentUpon>ME_DestinaitonsMst.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MasterEdit\ME_CustomersUserMstDetail.resx">
+      <DependentUpon>ME_CustomersUserMstDetail.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\MasterEdit\ME_DestinaitonsMstDetail.resx">
       <DependentUpon>ME_DestinaitonsMstDetail.cs</DependentUpon>
@@ -1100,8 +1130,8 @@
     <EmbeddedResource Include="Views\MasterEdit\ME_PasswordSetting.resx">
       <DependentUpon>ME_PasswordSetting.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\MasterEdit\ME_SupplierDetail.resx">
-      <DependentUpon>ME_SupplierDetail.cs</DependentUpon>
+    <EmbeddedResource Include="Views\MasterEdit\ME_PayeeDetail.resx">
+      <DependentUpon>ME_PayeeDetail.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\MasterEdit\ME_CompanysMstDetail.resx">
       <DependentUpon>ME_CompanysMstDetail.cs</DependentUpon>
@@ -1109,11 +1139,17 @@
     <EmbeddedResource Include="Views\MasterEdit\ME_Employee.resx">
       <DependentUpon>ME_Employee.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\MasterEdit\ME_Supplier.resx">
-      <DependentUpon>ME_Supplier.cs</DependentUpon>
+    <EmbeddedResource Include="Views\MasterEdit\ME_Payee.resx">
+      <DependentUpon>ME_Payee.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\MasterEdit\ME_EmployeeDetail.resx">
       <DependentUpon>ME_EmployeeDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MasterEdit\ME_Supplier.resx">
+      <DependentUpon>ME_Supplier.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MasterEdit\ME_SupplierDetail.resx">
+      <DependentUpon>ME_SupplierDetail.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\MasterSearch\MS_Customer.resx">
       <DependentUpon>MS_Customer.cs</DependentUpon>

@@ -30,8 +30,6 @@
         {
             this.label1 = new System.Windows.Forms.Label();
             this.txtCustName = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.txtDistNo = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.txtDistName1 = new System.Windows.Forms.TextBox();
             this.btnOK = new System.Windows.Forms.Button();
@@ -57,8 +55,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.txtRemarks = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.txtCustUserName = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -67,9 +63,9 @@
             this.label1.Location = new System.Drawing.Point(24, 73);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(50, 15);
+            this.label1.Size = new System.Drawing.Size(38, 15);
             this.label1.TabIndex = 2001;
-            this.label1.Text = "工事店*";
+            this.label1.Text = "顧客*";
             // 
             // txtCustName
             // 
@@ -79,32 +75,12 @@
             this.txtCustName.ReadOnly = true;
             this.txtCustName.Size = new System.Drawing.Size(200, 23);
             this.txtCustName.TabIndex = 2002;
-            this.txtCustName.Text = "○○工事店 (409364000209)";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(24, 167);
-            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(67, 15);
-            this.label3.TabIndex = 2031;
-            this.label3.Text = "出荷先番号";
-            // 
-            // txtDistNo
-            // 
-            this.txtDistNo.Location = new System.Drawing.Point(141, 164);
-            this.txtDistNo.Margin = new System.Windows.Forms.Padding(4);
-            this.txtDistNo.Name = "txtDistNo";
-            this.txtDistNo.ReadOnly = true;
-            this.txtDistNo.Size = new System.Drawing.Size(200, 23);
-            this.txtDistNo.TabIndex = 2032;
-            this.txtDistNo.Text = "1";
+            this.txtCustName.Text = "○○商事㈱ (000303)";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(24, 199);
+            this.label4.Location = new System.Drawing.Point(24, 135);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(74, 15);
@@ -114,7 +90,7 @@
             // txtDistName1
             // 
             this.txtDistName1.ImeMode = System.Windows.Forms.ImeMode.On;
-            this.txtDistName1.Location = new System.Drawing.Point(141, 196);
+            this.txtDistName1.Location = new System.Drawing.Point(141, 132);
             this.txtDistName1.Margin = new System.Windows.Forms.Padding(4);
             this.txtDistName1.MaxLength = 40;
             this.txtDistName1.Name = "txtDistName1";
@@ -125,7 +101,7 @@
             // btnOK
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOK.Location = new System.Drawing.Point(573, 451);
+            this.btnOK.Location = new System.Drawing.Point(573, 433);
             this.btnOK.Margin = new System.Windows.Forms.Padding(4);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(123, 29);
@@ -138,7 +114,7 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(704, 451);
+            this.btnCancel.Location = new System.Drawing.Point(704, 433);
             this.btnCancel.Margin = new System.Windows.Forms.Padding(4);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(123, 29);
@@ -164,13 +140,13 @@
             this.btnSelectCustomer.Name = "btnSelectCustomer";
             this.btnSelectCustomer.Size = new System.Drawing.Size(76, 29);
             this.btnSelectCustomer.TabIndex = 2003;
-            this.btnSelectCustomer.Text = "工事店選択";
+            this.btnSelectCustomer.Text = "顧客選択";
             this.btnSelectCustomer.UseVisualStyleBackColor = true;
             this.btnSelectCustomer.Click += new System.EventHandler(this.btnSelectCustomer_Click);
             // 
             // btnCheckDuplicate
             // 
-            this.btnCheckDuplicate.Location = new System.Drawing.Point(349, 128);
+            this.btnCheckDuplicate.Location = new System.Drawing.Point(349, 97);
             this.btnCheckDuplicate.Margin = new System.Windows.Forms.Padding(4);
             this.btnCheckDuplicate.Name = "btnCheckDuplicate";
             this.btnCheckDuplicate.Size = new System.Drawing.Size(76, 29);
@@ -182,7 +158,7 @@
             // txtDestFax
             // 
             this.txtDestFax.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.txtDestFax.Location = new System.Drawing.Point(141, 418);
+            this.txtDestFax.Location = new System.Drawing.Point(141, 354);
             this.txtDestFax.Margin = new System.Windows.Forms.Padding(4);
             this.txtDestFax.MaxLength = 15;
             this.txtDestFax.Name = "txtDestFax";
@@ -192,7 +168,7 @@
             // txtDestTel
             // 
             this.txtDestTel.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.txtDestTel.Location = new System.Drawing.Point(141, 386);
+            this.txtDestTel.Location = new System.Drawing.Point(141, 322);
             this.txtDestTel.Margin = new System.Windows.Forms.Padding(4);
             this.txtDestTel.MaxLength = 15;
             this.txtDestTel.Name = "txtDestTel";
@@ -203,7 +179,7 @@
             // txtAddress3
             // 
             this.txtAddress3.ImeMode = System.Windows.Forms.ImeMode.On;
-            this.txtAddress3.Location = new System.Drawing.Point(141, 354);
+            this.txtAddress3.Location = new System.Drawing.Point(141, 290);
             this.txtAddress3.Margin = new System.Windows.Forms.Padding(4);
             this.txtAddress3.MaxLength = 40;
             this.txtAddress3.Name = "txtAddress3";
@@ -213,7 +189,7 @@
             // txtAddress2
             // 
             this.txtAddress2.ImeMode = System.Windows.Forms.ImeMode.On;
-            this.txtAddress2.Location = new System.Drawing.Point(141, 322);
+            this.txtAddress2.Location = new System.Drawing.Point(141, 258);
             this.txtAddress2.Margin = new System.Windows.Forms.Padding(4);
             this.txtAddress2.MaxLength = 40;
             this.txtAddress2.Name = "txtAddress2";
@@ -223,7 +199,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(24, 262);
+            this.label12.Location = new System.Drawing.Point(24, 198);
             this.label12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(91, 15);
@@ -233,7 +209,7 @@
             // txtZipCode
             // 
             this.txtZipCode.ImeMode = System.Windows.Forms.ImeMode.On;
-            this.txtZipCode.Location = new System.Drawing.Point(141, 259);
+            this.txtZipCode.Location = new System.Drawing.Point(141, 195);
             this.txtZipCode.Margin = new System.Windows.Forms.Padding(4);
             this.txtZipCode.MaxLength = 8;
             this.txtZipCode.Name = "txtZipCode";
@@ -244,7 +220,7 @@
             // txtAddress1
             // 
             this.txtAddress1.ImeMode = System.Windows.Forms.ImeMode.On;
-            this.txtAddress1.Location = new System.Drawing.Point(141, 290);
+            this.txtAddress1.Location = new System.Drawing.Point(141, 226);
             this.txtAddress1.Margin = new System.Windows.Forms.Padding(4);
             this.txtAddress1.MaxLength = 40;
             this.txtAddress1.Name = "txtAddress1";
@@ -255,7 +231,7 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(24, 293);
+            this.label15.Location = new System.Drawing.Point(24, 229);
             this.label15.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(86, 15);
@@ -265,7 +241,7 @@
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(24, 421);
+            this.label16.Location = new System.Drawing.Point(24, 357);
             this.label16.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(64, 15);
@@ -275,7 +251,7 @@
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(24, 325);
+            this.label17.Location = new System.Drawing.Point(24, 261);
             this.label17.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(79, 15);
@@ -285,7 +261,7 @@
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(24, 389);
+            this.label18.Location = new System.Drawing.Point(24, 325);
             this.label18.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(60, 15);
@@ -295,7 +271,7 @@
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(24, 357);
+            this.label19.Location = new System.Drawing.Point(24, 293);
             this.label19.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(79, 15);
@@ -305,7 +281,7 @@
             // txtDistName2
             // 
             this.txtDistName2.ImeMode = System.Windows.Forms.ImeMode.On;
-            this.txtDistName2.Location = new System.Drawing.Point(141, 228);
+            this.txtDistName2.Location = new System.Drawing.Point(141, 164);
             this.txtDistName2.Margin = new System.Windows.Forms.Padding(4);
             this.txtDistName2.MaxLength = 40;
             this.txtDistName2.Name = "txtDistName2";
@@ -316,7 +292,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(24, 231);
+            this.label9.Location = new System.Drawing.Point(24, 167);
             this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(67, 15);
@@ -325,8 +301,8 @@
             // 
             // txtGenbaCode
             // 
-            this.txtGenbaCode.ImeMode = System.Windows.Forms.ImeMode.On;
-            this.txtGenbaCode.Location = new System.Drawing.Point(141, 132);
+            this.txtGenbaCode.ImeMode = System.Windows.Forms.ImeMode.Off;
+            this.txtGenbaCode.Location = new System.Drawing.Point(141, 101);
             this.txtGenbaCode.Margin = new System.Windows.Forms.Padding(4);
             this.txtGenbaCode.MaxLength = 3;
             this.txtGenbaCode.Name = "txtGenbaCode";
@@ -337,7 +313,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(24, 135);
+            this.label2.Location = new System.Drawing.Point(24, 104);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(64, 15);
@@ -352,7 +328,7 @@
             this.txtRemarks.MaxLength = 500;
             this.txtRemarks.Multiline = true;
             this.txtRemarks.Name = "txtRemarks";
-            this.txtRemarks.Size = new System.Drawing.Size(323, 340);
+            this.txtRemarks.Size = new System.Drawing.Size(323, 307);
             this.txtRemarks.TabIndex = 3002;
             // 
             // label5
@@ -365,35 +341,13 @@
             this.label5.TabIndex = 3001;
             this.label5.Text = "備考";
             // 
-            // txtCustUserName
-            // 
-            this.txtCustUserName.Location = new System.Drawing.Point(141, 101);
-            this.txtCustUserName.Margin = new System.Windows.Forms.Padding(4);
-            this.txtCustUserName.Name = "txtCustUserName";
-            this.txtCustUserName.ReadOnly = true;
-            this.txtCustUserName.Size = new System.Drawing.Size(200, 23);
-            this.txtCustUserName.TabIndex = 5004;
-            this.txtCustUserName.Text = "山田 太郎";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(24, 104);
-            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(79, 15);
-            this.label6.TabIndex = 5003;
-            this.label6.Text = "顧客担当者名";
-            // 
             // ME_DestinaitonsMstDetail
             // 
             this.AcceptButton = this.btnOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(852, 493);
-            this.Controls.Add(this.txtCustUserName);
-            this.Controls.Add(this.label6);
+            this.ClientSize = new System.Drawing.Size(852, 475);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.txtRemarks);
             this.Controls.Add(this.txtGenbaCode);
@@ -419,14 +373,12 @@
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.txtDistName1);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.txtDistNo);
-            this.Controls.Add(this.label3);
             this.Controls.Add(this.txtCustName);
             this.Controls.Add(this.label1);
             this.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "ME_DestinaitonsMstDetail";
-            this.Text = "現場詳細 (出荷先)";
+            this.Text = "出荷先詳細 (現場)";
             this.Load += new System.EventHandler(this.ME_EmployeeDetail_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -437,8 +389,6 @@
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtCustName;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox txtDistNo;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txtDistName1;
         private System.Windows.Forms.Button btnOK;
@@ -464,7 +414,5 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtRemarks;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox txtCustUserName;
-        private System.Windows.Forms.Label label6;
     }
 }

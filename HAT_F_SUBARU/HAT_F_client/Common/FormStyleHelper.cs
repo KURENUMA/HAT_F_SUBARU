@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -148,6 +149,36 @@ namespace HatFClient.Common
                 controls.AddRange(GetAllControls(childControl));
             }
             return controls;
+        }
+
+        private static ConcurrentDictionary<Control, Color> _originalBackColor = new ConcurrentDictionary<Control, Color>();
+
+        public static void SetActiveControlBackColor(Form form)
+        {
+            List<Control> controls = GetAllControls(form);
+
+            foreach (var ctrl in controls)
+            {
+                if (ctrl is TextBox 
+                    || ctrl is ComboBox)
+                {
+                    ctrl.Enter += (sender, e) => 
+                    { 
+                        Control senderControl = sender as Control;
+                        _originalBackColor[senderControl] = senderControl.BackColor;
+                        senderControl.BackColor = Color.Yellow;
+                    };
+
+                    ctrl.Leave += (sender, e) => 
+                    {
+                        Control senderControl = sender as Control;
+                        if (_originalBackColor.TryRemove(senderControl, out var color))
+                        {
+                            senderControl.BackColor = color;
+                        }
+                    };
+                }
+            }
         }
     }
 }

@@ -312,10 +312,9 @@ namespace HatFClient.Views.MasterEdit
             if (grid.Rows.Count < 2) { return; }
 
             string custCode = (string)grid[grid.Row, nameof(DestinationsMstEx.CustCode)];
-            //short custSubNo = (short)grid[grid.Row, nameof(DestinationsMstEx.CustSubNo)];
-            //short distNo = (short)grid[grid.Row, nameof(DestinationsMstEx.DistNo)];
+            string genbaCode = (string)grid[grid.Row, nameof(DestinationsMstEx.GenbaCode)];
 
-            using (var form = new ME_DestinaitonsMstDetail(custCode, 0))
+            using (var form = new ME_DestinaitonsMstDetail(custCode, genbaCode))
             {
                 if (DialogHelper.IsPositiveResult(form.ShowDialog()))
                 {
@@ -359,17 +358,11 @@ namespace HatFClient.Views.MasterEdit
             [CriteriaDefinition("削除済")]
             public bool Deleted { get; set; }
 
-            [CriteriaDefinition("工事店コード")]
+            [CriteriaDefinition("顧客コード")]
             public string CustCode { get; set; }
 
-            [CriteriaDefinition("工事店名")]
+            [CriteriaDefinition("顧客名")]
             public string CustName { get; set; }
-
-            //[CriteriaDefinition("顧客枝番")]
-            //public short CustSubNo { get; set; }
-
-            [CriteriaDefinition("出荷先番号")]
-            public short DistNo { get; set; }
 
             [CriteriaDefinition("現場コード")]
             public string GenbaCode { get; set; }
@@ -379,9 +372,6 @@ namespace HatFClient.Views.MasterEdit
 
             [CriteriaDefinition("出荷先名２")]
             public string DistName2 { get; set; }
-
-            //[CriteriaDefinition("地域コード")]
-            //public string AreaCode { get; set; }
 
             [CriteriaDefinition("出荷先郵便番号")]
             public string ZipCode { get; set; }
@@ -404,14 +394,8 @@ namespace HatFClient.Views.MasterEdit
             [CriteriaDefinition("取引先コード")]
             public string CompCode { get; set; }
 
-            [CriteriaDefinition("工事店コード")]
-            public string KojitenCode { get; set; }
-
             [CriteriaDefinition("備考")]
             public string Remarks { get; set; }
-
         }
-
-
     }
 }

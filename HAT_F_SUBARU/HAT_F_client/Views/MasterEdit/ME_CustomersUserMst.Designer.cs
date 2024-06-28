@@ -1,6 +1,6 @@
 ﻿namespace HatFClient.Views.MasterEdit
 {
-    partial class ME_Supplier
+    partial class ME_CustomersUserMst
     {
         /// <summary>
         /// Required designer variable.
@@ -37,8 +37,8 @@
             this.lblProjectAllCount = new System.Windows.Forms.Label();
             this.btnDetail = new System.Windows.Forms.Button();
             this.btnAddNew = new System.Windows.Forms.Button();
-            this.gridPatternUI = new HatFClient.CustomControls.GridPatternUI();
             this.chkIncludeDeleted = new System.Windows.Forms.CheckBox();
+            this.gridPatternUI = new HatFClient.CustomControls.GridPatternUI();
             this.SuspendLayout();
             // 
             // btnSearch
@@ -76,7 +76,7 @@
             // btnExcel出力
             // 
             this.btnExcel出力.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnExcel出力.Location = new System.Drawing.Point(1152, 103);
+            this.btnExcel出力.Location = new System.Drawing.Point(1152, 88);
             this.btnExcel出力.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnExcel出力.Name = "btnExcel出力";
             this.btnExcel出力.Size = new System.Drawing.Size(103, 23);
@@ -89,7 +89,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label1.Location = new System.Drawing.Point(261, 24);
+            this.label1.Location = new System.Drawing.Point(315, 24);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(74, 21);
             this.label1.TabIndex = 36;
@@ -101,11 +101,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textFilterStr.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.textFilterStr.Font = new System.Drawing.Font("Yu Gothic UI", 12F);
-            this.textFilterStr.Location = new System.Drawing.Point(341, 21);
+            this.textFilterStr.Location = new System.Drawing.Point(395, 21);
             this.textFilterStr.Multiline = true;
             this.textFilterStr.Name = "textFilterStr";
             this.textFilterStr.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textFilterStr.Size = new System.Drawing.Size(435, 57);
+            this.textFilterStr.Size = new System.Drawing.Size(381, 57);
             this.textFilterStr.TabIndex = 35;
             // 
             // lblProjectAllCount
@@ -123,7 +123,7 @@
             // btnDetail
             // 
             this.btnDetail.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDetail.Location = new System.Drawing.Point(1040, 103);
+            this.btnDetail.Location = new System.Drawing.Point(1040, 88);
             this.btnDetail.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnDetail.Name = "btnDetail";
             this.btnDetail.Size = new System.Drawing.Size(103, 23);
@@ -135,7 +135,7 @@
             // btnAddNew
             // 
             this.btnAddNew.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAddNew.Location = new System.Drawing.Point(931, 103);
+            this.btnAddNew.Location = new System.Drawing.Point(931, 88);
             this.btnAddNew.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnAddNew.Name = "btnAddNew";
             this.btnAddNew.Size = new System.Drawing.Size(103, 23);
@@ -143,6 +143,17 @@
             this.btnAddNew.Text = "追加";
             this.btnAddNew.UseVisualStyleBackColor = true;
             this.btnAddNew.Click += new System.EventHandler(this.btnAddNew_Click);
+            // 
+            // chkIncludeDeleted
+            // 
+            this.chkIncludeDeleted.AutoSize = true;
+            this.chkIncludeDeleted.Location = new System.Drawing.Point(127, 16);
+            this.chkIncludeDeleted.Name = "chkIncludeDeleted";
+            this.chkIncludeDeleted.Size = new System.Drawing.Size(100, 16);
+            this.chkIncludeDeleted.TabIndex = 61;
+            this.chkIncludeDeleted.Text = "削除済を含める";
+            this.chkIncludeDeleted.UseVisualStyleBackColor = true;
+            this.chkIncludeDeleted.CheckedChanged += new System.EventHandler(this.chkIncludeDeleted_CheckedChanged);
             // 
             // gridPatternUI
             // 
@@ -153,18 +164,7 @@
             this.gridPatternUI.TabIndex = 39;
             this.gridPatternUI.Visible = false;
             // 
-            // chkIncludeDeleted
-            // 
-            this.chkIncludeDeleted.AutoSize = true;
-            this.chkIncludeDeleted.Location = new System.Drawing.Point(127, 16);
-            this.chkIncludeDeleted.Name = "chkIncludeDeleted";
-            this.chkIncludeDeleted.Size = new System.Drawing.Size(100, 16);
-            this.chkIncludeDeleted.TabIndex = 58;
-            this.chkIncludeDeleted.Text = "削除済を含める";
-            this.chkIncludeDeleted.UseVisualStyleBackColor = true;
-            this.chkIncludeDeleted.CheckedChanged += new System.EventHandler(this.chkIncludeDeleted_CheckedChanged);
-            // 
-            // ME_Supplier
+            // ME_CustomersUserMst
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -183,10 +183,10 @@
             this.Controls.Add(this.btnSearch);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.MinimumSize = new System.Drawing.Size(1285, 960);
-            this.Name = "ME_Supplier";
+            this.Name = "ME_CustomersUserMst";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "仕入先マスタ";
-            this.Load += new System.EventHandler(this.ME_Supplier_Load);
+            this.Text = "顧客担当者マスタ (キーマン)";
+            this.Load += new System.EventHandler(this.ME_DestinaitonsMst_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

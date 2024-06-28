@@ -185,7 +185,7 @@
             this.MinimumSize = new System.Drawing.Size(1285, 960);
             this.Name = "ME_DestinaitonsMst";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "現場マスタ (出荷先)";
+            this.Text = "出荷先マスタ (現場)";
             this.Load += new System.EventHandler(this.ME_DestinaitonsMst_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

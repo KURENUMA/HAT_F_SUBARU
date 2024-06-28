@@ -185,7 +185,7 @@
             this.MinimumSize = new System.Drawing.Size(1285, 960);
             this.Name = "ME_CustomersMst";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "工事店マスタ (顧客マスタ)";
+            this.Text = "顧客マスタ";
             this.Load += new System.EventHandler(this.ME_CustomersMst_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

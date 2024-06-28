@@ -59,14 +59,20 @@ namespace HatFClient
             this.lblDesc.Text = strDesc;
             this.lblOS.Text = $"（この端末のOS情報：{GetOSInfo()}）";
 
-            this.txtId.Clear();
+            this.txtEmpCode.Clear();
             this.txtPass.Clear();
             this.chkLogin.Checked = false;
 
             if (Properties.Settings.Default.login_flg)
             {
-                this.txtId.Text = Decrypt(Properties.Settings.Default.login_id, AES_IV, AES_Key);
+                this.txtEmpCode.Text = Decrypt(Properties.Settings.Default.login_id, AES_IV, AES_Key);
+
+#if DEBUG
+                this.Text += " [DEBUG]";
+                this.lblPassword.Text += " (DEBUGビルドのみ前回パスワードが設定されます)";
                 this.txtPass.Text = Decrypt(Properties.Settings.Default.login_pass, AES_IV, AES_Key);
+#endif
+
                 this.chkLogin.Checked = true;
                 this.ActiveControl = this.btnLogin;
             }
@@ -77,10 +83,10 @@ namespace HatFClient
         private async void BtnLogin_Click(object sender, System.EventArgs e)
         {
             // IDが空かどうかチェック
-            if (string.IsNullOrEmpty(this.txtId.Text))
+            if (string.IsNullOrEmpty(this.txtEmpCode.Text))
             {
                 DialogHelper.InputRequireMessage(this, "社員番号");
-                txtId.Focus();
+                txtEmpCode.Focus();
                 return;
             }
 
@@ -92,8 +98,7 @@ namespace HatFClient
                 return;
             }
 
-
-            string id = this.txtId.Text;
+            string id = this.txtEmpCode.Text;
             string pass = this.txtPass.Text;
             ApiResult<HatFLoginResult> apiResult = await ApiHelper.FetchAsync<HatFLoginResult>(this, async () => {
                 return await loginRepo.DoAuth(id, pass);
@@ -115,9 +120,13 @@ namespace HatFClient
             }
 
             loginRepo.CurrentUser = loginResult;
-            // 社員番号のみ保存
-            //SetSettingData(loginResult, this.txtPass.Text);
-            SetSettingData(loginResult, string.Empty);
+
+            // ログイン情報の保存
+            string password = "";
+#if DEBUG
+            password = this.txtPass.Text;
+#endif
+            SetSettingData(loginResult, password);
 
             this.Hide();
 
@@ -135,6 +144,7 @@ namespace HatFClient
             if (this.chkLogin.Checked)
             {
                 Properties.Settings.Default.login_id = Encrypt(loginResult.EmployeeCode, AES_IV, AES_Key);
+
                 // 認証APIはパスワードを返さない
                 Properties.Settings.Default.login_pass = Encrypt(savePassword, AES_IV, AES_Key);
                 Properties.Settings.Default.login_user = loginResult.EmployeeName;

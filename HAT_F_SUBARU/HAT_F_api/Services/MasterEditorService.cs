@@ -9,6 +9,7 @@ using Microsoft.CodeAnalysis.Elfie.Diagnostics;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
+using Microsoft.EntityFrameworkCore.Query;
 using NuGet.Protocol;
 using NuGet.Protocol.Core.Types;
 using System.Data;
@@ -261,9 +262,17 @@ namespace HAT_F_api.Services
         /// <returns></returns>
         public IQueryable<CompanysMst> GetCompanysMst(string compCode, int rows, int page)
         {
-            return _hatFContext.CompanysMsts
-                .Where(x=> string.IsNullOrEmpty(compCode) || x.CompCode == compCode)
-                .Skip(rows * (page - 1)).Take(rows);
+            var sql = _hatFContext.CompanysMsts
+                .Where(x => string.IsNullOrEmpty(compCode) || x.CompCode == compCode);
+            if (rows > 0 && page > 0)
+            {
+                sql = sql.Skip(rows * (page - 1));
+            }
+            if (rows > 0)
+            {
+                sql = sql.Take(rows);
+            }
+            return sql;
         }
 
         public async Task<int> PutCompanysMstAsnc(CompanysMst companysMst)
@@ -377,6 +386,9 @@ namespace HAT_F_api.Services
             return query;
         }
 
+        /// <summary>
+        /// 顧客検索
+        /// </summary>
         public IQueryable<CustomersMst> GetCustomersMst(string custCode, string custName, string custKana, string custUserName, string custUserDepName, bool includeDeleted, int rows)
         {
             var query = _hatFContext.CustomersMsts
@@ -391,6 +403,11 @@ namespace HAT_F_api.Services
             return query;
         }
 
+        /// <summary>
+        /// 顧客保存
+        /// </summary>
+        /// <param name="customersMsts"></param>
+        /// <returns></returns>
         public async Task<int> PutCustomersMst(IEnumerable<CustomersMst> customersMsts)
         {
             _updateInfoSetter.SetUpdateInfo(customersMsts);
@@ -401,30 +418,30 @@ namespace HAT_F_api.Services
             });
             var mapper = config.CreateMapper();
 
-            int rowsAffected = 0;
             foreach (CustomersMst item in customersMsts)
             {
                 var exits =  await _hatFContext.CustomersMsts
                     .Where(x => x.CustCode == item.CustCode)
                     .SingleAsync();
+
                 if (exits == null)
                 {
-                    _hatFContext.Add(customersMsts);
+                    _hatFContext.Add(item);
                 }
                 else
                 {
-                    mapper.Map(config, exits);
+                    mapper.Map(item, exits);
                     _hatFContext.Update(exits);
-                    rowsAffected++;
                 }
             }
 
-            //short maxSubNo = customersMsts.Max(x => x.CustSubNo);
-            //rowsAffected += await _hatFContext.CustomersMsts.Where(x => x.CustSubNo > maxSubNo).ExecuteDeleteAsync();
-
+            int rowsAffected = await _hatFContext.SaveChangesAsync();
             return rowsAffected;
         }
 
+        /// <summary>
+        /// 出荷先(現場)検索
+        /// </summary>
         public IQueryable<DestinationsMst> GetDestinationsMst(string custCode, string genbaCode, int rows, int page)
         {
             var query = _hatFContext.DestinationsMsts
@@ -435,6 +452,58 @@ namespace HAT_F_api.Services
             return query;
         }
 
+        /// <summary>
+        /// 出荷先(現場)検索
+        /// </summary>
+        public async Task<List<DestinationsMstEx>> GetDestinationsMst2(string custCode, string genbaCode, int rows, int page)
+        {
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<DestinationsMst, DestinationsMstEx>();
+            });
+            var mapper = config.CreateMapper();
+
+            var query = _hatFContext.DestinationsMsts
+                .Where(x => string.IsNullOrEmpty(custCode) || x.CustCode == custCode)
+                .Where(x => string.IsNullOrEmpty(genbaCode) || x.GenbaCode == genbaCode)
+                .Join(
+                    _hatFContext.CustomersMsts,
+                    dest => dest.CustCode,
+                    cust => cust.CustCode,
+                    (dest, cust) => new { DestinationsMsts = dest, CustomersMsts = cust }
+                )
+                .Select(x => new DestinationsMstEx
+                {
+                    Address1 = x.DestinationsMsts.Address1,
+                    Address2 = x.DestinationsMsts.Address2,
+                    Address3 = x.DestinationsMsts.Address3,
+                    AreaCode = x.DestinationsMsts.AreaCode,
+                    CustCode = x.DestinationsMsts.CustCode,
+                    CustName = x.CustomersMsts.CustName,
+                    DestFax = x.DestinationsMsts.DestFax,
+                    DestTel = x.DestinationsMsts.DestTel,
+                    //DistNo = x.DestinationsMsts.DistNo,
+                    DistName1 = x.DestinationsMsts.DistName1,
+                    DistName2 = x.DestinationsMsts.DistName2,
+                    GenbaCode = x.DestinationsMsts.GenbaCode,
+                    Remarks = x.DestinationsMsts.Remarks,
+                    ZipCode = x.DestinationsMsts.ZipCode,
+                    Deleted = x.DestinationsMsts.Deleted,
+                    CreateDate = x.DestinationsMsts.CreateDate,
+                    Creator = x.DestinationsMsts.Creator,
+                    UpdateDate = x.DestinationsMsts.UpdateDate,
+                    Updater = x.DestinationsMsts.Updater,
+                })
+                .Skip(rows * (page - 1)).Take(rows);
+
+            return await query.ToListAsync();
+        }
+
+        /// <summary>
+        /// 出荷先(現場)保存
+        /// </summary>
+        /// <param name="destinationsMst"></param>
+        /// <returns></returns>
         public async Task<int> PutDestinationsMst(DestinationsMst destinationsMst)
         {
             _updateInfoSetter.SetUpdateInfo(destinationsMst);
@@ -460,6 +529,48 @@ namespace HAT_F_api.Services
 
             int count = await _hatFContext.SaveChangesAsync();
             return count;
+        }
+
+
+        public IQueryable<CustomersUserMst> GetCustomersUserMst(string custCode, string custUserCode)
+        {
+            var query = _hatFContext.CustomersUserMsts
+                .Where(x => x.CustCode == custCode)
+                .Where(x => x.CustUserCode == custUserCode);
+
+            return query;
+        }
+
+        public async Task<int> PutCustomersUserMstAsync(List<CustomersUserMst> customersUserMsts)
+        {
+            _updateInfoSetter.SetUpdateInfo(customersUserMsts);
+
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<CustomersUserMst, CustomersUserMst>();
+            });
+            var mapper = config.CreateMapper();
+
+            foreach (CustomersUserMst item in customersUserMsts)
+            {
+                var exits = await _hatFContext.CustomersUserMsts
+                    .Where(x => x.CustCode == item.CustCode)
+                    .Where(x => x.CustUserCode == item.CustUserCode)
+                    .SingleOrDefaultAsync();
+
+                if (exits == null)
+                {
+                    _hatFContext.Add(item);
+                }
+                else
+                {
+                    mapper.Map(item, exits);
+                    _hatFContext.Update(exits);
+                }
+            }
+
+            int rowsAffected = await _hatFContext.SaveChangesAsync();
+            return rowsAffected;
         }
     }
 }

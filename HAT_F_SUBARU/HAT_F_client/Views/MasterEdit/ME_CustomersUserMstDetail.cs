@@ -18,21 +18,21 @@ namespace HatFClient.Views.MasterEdit
     // TODO 都道府県がマッピング不明
 
     /// <summary>現場（出荷先）詳細画面</summary>
-    public partial class ME_DestinaitonsMstDetail : Form
+    public partial class ME_CustomersUserMstDetail : Form
     {
         private string _custCode;
-        private string _genbaCode;
+        private string _custUserCode;
 
-        private DestinationsMst _destinationsMst;
+        private CustomersUserMst _customersUserMst;
 
         /// <summary>コンストラクタ</summary>
-        public ME_DestinaitonsMstDetail() : this(null, null)
+        public ME_CustomersUserMstDetail() : this(null, null)
         {
         }
 
         /// <summary>コンストラクタ</summary>
         /// <param name="employeeId">社員ID</param>
-        public ME_DestinaitonsMstDetail(string custCode, string genbaCode)
+        public ME_CustomersUserMstDetail(string custCode, string custUserCode)
         {
             InitializeComponent();
 
@@ -44,7 +44,7 @@ namespace HatFClient.Views.MasterEdit
                 if (!string.IsNullOrEmpty(custCode)) 
                 {
                     _custCode = custCode;
-                    _genbaCode = genbaCode;
+                    _custUserCode = custUserCode;
                 }
             }
         }
@@ -83,9 +83,9 @@ namespace HatFClient.Views.MasterEdit
                 return;
             }
 
-            var formData = GetFormData();
+            var formData = new List<CustomersUserMst>() { GetFormData() };
 
-            var url = ApiResources.HatF.MasterEditor.DestinationsMstPut;
+            var url = ApiResources.HatF.MasterEditor.CustomersUserMstPut;
             var result = await ApiHelper.UpdateAsync(this, async () =>
             {
                 return await Program.HatFApiClient.PutAsync<int>(url, formData);
@@ -99,34 +99,27 @@ namespace HatFClient.Views.MasterEdit
             this.DialogResult = DialogResult.OK;
         }
 
-        private DestinationsMst GetFormData()
+        private CustomersUserMst GetFormData()
         {
-            DestinationsMst item;
+            CustomersUserMst item;
             if (this.IsUpdateMode)
             {
-                item = _destinationsMst;
+                item = _customersUserMst;
             }
             else
             {
-                item = new DestinationsMst();
+                item = new CustomersUserMst();
+
                 item.CustCode = _custCode ?? "";        // 顧客CD
-                item.GenbaCode = txtGenbaCode.Text;     // 現場CD               
+                item.CustUserCode = txtCustUserCode.Text;     // 現場CD               
             }
 
             item.Deleted = chkDeleted.Checked;
 
-            item.DistName1 = txtDistName1.Text;
-            item.DistName2 = txtDistName2.Text;
-
-            item.ZipCode = txtZipCode.Text;
-            item.Address1 = txtAddress1.Text;
-            item.Address2 = txtAddress2.Text;
-            item.Address3 = txtAddress3.Text;
-
-            item.DestTel = txtDestTel.Text;
-            item.DestFax = txtDestFax.Text;
-
-            item.Remarks = txtRemarks.Text;
+            item.CustCode = _custCode;
+            item.CustUserCode = txtCustUserCode.Text.Trim();
+            item.CustUserName = txtCustUserName.Text.Trim();
+            item.CustUserEmail = txtCustUserEmail.Text.Trim();
 
             return item;
         }
@@ -154,21 +147,27 @@ namespace HatFClient.Views.MasterEdit
                 }
             }
 
-            if (string.IsNullOrEmpty(txtGenbaCode.Text))
+            if (string.IsNullOrEmpty(_custCode))
             {
-                DialogHelper.InputRequireMessage(this, "現場コード");
+                DialogHelper.InputRequireMessage(this, "顧客");
                 return false;
             }
 
-            if (string.IsNullOrEmpty(txtDistName1.Text))
+            if (string.IsNullOrEmpty(txtCustUserCode.Text))
             {
-                DialogHelper.InputRequireMessage(this, "出荷先名１");
+                DialogHelper.InputRequireMessage(this, "担当者(キーマン)コード");
                 return false;
             }
 
-            if (string.IsNullOrEmpty(txtAddress1.Text))
+            if (string.IsNullOrEmpty(txtCustUserName.Text))
             {
-                DialogHelper.InputRequireMessage(this, "出荷先住所１");
+                DialogHelper.InputRequireMessage(this, "担当者(キーマン)名");
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(txtCustUserEmail.Text))
+            {
+                DialogHelper.InputRequireMessage(this, "メールアドレス");
                 return false;
             }
 
@@ -180,14 +179,15 @@ namespace HatFClient.Views.MasterEdit
             if (!this.IsUpdateMode)
             {
                 string custCode = _custCode;
-                string genbaCode = txtGenbaCode.Text;
+                string genbaCode = txtCustUserCode.Text;
 
-                var result = await IsGenbaCodeUsedAsync(custCode, genbaCode);
+                // TODO: キーマンコードチェックに変える
+                var result = await IsKeymanCodeUsedAsync(custCode, genbaCode);
                 if (result.Failed) { return MethodResult<bool>.FailedResult; }
 
                 if (result.Value)
                 {
-                    DialogHelper.InformationMessage(this, "現場コードは使用されています。");
+                    DialogHelper.InformationMessage(this, "顧客担当者(キーマン)CDは使用されています。");
                     return new MethodResult<bool>(false);
                 }
             }
@@ -195,10 +195,10 @@ namespace HatFClient.Views.MasterEdit
             return new MethodResult<bool>(true);
         }
 
-        private async Task<MethodResult<bool>> IsGenbaCodeUsedAsync(string custCode, string genbaCode)
+        private async Task<MethodResult<bool>> IsKeymanCodeUsedAsync(string custCode, string genbaCode)
         {
             string genbaCodeUrlEncoded = ApiHelper.UrlEncodeForWebApi(genbaCode);
-            var url = string.Format(ApiResources.HatF.MasterEditor.DestinationsMst, custCode, genbaCodeUrlEncoded);
+            var url = string.Format(ApiResources.HatF.MasterEditor.CustomersUserMst, custCode, genbaCodeUrlEncoded);
 
             var apiResult = await ApiHelper.FetchAsync(this, async () =>
             {
@@ -233,27 +233,27 @@ namespace HatFClient.Views.MasterEdit
 
             if (this.IsUpdateMode)
             {
-                if (!await SetEditDataAsync(_custCode, _genbaCode))
+                if (!await SetEditDataAsync(_custCode, _custUserCode))
                 {
                     this.DialogResult = DialogResult.Cancel;
                     return;
                 }
 
                 btnSelectCustomer.Enabled = false;
-                txtGenbaCode.ReadOnly = true;
+                txtCustUserCode.ReadOnly = true;
                 btnCheckDuplicate.Enabled = false;
             }
 
         }
 
-        private async Task<bool> SetEditDataAsync(string custCode,  string genbaCode)
+        private async Task<bool> SetEditDataAsync(string custCode,  string custUserCode)
         {
-            // 出荷先マスタ(現場)
-            string genbaCodeUrlEncoded = ApiHelper.UrlEncodeForWebApi(genbaCode);
-            var url = string.Format(ApiResources.HatF.MasterEditor.DestinationsMst, custCode, genbaCodeUrlEncoded);
+            // 顧客担当者(キーマン)
+            string genbaCodeUrlEncoded = ApiHelper.UrlEncodeForWebApi(custUserCode);
+            var url = string.Format(ApiResources.HatF.MasterEditor.CustomersUserMst, custCode, genbaCodeUrlEncoded);
             var apiResult = await ApiHelper.FetchAsync(this, async () =>
             {
-                return await Program.HatFApiClient.GetAsync<List<DestinationsMst>>(url);
+                return await Program.HatFApiClient.GetAsync<List<CustomersUserMst>>(url);
             });
 
             if (apiResult.Failed || apiResult.Value.Count == 0)
@@ -274,30 +274,20 @@ namespace HatFClient.Views.MasterEdit
             }
 
             var item = apiResult.Value.Single();
-            _destinationsMst = item;
+            _customersUserMst = item;
 
             // 削除済チェックボックス
-            chkDeleted.Checked = item.Deleted;
+            chkDeleted.Checked = item.Deleted ?? false;
 
             // 顧客
             var customersMst = apiResultCust.Value.Single();
+            _custCode = item.CustCode;
             txtCustName.Text = CreateItemInfo(customersMst.CustCode, customersMst.CustName);
 
-            txtGenbaCode.Text = item.GenbaCode;
-            //txtDistNo.Text = this.IsUpdateMode ? item.DistNo.ToString() : "(新規)";
-
-            txtDistName1.Text = item.DistName1;
-            txtDistName2.Text = item.DistName2;
-
-            txtZipCode.Text = item.ZipCode;
-            txtAddress1.Text = item.Address1;
-            txtAddress2.Text = item.Address2;
-            txtAddress3.Text = item.Address3;
-
-            txtDestTel.Text = item.DestTel;
-            txtDestFax.Text = item.DestFax;
-
-            txtRemarks.Text = item.Remarks;
+            // 顧客担当者(キーマン)
+            txtCustUserCode.Text = item.CustUserCode;
+            txtCustUserName.Text = item.CustUserName;
+            txtCustUserEmail.Text = item.CustUserEmail;
 
             return true;
         }
@@ -308,12 +298,10 @@ namespace HatFClient.Views.MasterEdit
         /// </summary>
         private void SetInputLimit()
         {
-            txtGenbaCode.KeyPress += FormHelper.KeyPressToNallowChar;   // 半角
-            txtGenbaCode.KeyPress += FormHelper.KeyPressToUpperCase;    // 大文字
+            txtCustUserCode.KeyPress += FormHelper.KeyPressToNallowChar;   // 半角
+            txtCustUserCode.KeyPress += FormHelper.KeyPressToUpperCase;    // 大文字
 
-            txtZipCode.KeyPress += FormHelper.KeyPressForZipCode;
-            txtDestTel.KeyPress += FormHelper.KeyPressForTelFax;
-            txtDestFax.KeyPress += FormHelper.KeyPressForTelFax;
+            txtCustUserEmail.KeyPress += FormHelper.KeyPressForEmail;
         }
 
         private void ClearInputs()
@@ -366,24 +354,24 @@ namespace HatFClient.Views.MasterEdit
                 return;
             }
 
-            string genbaCode = txtGenbaCode.Text;
-            if (string.IsNullOrEmpty(genbaCode))
+            string cuserUserCode = txtCustUserCode.Text;
+            if (string.IsNullOrEmpty(cuserUserCode))
             {
-                DialogHelper.InputRequireMessage(this, "現場コード");
+                DialogHelper.InputRequireMessage(this, "顧客担当者(キーマン)CD");
                 return;
             }
 
-            var result = await IsGenbaCodeUsedAsync(custCode, genbaCode);
+            var result = await IsKeymanCodeUsedAsync(custCode, cuserUserCode);
             if (result.Failed) { return; }
 
             string message;
             if (result.Value)
             {
-                message = "現場コードは使用されています。";
+                message = "顧客担当者(キーマン)CDは使用されています。";
             }
             else
             {
-                message = "現場コードは使用可能です。";
+                message = "顧客担当者(キーマン)CDは使用可能です。";
             }
             DialogHelper.InformationMessage(this, message);
         }
