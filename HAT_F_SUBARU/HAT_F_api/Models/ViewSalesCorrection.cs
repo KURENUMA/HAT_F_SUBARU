@@ -22,10 +22,4 @@ public partial class ViewSalesCorrection
     public string 営業担当者名 { get; set; }
 
     public string ステータス { get; set; }
-
-    public short? 顧客支払月 { get; set; }
-
-    public short? 顧客支払日 { get; set; }
-
-    public short? 顧客支払方法 { get; set; }
 }

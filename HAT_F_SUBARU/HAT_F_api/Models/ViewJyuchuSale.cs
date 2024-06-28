@@ -17,8 +17,6 @@ public partial class ViewJyuchuSale
 
     public int 値引金額 { get; set; }
 
-    public DateTime? 請求日 { get; set; }
-
     public string 受注番号 { get; set; }
 
     public string 取引先コード { get; set; }

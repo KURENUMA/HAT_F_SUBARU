@@ -33,10 +33,6 @@ public partial class ViewPurchaseBilling
 
     public string 得意先営業担当 { get; set; }
 
-    public string ステータス { get; set; }
-
-    public DateTime? 仕入支払年月日 { get; set; }
-
     public short? 仕入先締日 { get; set; }
 
     public short? 仕入先支払月 { get; set; }
