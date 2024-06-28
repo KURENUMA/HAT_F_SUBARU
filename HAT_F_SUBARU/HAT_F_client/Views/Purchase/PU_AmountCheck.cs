@@ -153,7 +153,7 @@ namespace HatFClient.Views.Purchase
             clm照合ステータス.DataMap = checkStatus;
             clm売上確定.DataType = typeof(short);
             clm売上確定.DataMap = completeStatus;
-            if (Condition.Hat注文番号 != null)
+            if (!String.IsNullOrEmpty(Condition.Hat注文番号))
             {
                 txtPuCode.Text = Condition.仕入先コード.ToString();
                 txtHatOrderNo.Text = Condition.Hat注文番号.ToString();
@@ -188,7 +188,7 @@ namespace HatFClient.Views.Purchase
         /// <returns>成否</returns>
         private async Task<bool> SearchAsync()
         {
-            if (Condition.Hat注文番号 != null)
+            if (!String.IsNullOrEmpty(Condition.Hat注文番号))
             {
                 var details = await ApiHelper.FetchAsync(this, async () =>
                 {

@@ -132,7 +132,7 @@ namespace HatFClient.Views.Purchase
 
         private async Task UpdateListAsync()
         {
-            if(Condition.Hat注文番号 != null)
+            if (!String.IsNullOrEmpty(Condition.Hat注文番号))
             {
                 var result = await _purchaseRepo.GetDetail(Condition);
                 c1FlexGridPurchase_ReceivingCheck.DataSource = result;
@@ -152,7 +152,7 @@ namespace HatFClient.Views.Purchase
             c1FlexGridPurchase_ReceivingCheck.Cols["売上確定"].DataType = typeof(short);
             c1FlexGridPurchase_ReceivingCheck.Cols["売上確定"].DataMap = completeStatus;
 
-            if (Condition.Hat注文番号 != null)
+            if (!String.IsNullOrEmpty(Condition.Hat注文番号))
             {
                 textBoxHATNUMBER.Text = Condition.Hat注文番号.ToString();
                 await UpdateListAsync();

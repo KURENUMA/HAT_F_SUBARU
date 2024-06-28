@@ -92,7 +92,7 @@ namespace HatFClient.Views.template
 
         private async Task UpdateListAsync()
         {
-            if (Condition.Hat注文番号 != null)
+            if (!String.IsNullOrEmpty(Condition.Hat注文番号))
             {
                 var result = await _purchaseRepo.GetDetail(Condition);
                 c1FlexGrid_ReturnReceivingDetail.DataSource = result;
@@ -224,7 +224,7 @@ namespace HatFClient.Views.template
         {
             Cursor.Current = Cursors.WaitCursor;
             await InitializeComboAsync();
-            if (Condition.Hat注文番号 != null)
+            if (!String.IsNullOrEmpty(Condition.Hat注文番号))
             {
                 textBoxHATNUMBER.Text = Condition.Hat注文番号.ToString();
                 textBoxDenNo.Text = Condition.伝票番号.ToString();
@@ -250,6 +250,10 @@ namespace HatFClient.Views.template
         /// <summary>必須項目の入力チェック</summary>
         private bool CheckInputs()
         {
+            if (CmbAuthorizer.SelectedIndex == -1 || CmbAuthorizer.SelectedIndex == -1)
+            {
+                return false;
+            }
             return true;
         }
 
