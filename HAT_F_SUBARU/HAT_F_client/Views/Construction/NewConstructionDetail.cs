@@ -292,7 +292,6 @@ namespace HatFClient.Views.ConstructionProject
                 data.Koban = rowIndex;
                 data.AppropState = (short?)grd_D.GetData(rowIndex, "ステータス") ?? 0; //0:未計上を設定
                 data.ShiresakiCd = grd_D.GetData(rowIndex, "仕入先コード")?.ToString();
-                data.SyohinCd = grd_D.GetData(rowIndex, "商品コード")?.ToString();
                 data.SyohinName = grd_D.GetData(rowIndex, "商品名")?.ToString();
                 data.Suryo = (int?)grd_D.GetData(rowIndex, "数量") ?? null;
                 data.Tani = grd_D.GetData(rowIndex, "単位")?.ToString();
@@ -752,9 +751,9 @@ namespace HatFClient.Views.ConstructionProject
         {
             grd_D.CellButtonClick += new C1.Win.C1FlexGrid.RowColEventHandler(c1FlexGrid1_CellButtonClick);
             // 初期設定（列数、行数、フォント）
-            grd_D.Cols.Count = 17;
+            grd_D.Cols.Count = 16;
             grd_D.Rows.Count = 2; //初期表示用
-            grd_D.Select(1, grd_D.Cols["商品コード"].Index);
+            grd_D.Select(1, grd_D.Cols["仕入先コード"].Index);
             grd_D.Font = new System.Drawing.Font("メイリオ", 9);
             grd_D.Styles.Normal.TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;
 
@@ -767,7 +766,6 @@ namespace HatFClient.Views.ConstructionProject
                 grd_D[row, "ステータス"] = item.AppropState;
                 grd_D[row, "仕入先コード"] = item.ShiresakiCd;
                 grd_D[row, "仕入先名"] = item.ShiresakiName;
-                grd_D[row, "商品コード"] = item.SyohinCd;
                 grd_D[row, "商品名"] = item.SyohinName;
                 grd_D[row, "数量"] = item.Suryo;
                 grd_D[row, "単位"] = item.Tani;
@@ -826,9 +824,9 @@ namespace HatFClient.Views.ConstructionProject
         private void c1FlexGrid1_CellButtonClick(object sender, C1.Win.C1FlexGrid.RowColEventArgs e)
         {
             
-            switch (e.Col)
+            switch (grd_D.Cols[e.Col].Caption)
             {
-                case 3: //仕入
+                case "仕入先コード":
                     using (Views.MasterSearch.MS_ShiresakiBunrui dlg = new())
                     {
                         dlg.TxtTEAM_CD = this.txtTEAM_CD.Text;
@@ -845,17 +843,15 @@ namespace HatFClient.Views.ConstructionProject
                     }
                     break;
 
-                case 4: //商品コード
-                case 5: //商品名
+                case "商品名":
                     using (Views.MasterSearch.MS_Syohin dlg = new())
                     {
                         //物件詳細は仕入先なし
-                        dlg.TxtSHIRESAKI_CD = "";
+                        dlg.TxtSHIRESAKI_CD = grd_D.GetDataDisplay(e.Row, "仕入先コード");
                         dlg.TxtSYOHIN_CD = grd_D.GetDataDisplay(e.Row, e.Col);
                         switch (dlg.ShowDialog())
                         {
                             case DialogResult.OK:
-                                grd_D.SetData(e.Row, grd_D.Cols["商品コード"].Index, dlg.StrMsSyohinCode);
                                 grd_D.SetData(e.Row, grd_D.Cols["商品名"].Index, dlg.StrMsSyohinName);
                                 break;
                             default:
@@ -1083,7 +1079,6 @@ namespace HatFClient.Views.ConstructionProject
                     FosJyuchuD fosJyuchuD = new FosJyuchuD();
                     fosJyuchuD.DenSort = DenSort.ToString();
                     fosJyuchuD.DenNoLine = DenNoCount.ToString();
-                    fosJyuchuD.SyobunCd = dr["商品コード"].ToString();                        // 分類(FosJyuchuD)string
                     fosJyuchuD.SyohinName = dr["商品名"].ToString();                    // 商品コード・名称(FosJyuchuD)string
                     fosJyuchuD.Suryo = HatFComParts.DoParseInt(dr["数量"]);                // 数量(FosJyuchuD)int
                     fosJyuchuD.Tani = dr["単位"].ToString();                                // 単位(FosJyuchuD)string
