@@ -152,7 +152,7 @@ namespace HatFClient.Views.Purchase
             c1FlexGridPurchase_ReceivingCheck.Cols["売上確定"].DataType = typeof(short);
             c1FlexGridPurchase_ReceivingCheck.Cols["売上確定"].DataMap = completeStatus;
 
-            if (!String.IsNullOrEmpty(Condition.Hat注文番号))
+            if (Condition.Hat注文番号 != null)
             {
                 textBoxHATNUMBER.Text = Condition.Hat注文番号.ToString();
                 await UpdateListAsync();

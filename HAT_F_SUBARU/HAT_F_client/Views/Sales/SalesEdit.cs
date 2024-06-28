@@ -170,7 +170,7 @@ namespace HatFClient.Views.Sales
 
         private async Task UpdateListAsync()
         {
-            if (!String.IsNullOrEmpty(Condition.Hat注文番号))
+            if (Condition.Hat注文番号 != null)
             {
                 var result = await _purchaseRepo.GetDetail(Condition);
                 c1FlexGridSalesEdit.DataSource = result;
@@ -271,7 +271,7 @@ namespace HatFClient.Views.Sales
             c1FlexGridSalesEdit.Cols["M照合ステータス"].DataType = typeof(short);
             c1FlexGridSalesEdit.Cols["M照合ステータス"].DataMap = checkStatus;
             await InitializeComboAsync();
-            if (!String.IsNullOrEmpty(Condition.Hat注文番号))
+            if (Condition.Hat注文番号 != null)
             {
                 await UpdateListAsync();
             }
