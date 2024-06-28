@@ -29,6 +29,7 @@ namespace HatFClient.Views.ConstructionProject
         private const string FILTER_ACCDB = "accdb file|*.accdb";
         private readonly List<string> EnableControlList;
         private readonly List<string> DisableControlList;
+        private ClientRepo clientRepo;
         private LoginRepo loginRepo;
         private FosJyuchuRepo fosJyuchuRepo;
 
@@ -141,8 +142,15 @@ namespace HatFClient.Views.ConstructionProject
         /// <param name="e">イベント情報</param>
         private void NewConstructionDetail_Load(object sender, EventArgs e)
         {
+            this.clientRepo = ClientRepo.GetInstance();
             this.loginRepo = LoginRepo.GetInstance();
             this.fosJyuchuRepo = FosJyuchuRepo.GetInstance();
+
+            if (currentMode == ScreenMode.NewEntry)
+            {
+                txtMANAGER_ID.Text = loginRepo.CurrentUser.EmployeeTag;
+            }
+
             LoadDData();
         }
 
@@ -287,6 +295,13 @@ namespace HatFClient.Views.ConstructionProject
 
             for (int rowIndex = grd_D.Rows.Fixed; rowIndex < grd_D.Rows.Count; rowIndex++)
             {
+                bool insert = false;
+                insert = new string[]
+                { "仕入先コード","商品名", "数量","単位","バラ数"
+                ,"定価単価","納期","売上掛率","売上単価","仕入掛率","仕入単価" }
+                .Any(col => grd_D.GetData(rowIndex, col) != null);
+                if (insert == false) continue;
+
                 var data = new HAT_F_api.Models.ConstructionDetail();
                 data.ConstructionCode = constructionCode;
                 data.Koban = rowIndex;
@@ -751,7 +766,7 @@ namespace HatFClient.Views.ConstructionProject
         {
             grd_D.CellButtonClick += new C1.Win.C1FlexGrid.RowColEventHandler(c1FlexGrid1_CellButtonClick);
             // 初期設定（列数、行数、フォント）
-            grd_D.Cols.Count = 16;
+            grd_D.Cols.Count = 17;
             grd_D.Rows.Count = 2; //初期表示用
             grd_D.Select(1, grd_D.Cols["仕入先コード"].Index);
             grd_D.Font = new System.Drawing.Font("メイリオ", 9);
@@ -785,6 +800,8 @@ namespace HatFClient.Views.ConstructionProject
                 grd_D[row, "子番"] = item.Koban;
                 row++;
             }
+
+            SetCombo();
 
             //先頭列にチェックボックスを追加
             CreateCheckBox(grd_D, row -1);
@@ -1067,6 +1084,10 @@ namespace HatFClient.Views.ConstructionProject
                 page.FosJyuchuH.ConstructionCode = constructionCode; //物件コード
                 page.FosJyuchuH.DenFlg = "11"; //TODO 後で変更
 
+                page.FosJyuchuH.Jyu2 = txtMANAGER_ID.Text;
+                page.FosJyuchuH.Nyu2 = txtMANAGER_ID.Text;
+                page.FosJyuchuH.TeamCd = txtTEAM_CD.Text;
+
                 //GRIDからFosJyuchuHに入れる
                 DataRow hdr = subGroup[0];
                 page.FosJyuchuH.ShiresakiCd = hdr["仕入先コード"].ToString();
@@ -1137,6 +1158,22 @@ namespace HatFClient.Views.ConstructionProject
                 }
             }
             return dt;
+        }
+
+        private void SetCombo()
+        {
+            StringBuilder sb = new StringBuilder();
+            // 倉庫
+            var a = clientRepo.Options.DivSokos.Select(o => o.Code + ":" + o.Name).ToList();
+
+            for(int i = 0; i< a.Count; i++) 
+            {
+                sb.Append(a[i]);
+                //c1FlexGridのComboListに設定する際に|で値を分割する。
+                if (i < a.Count - 1) sb.Append("|");
+            }
+
+            grd_D.Cols["倉庫"].ComboList = sb.ToString();
         }
     }
     public class ConstructionAppSheetData
