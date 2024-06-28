@@ -1079,15 +1079,15 @@ namespace HatFClient.Views.ConstructionProject
                     FosJyuchuD fosJyuchuD = new FosJyuchuD();
                     fosJyuchuD.DenSort = DenSort.ToString();
                     fosJyuchuD.DenNoLine = DenNoCount.ToString();
-                    fosJyuchuD.SyohinName = dr["商品名"].ToString();                    // 商品コード・名称(FosJyuchuD)string
-                    fosJyuchuD.Suryo = HatFComParts.DoParseInt(dr["数量"]);                // 数量(FosJyuchuD)int
-                    fosJyuchuD.Tani = dr["単位"].ToString();                                // 単位(FosJyuchuD)string
-                    fosJyuchuD.Bara = HatFComParts.DoParseInt(dr["バラ数"]);                  // バラ数(FosJyuchuD)int
-                    fosJyuchuD.TeiTan = HatFComParts.DoParseDecimal(dr["定価単価"]);          // 定価単価(FosJyuchuD)decimal
-                    fosJyuchuD.UriKake = HatFComParts.DoParseDecimal(dr["売上掛率"]);        // 掛率(売上)(FosJyuchuD)decimal
-                    fosJyuchuD.UriTan = HatFComParts.DoParseDecimal(dr["売上単価"]);          // 売上単価(FosJyuchuD)decimal
-                    fosJyuchuD.SiiKake = HatFComParts.DoParseDecimal(dr["仕入掛率"]);        // 掛率(仕入)(FosJyuchuD)decimal
-                    fosJyuchuD.SiiTan = HatFComParts.DoParseDecimal(dr["仕入単価"]);          // 仕入単価(FosJyuchuD)decimal
+                    fosJyuchuD.SyohinCd = dr["商品名"].ToString();
+                    fosJyuchuD.Suryo = HatFComParts.DoParseInt(dr["数量"]);
+                    fosJyuchuD.Tani = dr["単位"].ToString();
+                    fosJyuchuD.Bara = HatFComParts.DoParseInt(dr["バラ数"]);
+                    fosJyuchuD.TeiTan = HatFComParts.DoParseDecimal(dr["定価単価"]);
+                    fosJyuchuD.UriKake = HatFComParts.DoParseDecimal(dr["売上掛率"]);
+                    fosJyuchuD.UriTan = HatFComParts.DoParseDecimal(dr["売上単価"]);
+                    fosJyuchuD.SiiKake = HatFComParts.DoParseDecimal(dr["仕入掛率"]);
+                    fosJyuchuD.SiiTan = HatFComParts.DoParseDecimal(dr["仕入単価"]);
                     fosJyuchuD.OrderState = "1";
                     page.FosJyuchuDs.Add(fosJyuchuD);
                     DenNoCount++;
