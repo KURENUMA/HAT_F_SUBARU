@@ -972,11 +972,22 @@ namespace HatFClient.Views.ConstructionProject
         /// <param name="e"></param>
         private async void btnAccounting_ClickAsync(object sender, EventArgs e)
         {
-            var pages = await ApiHelper.FetchAsync(this, () =>
+            // チェックされたデータを取得
+            var pages = getFosJyuchPages();
+
+            // ページが空の場合、処理を中断
+            if (pages.Count == 0)
             {
-                return CommitPagesAsync(getFosJyuchPages());
+                return;
+            }
+
+            // ページがある場合、CommitPagesAsyncを実行
+            var commitPagesResult = await ApiHelper.FetchAsync(this, () =>
+            {
+                return CommitPagesAsync(pages);
             });
 
+            // ページの情報を更新
             var updatelist = new List<HAT_F_api.Models.ConstructionDetail>();
             foreach (DataRow dr in GetCheckedData(grd_D).Rows)
             {
@@ -987,13 +998,21 @@ namespace HatFClient.Views.ConstructionProject
                 updatelist.Add(data);
             }
 
+            // API呼び出しによる更新
             var update = await ApiHelper.UpdateAsync(this, () =>
                 Program.HatFApiClient.PutAsync<int>(ApiResources.HatF.Client.UpdateConstructionDetailGridKoban, updatelist));
-
         }
+
         public List<FosJyuchuPage> getFosJyuchPages()
         {
             DataTable dt = GetCheckedData(grd_D);
+
+            // チェックされたデータが0件の場合
+            if (dt.Rows.Count == 0)
+            {
+                DialogHelper.WarningMessage(this, "選択された行がありません。");
+                return new List<FosJyuchuPage>(); // 空のリストを返して処理を中断
+            }
 
             var grouped = from row in dt.AsEnumerable()
                           group row by new 
