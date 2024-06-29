@@ -44,9 +44,19 @@ public partial class DeptMst
     public short Terminal { get; set; }
 
     /// <summary>
-    /// チームコード
+    /// チームコード (橋本定義)
     /// </summary>
     public string TeamCd { get; set; }
+
+    /// <summary>
+    /// 部支店CD (橋本定義)
+    /// </summary>
+    public string HatDeptBranchCd { get; set; }
+
+    /// <summary>
+    /// 内部組織CD (橋本定義)
+    /// </summary>
+    public string HatOrganizationCd { get; set; }
 
     /// <summary>
     /// 伝票入力可否,0:不可 1:可能

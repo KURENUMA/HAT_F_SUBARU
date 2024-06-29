@@ -21,7 +21,7 @@ public partial class Construction
     /// <summary>
     /// 担当社員ID:物件王に合わせて項目追加
     /// </summary>
-    public int? EmpId { get; set; }
+    public string EmpId { get; set; }
 
     /// <summary>
     /// 物件名
@@ -57,11 +57,6 @@ public partial class Construction
     /// 未契約物件:契約単価が決定する前に受注したかどうか
     /// </summary>
     public bool? Uncontracted { get; set; }
-
-    /// <summary>
-    /// 受注確度
-    /// </summary>
-    public string OrderConfidence { get; set; }
 
     /// <summary>
     /// 引合日:引合を受けた日

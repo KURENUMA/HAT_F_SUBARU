@@ -6,7 +6,7 @@ namespace HAT_F_api.Models;
 /// <summary>
 /// 仕入先マスタ
 /// </summary>
-public partial class SupplierMst
+public partial class SupplierMst0628old
 {
     /// <summary>
     /// 仕入先コード

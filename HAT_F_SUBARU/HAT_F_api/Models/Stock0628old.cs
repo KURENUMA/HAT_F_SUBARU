@@ -4,9 +4,9 @@ using System.Collections.Generic;
 namespace HAT_F_api.Models;
 
 /// <summary>
-/// 倉庫マスタ
+/// 在庫データ
 /// </summary>
-public partial class WhMst
+public partial class Stock0628old
 {
     /// <summary>
     /// 倉庫コード
@@ -14,44 +14,49 @@ public partial class WhMst
     public string WhCode { get; set; }
 
     /// <summary>
-    /// 倉庫名
+    /// 商品コード
     /// </summary>
-    public string WhName { get; set; }
+    public string ProdCode { get; set; }
 
     /// <summary>
-    /// 倉庫区分,N:通常倉庫(HAT-F) S:仕入先(マルマ) 不使用⇒C:得意先 D:部門倉庫 P:製品倉庫 M:原材料倉庫
+    /// ロット番号
     /// </summary>
-    public string WhType { get; set; }
+    public string RotNo { get; set; }
 
     /// <summary>
-    /// HAT倉庫
+    /// 在庫区分,1:自社在庫 2:預り在庫
     /// </summary>
-    public bool IsHatWarehouse { get; set; }
+    public string StockType { get; set; }
 
     /// <summary>
-    /// 郵便番号
+    /// 良品区分,G:良品 F:不良品 U:未検品
     /// </summary>
-    public string ZipCode { get; set; }
+    public string QualityType { get; set; }
 
     /// <summary>
-    /// 都道府県
+    /// ランク
     /// </summary>
-    public string State { get; set; }
+    public string StockRank { get; set; }
 
     /// <summary>
-    /// 住所１
+    /// 実在庫数
     /// </summary>
-    public string Address1 { get; set; }
+    public short Actual { get; set; }
 
     /// <summary>
-    /// 住所２
+    /// 有効在庫数
     /// </summary>
-    public string Address2 { get; set; }
+    public short Valid { get; set; }
 
     /// <summary>
-    /// 住所３
+    /// 最終出荷日
     /// </summary>
-    public string Address3 { get; set; }
+    public DateTime? LastDeliveryDate { get; set; }
+
+    /// <summary>
+    /// 楽観的排他ロック用行バージョン,(スキャフォールドでTimestamp属性は付与されません)
+    /// </summary>
+    public byte[] RowVer { get; set; }
 
     /// <summary>
     /// 作成日時

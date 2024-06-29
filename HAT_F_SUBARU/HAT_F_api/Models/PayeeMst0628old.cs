@@ -6,7 +6,7 @@ namespace HAT_F_api.Models;
 /// <summary>
 /// 支払先マスタ★
 /// </summary>
-public partial class PayeeMst
+public partial class PayeeMst0628old
 {
     /// <summary>
     /// 支払先コード, (仕入先CD前4桁と一致）
@@ -152,11 +152,6 @@ public partial class PayeeMst
     /// 銀行口座名義人★
     /// </summary>
     public string BankActName { get; set; }
-
-    /// <summary>
-    /// 銀行口座名義人カナ★
-    /// </summary>
-    public string BankActNameKana { get; set; }
 
     /// <summary>
     /// でんさいコード（利用者番号）★:Electronically Recorded Monetary Claims

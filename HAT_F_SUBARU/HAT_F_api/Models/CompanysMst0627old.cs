@@ -6,7 +6,7 @@ namespace HAT_F_api.Models;
 /// <summary>
 /// 取引先マスタ
 /// </summary>
-public partial class CompanysMst
+public partial class CompanysMst0627old
 {
     /// <summary>
     /// 取引先コード

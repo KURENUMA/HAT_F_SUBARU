@@ -11,7 +11,7 @@ public partial class ViewConstructionDetail
 
     public string チームcd { get; set; }
 
-    public int? 担当社員id { get; set; }
+    public string 担当社員id { get; set; }
 
     public string 物件名 { get; set; }
 
@@ -86,8 +86,6 @@ public partial class ViewConstructionDetail
     public bool? 推薦物件 { get; set; }
 
     public bool? 未契約物件 { get; set; }
-
-    public string 受注確度 { get; set; }
 
     public string ビル名等 { get; set; }
 }

@@ -19,6 +19,11 @@ public partial class ConstructionDetail
     public int Koban { get; set; }
 
     /// <summary>
+    /// 受注確度
+    /// </summary>
+    public string OrderConfidence { get; set; }
+
+    /// <summary>
     /// 仕入先コード
     /// </summary>
     public string ShiresakiCd { get; set; }

@@ -25,11 +25,5 @@ public partial class ViewFixedSale
 
     public long? 売上合計金額 { get; set; }
 
-    public short? 顧客支払月 { get; set; }
-
-    public short? 顧客支払日 { get; set; }
-
-    public short? 顧客支払方法 { get; set; }
-
     public string Hat注文番号 { get; set; }
 }

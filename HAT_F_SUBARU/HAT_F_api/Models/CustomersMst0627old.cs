@@ -6,7 +6,7 @@ namespace HAT_F_api.Models;
 /// <summary>
 /// 顧客マスタ
 /// </summary>
-public partial class CustomersMst
+public partial class CustomersMst0627old
 {
     /// <summary>
     /// 顧客コード

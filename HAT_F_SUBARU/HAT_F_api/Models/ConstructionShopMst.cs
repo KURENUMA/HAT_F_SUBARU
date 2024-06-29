@@ -4,9 +4,9 @@ using System.Collections.Generic;
 namespace HAT_F_api.Models;
 
 /// <summary>
-/// 出荷先マスタ
+/// 工事店マスタ★,主に住友林業用
 /// </summary>
-public partial class DestinationsMst
+public partial class ConstructionShopMst
 {
     /// <summary>
     /// 顧客コード
@@ -14,64 +14,69 @@ public partial class DestinationsMst
     public string CustCode { get; set; }
 
     /// <summary>
-    /// 現場コード
+    /// 工事店コード
     /// </summary>
-    public string GenbaCode { get; set; }
+    public string ConstCode { get; set; }
 
     /// <summary>
-    /// 出荷先名１
+    /// 工事店区分
     /// </summary>
-    public string DistName1 { get; set; }
+    public short? ConstType { get; set; }
 
     /// <summary>
-    /// 出荷先名２
+    /// 工事店名
     /// </summary>
-    public string DistName2 { get; set; }
+    public string ConstName { get; set; }
 
     /// <summary>
-    /// 地域コード
+    /// 工事店名カナ
     /// </summary>
-    public string AreaCode { get; set; }
+    public string ConstKana { get; set; }
 
     /// <summary>
-    /// 出荷先郵便番号
+    /// 工事店郵便番号
     /// </summary>
-    public string ZipCode { get; set; }
+    public string ConstZipCode { get; set; }
 
     /// <summary>
-    /// 出荷先住所１
+    /// 工事店都道府県
     /// </summary>
-    public string Address1 { get; set; }
+    public string ConstState { get; set; }
 
     /// <summary>
-    /// 出荷先住所２
+    /// 工事店住所１
     /// </summary>
-    public string Address2 { get; set; }
+    public string ConstAddress1 { get; set; }
 
     /// <summary>
-    /// 出荷先住所３
+    /// 工事店住所２
     /// </summary>
-    public string Address3 { get; set; }
+    public string ConstAddress2 { get; set; }
 
     /// <summary>
-    /// 出荷先電話番号
+    /// 工事店住所３
     /// </summary>
-    public string DestTel { get; set; }
+    public string ConstAddress3 { get; set; }
 
     /// <summary>
-    /// 出荷先電話FAX
+    /// 工事店電話番号
     /// </summary>
-    public string DestFax { get; set; }
+    public string ConstTel { get; set; }
 
     /// <summary>
-    /// 備考
+    /// 工事店FAX番号
     /// </summary>
-    public string Remarks { get; set; }
+    public string ConstFax { get; set; }
+
+    /// <summary>
+    /// 工事店メールアドレス
+    /// </summary>
+    public string ConstEmail { get; set; }
 
     /// <summary>
     /// 削除済
     /// </summary>
-    public bool Deleted { get; set; }
+    public bool? Deleted { get; set; }
 
     /// <summary>
     /// 作成日時

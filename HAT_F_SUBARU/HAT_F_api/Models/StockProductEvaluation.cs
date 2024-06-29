@@ -4,9 +4,9 @@ using System.Collections.Generic;
 namespace HAT_F_api.Models;
 
 /// <summary>
-/// 倉庫マスタ
+/// 在庫商品評価
 /// </summary>
-public partial class WhMst
+public partial class StockProductEvaluation
 {
     /// <summary>
     /// 倉庫コード
@@ -14,44 +14,29 @@ public partial class WhMst
     public string WhCode { get; set; }
 
     /// <summary>
-    /// 倉庫名
+    /// 商品コード
     /// </summary>
-    public string WhName { get; set; }
+    public string ProdCode { get; set; }
 
     /// <summary>
-    /// 倉庫区分,N:通常倉庫(HAT-F) S:仕入先(マルマ) 不使用⇒C:得意先 D:部門倉庫 P:製品倉庫 M:原材料倉庫
+    /// 在庫区分,1:自社在庫 2:預り在庫 (マルマ)
     /// </summary>
-    public string WhType { get; set; }
+    public string StockType { get; set; }
 
     /// <summary>
-    /// HAT倉庫
+    /// ランク,HZDE他
     /// </summary>
-    public bool IsHatWarehouse { get; set; }
+    public string StockRank { get; set; }
 
     /// <summary>
-    /// 郵便番号
+    /// ABCランク
     /// </summary>
-    public string ZipCode { get; set; }
+    public string AbcRank { get; set; }
 
     /// <summary>
-    /// 都道府県
+    /// 評価価格
     /// </summary>
-    public string State { get; set; }
-
-    /// <summary>
-    /// 住所１
-    /// </summary>
-    public string Address1 { get; set; }
-
-    /// <summary>
-    /// 住所２
-    /// </summary>
-    public string Address2 { get; set; }
-
-    /// <summary>
-    /// 住所３
-    /// </summary>
-    public string Address3 { get; set; }
+    public decimal? EvaluationPrice { get; set; }
 
     /// <summary>
     /// 作成日時
