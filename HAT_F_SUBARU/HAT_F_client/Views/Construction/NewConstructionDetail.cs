@@ -160,7 +160,7 @@ namespace HatFClient.Views.ConstructionProject
             // 物件情報
             txtCONSTRUCTTON_CODE.Text = ConstructionData.物件コード;
             txtTEAM_CD.Text = ConstructionData.チームcd;
-            txtMANAGER_ID.Text = ConstructionData.担当社員id.ToString();
+            txtMANAGER_ID.Text = ConstructionData.担当社員id;
 
             short? orderState = ConstructionData.受注状態;
             if (orderState.HasValue && orderState.Value >= 0 && orderState.Value <= 4)
@@ -206,23 +206,8 @@ namespace HatFClient.Views.ConstructionProject
 
             result.ConstructionCode = txtCONSTRUCTTON_CODE.Text;
             result.TeamCd = txtTEAM_CD.Text;
+            result.EmpId = txtMANAGER_ID.Text;
 
-            /*
-            //TODO DBの型を変更するまでの対応
-            if(!string.IsNullOrEmpty(txtMANAGER_ID.Text))
-            {
-                int manager_id;
-                if (int.TryParse(txtMANAGER_ID.Text, out manager_id))
-                {
-                    result.EmpId = manager_id;
-                }
-                else
-                {
-                    result.EmpId = null;
-                }
-            }
-            */
-            
             int stateIndex = -1;
             for (int i = 0; i < cmbORDER_STATE.Items.Count; i++)
             {
@@ -592,9 +577,7 @@ namespace HatFClient.Views.ConstructionProject
 
             // ★対応するまで無効にする
             list.Add(btnAppSheet.Name);
-            //list.Add(btnAccounting.Name);
             list.Add(btnTransfer.Name);
-            list.Add(txtMANAGER_ID.Name);
             list.Add(btnCopy.Name);
 
             return list;

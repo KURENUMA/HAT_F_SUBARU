@@ -169,7 +169,7 @@
             // 
             this.lblTEAM_CD.AutoSize = true;
             this.lblTEAM_CD.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.lblTEAM_CD.Location = new System.Drawing.Point(484, 25);
+            this.lblTEAM_CD.Location = new System.Drawing.Point(456, 24);
             this.lblTEAM_CD.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblTEAM_CD.Name = "lblTEAM_CD";
             this.lblTEAM_CD.Size = new System.Drawing.Size(84, 15);
@@ -180,7 +180,7 @@
             // 
             this.lblMANAGER_ID.AutoSize = true;
             this.lblMANAGER_ID.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.lblMANAGER_ID.Location = new System.Drawing.Point(707, 26);
+            this.lblMANAGER_ID.Location = new System.Drawing.Point(694, 26);
             this.lblMANAGER_ID.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblMANAGER_ID.Name = "lblMANAGER_ID";
             this.lblMANAGER_ID.Size = new System.Drawing.Size(43, 15);
@@ -361,7 +361,7 @@
             this.groupBox1.Controls.Add(this.lblTOKUI_NAME);
             this.groupBox1.Controls.Add(this.lblTOKUI_CD);
             this.groupBox1.Controls.Add(this.txtTOKUI_CD);
-            this.groupBox1.Location = new System.Drawing.Point(28, 72);
+            this.groupBox1.Location = new System.Drawing.Point(28, 75);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(520, 104);
             this.groupBox1.TabIndex = 7;
@@ -434,7 +434,7 @@
             this.groupBox2.Controls.Add(this.lblINQUIRY_DATE);
             this.groupBox2.Controls.Add(this.label9);
             this.groupBox2.Controls.Add(this.txtCONSTRUCTOR_NAME);
-            this.groupBox2.Location = new System.Drawing.Point(573, 74);
+            this.groupBox2.Location = new System.Drawing.Point(573, 77);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(474, 104);
             this.groupBox2.TabIndex = 9;
@@ -552,7 +552,7 @@
             this.cmbORDER_STATE.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cmbORDER_STATE.FormattingEnabled = true;
             this.cmbORDER_STATE.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.cmbORDER_STATE.Location = new System.Drawing.Point(974, 24);
+            this.cmbORDER_STATE.Location = new System.Drawing.Point(907, 22);
             this.cmbORDER_STATE.Name = "cmbORDER_STATE";
             this.cmbORDER_STATE.Size = new System.Drawing.Size(140, 20);
             this.cmbORDER_STATE.TabIndex = 6;
@@ -561,7 +561,7 @@
             // 
             this.lblORDER_STATE.AutoSize = true;
             this.lblORDER_STATE.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.lblORDER_STATE.Location = new System.Drawing.Point(892, 26);
+            this.lblORDER_STATE.Location = new System.Drawing.Point(825, 26);
             this.lblORDER_STATE.Name = "lblORDER_STATE";
             this.lblORDER_STATE.Size = new System.Drawing.Size(76, 15);
             this.lblORDER_STATE.TabIndex = 45;
@@ -602,9 +602,9 @@
             // 
             // btnDuplicate
             // 
-            this.btnDuplicate.Location = new System.Drawing.Point(354, 22);
+            this.btnDuplicate.Location = new System.Drawing.Point(354, 21);
             this.btnDuplicate.Name = "btnDuplicate";
-            this.btnDuplicate.Size = new System.Drawing.Size(112, 23);
+            this.btnDuplicate.Size = new System.Drawing.Size(84, 23);
             this.btnDuplicate.TabIndex = 3;
             this.btnDuplicate.Text = "重複チェック";
             this.btnDuplicate.UseVisualStyleBackColor = true;
@@ -735,11 +735,11 @@
             this.txtMANAGER_ID.Enabled = false;
             this.txtMANAGER_ID.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtMANAGER_ID.ImeMode = System.Windows.Forms.ImeMode.On;
-            this.txtMANAGER_ID.Location = new System.Drawing.Point(754, 22);
+            this.txtMANAGER_ID.Location = new System.Drawing.Point(741, 21);
             this.txtMANAGER_ID.Margin = new System.Windows.Forms.Padding(2);
-            this.txtMANAGER_ID.MaxLength = 20;
+            this.txtMANAGER_ID.MaxLength = 2;
             this.txtMANAGER_ID.Name = "txtMANAGER_ID";
-            this.txtMANAGER_ID.Size = new System.Drawing.Size(117, 23);
+            this.txtMANAGER_ID.Size = new System.Drawing.Size(55, 23);
             this.txtMANAGER_ID.TabIndex = 5;
             // 
             // txtTEAM_CD
@@ -747,7 +747,7 @@
             this.txtTEAM_CD.BackColor = System.Drawing.SystemColors.Window;
             this.txtTEAM_CD.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtTEAM_CD.ImeMode = System.Windows.Forms.ImeMode.On;
-            this.txtTEAM_CD.Location = new System.Drawing.Point(570, 22);
+            this.txtTEAM_CD.Location = new System.Drawing.Point(544, 21);
             this.txtTEAM_CD.Margin = new System.Windows.Forms.Padding(2);
             this.txtTEAM_CD.MaxLength = 3;
             this.txtTEAM_CD.Name = "txtTEAM_CD";
