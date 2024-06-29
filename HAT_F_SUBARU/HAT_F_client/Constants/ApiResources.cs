@@ -111,8 +111,12 @@ namespace HatFClient.Constants
                 /// <summary>物件詳細更新</summary>
                 public static readonly string UpdateConstructionDetail = "api/Client/update-construction-detail";
 
+                /// <summary>物件詳細GRID更新</summary>
                 public static readonly string DeleteInsertConstructionDetailGrid = "api/Client/delete-insert-construction-detail-gird";
 
+                /// <summary>物件詳細GRIDステータス更新</summary>
+                public static readonly string UpdateConstructionDetailGridKoban = "api/Client/update-construction-detail-gird-koban";
+                
                 /// <summary>物件詳細明細一覧</summary>
                 public static readonly string ConstructionDetailDetail = "api/Client/construction-detail-detail";
 

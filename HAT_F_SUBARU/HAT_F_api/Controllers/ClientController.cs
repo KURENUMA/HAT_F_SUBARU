@@ -1389,6 +1389,21 @@ namespace HAT_F_api.Controllers
         }
 
         /// <summary>
+        /// 物件詳細情報のステータスを更新
+        /// </summary>
+        /// <param name="updateRequest">項番のlist</param>
+        /// <returns>更新結果</returns>
+        [HttpPut("update-construction-detail-gird-koban")]
+        public async Task<ActionResult<ApiResponse<int>>> UpdateConstructionDetailGridKobanAsync(
+            [FromBody] List<ConstructionDetail> updateRequest)
+        {
+            return await ApiLogicRunner.RunAsync(async () =>
+            {
+                return await _hatFUpdateService.UpdateConstructionDetailGridKobanAsync(updateRequest);
+            });
+        }
+
+        /// <summary>
         /// 新規物件情報を追加
         /// </summary>
         /// <param name="createRequest">追加内容</param>
@@ -1499,7 +1514,7 @@ namespace HAT_F_api.Controllers
         /// <param name="constructionCode">物件番号</param>
         /// <returns>検索結果</returns>
         [HttpGet("construction-detail-detail")]
-        public async Task<ActionResult<ApiResponse<List<ConstructionDetail>>>> GetConstructionDetailDetailAsync(string constructionCode)
+        public async Task<ActionResult<ApiResponse<List<ConstructionDetailEx>>>> GetConstructionDetailDetailAsync(string constructionCode)
         {
             return await ApiLogicRunner.RunAsync(async () =>
             {

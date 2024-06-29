@@ -19,6 +19,11 @@ public partial class ConstructionDetail
     public int Koban { get; set; }
 
     /// <summary>
+    /// 仕入先コード
+    /// </summary>
+    public string ShiresakiCd { get; set; }
+
+    /// <summary>
     /// 計上ステータス,0:未計上/1:計上済
     /// </summary>
     public short? AppropState { get; set; }

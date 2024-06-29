@@ -1,4 +1,5 @@
 ﻿using C1.Win.C1FlexGrid;
+using HAT_F_api.CustomModels;
 using HAT_F_api.Models;
 using HatFClient.Common;
 using HatFClient.Constants;
@@ -28,6 +29,9 @@ namespace HatFClient.Views.ConstructionProject
         private const string FILTER_ACCDB = "accdb file|*.accdb";
         private readonly List<string> EnableControlList;
         private readonly List<string> DisableControlList;
+        private ClientRepo clientRepo;
+        private LoginRepo loginRepo;
+        private FosJyuchuRepo fosJyuchuRepo;
 
         /// <summary>物件情報</summary>
         private ViewConstructionDetail ConstructionData { get; set; }
@@ -55,8 +59,45 @@ namespace HatFClient.Views.ConstructionProject
             }
             //cmbORDER_CONFIDENCE.Items.AddRange(new[] { "A", "B", "C", "受注", "違注" });
             cmbORDER_STATE.Items.AddRange(new[] { "引合", "見積作成", "見積提出", "受注済", "完了" });
-            cmbCONSTRUCTION_TYPE.Items.AddRange(new[] { "マンション" });
-            cmbCONSTRUCTION_INDUSTRY.Items.AddRange(new[] { "大手サブコン" });
+
+            // 種別の設定
+            cmbCONSTRUCTION_TYPE.Items.AddRange(new[]
+            {
+                "戸建",
+                "HM・HB",
+                "マンション",
+                "アパート",
+                "工場",
+                "事務所",
+                "宿泊施設",
+                "店舗",
+                "学校",
+                "病院",
+                "土木",
+                "RF住宅",
+                "RF非住宅",
+                "高齢者施設",
+                "太陽光",
+                "その他"
+            });
+
+            // 業種の設定
+            cmbCONSTRUCTION_INDUSTRY.Items.AddRange(new[]
+            {
+                "水工店",
+                "燃料店",
+                "リノベーション",
+                "大手RF",
+                "DV",
+                "大手サブコン",
+                "地場サブコン",
+                "工務店",
+                "中小RF",
+                "プラント",
+                "ゼネコン",
+                "HM(PB)",
+                "その他"
+            });
             EnableControlList = GetEnabledControlList();
             DisableControlList = GetDisableControlList();
         }
@@ -101,6 +142,15 @@ namespace HatFClient.Views.ConstructionProject
         /// <param name="e">イベント情報</param>
         private void NewConstructionDetail_Load(object sender, EventArgs e)
         {
+            this.clientRepo = ClientRepo.GetInstance();
+            this.loginRepo = LoginRepo.GetInstance();
+            this.fosJyuchuRepo = FosJyuchuRepo.GetInstance();
+
+            if (currentMode == ScreenMode.NewEntry)
+            {
+                txtMANAGER_ID.Text = loginRepo.CurrentUser.EmployeeTag;
+            }
+
             LoadDData();
         }
 
@@ -134,13 +184,13 @@ namespace HatFClient.Views.ConstructionProject
             dateINQUIRY_DATE.Value = ConstructionData.引合日;
 
             short? constructionType = ConstructionData.建設種別;
-            if (constructionType.HasValue && constructionType.Value >= 0 && constructionType.Value <= 1)
+            if (constructionType.HasValue && constructionType.Value >= 0 && constructionType.Value <= 15)
             {
                 cmbCONSTRUCTION_TYPE.SelectedIndex = constructionType.Value;
             }
 
             short? constructionIndustry = ConstructionData.建設業種;
-            if (constructionIndustry.HasValue && constructionIndustry.Value >= 0 && constructionIndustry.Value <= 1)
+            if (constructionIndustry.HasValue && constructionIndustry.Value >= 0 && constructionIndustry.Value <= 12)
             {
                 cmbCONSTRUCTION_INDUSTRY.SelectedIndex = constructionIndustry.Value;
             }
@@ -156,6 +206,8 @@ namespace HatFClient.Views.ConstructionProject
 
             result.ConstructionCode = txtCONSTRUCTTON_CODE.Text;
             result.TeamCd = txtTEAM_CD.Text;
+
+            /*
             //TODO DBの型を変更するまでの対応
             if(!string.IsNullOrEmpty(txtMANAGER_ID.Text))
             {
@@ -169,6 +221,7 @@ namespace HatFClient.Views.ConstructionProject
                     result.EmpId = null;
                 }
             }
+            */
             
             int stateIndex = -1;
             for (int i = 0; i < cmbORDER_STATE.Items.Count; i++)
@@ -245,11 +298,18 @@ namespace HatFClient.Views.ConstructionProject
 
             for (int rowIndex = grd_D.Rows.Fixed; rowIndex < grd_D.Rows.Count; rowIndex++)
             {
+                bool insert = false;
+                insert = new string[]
+                { "仕入先コード","商品名", "数量","単位","バラ数"
+                ,"定価単価","納期","売上掛率","売上単価","仕入掛率","仕入単価" }
+                .Any(col => grd_D.GetData(rowIndex, col) != null);
+                if (insert == false) continue;
+
                 var data = new HAT_F_api.Models.ConstructionDetail();
                 data.ConstructionCode = constructionCode;
                 data.Koban = rowIndex;
                 data.AppropState = (short?)grd_D.GetData(rowIndex, "ステータス") ?? 0; //0:未計上を設定
-                data.SyohinCd = grd_D.GetData(rowIndex, "商品コード")?.ToString();
+                data.ShiresakiCd = grd_D.GetData(rowIndex, "仕入先コード")?.ToString();
                 data.SyohinName = grd_D.GetData(rowIndex, "商品名")?.ToString();
                 data.Suryo = (int?)grd_D.GetData(rowIndex, "数量") ?? null;
                 data.Tani = grd_D.GetData(rowIndex, "単位")?.ToString();
@@ -394,6 +454,7 @@ namespace HatFClient.Views.ConstructionProject
                         if (item.AppropState != null)
                         {
                             grd_D[item.Koban, "ステータス"] = item.AppropState;
+                            grd_D[item.Koban, "子番"] = item.Koban;
                             grd_D.SetCellCheck(item.Koban, 1, CheckEnum.Unchecked);
                         }
                     }
@@ -531,9 +592,10 @@ namespace HatFClient.Views.ConstructionProject
 
             // ★対応するまで無効にする
             list.Add(btnAppSheet.Name);
-            list.Add(btnAccounting.Name);
+            //list.Add(btnAccounting.Name);
             list.Add(btnTransfer.Name);
             list.Add(txtMANAGER_ID.Name);
+            list.Add(btnCopy.Name);
 
             return list;
         }
@@ -707,9 +769,9 @@ namespace HatFClient.Views.ConstructionProject
         {
             grd_D.CellButtonClick += new C1.Win.C1FlexGrid.RowColEventHandler(c1FlexGrid1_CellButtonClick);
             // 初期設定（列数、行数、フォント）
-            grd_D.Cols.Count = 14;
+            grd_D.Cols.Count = 17;
             grd_D.Rows.Count = 2; //初期表示用
-            grd_D.Select(1, grd_D.Cols["商品コード"].Index);
+            grd_D.Select(1, grd_D.Cols["仕入先コード"].Index);
             grd_D.Font = new System.Drawing.Font("メイリオ", 9);
             grd_D.Styles.Normal.TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;
 
@@ -720,7 +782,8 @@ namespace HatFClient.Views.ConstructionProject
             foreach (var item in griddata)
             {
                 grd_D[row, "ステータス"] = item.AppropState;
-                grd_D[row, "商品コード"] = item.SyohinCd;
+                grd_D[row, "仕入先コード"] = item.ShiresakiCd;
+                grd_D[row, "仕入先名"] = item.ShiresakiName;
                 grd_D[row, "商品名"] = item.SyohinName;
                 grd_D[row, "数量"] = item.Suryo;
                 grd_D[row, "単位"] = item.Tani;
@@ -737,8 +800,11 @@ namespace HatFClient.Views.ConstructionProject
                     decimal siitan = (decimal)item.SiiTan;
                     grd_D[row, "利率"] = CalcProfit(uritan, siitan);
                 }
-                    row++;
+                grd_D[row, "子番"] = item.Koban;
+                row++;
             }
+
+            SetCombo();
 
             //先頭列にチェックボックスを追加
             CreateCheckBox(grd_D, row -1);
@@ -777,20 +843,42 @@ namespace HatFClient.Views.ConstructionProject
 
         private void c1FlexGrid1_CellButtonClick(object sender, C1.Win.C1FlexGrid.RowColEventArgs e)
         {
-            using (Views.MasterSearch.MS_Syohin dlg = new())
+            
+            switch (grd_D.Cols[e.Col].Caption)
             {
-                //物件詳細は仕入先なし
-                dlg.TxtSHIRESAKI_CD = "";
-                dlg.TxtSYOHIN_CD = grd_D.GetDataDisplay(e.Row, e.Col);
-                switch (dlg.ShowDialog())
-                {
-                    case DialogResult.OK:
-                        grd_D.SetData(e.Row, grd_D.Cols["商品コード"].Index, dlg.StrMsSyohinCode);
-                        grd_D.SetData(e.Row, grd_D.Cols["商品名"].Index, dlg.StrMsSyohinName);
-                        break;
-                    default:
-                        break;
-                }
+                case "仕入先コード":
+                    using (Views.MasterSearch.MS_ShiresakiBunrui dlg = new())
+                    {
+                        dlg.TxtTEAM_CD = this.txtTEAM_CD.Text;
+                        dlg.TxtSHIRESAKI_CD = grd_D.GetDataDisplay(e.Row, e.Col);
+                        switch (dlg.ShowDialog())
+                        {
+                            case DialogResult.OK:
+                                grd_D.SetData(e.Row, grd_D.Cols["仕入先コード"].Index,dlg.StrMsShiresakiCode);
+                                grd_D.SetData(e.Row, grd_D.Cols["仕入先名"].Index, dlg.StrMsShiresakiName);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    break;
+
+                case "商品名":
+                    using (Views.MasterSearch.MS_Syohin dlg = new())
+                    {
+                        //物件詳細は仕入先なし
+                        dlg.TxtSHIRESAKI_CD = grd_D.GetDataDisplay(e.Row, "仕入先コード");
+                        dlg.TxtSYOHIN_CD = grd_D.GetDataDisplay(e.Row, e.Col);
+                        switch (dlg.ShowDialog())
+                        {
+                            case DialogResult.OK:
+                                grd_D.SetData(e.Row, grd_D.Cols["商品名"].Index, dlg.StrMsSyohinName);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    break;
             }
         }
 
@@ -826,14 +914,14 @@ namespace HatFClient.Views.ConstructionProject
             grd_D.Rows.Add();
         }
 
-        private async Task<List<HAT_F_api.Models.ConstructionDetail>> GetGridData()
+        private async Task<List<HAT_F_api.CustomModels.ConstructionDetailEx>> GetGridData()
         {
             var parameters = new Dictionary<string, object>()
             {
                         { "constructionCode",constructionCode }
             };
 
-            var apiResponse = await Program.HatFApiClient.GetAsync<List<HAT_F_api.Models.ConstructionDetail>>(
+            var apiResponse = await Program.HatFApiClient.GetAsync<List<HAT_F_api.CustomModels.ConstructionDetailEx>>(
                       ApiResources.HatF.Client.ConstructionDetailDetail, parameters);   // 一覧取得API
 
             return apiResponse.Data;
@@ -892,6 +980,203 @@ namespace HatFClient.Views.ConstructionProject
                         , Convert.ToDecimal(grd_D.GetDataDisplay(e.Row, "仕入単価")));
                 }
             }
+        }
+
+        /// <summary>
+        /// 選択対象を計上
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void btnAccounting_ClickAsync(object sender, EventArgs e)
+        {
+            // チェックされたデータを取得
+            var pages = getFosJyuchPages();
+
+            // ページが空の場合、処理を中断
+            if (pages.Count == 0)
+            {
+                return;
+            }
+
+            // ページがある場合、CommitPagesAsyncを実行
+            var commitPagesResult = await ApiHelper.FetchAsync(this, () =>
+            {
+                return CommitPagesAsync(pages);
+            });
+
+            // ページの情報を更新
+            var updatelist = new List<HAT_F_api.Models.ConstructionDetail>();
+            foreach (DataRow dr in GetCheckedData(grd_D).Rows)
+            {
+                var data = new HAT_F_api.Models.ConstructionDetail();
+                data.ConstructionCode = constructionCode;
+                data.Koban = Convert.ToInt32(dr["子番"]);
+                grd_D[data.Koban, "ステータス"] = "計上済";
+                updatelist.Add(data);
+            }
+
+            // API呼び出しによる更新
+            var update = await ApiHelper.UpdateAsync(this, () =>
+                Program.HatFApiClient.PutAsync<int>(ApiResources.HatF.Client.UpdateConstructionDetailGridKoban, updatelist));
+        }
+
+        public List<FosJyuchuPage> getFosJyuchPages()
+        {
+            DataTable dt = GetCheckedData(grd_D);
+
+            // チェックされたデータが0件の場合
+            if (dt.Rows.Count == 0)
+            {
+                DialogHelper.WarningMessage(this, "選択された行がありません。");
+                return new List<FosJyuchuPage>(); // 空のリストを返して処理を中断
+            }
+
+            var grouped = from row in dt.AsEnumerable()
+                          group row by new 
+                          { nouki = row.Field<string>("納期"),
+                              shiresaki = row.Field<string>("仕入先コード")} into grp
+                          select grp;
+
+            List<List<DataRow>> pageList = new List<List<DataRow>>();
+            foreach (var group in grouped)
+            {
+                List<DataRow> currentSubGroup = new List<DataRow>();
+                int count = 0;
+
+                foreach (var row in group)
+                {
+                    currentSubGroup.Add(row);
+                    count++;
+
+                    // 6つの要素を満たしたかチェックし、サブグループに追加します
+                    if (count == 6)
+                    {
+                        pageList.Add(currentSubGroup.ToList()); // リストのコピーを追加する
+                        currentSubGroup.Clear(); // サブグループをクリアして次のグループへ
+                        count = 0; // カウントをリセット
+                    }
+                }
+                // 6つ未満の残りの要素がある場合は、最後のサブグループとして追加します
+                if (currentSubGroup.Any())
+                {
+                    pageList.Add(currentSubGroup.ToList());
+                }
+            }
+
+            var isNew = true;
+            if (isNew)
+            {
+                //var jyu2Cd = loginRepo.CurrentUser.EmployeeCode;
+                //var jyu2 = loginRepo.CurrentUser.EmployeeTag;
+                //SetNewSaveKey(FosJyuchuRepo.GetInstance().CreateNewSaveKey(jyu2Cd, jyu2));
+            }
+
+            List<FosJyuchuPage> pages = new List<FosJyuchuPage>();
+            int DenSort = 1;
+            foreach (var subGroup in pageList)
+            {
+                FosJyuchuPage page = new FosJyuchuPage(false)
+                {
+                    FosJyuchuH = new FosJyuchuH(),
+                    FosJyuchuDs = new List<FosJyuchuD>(),
+                };
+                page.FosJyuchuH.OrderState = "1"; //固定
+                page.FosJyuchuH.DenSort = DenSort.ToString();
+                page.FosJyuchuH.DenState = "5"; //固定
+                page.FosJyuchuH.DenNo = "00000" + DenSort; //一意の６桁番号　TODO 変更予定
+                page.FosJyuchuH.ConstructionCode = constructionCode; //物件コード
+                page.FosJyuchuH.DenFlg = "11"; //TODO 後で変更
+
+                page.FosJyuchuH.Jyu2 = txtMANAGER_ID.Text;
+                page.FosJyuchuH.Nyu2 = txtMANAGER_ID.Text;
+                page.FosJyuchuH.TeamCd = txtTEAM_CD.Text;
+
+                //GRIDからFosJyuchuHに入れる
+                DataRow hdr = subGroup[0];
+                page.FosJyuchuH.ShiresakiCd = hdr["仕入先コード"].ToString();
+                page.FosJyuchuH.ShiresakiName = hdr["仕入先名"].ToString();
+                page.FosJyuchuH.Nouki = HatFComParts.DoParseDateTime(hdr["納期"]);
+
+                int DenNoCount = 1;
+                foreach (var dr in subGroup)
+                {
+                    FosJyuchuD fosJyuchuD = new FosJyuchuD();
+                    fosJyuchuD.DenSort = DenSort.ToString();
+                    fosJyuchuD.DenNoLine = DenNoCount.ToString();
+                    fosJyuchuD.SyohinCd = dr["商品名"].ToString();
+                    fosJyuchuD.Suryo = HatFComParts.DoParseInt(dr["数量"]);
+                    fosJyuchuD.Tani = dr["単位"].ToString();
+                    fosJyuchuD.Bara = HatFComParts.DoParseInt(dr["バラ数"]);
+                    fosJyuchuD.TeiTan = HatFComParts.DoParseDecimal(dr["定価単価"]);
+                    fosJyuchuD.UriKake = HatFComParts.DoParseDecimal(dr["売上掛率"]);
+                    fosJyuchuD.UriTan = HatFComParts.DoParseDecimal(dr["売上単価"]);
+                    fosJyuchuD.SiiKake = HatFComParts.DoParseDecimal(dr["仕入掛率"]);
+                    fosJyuchuD.SiiTan = HatFComParts.DoParseDecimal(dr["仕入単価"]);
+                    fosJyuchuD.OrderState = "1";
+                    page.FosJyuchuDs.Add(fosJyuchuD);
+                    DenNoCount++;
+                }
+                pages.Add(page);
+                DenSort++;
+            }
+            return pages;
+        }
+
+        /// <summary>確定させるためにページ情報を変更する</summary>
+        /// <param name="pages">ページ情報</param>
+        /// <returns>ページ情報</returns>
+        public async Task<ApiResponse<List<FosJyuchuPage>>> CommitPagesAsync(List<FosJyuchuPage> pages)
+        {
+            FosJyuchuPages fosJyuchuPages = new FosJyuchuPages
+            {
+                TargetPage = pages.Count -1,
+                Pages = pages,
+            };
+
+            return await fosJyuchuRepo.putOrderCommit(fosJyuchuPages);
+        }
+
+        /// <summary>
+        /// gridからチェック済みのデータを取得する
+        /// </summary>
+        /// <param name="grid"></param>
+        /// <returns></returns>
+        private DataTable GetCheckedData(C1FlexGrid grid)
+        {
+            DataTable dt = new DataTable();
+            for (int col = 2; col < grid.Cols.Count; col++)
+            {
+                dt.Columns.Add(grid.Cols[col].Caption);
+            }
+            for (int row = 1; row < grid.Rows.Count; row++)
+            {
+                if (grid.GetCellCheck(row, 1) == CheckEnum.Checked)
+                {
+                    DataRow dr = dt.NewRow();
+                    for (int col = 2; col < grid.Cols.Count; col++)
+                    {
+                        dr[grid.Cols[col].Caption] = grid[row, col];
+                    }
+                    dt.Rows.Add(dr);
+                }
+            }
+            return dt;
+        }
+
+        private void SetCombo()
+        {
+            StringBuilder sb = new StringBuilder();
+            // 倉庫
+            var a = clientRepo.Options.DivSokos.Select(o => o.Code + ":" + o.Name).ToList();
+
+            for(int i = 0; i< a.Count; i++) 
+            {
+                sb.Append(a[i]);
+                //c1FlexGridのComboListに設定する際に|で値を分割する。
+                if (i < a.Count - 1) sb.Append("|");
+            }
+
+            grd_D.Cols["倉庫"].ComboList = sb.ToString();
         }
     }
     public class ConstructionAppSheetData

@@ -7,6 +7,7 @@ using HAT_F_api.StateCodes;
 using HAT_F_api.Utils;
 using Microsoft.EntityFrameworkCore;
 using NLog;
+using System.Linq;
 namespace HAT_F_api.Services
 {
     public class HatFUpdateService
@@ -527,8 +528,7 @@ namespace HAT_F_api.Services
             constructionDetail.TeamCd = request.TeamCd;
             constructionDetail.EmpId = request.EmpId;
             constructionDetail.ConstructionName = request.ConstructionName;
-            constructionDetail.ConstructionKana = request.ConstructionKana;
-            constructionDetail.OrderConfidence = request.OrderConfidence;
+            constructionDetail.ConstructionKana = request.ConstructionKana;;
             constructionDetail.InquiryDate = request.InquiryDate;
             constructionDetail.EstimateSendDate = request.EstimateSendDate;
             constructionDetail.OrderRceiptDate = request.OrderRceiptDate;
@@ -582,6 +582,27 @@ namespace HAT_F_api.Services
             if (request.FirstOrDefault().AppropState != null)
             {
                 _hatFContext.ConstructionDetails.AddRange(request);
+            }
+
+            // 変更を保存
+            var result = await _hatFContext.SaveChangesAsync();
+            return result;
+        }
+
+        /// <summary>物件詳細のGridのステータスを更新</summary>
+        /// <param name="request">項番のlist</param>
+        /// <returns></returns>
+        public async Task<int> UpdateConstructionDetailGridKobanAsync(List<ConstructionDetail> request)
+        {
+            List<int> kobans = request.Select(x => x.Koban).ToList();
+            var constructionDetail = await _hatFContext.ConstructionDetails
+                .Where(x => x.ConstructionCode == request.FirstOrDefault().ConstructionCode
+                && kobans.Contains(x.Koban))
+                .ToListAsync();
+
+            for (int i = 0; i < constructionDetail.Count; i++)
+            {
+                constructionDetail[i].AppropState = 1;
             }
 
             // 変更を保存
