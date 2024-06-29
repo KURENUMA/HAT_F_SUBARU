@@ -135,7 +135,7 @@
             this.btnAdjustment.Name = "btnAdjustment";
             this.btnAdjustment.Size = new System.Drawing.Size(103, 23);
             this.btnAdjustment.TabIndex = 38;
-            this.btnAdjustment.Text = "売上調整";
+            this.btnAdjustment.Text = "赤黒登録";
             this.btnAdjustment.UseVisualStyleBackColor = true;
             this.btnAdjustment.Click += new System.EventHandler(this.BtnAdjustment_Click);
             // 
