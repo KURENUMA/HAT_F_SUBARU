@@ -1167,7 +1167,7 @@ namespace HatFClient.Views.ConstructionProject
         {
             StringBuilder sb = new StringBuilder();
             // 倉庫
-            var a = clientRepo.Options.DivSokos.Select(o => o.Code + ":" + o.Name).ToList();
+            var a = clientRepo.Options.DivSokos.Select(o => o.WhCode + ":" + o.WhName).ToList();
 
             for(int i = 0; i< a.Count; i++) 
             {
