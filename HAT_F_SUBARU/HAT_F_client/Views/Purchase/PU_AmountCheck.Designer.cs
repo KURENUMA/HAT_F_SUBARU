@@ -57,16 +57,8 @@
             this.label9 = new System.Windows.Forms.Label();
             this.txtHTotal = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
-            this.dtHNoukiTo = new HatFClient.CustomControls.C1DateInputEx();
-            this.dtHNoukiFrom = new HatFClient.CustomControls.C1DateInputEx();
-            this.dtPayDateTo = new HatFClient.CustomControls.C1DateInputEx();
-            this.dtPayDateFrom = new HatFClient.CustomControls.C1DateInputEx();
-            this.txtPuName = new HatFClient.CustomControls.TextBoxReadOnly();
+            this.btnImport = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.grdPuAmountCheck)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dtHNoukiTo)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dtHNoukiFrom)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dtPayDateTo)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dtPayDateFrom)).BeginInit();
             this.SuspendLayout();
             // 
             // txtPuCode
@@ -425,153 +417,18 @@
             this.label8.Text = "H合計金額";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // dtHNoukiTo
+            // btnImport
             // 
-            this.dtHNoukiTo.Calendar.RightToLeft = System.Windows.Forms.RightToLeft.Inherit;
-            this.dtHNoukiTo.DateTimeInput = false;
-            this.dtHNoukiTo.DisplayFormat.CustomFormat = "yy/MM/dd";
-            this.dtHNoukiTo.DisplayFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat;
-            this.dtHNoukiTo.DisplayFormat.Inherit = ((C1.Win.C1Input.FormatInfoInheritFlags)(((((C1.Win.C1Input.FormatInfoInheritFlags.NullText | C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) 
-            | C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) 
-            | C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) 
-            | C1.Win.C1Input.FormatInfoInheritFlags.CalendarType)));
-            this.dtHNoukiTo.EditFormat.CustomFormat = "yy/MM/dd";
-            this.dtHNoukiTo.EditFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat;
-            this.dtHNoukiTo.EditFormat.Inherit = ((C1.Win.C1Input.FormatInfoInheritFlags)(((((C1.Win.C1Input.FormatInfoInheritFlags.NullText | C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) 
-            | C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) 
-            | C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) 
-            | C1.Win.C1Input.FormatInfoInheritFlags.CalendarType)));
-            this.dtHNoukiTo.EditMask = "90/90/90";
-            this.dtHNoukiTo.EmptyAsNull = true;
-            this.dtHNoukiTo.ExitOnLastChar = true;
-            this.dtHNoukiTo.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.dtHNoukiTo.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat;
-            this.dtHNoukiTo.GapHeight = 0;
-            this.dtHNoukiTo.ImagePadding = new System.Windows.Forms.Padding(0);
-            this.dtHNoukiTo.ImeMode = System.Windows.Forms.ImeMode.Disable;
-            this.dtHNoukiTo.Location = new System.Drawing.Point(454, 173);
-            this.dtHNoukiTo.LoopPosition = false;
-            this.dtHNoukiTo.MaskInfo.AutoTabWhenFilled = true;
-            this.dtHNoukiTo.MaxLength = 8;
-            this.dtHNoukiTo.Name = "dtHNoukiTo";
-            this.dtHNoukiTo.Size = new System.Drawing.Size(100, 23);
-            this.dtHNoukiTo.TabIndex = 20;
-            this.dtHNoukiTo.Tag = null;
-            this.dtHNoukiTo.VisibleButtons = C1.Win.C1Input.DropDownControlButtonFlags.DropDown;
-            // 
-            // dtHNoukiFrom
-            // 
-            this.dtHNoukiFrom.Calendar.RightToLeft = System.Windows.Forms.RightToLeft.Inherit;
-            this.dtHNoukiFrom.DateTimeInput = false;
-            this.dtHNoukiFrom.DisplayFormat.CustomFormat = "yy/MM/dd";
-            this.dtHNoukiFrom.DisplayFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat;
-            this.dtHNoukiFrom.DisplayFormat.Inherit = ((C1.Win.C1Input.FormatInfoInheritFlags)(((((C1.Win.C1Input.FormatInfoInheritFlags.NullText | C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) 
-            | C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) 
-            | C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) 
-            | C1.Win.C1Input.FormatInfoInheritFlags.CalendarType)));
-            this.dtHNoukiFrom.EditFormat.CustomFormat = "yy/MM/dd";
-            this.dtHNoukiFrom.EditFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat;
-            this.dtHNoukiFrom.EditFormat.Inherit = ((C1.Win.C1Input.FormatInfoInheritFlags)(((((C1.Win.C1Input.FormatInfoInheritFlags.NullText | C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) 
-            | C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) 
-            | C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) 
-            | C1.Win.C1Input.FormatInfoInheritFlags.CalendarType)));
-            this.dtHNoukiFrom.EditMask = "90/90/90";
-            this.dtHNoukiFrom.EmptyAsNull = true;
-            this.dtHNoukiFrom.ExitOnLastChar = true;
-            this.dtHNoukiFrom.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.dtHNoukiFrom.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat;
-            this.dtHNoukiFrom.GapHeight = 0;
-            this.dtHNoukiFrom.ImagePadding = new System.Windows.Forms.Padding(0);
-            this.dtHNoukiFrom.ImeMode = System.Windows.Forms.ImeMode.Disable;
-            this.dtHNoukiFrom.Location = new System.Drawing.Point(323, 173);
-            this.dtHNoukiFrom.LoopPosition = false;
-            this.dtHNoukiFrom.MaskInfo.AutoTabWhenFilled = true;
-            this.dtHNoukiFrom.MaxLength = 8;
-            this.dtHNoukiFrom.Name = "dtHNoukiFrom";
-            this.dtHNoukiFrom.Size = new System.Drawing.Size(100, 23);
-            this.dtHNoukiFrom.TabIndex = 18;
-            this.dtHNoukiFrom.Tag = null;
-            this.dtHNoukiFrom.VisibleButtons = C1.Win.C1Input.DropDownControlButtonFlags.DropDown;
-            // 
-            // dtPayDateTo
-            // 
-            this.dtPayDateTo.Calendar.RightToLeft = System.Windows.Forms.RightToLeft.Inherit;
-            this.dtPayDateTo.DateTimeInput = false;
-            this.dtPayDateTo.DisplayFormat.CustomFormat = "yy/MM/dd";
-            this.dtPayDateTo.DisplayFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat;
-            this.dtPayDateTo.DisplayFormat.Inherit = ((C1.Win.C1Input.FormatInfoInheritFlags)(((((C1.Win.C1Input.FormatInfoInheritFlags.NullText | C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) 
-            | C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) 
-            | C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) 
-            | C1.Win.C1Input.FormatInfoInheritFlags.CalendarType)));
-            this.dtPayDateTo.EditFormat.CustomFormat = "yy/MM/dd";
-            this.dtPayDateTo.EditFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat;
-            this.dtPayDateTo.EditFormat.Inherit = ((C1.Win.C1Input.FormatInfoInheritFlags)(((((C1.Win.C1Input.FormatInfoInheritFlags.NullText | C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) 
-            | C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) 
-            | C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) 
-            | C1.Win.C1Input.FormatInfoInheritFlags.CalendarType)));
-            this.dtPayDateTo.EditMask = "90/90/90";
-            this.dtPayDateTo.EmptyAsNull = true;
-            this.dtPayDateTo.ExitOnLastChar = true;
-            this.dtPayDateTo.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dtPayDateTo.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat;
-            this.dtPayDateTo.GapHeight = 0;
-            this.dtPayDateTo.ImagePadding = new System.Windows.Forms.Padding(0);
-            this.dtPayDateTo.ImeMode = System.Windows.Forms.ImeMode.Disable;
-            this.dtPayDateTo.Location = new System.Drawing.Point(225, 112);
-            this.dtPayDateTo.LoopPosition = false;
-            this.dtPayDateTo.MaskInfo.AutoTabWhenFilled = true;
-            this.dtPayDateTo.MaxLength = 8;
-            this.dtPayDateTo.Name = "dtPayDateTo";
-            this.dtPayDateTo.Size = new System.Drawing.Size(100, 23);
-            this.dtPayDateTo.TabIndex = 11;
-            this.dtPayDateTo.Tag = null;
-            this.dtPayDateTo.VisibleButtons = C1.Win.C1Input.DropDownControlButtonFlags.DropDown;
-            // 
-            // dtPayDateFrom
-            // 
-            this.dtPayDateFrom.Calendar.RightToLeft = System.Windows.Forms.RightToLeft.Inherit;
-            this.dtPayDateFrom.DateTimeInput = false;
-            this.dtPayDateFrom.DisplayFormat.CustomFormat = "yy/MM/dd";
-            this.dtPayDateFrom.DisplayFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat;
-            this.dtPayDateFrom.DisplayFormat.Inherit = ((C1.Win.C1Input.FormatInfoInheritFlags)(((((C1.Win.C1Input.FormatInfoInheritFlags.NullText | C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) 
-            | C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) 
-            | C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) 
-            | C1.Win.C1Input.FormatInfoInheritFlags.CalendarType)));
-            this.dtPayDateFrom.EditFormat.CustomFormat = "yy/MM/dd";
-            this.dtPayDateFrom.EditFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat;
-            this.dtPayDateFrom.EditFormat.Inherit = ((C1.Win.C1Input.FormatInfoInheritFlags)(((((C1.Win.C1Input.FormatInfoInheritFlags.NullText | C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) 
-            | C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) 
-            | C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) 
-            | C1.Win.C1Input.FormatInfoInheritFlags.CalendarType)));
-            this.dtPayDateFrom.EditMask = "90/90/90";
-            this.dtPayDateFrom.EmptyAsNull = true;
-            this.dtPayDateFrom.ExitOnLastChar = true;
-            this.dtPayDateFrom.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.dtPayDateFrom.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat;
-            this.dtPayDateFrom.GapHeight = 0;
-            this.dtPayDateFrom.ImagePadding = new System.Windows.Forms.Padding(0);
-            this.dtPayDateFrom.ImeMode = System.Windows.Forms.ImeMode.Disable;
-            this.dtPayDateFrom.Location = new System.Drawing.Point(94, 112);
-            this.dtPayDateFrom.LoopPosition = false;
-            this.dtPayDateFrom.MaskInfo.AutoTabWhenFilled = true;
-            this.dtPayDateFrom.MaxLength = 8;
-            this.dtPayDateFrom.Name = "dtPayDateFrom";
-            this.dtPayDateFrom.Size = new System.Drawing.Size(100, 23);
-            this.dtPayDateFrom.TabIndex = 9;
-            this.dtPayDateFrom.Tag = null;
-            this.dtPayDateFrom.VisibleButtons = C1.Win.C1Input.DropDownControlButtonFlags.DropDown;
-            // 
-            // txtPuName
-            // 
-            this.txtPuName.BackColor = System.Drawing.SystemColors.AppWorkspace;
-            this.txtPuName.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.txtPuName.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.txtPuName.Location = new System.Drawing.Point(203, 55);
-            this.txtPuName.Name = "txtPuName";
-            this.txtPuName.ReadOnly = true;
-            this.txtPuName.Size = new System.Drawing.Size(214, 23);
-            this.txtPuName.TabIndex = 4;
-            this.txtPuName.TabStop = false;
+            this.btnImport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnImport.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.btnImport.Location = new System.Drawing.Point(1132, 171);
+            this.btnImport.MinimumSize = new System.Drawing.Size(0, 20);
+            this.btnImport.Name = "btnImport";
+            this.btnImport.Size = new System.Drawing.Size(120, 23);
+            this.btnImport.TabIndex = 33;
+            this.btnImport.Text = "データ取込";
+            this.btnImport.UseVisualStyleBackColor = true;
+            this.btnImport.Click += new System.EventHandler(this.btnImport_Click);
             // 
             // PU_AmountCheck
             // 
@@ -579,20 +436,16 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.ClientSize = new System.Drawing.Size(1264, 650);
+            this.Controls.Add(this.btnImport);
             this.Controls.Add(this.btnCalculation);
             this.Controls.Add(this.txtMTotal);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.txtHTotal);
             this.Controls.Add(this.label8);
-            this.Controls.Add(this.dtHNoukiTo);
-            this.Controls.Add(this.dtHNoukiFrom);
-            this.Controls.Add(this.dtPayDateTo);
-            this.Controls.Add(this.dtPayDateFrom);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.btnSearchSupplier);
             this.Controls.Add(this.btnPuEdit);
-            this.Controls.Add(this.txtPuName);
             this.Controls.Add(this.btnSetStatus);
             this.Controls.Add(this.btnSearch);
             this.Controls.Add(this.txtHatOrderNo);
@@ -617,10 +470,6 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PU_AmountCheck_FormClosing);
             this.Load += new System.EventHandler(this.PU_AmountCheck_Load);
             ((System.ComponentModel.ISupportInitialize)(this.grdPuAmountCheck)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dtHNoukiTo)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dtHNoukiFrom)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dtPayDateTo)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dtPayDateFrom)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -660,5 +509,6 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox txtHTotal;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Button btnImport;
     }
 }

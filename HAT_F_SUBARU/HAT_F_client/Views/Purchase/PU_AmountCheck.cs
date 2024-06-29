@@ -6,6 +6,7 @@ using HatFClient.Constants;
 using HatFClient.Repository;
 using HatFClient.Views.Cooperate;
 using HatFClient.Views.MasterSearch;
+using HatFClient.Views.ImportDeliveryData;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -719,5 +720,11 @@ namespace HatFClient.Views.Purchase
 
         #endregion 仕入先検索
 
+        private void btnImport_Click(object sender, EventArgs e)
+        {
+            ImportData detail = FormFactory.GetModelessForm<ImportData>();
+            detail.Show();
+            detail.Activate();
+        }
     }
 }

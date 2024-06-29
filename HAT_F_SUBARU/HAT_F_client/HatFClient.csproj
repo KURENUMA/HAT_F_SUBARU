@@ -513,6 +513,12 @@
     <Compile Include="Views\Delivery\InternalDelivery.Designer.cs">
       <DependentUpon>InternalDelivery.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\ImportData\ImportData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\ImportData\ImportData.Designer.cs">
+      <DependentUpon>ImportData.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\Invoice\InvoicedAmountList.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1067,6 +1073,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Delivery\InternalDelivery.resx">
       <DependentUpon>InternalDelivery.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\ImportData\ImportData.resx">
+      <DependentUpon>ImportData.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Invoice\InvoicedAmountList.resx">
       <DependentUpon>InvoicedAmountList.cs</DependentUpon>
