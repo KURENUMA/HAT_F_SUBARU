@@ -1,6 +1,6 @@
 ﻿namespace HatFClient.Views.MasterEdit
 {
-    partial class ME_SupplierDetail
+    partial class ME_PayeeDetail
     {
         /// <summary>
         /// Required designer variable.
@@ -50,15 +50,22 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
+            this.cmbSupPayDates = new System.Windows.Forms.ComboBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.cmbSupPayMonths = new System.Windows.Forms.ComboBox();
+            this.cmbSupCloseDate = new System.Windows.Forms.ComboBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
             this.cmbSupState = new System.Windows.Forms.ComboBox();
             this.txtSupAddress2 = new HatFClient.CustomControls.TextBoxChar();
             this.txtSupTel = new HatFClient.CustomControls.TextBoxChar();
             this.txtSupFax = new HatFClient.CustomControls.TextBoxChar();
             this.txtSupEmail = new HatFClient.CustomControls.TextBoxChar();
+            this.cmbSupplierType = new System.Windows.Forms.ComboBox();
+            this.cmbPayMethodType = new System.Windows.Forms.ComboBox();
             this.txtSupDepName = new HatFClient.CustomControls.TextBoxChar();
-            this.txtPayeeName = new HatFClient.CustomControls.TextBoxChar();
-            this.label11 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -148,7 +155,7 @@
             // btnOK
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOK.Location = new System.Drawing.Point(168, 501);
+            this.btnOK.Location = new System.Drawing.Point(557, 446);
             this.btnOK.Margin = new System.Windows.Forms.Padding(4);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(123, 29);
@@ -161,7 +168,7 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(299, 501);
+            this.btnCancel.Location = new System.Drawing.Point(688, 446);
             this.btnCancel.Margin = new System.Windows.Forms.Padding(4);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(123, 29);
@@ -293,6 +300,86 @@
             this.label13.TabIndex = 2091;
             this.label13.Text = "Tel";
             // 
+            // cmbSupPayDates
+            // 
+            this.cmbSupPayDates.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbSupPayDates.FormattingEnabled = true;
+            this.cmbSupPayDates.ImeMode = System.Windows.Forms.ImeMode.Off;
+            this.cmbSupPayDates.Location = new System.Drawing.Point(600, 120);
+            this.cmbSupPayDates.Name = "cmbSupPayDates";
+            this.cmbSupPayDates.Size = new System.Drawing.Size(200, 23);
+            this.cmbSupPayDates.TabIndex = 2142;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(488, 122);
+            this.label14.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(43, 15);
+            this.label14.TabIndex = 2141;
+            this.label14.Text = "支払日";
+            // 
+            // cmbSupPayMonths
+            // 
+            this.cmbSupPayMonths.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbSupPayMonths.FormattingEnabled = true;
+            this.cmbSupPayMonths.ImeMode = System.Windows.Forms.ImeMode.Off;
+            this.cmbSupPayMonths.Location = new System.Drawing.Point(600, 91);
+            this.cmbSupPayMonths.Name = "cmbSupPayMonths";
+            this.cmbSupPayMonths.Size = new System.Drawing.Size(200, 23);
+            this.cmbSupPayMonths.TabIndex = 2132;
+            // 
+            // cmbSupCloseDate
+            // 
+            this.cmbSupCloseDate.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbSupCloseDate.FormattingEnabled = true;
+            this.cmbSupCloseDate.ImeMode = System.Windows.Forms.ImeMode.Off;
+            this.cmbSupCloseDate.Location = new System.Drawing.Point(600, 62);
+            this.cmbSupCloseDate.Name = "cmbSupCloseDate";
+            this.cmbSupCloseDate.Size = new System.Drawing.Size(200, 23);
+            this.cmbSupCloseDate.TabIndex = 2122;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(488, 93);
+            this.label15.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(43, 15);
+            this.label15.TabIndex = 2131;
+            this.label15.Text = "支払月";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(488, 64);
+            this.label16.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(31, 15);
+            this.label16.TabIndex = 2121;
+            this.label16.Text = "締日";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(488, 154);
+            this.label17.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(79, 15);
+            this.label17.TabIndex = 2151;
+            this.label17.Text = "支払方法区分";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(488, 185);
+            this.label18.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(67, 15);
+            this.label18.TabIndex = 2161;
+            this.label18.Text = "発注先種別";
+            // 
             // cmbSupState
             // 
             this.cmbSupState.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -344,6 +431,26 @@
             this.txtSupEmail.Size = new System.Drawing.Size(200, 23);
             this.txtSupEmail.TabIndex = 2112;
             // 
+            // cmbSupplierType
+            // 
+            this.cmbSupplierType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbSupplierType.FormattingEnabled = true;
+            this.cmbSupplierType.ImeMode = System.Windows.Forms.ImeMode.Off;
+            this.cmbSupplierType.Location = new System.Drawing.Point(600, 181);
+            this.cmbSupplierType.Name = "cmbSupplierType";
+            this.cmbSupplierType.Size = new System.Drawing.Size(200, 23);
+            this.cmbSupplierType.TabIndex = 2162;
+            // 
+            // cmbPayMethodType
+            // 
+            this.cmbPayMethodType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbPayMethodType.FormattingEnabled = true;
+            this.cmbPayMethodType.ImeMode = System.Windows.Forms.ImeMode.Off;
+            this.cmbPayMethodType.Location = new System.Drawing.Point(600, 151);
+            this.cmbPayMethodType.Name = "cmbPayMethodType";
+            this.cmbPayMethodType.Size = new System.Drawing.Size(200, 23);
+            this.cmbPayMethodType.TabIndex = 2152;
+            // 
             // txtSupDepName
             // 
             this.txtSupDepName.ImeMode = System.Windows.Forms.ImeMode.On;
@@ -355,61 +462,36 @@
             this.txtSupDepName.TabIndex = 2042;
             this.txtSupDepName.Text = "〇〇部";
             // 
-            // txtPayeeName
-            // 
-            this.txtPayeeName.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.txtPayeeName.Location = new System.Drawing.Point(138, 432);
-            this.txtPayeeName.Margin = new System.Windows.Forms.Padding(4);
-            this.txtPayeeName.MaxLength = 8;
-            this.txtPayeeName.Name = "txtPayeeName";
-            this.txtPayeeName.ReadOnly = true;
-            this.txtPayeeName.Size = new System.Drawing.Size(200, 23);
-            this.txtPayeeName.TabIndex = 5004;
-            this.txtPayeeName.Text = "支払先名称";
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(24, 436);
-            this.label11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(43, 15);
-            this.label11.TabIndex = 5003;
-            this.label11.Text = "支払先";
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(346, 429);
-            this.button1.Margin = new System.Windows.Forms.Padding(4);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(76, 29);
-            this.button1.TabIndex = 5005;
-            this.button1.Text = "選択";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // ME_SupplierDetail
+            // ME_PayeeDetail
             // 
             this.AcceptButton = this.btnOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(451, 552);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.txtPayeeName);
-            this.Controls.Add(this.label11);
+            this.ClientSize = new System.Drawing.Size(840, 497);
+            this.Controls.Add(this.cmbPayMethodType);
+            this.Controls.Add(this.cmbSupplierType);
             this.Controls.Add(this.txtSupEmail);
             this.Controls.Add(this.txtSupFax);
             this.Controls.Add(this.txtSupTel);
             this.Controls.Add(this.txtSupAddress2);
             this.Controls.Add(this.cmbSupState);
             this.Controls.Add(this.chkDeleted);
+            this.Controls.Add(this.label17);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
+            this.Controls.Add(this.label18);
+            this.Controls.Add(this.cmbSupPayDates);
             this.Controls.Add(this.txtSupCode);
+            this.Controls.Add(this.label14);
             this.Controls.Add(this.label7);
+            this.Controls.Add(this.cmbSupPayMonths);
             this.Controls.Add(this.txtSupZipCode);
+            this.Controls.Add(this.cmbSupCloseDate);
             this.Controls.Add(this.label6);
+            this.Controls.Add(this.label15);
             this.Controls.Add(this.label8);
+            this.Controls.Add(this.label16);
             this.Controls.Add(this.txtSupDepName);
             this.Controls.Add(this.txtSupEmpName);
             this.Controls.Add(this.txtSupAddress1);
@@ -428,9 +510,9 @@
             this.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.ImeMode = System.Windows.Forms.ImeMode.On;
             this.Margin = new System.Windows.Forms.Padding(4);
-            this.Name = "ME_SupplierDetail";
+            this.Name = "ME_PayeeDetail";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "仕入先詳細";
+            this.Text = "支払先詳細";
             this.Load += new System.EventHandler(this.ME_SupplierDetail_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -458,17 +540,24 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.CheckBox chkDeleted;
         private System.Windows.Forms.Button btnCheckDuplicate;
+        private System.Windows.Forms.ComboBox cmbSupPayDates;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.ComboBox cmbSupPayMonths;
+        private System.Windows.Forms.ComboBox cmbSupCloseDate;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label label18;
         private System.Windows.Forms.ComboBox cmbSupState;
         private HatFClient.CustomControls.TextBoxChar txtSupAddress2;
         private HatFClient.CustomControls.TextBoxChar txtSupTel;
         private HatFClient.CustomControls.TextBoxChar txtSupFax;
         private HatFClient.CustomControls.TextBoxChar txtSupEmail;
+        private System.Windows.Forms.ComboBox cmbSupplierType;
+        private System.Windows.Forms.ComboBox cmbPayMethodType;
         private HatFClient.CustomControls.TextBoxChar txtSupDepName;
-        private HatFClient.CustomControls.TextBoxChar txtPayeeName;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Button button1;
     }
 }

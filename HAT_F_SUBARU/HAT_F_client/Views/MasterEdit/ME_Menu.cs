@@ -138,7 +138,14 @@ namespace HatFClient.Views.MasterEdit
             {
                 form.ShowDialog();
             }
+        }
 
+        private void btnKeyman_Click(object sender, EventArgs e)
+        {
+            using (var form = new ME_CustomersUserMst())
+            {
+                form.ShowDialog();
+            }
         }
     }
 }

@@ -1551,6 +1551,7 @@
             this.radioHAT.TabIndex = 0;
             this.radioHAT.Text = "HAT";
             this.radioHAT.UseVisualStyleBackColor = true;
+            this.radioHAT.CheckedChanged += new System.EventHandler(this.RadioHAT_CheckedChanged);
             // 
             // radioHAT_EXCEPT
             // 
@@ -1638,7 +1639,7 @@
             this.dateHAT_NYUKABI.LoopPosition = false;
             this.dateHAT_NYUKABI.MaxLength = 8;
             this.dateHAT_NYUKABI.Name = "dateHAT_NYUKABI";
-            this.dateHAT_NYUKABI.Size = new System.Drawing.Size(115, 21);
+            this.dateHAT_NYUKABI.Size = new System.Drawing.Size(115, 23);
             this.dateHAT_NYUKABI.TabIndex = 70;
             this.dateHAT_NYUKABI.Tag = null;
             this.dateHAT_NYUKABI.VisibleButtons = C1.Win.C1Input.DropDownControlButtonFlags.DropDown;
@@ -1669,7 +1670,7 @@
             this.dateNOUKI.LoopPosition = false;
             this.dateNOUKI.MaxLength = 8;
             this.dateNOUKI.Name = "dateNOUKI";
-            this.dateNOUKI.Size = new System.Drawing.Size(115, 21);
+            this.dateNOUKI.Size = new System.Drawing.Size(115, 23);
             this.dateNOUKI.TabIndex = 52;
             this.dateNOUKI.Tag = null;
             this.dateNOUKI.VisibleButtons = C1.Win.C1Input.DropDownControlButtonFlags.DropDown;
@@ -1769,6 +1770,7 @@
             this.cmbSOKO_CD.Name = "cmbSOKO_CD";
             this.cmbSOKO_CD.Size = new System.Drawing.Size(140, 23);
             this.cmbSOKO_CD.TabIndex = 42;
+            this.cmbSOKO_CD.Validated += new System.EventHandler(this.CmbSOKO_CD_Validated);
             // 
             // btnFnc09
             // 
@@ -1890,6 +1892,7 @@
             // txtKOUJITEN_CD
             // 
             this.txtKOUJITEN_CD.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.txtKOUJITEN_CD.Enabled = false;
             this.txtKOUJITEN_CD.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtKOUJITEN_CD.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.txtKOUJITEN_CD.Location = new System.Drawing.Point(81, 779);
@@ -2056,6 +2059,7 @@
             this.txtTOKUI_CD.Size = new System.Drawing.Size(68, 23);
             this.txtTOKUI_CD.TabIndex = 35;
             this.txtTOKUI_CD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtTOKUI_CD.Validated += new System.EventHandler(this.TxtTOKUI_CD_Validated);
             // 
             // txtTEAM_CD
             // 

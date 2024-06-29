@@ -78,10 +78,10 @@ namespace HatFClient.Views.MasterSearch
             string custUserName = txtCustUserName.Text;
             string custUserDepName = txtCustUserDepName.Text;
 
-            // 顧客マスタ(工事店)
+            // 顧客マスタ
             var apiResult = await ApiHelper.FetchAsync<List<CustomersMstEx>>(this, async () => {
 
-                string url = string.Format( ApiResources.HatF.MasterEditor.CustomersMst, custCode, null).TrimEnd('/');
+                string url = string.Format(ApiResources.HatF.MasterEditor.CustomersMst, custCode);
                
                 var conditions = new {
                     custName = custName,

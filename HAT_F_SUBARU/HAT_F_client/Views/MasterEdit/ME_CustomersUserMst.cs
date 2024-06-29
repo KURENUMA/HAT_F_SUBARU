@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
-using AutoMapper.Configuration.Conventions;
 using C1.Win.C1FlexGrid;
-using C1.Win.C1Input;
 using ClosedXML.Excel;
 using HAT_F_api.CustomModels;
 using HAT_F_api.Models;
@@ -21,7 +19,6 @@ using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
@@ -36,12 +33,11 @@ using System.Windows.Forms;
 
 namespace HatFClient.Views.MasterEdit
 {
-    public partial class ME_Supplier : Form
+    public partial class ME_CustomersUserMst : Form
     {
-        private class MeSupplierGridManager : GridManagerBase<SupplierMst> { }
-        private MeSupplierGridManager gridManager = new MeSupplierGridManager();
+        private class CurrentFormGridManager : GridManagerBase<CustomersUserMst> { }
+        private CurrentFormGridManager gridManager = new CurrentFormGridManager();
         private GridOrderManager gridOrderManager;
-        private List<SupplierMst> _gridData = new List<SupplierMst>();
         public event System.EventHandler Search;
 
         /// <remarks>
@@ -52,24 +48,25 @@ namespace HatFClient.Views.MasterEdit
             Search?.Invoke(this, e);
         }
 
-        private DefaultGridPage projectGrid1;
-        private static readonly Type TARGET_MODEL = typeof(SupplierMst);
-        private const string OUTFILE_NAME = "仕入先一覧_{0:yyyyMMdd_HHmmss}.xlsx";
+        private DefaultGridPage projectGrid1;   // TODO: TemplateGridPage⇒DefaultGridPage
+        private static readonly Type TARGET_MODEL = typeof(CustomersUserMst);
+        private const string OUTFILE_NAME = "顧客担当者一覧_{0:yyyyMMdd_HHmmss}.xlsx";
 
-        public ME_Supplier()
+
+        public ME_CustomersUserMst()
         {
-            InitializeComponent();
+            InitializeComponent();           
 
             if (!this.DesignMode)
             {
-                FormStyleHelper.SetWorkWindowStyle(this);
-
+                // TODO:追加
                 InitializeFetching();
 
                 // INIT PATTERN
                 var employeeCode = LoginRepo.GetInstance().CurrentUser.EmployeeCode;
                 var patternRepo = new GridPatternRepo(employeeCode, TARGET_MODEL.FullName);
                 this.gridPatternUI.Init(patternRepo);
+
             }
         }
 
@@ -80,22 +77,20 @@ namespace HatFClient.Views.MasterEdit
         {
             gridManager.TargetForm = this;
 
+
             // 一覧取得処理
-            gridManager.FetchFuncAsync = async (filter) =>
-            {
-                string url = ApiResources.HatF.MasterEditor.SupplierMstGensearch;
+            gridManager.FetchFuncAsync = async (filter) => {
+
+                // API(ページング条件付与)
+                string url = ApiHelper.AddPagingQuery(ApiResources.HatF.MasterEditor.CustomersUserMstGensearch, gridManager.CurrentPage, gridManager.PageSize);
                 url = ApiHelper.AddQuery(url, "includeDeleted", chkIncludeDeleted.Checked); //削除済を含めるか
-                url = ApiHelper.AddPagingQuery(url, gridManager.CurrentPage, gridManager.PageSize);
+
                 var conditions = filter.Select(f => f.AsFilterOption()).ToList();
 
-                var apiResponse = await Program.HatFApiClient.PostAsync<List<SupplierMst>>(
+                var apiResponse = await Program.HatFApiClient.PostAsync<List<CustomersUserMst>>(
                     url,   // 一覧取得API
                     JsonConvert.SerializeObject(conditions));   // 検索条件
-
-                _gridData = apiResponse.Data;
-
                 return apiResponse;
-
             };
 
             // 件数取得処理
@@ -103,9 +98,9 @@ namespace HatFClient.Views.MasterEdit
             // ページングがない画面は null(初期値) をセットしておく
             gridManager.FetchCountFuncAsync = async (filter) =>
             {
-                string url = ApiResources.HatF.MasterEditor.SupplierMstCountGensearch;
+                string url = ApiResources.HatF.MasterEditor.CustomersUserMstCountGensearch;
                 url = ApiHelper.AddQuery(url, "includeDeleted", chkIncludeDeleted.Checked); //削除済を含めるか
-                url = ApiHelper.AddPagingQuery(url, gridManager.CurrentPage, gridManager.PageSize);
+
                 var conditions = filter.Select(f => f.AsFilterOption()).ToList();
 
                 var count = await Program.HatFApiClient.PostAsync<int>(
@@ -115,9 +110,9 @@ namespace HatFClient.Views.MasterEdit
             };
         }
 
-        private void ME_Supplier_Load(object sender, EventArgs e)
+        private void ME_DestinaitonsMst_Load(object sender, EventArgs e)
         {
-            InitializeGrid(); 
+            InitializeGrid();
 
             projectGrid1.Visible = true;
             rowsCount.Visible = true;
@@ -126,7 +121,7 @@ namespace HatFClient.Views.MasterEdit
 
         private void InitializeGrid()
         {
-            gridOrderManager = new GridOrderManager(CriteriaHelper.CreateCriteriaDefinitions<SupplierMst>());
+            gridOrderManager = new GridOrderManager(CriteriaHelper.CreateCriteriaDefinitions<CompanysMst>());
 
             projectGrid1 = new DefaultGridPage(gridManager, gridOrderManager);
             projectGrid1.Dock = DockStyle.Fill;
@@ -136,11 +131,9 @@ namespace HatFClient.Views.MasterEdit
             InitializeColumns();
 
             projectGrid1.c1FlexGrid1.MouseDoubleClick += C1FlexGrid1_MouseDoubleClick;
-            projectGrid1.c1FlexGrid1.SelectionMode = SelectionModeEnum.ListBox;
             gridManager.OnDataSourceChange += GdProjectList_RowColChange;
-            gridPatternUI.OnPatternSelected += OnPatternSelected;
+            this.gridPatternUI.OnPatternSelected += OnPatternSelected;
         }
-
 
         private void C1FlexGrid1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
@@ -151,6 +144,13 @@ namespace HatFClient.Views.MasterEdit
 
             btnDetail.PerformClick();
         }
+
+        private void InitializeEvents()
+        {
+            gridManager.OnDataSourceChange += GdProjectList_RowColChange;
+            this.gridPatternUI.OnPatternSelected += OnPatternSelected;
+        }
+
 
         private void GdProjectList_RowColChange(object sender, EventArgs e)
         {
@@ -172,13 +172,14 @@ namespace HatFClient.Views.MasterEdit
             InitializeColumns();
         }
 
-        /// <summary>
-        /// 検索ボタン
-        /// </summary>
+        private void BtnTabClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
         private void BtnSearch_Click(object sender, EventArgs e)
         {
-            var criteriaDefinition = CriteriaHelper.CreateCriteriaDefinitions<SupplierViewItem>(true);
-
+            var criteriaDefinition = CriteriaHelper.CreateCriteriaDefinitions<CustomersUserMstViewModel>();
             using (var searchFrm = new FrmAdvancedSearch(criteriaDefinition, gridManager.Filters))
             {
                 searchFrm.StartPosition = FormStartPosition.CenterParent;
@@ -208,6 +209,7 @@ namespace HatFClient.Views.MasterEdit
 
         private void searchFrm_FormClosed(object sender, FormClosedEventArgs e)
         {
+            GdProjectList_RowColChange(this, EventArgs.Empty);
         }
 
         private void OnPatternSelected(object sender, PatternInfo e)
@@ -230,18 +232,26 @@ namespace HatFClient.Views.MasterEdit
                 return;
             }
 
-            var grid = projectGrid1.c1FlexGrid1;
 
             // ヘッダの設定
             projectGrid1.c1FlexGrid1.Clear();
             BindingList<ColumnInfo> configs = pattern.Columns;
+
+            var grid = projectGrid1.c1FlexGrid1;
             gridOrderManager.InitializeGridColumns(grid, configs, true);
 
+            // 列幅調整調整可
             grid.AllowResizing = AllowResizingEnum.Columns;
 
+            grid.Cols[nameof(CustomersUserMstViewModel.CustCode)].Width = 100;
+            grid.Cols[nameof(CustomersUserMstViewModel.CustUserCode)].Width = 150;
+            grid.Cols[nameof(CustomersUserMstViewModel.CustUserName)].Width = 150;
+            grid.Cols[nameof(CustomersUserMstViewModel.CustUserEmail)].Width = 200;
+
+
             // 表示列定義にはあるが初期状態非表示にする
-            grid.Cols[nameof(SupplierViewItem.Deleted)].DataType = typeof(bool);
-            grid.Cols[nameof(SupplierViewItem.Deleted)].Visible = chkIncludeDeleted.Checked;
+            grid.Cols[nameof(CustomersUserMstViewModel.Deleted)].DataType = typeof(bool);
+            grid.Cols[nameof(CustomersUserMstViewModel.Deleted)].Visible = chkIncludeDeleted.Checked;
 
             // ヘッダーのタイトル設定
             SetColumnCaptions();
@@ -253,7 +263,7 @@ namespace HatFClient.Views.MasterEdit
             var grid = projectGrid1.c1FlexGrid1;
 
             int colIndex = 1;
-            foreach (var prop in typeof(SupplierViewItem).GetProperties())
+            foreach (var prop in typeof(CustomersUserMstViewModel).GetProperties())
             {
                 Column col = grid.Cols[prop.Name];
                 if (col != null)
@@ -271,10 +281,9 @@ namespace HatFClient.Views.MasterEdit
             }
         }
 
-
         private void HideColumns(C1FlexGrid grid, IEnumerable<string> columnNames)
         {
-            foreach (string colName in columnNames)
+            foreach(string colName in columnNames)
             {
                 Column col = grid.Cols[colName];
                 if (col != null)
@@ -288,15 +297,21 @@ namespace HatFClient.Views.MasterEdit
         private void btnExcel出力_Click(object sender, EventArgs e)
         {
             string fName = string.Format(OUTFILE_NAME, DateTime.Now);   //OUTFILE_NAME定数の定義は "出荷指示一覧_{0:yyyyMMdd_HHmmss}.xlsx" のような書式に修正
-            fName = ExcelReportUtil.ToExcelReportFileName(fName, "仕入先一覧");
+            fName = ExcelReportUtil.ToExcelReportFileName(fName, "出荷先一覧");
             projectGrid1.c1FlexGrid1.SaveExcel(fName, FileFlags.IncludeFixedCells);
 
             AppLauncher.OpenExcel(fName);
         }
 
-        private async void btnAddNew_Click(object sender, EventArgs e)
+        private async void btnDetail_Click(object sender, EventArgs e)
         {
-            using (var form = new ME_SupplierDetail())
+            var grid = projectGrid1.c1FlexGrid1;
+            if (grid.Rows.Count < 2) { return; }
+
+            string custCode = (string)grid[grid.Row, nameof(CustomersUserMst.CustCode)];
+            string custUserCode = (string)grid[grid.Row, nameof(CustomersUserMst.CustUserCode)];
+
+            using (var form = new ME_CustomersUserMstDetail(custCode, custUserCode))
             {
                 if (DialogHelper.IsPositiveResult(form.ShowDialog()))
                 {
@@ -305,12 +320,9 @@ namespace HatFClient.Views.MasterEdit
             }
         }
 
-        private async void btnDetail_Click(object sender, EventArgs e)
+        private async void btnAddNew_Click(object sender, EventArgs e)
         {
-            var grid = projectGrid1.c1FlexGrid1;
-            string supCode = (string)grid[grid.Row, "SupCode"];
-
-            using (var form = new ME_SupplierDetail(supCode))
+            using (var form = new ME_CustomersUserMstDetail())
             {
                 if (DialogHelper.IsPositiveResult(form.ShowDialog()))
                 {
@@ -325,6 +337,8 @@ namespace HatFClient.Views.MasterEdit
             return val;
         }
 
+
+
         private void btnSearchPrinted_Click(object sender, EventArgs e)
         {
             updateDataTable();
@@ -335,68 +349,40 @@ namespace HatFClient.Views.MasterEdit
             await gridManager.Reload();
         }
 
-        private class SupplierViewItem
+        private class CustomersUserMstViewModel
         {
             [GenSearchVisiblity(false)]
             [CriteriaDefinition("削除済")]
             public bool Deleted { get; set; }
 
-            [CriteriaDefinition("仕入先コード")]
-            public string SupCode { get; set; }
+            /// <summary>
+            /// 顧客コード,取引先CD6桁:KOJICD 13桁 + 予備
+            /// </summary>
+            [CriteriaDefinition("顧客コード")]
+            public string CustCode { get; set; }
 
-            [GenSearchVisiblity(false)]
-            [CriteriaDefinition("仕入先枝番")]
-            public short SupSubNo { get; set; }
+            /// <summary>
+            /// 担当者コード (キーマンCD)
+            /// </summary>
+            [CriteriaDefinition("担当者コード (キーマンCD)")]
+            public string CustUserCode { get; set; }
 
-            [CriteriaDefinition("仕入先名")]
-            public string SupName { get; set; }
+            /// <summary>
+            /// 担当者名 (キーマン名)
+            /// </summary>
+            [CriteriaDefinition("担当者名 (キーマン名)")]
+            public string CustUserName { get; set; }
 
-            [CriteriaDefinition("仕入先名カナ")]
-            public string SupKana { get; set; }
+            /// <summary>
+            /// 担当者メールアドレス
+            /// </summary>
+            [CriteriaDefinition("担当者メールアドレス")]
+            public string CustUserEmail { get; set; }
 
-            [CriteriaDefinition("仕入先担当者名")]
-            public string SupEmpName { get; set; }
-
-            [CriteriaDefinition("仕入先部門名")]
-            public string SupDepName { get; set; }
-
-            [CriteriaDefinition("仕入先郵便番号")]
-            public string SupZipCode { get; set; }
-
-            [CriteriaDefinition("仕入先都道府県")]
-            public string SupState { get; set; }
-
-            [CriteriaDefinition("仕入先住所１")]
-            public string SupAddress1 { get; set; }
-
-            [CriteriaDefinition("仕入先住所２")]
-            public string SupAddress2 { get; set; }
-
-            [CriteriaDefinition("仕入先電話番号")]
-            public string SupTel { get; set; }
-
-            [CriteriaDefinition("仕入先FAX番号")]
-            public string SupFax { get; set; }
-
-            [CriteriaDefinition("仕入先メールアドレス")]
-            public string SupEmail { get; set; }
-
-            [CriteriaDefinition("仕入先締日")]
-            public short? SupCloseDate { get; set; }
-
-            [CriteriaDefinition("仕入先支払月")]
-            public short? SupPayMonths { get; set; }
-
-            [CriteriaDefinition("仕入先支払日")]
-            public short? SupPayDates { get; set; }
-
-            [CriteriaDefinition("支払方法区分")]
-            public short? PayMethodType { get; set; }
-
-            [CriteriaDefinition("発注先種別")]
-            public short? SupplierType { get; set; }
+            ///// <summary>
+            ///// 削除済
+            ///// </summary>
+            //public bool? Deleted { get; set; }
         }
-
     }
-
 }

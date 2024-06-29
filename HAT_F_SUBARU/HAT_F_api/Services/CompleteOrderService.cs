@@ -64,7 +64,6 @@ namespace HAT_F_api.Services
             // 仕入先マスタ
             var supplier = await _hatFContext.SupplierMsts
                 .Where(s => s.SupCode == request.ShiresakiCd)
-                .OrderByDescending(s => s.SupSubNo)
                 .FirstOrDefaultAsync();
             // 取引先マスタ
             var torihikisaki = await _hatFContext.CompanysMsts.Where(c => c.CompCode == request.TokuiCd).FirstOrDefaultAsync();
@@ -77,17 +76,56 @@ namespace HAT_F_api.Services
             }
 
             var isConditionAny = new[] { request.GenbaCd, request.TokuiCd, request.KeymanCd }.Any(x => !string.IsNullOrEmpty(x));
-            var destinations = isConditionAny ? await _searchService.GetDestinationsAsync(
-                null, null, request.GenbaCd, null, null, request.TokuiCd, request.KeymanCd, 200) : null;
+
+            var destinations = isConditionAny 
+                ? await _searchService.GetDestinationsAsync(null, request.GenbaCd, null, null, request.TokuiCd, request.KeymanCd, 200)
+                : null;
+
             // 顧客マスタ
             var customer = destinations?.FirstOrDefault()?.Customer;
             // 出荷先マスタ
             var destination = destinations?.FirstOrDefault()?.Destination;
+
             // 工事店名補完用の顧客マスタ。工事店コードから検索する
-            var koujiten = await _hatFContext.CustomersMsts
-                .Where(c => !string.IsNullOrEmpty(request.KoujitenCd) && c.KojitenCode == request.KoujitenCd)
-                .Where(c => string.IsNullOrEmpty(request.KeymanCd) || c.KeymanCode == request.KeymanCd)
+            //var koujiten = await _hatFContext.CustomersMsts
+            //    .Where(c => !string.IsNullOrEmpty(request.KoujitenCd) && c.KojitenCode == request.KoujitenCd)
+            //    .Where(c => string.IsNullOrEmpty(request.KeymanCd) || c.KeymanCode == request.KeymanCd)
+            //    .FirstOrDefaultAsync();
+
+            var koujiten = await _hatFContext.ConstructionShopMsts
+                .Where(c => !string.IsNullOrEmpty(request.KoujitenCd) && c.ConstCode == request.KoujitenCd)
                 .FirstOrDefaultAsync();
+
+            var recvName1 = string.Empty;
+            var recvName2 = string.Empty;
+            var recvTel = string.Empty;
+            var recvPost = string.Empty;
+            var recvAddr1 = string.Empty;
+            var recvAddr2 = string.Empty;
+            var recvAddr3 = string.Empty;
+
+            // 得意先コードと現場コードがある場合は出荷先マスタを参照
+            if (!string.IsNullOrEmpty(request.TokuiCd) && !string.IsNullOrEmpty(request.GenbaCd))
+            {
+                recvName1 = destination?.DistName1;
+                recvName2 = destination?.DistName2;
+                recvTel = destination?.DestTel;
+                recvPost = destination?.ZipCode;
+                recvAddr1 = destination?.Address1;
+                recvAddr2 = destination?.Address2;
+                recvAddr3 = destination?.Address3;
+            }
+            // 得意先コードと工事店コードがある場合は工事店マスタを参照
+            else if (!string.IsNullOrEmpty(request.TokuiCd) && !string.IsNullOrEmpty(request.KoujitenCd))
+            {
+                recvName1 = koujiten?.ConstName;
+                recvName2 = string.Empty;
+                recvTel = koujiten?.ConstTel;
+                recvPost = koujiten?.ConstZipCode;
+                recvAddr1 = koujiten?.ConstAddress1;
+                recvAddr2 = koujiten?.ConstAddress2;
+                recvAddr3 = koujiten?.ConstAddress3;
+            }
 
             return new CompleteHeaderResult()
             {
@@ -102,7 +140,7 @@ namespace HAT_F_api.Services
                 // キーマン名
                 KeymanName = customer?.CustUserName,
                 // 工事店名
-                KoujitenName = koujiten?.CustName,
+                KoujitenName = koujiten?.ConstName,
                 // 倉庫名
                 SokoName = repository?.WhName,
                 // 仕入れ先名

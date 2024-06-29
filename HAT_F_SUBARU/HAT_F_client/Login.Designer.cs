@@ -30,14 +30,14 @@
         {
             this.lblTitle = new System.Windows.Forms.Label();
             this.lblVersion = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lblEmpCode = new System.Windows.Forms.Label();
+            this.lblPassword = new System.Windows.Forms.Label();
             this.lblDesc = new System.Windows.Forms.Label();
             this.lblOS = new System.Windows.Forms.Label();
             this.btnLogin = new System.Windows.Forms.Button();
             this.chkLogin = new HatFClient.CustomControls.CheckBoxEx();
             this.txtPass = new HatFClient.CustomControls.TextBoxChar();
-            this.txtId = new HatFClient.CustomControls.TextBoxChar();
+            this.txtEmpCode = new HatFClient.CustomControls.TextBoxChar();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -62,25 +62,25 @@
             this.lblVersion.Text = "バージョン：2.0.28";
             this.lblVersion.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
-            // label1
+            // lblEmpCode
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Meiryo UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label1.Location = new System.Drawing.Point(127, 181);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(64, 18);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "社員番号";
+            this.lblEmpCode.AutoSize = true;
+            this.lblEmpCode.Font = new System.Drawing.Font("Meiryo UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lblEmpCode.Location = new System.Drawing.Point(127, 181);
+            this.lblEmpCode.Name = "lblEmpCode";
+            this.lblEmpCode.Size = new System.Drawing.Size(64, 18);
+            this.lblEmpCode.TabIndex = 3;
+            this.lblEmpCode.Text = "社員番号";
             // 
-            // label2
+            // lblPassword
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Meiryo UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label2.Location = new System.Drawing.Point(129, 251);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(63, 18);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "パスワード";
+            this.lblPassword.AutoSize = true;
+            this.lblPassword.Font = new System.Drawing.Font("Meiryo UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lblPassword.Location = new System.Drawing.Point(129, 251);
+            this.lblPassword.Name = "lblPassword";
+            this.lblPassword.Size = new System.Drawing.Size(63, 18);
+            this.lblPassword.TabIndex = 4;
+            this.lblPassword.Text = "パスワード";
             // 
             // lblDesc
             // 
@@ -131,12 +131,12 @@
             this.txtPass.TabIndex = 1;
             this.txtPass.UseSystemPasswordChar = true;
             // 
-            // txtId
+            // txtEmpCode
             // 
-            this.txtId.Location = new System.Drawing.Point(131, 206);
-            this.txtId.Name = "txtId";
-            this.txtId.Size = new System.Drawing.Size(298, 25);
-            this.txtId.TabIndex = 0;
+            this.txtEmpCode.Location = new System.Drawing.Point(131, 206);
+            this.txtEmpCode.Name = "txtId";
+            this.txtEmpCode.Size = new System.Drawing.Size(298, 25);
+            this.txtEmpCode.TabIndex = 0;
             // 
             // pictureBox1
             // 
@@ -159,11 +159,11 @@
             this.Controls.Add(this.btnLogin);
             this.Controls.Add(this.chkLogin);
             this.Controls.Add(this.txtPass);
-            this.Controls.Add(this.txtId);
+            this.Controls.Add(this.txtEmpCode);
             this.Controls.Add(this.lblOS);
             this.Controls.Add(this.lblDesc);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lblPassword);
+            this.Controls.Add(this.lblEmpCode);
             this.Controls.Add(this.lblVersion);
             this.Controls.Add(this.lblTitle);
             this.Font = new System.Drawing.Font("Meiryo UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
@@ -185,11 +185,11 @@
 
         private System.Windows.Forms.Label lblTitle;
         private System.Windows.Forms.Label lblVersion;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblEmpCode;
+        private System.Windows.Forms.Label lblPassword;
         private System.Windows.Forms.Label lblDesc;
         private System.Windows.Forms.Label lblOS;
-        private CustomControls.TextBoxChar txtId;
+        private CustomControls.TextBoxChar txtEmpCode;
         private CustomControls.TextBoxChar txtPass;
         private CustomControls.CheckBoxEx chkLogin;
         private System.Windows.Forms.Button btnLogin;

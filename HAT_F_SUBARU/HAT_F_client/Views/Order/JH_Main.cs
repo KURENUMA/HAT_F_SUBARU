@@ -46,6 +46,12 @@ namespace HatFClient.Views.Order
         private DataTable dtErrorListDetail = new();// エラーリスト明細用
         private int IntCheckPtn;                    // エラーチェック 1:確認 2:F11 3:F12
 
+        /// <summary>倉庫コード</summary>
+        private ValueHandler<string> _sokoCode = new ValueHandler<string>();
+
+        /// <summary>明細行コントロール</summary>
+        private List<JH_Main_Detail> _detailRows;
+
         #region << マスタ用データテーブル >>
         private HatF_ErrorMessageFocusOutRepo hatfErrorMessageFocusOutRepo;
         private HatF_ErrorMessageButtonRepo hatfErrorMessageButtonRepo;
@@ -111,6 +117,8 @@ namespace HatFClient.Views.Order
                 {
                     r.TabStopChanged += (_, _) => r.TabStop = false;
                 });
+
+                _detailRows = new List<JH_Main_Detail>() { ucRow1, ucRow2, ucRow3, ucRow4, ucRow5, ucRow6 };
             }
         }
 
@@ -1368,10 +1376,8 @@ namespace HatFClient.Views.Order
             this.chkTokuisakiHihyouji.Enabled = jhOrderState == JHOrderState.PreOrder;
             this.chkTEL_RENRAKU_FLG.Enabled = jhOrderState == JHOrderState.PreOrder;
 
-            this.txtKOUJITEN_CD.Enabled = true;
             this.txtroKOUJITEN_NAME.Enabled = true;
             this.chkKTankaAuto.Enabled = true;
-
         }
 
         /// <summary>発注状態による、明細部分のEnable制御</summary>
@@ -1619,7 +1625,7 @@ namespace HatFClient.Views.Order
 
             SetOrderState(GetCurrentHattyuJotai());
 
-            ShowComboBoxData(this.cmbDEN_FLG, this.clientRepo.Options.DivDenpyo.ToList(), dtHeader_jhMain.Rows[j]["DenFlg"].ToString());    //伝票区分
+            this.cmbDEN_FLG.SetSelectedCode(dtHeader_jhMain.Rows[j]["DenFlg"].ToString());      //伝票区分
             this.txtDEN_NO.Text = dtHeader_jhMain.Rows[j]["DenNo"].ToString();                  //伝票番号
             this.txtTEAM_CD.Text = dtHeader_jhMain.Rows[j]["TeamCd"].ToString();                //販課
             this.txtTOKUI_CD.Text = dtHeader_jhMain.Rows[j]["TokuiCd"].ToString();              //得意先ＣＤ
@@ -1660,18 +1666,23 @@ namespace HatFClient.Views.Order
                 if (torihikis != null && torihikis.Value.Any()) { this.txtroTOKUI_NAME.Text = torihikis.Value[0].TokuZ; }        //得意先名
             }
 
-            ShowComboBoxData(this.cmbSOKO_CD, this.clientRepo.Options.DivSokos.ToList(), dtHeader_jhMain.Rows[j]["SokoCd"].ToString());     // 倉庫
+            // 倉庫
+            cmbSOKO_CD.SetSelectedCode(dtHeader_jhMain.Rows[j]["SokoCd"].ToString());
             this.txtGENBA_CD.Text = dtHeader_jhMain.Rows[j]["GenbaCd"].ToString();              //現場
-            ShowComboBoxData(this.cmbBINCD, this.clientRepo.Options.DivBins.ToList(), dtHeader_jhMain.Rows[j]["Bincd"].ToString());         // 扱便
-            ShowComboBoxData(this.cmbUNCHIN, this.clientRepo.Options.DivUnchins.ToList(), dtHeader_jhMain.Rows[j]["Unchin"].ToString());    // 運賃
-            ShowComboBoxData(this.cmbNOHIN, this.clientRepo.Options.DivNohins.ToList(), dtHeader_jhMain.Rows[j]["Nohin"].ToString());       // 区分
+            // 扱便
+            this.cmbBINCD.SetSelectedCode(dtHeader_jhMain.Rows[j]["Bincd"].ToString());
+            // 運賃
+            this.cmbUNCHIN.SetSelectedCode(dtHeader_jhMain.Rows[j]["Unchin"].ToString());
+            // 区分
+            this.cmbNOHIN.SetSelectedCode(dtHeader_jhMain.Rows[j]["Nohin"].ToString());
 
             this.dateNOUKI.Value = dtHeader_jhMain.Rows[j]["Nouki"];                            //納日
             this.dateNOUKI.Text = HatFComParts.DoFormatYYMMDD(this.dateNOUKI.Value);
 
             this.txtCUST_ORDERNO.Text = dtHeader_jhMain.Rows[j]["CustOrderno"].ToString();      //客注
             this.txtNOTE_HOUSE.Text = dtHeader_jhMain.Rows[j]["NoteHouse"].ToString();          //社内備考
-            ShowComboBoxData(this.cmbHKBN, this.clientRepo.Options.DivHachus.ToList(), dtHeader_jhMain.Rows[j]["Hkbn"].ToString());         // 発注区分
+            // 発注区分
+            this.cmbHKBN.SetSelectedCode(dtHeader_jhMain.Rows[j]["Hkbn"].ToString());
 
             this.txtSHIRESAKI_CD.Text = dtHeader_jhMain.Rows[j]["ShiresakiCd"].ToString();      //仕入先ＣＤ
             this.txtroSHIRESAKI_NAME.Clear();
@@ -1833,6 +1844,49 @@ namespace HatFClient.Views.Order
             }
             this.txtroHattyuJyoutai.Text = jHOrderState;
         }
+
+        /// <summary>HAT/HAT以外のラジオボタンが選択された</summary>
+        /// <param name="sender">イベント発生元</param>
+        /// <param name="e">イベント情報</param>
+        private void RadioHAT_CheckedChanged(object sender, EventArgs e)
+        {
+            InitWarehouseComboBox(this.cmbSOKO_CD);
+            foreach(var row in _detailRows)
+            {
+                InitWarehouseComboBox(row.cmbSOKO_CD);
+            }
+        }
+
+        /// <summary>倉庫用のコンボボックスを初期化する</summary>
+        /// <param name="comboBox">コンボボックス</param>
+        private void InitWarehouseComboBox(ComboBoxEx comboBox)
+        {
+            var wareHouses = this.clientRepo.Options.DivSokos
+                // 倉庫コード07だけは共通
+                .Where(x => x.IsHatWarehouse == radioHAT.Checked || x.WhCode == "07")
+                .Select(x => $"{x.WhCode}:{x.WhName}").ToList();
+            comboBox.Text = string.Empty;
+            _sokoCode.Value = string.Empty;
+            comboBox.SetItems(wareHouses);
+        }
+
+        /// <summary>扱い便のコンボボックスを初期化する</summary>
+        private void InitBinComboBox()
+        {
+            var bin = this.clientRepo.Options.DivBins
+                .Where(x => x.WhCd == this.cmbSOKO_CD.GetSelectedCode())
+                .Select(x => $"{x.BinCd}:{x.BinName}").ToList();
+            this.cmbBINCD.Text = string.Empty;
+            this.cmbBINCD.SetItems(bin);
+        }
+
+        /// <summary>倉庫コードの変更</summary>
+        /// <param name="sender">イベント発生元</param>
+        /// <param name="e">イベント情報</param>
+        private void CmbSOKO_CD_Validated(object sender, EventArgs e)
+        {
+            _sokoCode.Value = cmbSOKO_CD.GetSelectedCode();
+        }
         #endregion
 
         #region << 明細部制御 >>
@@ -1969,7 +2023,7 @@ namespace HatFClient.Views.Order
             jH_Main_Detail.txtSYOBUN_CD.Text = dtDetail_jhMain.Rows[i]["SyobunCd"].ToString();
             jH_Main_Detail.SyobunCd = dtDetail_jhMain.Rows[i]["SyobunCd"].ToString();
             jH_Main_Detail.SyohinCode = dtDetail_jhMain.Rows[i]["SyohinCd"].ToString();
-            ShowComboBoxData(jH_Main_Detail.cmbURIKUBN, this.clientRepo.Options.DivUriages.ToList(), dtDetail_jhMain.Rows[i]["Urikubn"].ToString()); ;
+            jH_Main_Detail.cmbURIKUBN.SetSelectedCode(dtDetail_jhMain.Rows[i]["Urikubn"].ToString());
             jH_Main_Detail.numSURYO.Text = dtDetail_jhMain.Rows[i]["Suryo"].ToString();
             jH_Main_Detail.Suuryo = HatFComParts.DoParseInt(dtDetail_jhMain.Rows[i]["Suryo"]);
             jH_Main_Detail.txtTANI.Text = dtDetail_jhMain.Rows[i]["Tani"].ToString();
@@ -1996,7 +2050,7 @@ namespace HatFClient.Views.Order
             jH_Main_Detail.UriKigou = dtDetail_jhMain.Rows[i]["UriKigou"].ToString();
             jH_Main_Detail.Urikake = HatFComParts.DoParseDecimal(dtDetail_jhMain.Rows[i]["UriKake"]);
             jH_Main_Detail.UriTan = HatFComParts.DoParseDecimal(dtDetail_jhMain.Rows[i]["UriTan"]);
-            ShowComboBoxData(jH_Main_Detail.cmbSOKO_CD, this.clientRepo.Options.DivSokos.ToList(), dtDetail_jhMain.Rows[i]["SokoCd"].ToString()); ;
+            jH_Main_Detail.cmbSOKO_CD.SetSelectedCode(dtDetail_jhMain.Rows[i]["SokoCd"].ToString());
             jH_Main_Detail.ShiresakiCode = dtDetail_jhMain.Rows[i]["ShiresakiCd"].ToString();
             jH_Main_Detail.SiiKigou = dtDetail_jhMain.Rows[i]["SiiKigou"].ToString();
             jH_Main_Detail.SiiKake = HatFComParts.DoParseDecimal(dtDetail_jhMain.Rows[i]["SiiKake"]);
@@ -2780,6 +2834,17 @@ namespace HatFClient.Views.Order
         }
         #endregion
 
+        #region フッタ部制御
+        /// <summary>特異点コードの変更</summary>
+        /// <param name="sender">イベント発生元</param>
+        /// <param name="e">イベント情報</param>
+        private void TxtTOKUI_CD_Validated(object sender, EventArgs e)
+        {
+            // 4270 = 住友林業
+            txtKOUJITEN_CD.Enabled = txtTOKUI_CD.Text.StartsWith("4270");
+        }
+        #endregion
+
         #region << フル桁時タブ遷移 >>
         private void SetMoveNextControl()
         {
@@ -2924,86 +2989,32 @@ namespace HatFClient.Views.Order
         #endregion
 
         #region << コンボボックス、チエックボックス処理 >>
-        private void ShowComboBoxData(ComboBoxEx comboBox, List<OptionData> opts, string code)
-        {
-            if (comboBox.Items.Count == 0) { return; }
-
-            if (code == null)
-            {
-                comboBox.SelectedIndex = -1;
-                comboBox.Text = "";
-            }
-            else
-            {
-                OptionData selected = opts.Find(o => o.Code == code);
-                if (selected != null)
-                {
-                    comboBox.Text = selected.Code + ":" + selected.Name;
-                }
-                else
-                {
-                    comboBox.SelectedIndex = -1;
-                    comboBox.Text = "";
-                }
-            }
-        }
         private void SetCombo()
         {
             // 伝区
-            this.cmbDEN_FLG.Items.Clear();
             this.cmbDEN_FLG.SetItems(this.clientRepo.Options.DivDenpyo.Select(o => o.Code + ":" + o.Name).ToList());
             // 倉庫
-            this.cmbSOKO_CD.Items.Clear();
-            this.cmbSOKO_CD.SetItems(this.clientRepo.Options.DivSokos.Select(o => o.Code + ":" + o.Name).ToList());
+            InitWarehouseComboBox(this.cmbSOKO_CD);
+            _sokoCode.ValueChanged += (_, _) => InitBinComboBox();
             // 扱便
-            this.cmbBINCD.Items.Clear();
-            this.cmbBINCD.SetItems(this.clientRepo.Options.DivBins.Select(o => o.Code + ":" + o.Name).ToList());
+            InitBinComboBox();
             // 運賃
-            this.cmbUNCHIN.Items.Clear();
             this.cmbUNCHIN.SetItems(this.clientRepo.Options.DivUnchins.Select(o => o.Code + ":" + o.Name).ToList());
             // 区分
-            this.cmbNOHIN.Items.Clear();
             this.cmbNOHIN.SetItems(this.clientRepo.Options.DivNohins.Select(o => o.Code + ":" + o.Name).ToList());
             // 発注
-            this.cmbHKBN.Items.Clear();
             this.cmbHKBN.SetItems(this.clientRepo.Options.DivHachus.Select(o => o.Code + ":" + o.Name).ToList());
-            // 売区1
-            this.ucRow1.cmbURIKUBN.Items.Clear();
-            this.ucRow1.cmbURIKUBN.SetItems(this.clientRepo.Options.DivUriages.Select(o => o.Code + ":" + o.Name).ToList());
-            // 売区2
-            this.ucRow2.cmbURIKUBN.Items.Clear();
-            this.ucRow2.cmbURIKUBN.SetItems(this.clientRepo.Options.DivUriages.Select(o => o.Code + ":" + o.Name).ToList());
-            // 売区3
-            this.ucRow3.cmbURIKUBN.Items.Clear();
-            this.ucRow3.cmbURIKUBN.SetItems(this.clientRepo.Options.DivUriages.Select(o => o.Code + ":" + o.Name).ToList());
-            // 売区4
-            this.ucRow4.cmbURIKUBN.Items.Clear();
-            this.ucRow4.cmbURIKUBN.SetItems(this.clientRepo.Options.DivUriages.Select(o => o.Code + ":" + o.Name).ToList());
-            // 売区5
-            this.ucRow5.cmbURIKUBN.Items.Clear();
-            this.ucRow5.cmbURIKUBN.SetItems(this.clientRepo.Options.DivUriages.Select(o => o.Code + ":" + o.Name).ToList());
-            // 売区6
-            this.ucRow6.cmbURIKUBN.Items.Clear();
-            this.ucRow6.cmbURIKUBN.SetItems(this.clientRepo.Options.DivUriages.Select(o => o.Code + ":" + o.Name).ToList());
-            // 倉庫1
-            this.ucRow1.cmbSOKO_CD.Items.Clear();
-            this.ucRow1.cmbSOKO_CD.SetItems(this.clientRepo.Options.DivSokos.Select(o => o.Code + ":" + o.Name).ToList());
-            // 倉庫2
-            this.ucRow2.cmbSOKO_CD.Items.Clear();
-            this.ucRow2.cmbSOKO_CD.SetItems(this.clientRepo.Options.DivSokos.Select(o => o.Code + ":" + o.Name).ToList());
-            // 倉庫3
-            this.ucRow3.cmbSOKO_CD.Items.Clear();
-            this.ucRow3.cmbSOKO_CD.SetItems(this.clientRepo.Options.DivSokos.Select(o => o.Code + ":" + o.Name).ToList());
-            // 倉庫4
-            this.ucRow4.cmbSOKO_CD.Items.Clear();
-            this.ucRow4.cmbSOKO_CD.SetItems(this.clientRepo.Options.DivSokos.Select(o => o.Code + ":" + o.Name).ToList());
-            // 倉庫5
-            this.ucRow5.cmbSOKO_CD.Items.Clear();
-            this.ucRow5.cmbSOKO_CD.SetItems(this.clientRepo.Options.DivSokos.Select(o => o.Code + ":" + o.Name).ToList());
-            // 倉庫6
-            this.ucRow6.cmbSOKO_CD.Items.Clear();
-            this.ucRow6.cmbSOKO_CD.SetItems(this.clientRepo.Options.DivSokos.Select(o => o.Code + ":" + o.Name).ToList());
+
+            // 明細行のコンボボックス設定
+            foreach(var row in _detailRows)
+            {
+                // 売区
+                this.ucRow1.cmbURIKUBN.SetItems(this.clientRepo.Options.DivUriages.Select(o => o.Code + ":" + o.Name).ToList());
+                // 倉庫
+                InitWarehouseComboBox(this.ucRow1.cmbSOKO_CD);
+            }
         }
+
         private void ShowCheckBoxData(CheckBoxEx checkBoxEx, string tmpData)
         {
             checkBoxEx.Checked = false;

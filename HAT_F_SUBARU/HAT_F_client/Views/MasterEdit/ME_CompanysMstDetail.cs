@@ -269,9 +269,14 @@ namespace HatFClient.Views.MasterEdit
         private async Task<ApiResult<List<CompanysMst>>> GetCompanysMstAsync(string compCode)
         {
             var url = string.Format(ApiResources.HatF.MasterEditor.CompanysMst, compCode);
+            var parameter = new Dictionary<string, object>()
+            {
+                {"page", -1 },
+                {"rows", -1 },
+            };
             var companysMst = await ApiHelper.FetchAsync(this, async () =>
             {
-                return await Program.HatFApiClient.GetAsync<List<CompanysMst>>(url);
+                return await Program.HatFApiClient.GetAsync<List<CompanysMst>>(url, parameter);
             });
 
             return companysMst;
@@ -298,12 +303,12 @@ namespace HatFClient.Views.MasterEdit
             }
 
             var zipCode = txtZipCode.Text.Trim();
-            if (string.IsNullOrEmpty(zipCode))
-            {
-                DialogHelper.InputRequireMessage(this, "郵便番号");
-                return false;
-            }
-            if (!HatFComParts.IsZipCode(zipCode))
+            //if (string.IsNullOrEmpty(zipCode))
+            //{
+            //    DialogHelper.InputRequireMessage(this, "郵便番号");
+            //    return false;
+            //}
+            if (!string.IsNullOrEmpty(zipCode) && !HatFComParts.IsZipCode(zipCode))
             {
                 DialogHelper.WarningMessage(this, "郵便番号が不正です。");
                 return false;
@@ -320,7 +325,8 @@ namespace HatFClient.Views.MasterEdit
             {
                 // 得意先コードの重複チェック
                 var result = await IsCompCodeExistsAsync();
-                if (result.Failed || result.Value == false)
+                //if (result.Failed || result.Value == false)
+                if (result.Failed)
                 {
                     return result;
                 }

@@ -1053,6 +1053,10 @@ namespace HatFClient.Views.Order
                 dr["CustOrderno"] = x.CustOrderno;
                 dr["GenbaCd"] = x.GenbaCd;
                 dr["ShiresakiCd"] = x.ShiresakiCd;
+
+                // TODO: DivShiresakisを参照している箇所を削除し代替処理が必要
+                // 仕入先は数万件に及ぶためClientInitとして取得するのは間違っている
+                System.Diagnostics.Debugger.Break();    // 強制ブレークポイント
                 var shiiresaki = this.clientRepo.Options.DivShiresakis.ToList().Find(op => op.Code.Equals(x.ShiresakiCd));
                 if (shiiresaki != null)
                 {
@@ -1062,6 +1066,7 @@ namespace HatFClient.Views.Order
                 {
                     dr["ShiresakiName"] = "*" + x.ShiresakiCd;
                 }
+
                 dr["RecYmd"] = HatFComParts.DoFormatYYMMDD(x.RecYmd);
                 dr["HatOrderNo"] = x.HatOrderNo;
                 var jyu2name = this.clientRepo.Options.DivEmployee.ToList().Find(op => op.Code.Equals(x.Jyu2Cd));

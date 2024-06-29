@@ -12,7 +12,7 @@ using System.Windows.Forms;
 namespace HatFClient.Views.MasterEdit
 {
     /// <summary>仕入先詳細画面</summary>
-    public partial class ME_SupplierDetail : Form
+    public partial class ME_PayeeDetail : Form
     {
         /// <summary>
         /// 編集対象の取得キー
@@ -34,13 +34,19 @@ namespace HatFClient.Views.MasterEdit
         }
 
         /// <summary>コンストラクタ</summary>
-        public ME_SupplierDetail() : this(null)
+        public ME_PayeeDetail() : this(null)
         {
+            //InitializeComponent();
+
+            //if (!this.DesignMode)
+            //{
+            //    FormStyleHelper.SetFixedSizeDialogStyle(this);
+            //}
         }
 
         /// <summary>コンストラクタ</summary>
         /// <param name="employeeId">社員ID</param>
-        public ME_SupplierDetail(string supCode)
+        public ME_PayeeDetail(string supCode)
         {
             InitializeComponent();
 
@@ -150,6 +156,31 @@ namespace HatFClient.Views.MasterEdit
             cmbSupState.DisplayMember = nameof(Prefecture.Name);
             cmbSupState.ValueMember = nameof(Prefecture.Name);
             cmbSupState.DataSource = JsonResources.Prefectures;
+
+            // 締日
+            cmbSupCloseDate.ValueMember = nameof(CodeName<short?>.Code);
+            cmbSupCloseDate.DisplayMember = nameof(CodeName<short?>.Name);
+            cmbSupCloseDate.DataSource = JsonResources.CloseDates;
+
+            // 支払月
+            cmbSupPayMonths.ValueMember = nameof(HatF_PaymentMonth.Key);
+            cmbSupPayMonths.DisplayMember = nameof(HatF_PaymentMonth.Name);
+            cmbSupPayMonths.DataSource = HatF_PaymentMonthRepo.GetInstance().Entities;
+
+            // 支払日
+            cmbSupPayDates.ValueMember = nameof(HatF_PaymentDay.Key);
+            cmbSupPayDates.DisplayMember = nameof(HatF_PaymentDay.Name);
+            cmbSupPayDates.DataSource = HatF_PaymentDayRepo.GetInstance().Entities;
+
+            // 支払い方法区分
+            cmbPayMethodType.ValueMember = nameof(HatF_PaymentClassification.Key);
+            cmbPayMethodType.DisplayMember = nameof(HatF_PaymentClassification.Name);
+            cmbPayMethodType.DataSource = HatF_PaymentClassificationRepo.GetInstance().Entities;
+
+            // 発注先種別
+            cmbSupplierType.ValueMember = nameof(CodeName<short>.Code);
+            cmbSupplierType.DisplayMember = nameof(CodeName<short>.Name);
+            cmbSupplierType.DataSource = JsonResources.SupplierTypes;
         }
 
         /// <summary>仕入先情報を画面に表示</summary>
@@ -209,9 +240,12 @@ namespace HatFClient.Views.MasterEdit
             destination.SupFax = txtSupFax.Text.Trim();
             destination.SupEmail = txtSupEmail.Text.Trim();
 
-            // TODO: 仕入先の任意選択が必要か？
-            // 支払先コードは仕入先コードの前4桁固定？
-            destination.PayeeCode = destination.SupCode.Substring(0, 4);
+            // TODO: DB変更対応
+            //destination.SupCloseDate = (short?)cmbSupCloseDate.SelectedValue;
+            //destination.SupPayMonths = (short?)cmbSupPayMonths.SelectedValue;
+            //destination.SupPayDates = (short?)cmbSupPayDates.SelectedValue;
+            //destination.PayMethodType = (short?)cmbPayMethodType.SelectedValue;
+            //destination.SupplierType = (short?)cmbSupplierType.SelectedValue;
 
             return destination;
         }
