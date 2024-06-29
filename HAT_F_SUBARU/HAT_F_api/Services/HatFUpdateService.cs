@@ -528,8 +528,7 @@ namespace HAT_F_api.Services
             constructionDetail.TeamCd = request.TeamCd;
             constructionDetail.EmpId = request.EmpId;
             constructionDetail.ConstructionName = request.ConstructionName;
-            constructionDetail.ConstructionKana = request.ConstructionKana;
-            constructionDetail.OrderConfidence = request.OrderConfidence;
+            constructionDetail.ConstructionKana = request.ConstructionKana;;
             constructionDetail.InquiryDate = request.InquiryDate;
             constructionDetail.EstimateSendDate = request.EstimateSendDate;
             constructionDetail.OrderRceiptDate = request.OrderRceiptDate;

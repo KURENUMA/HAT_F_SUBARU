@@ -119,11 +119,6 @@ namespace HatFClient.Views.ConstructionProject
 
             txtCONSTRUCTION_NAME.Text = ConstructionData.物件名;
             txtCONSTRUCTION_KANA.Text = ConstructionData.物件名フリガナ;
-            var certainty = ConstructionData.受注確度;
-            if (cmbORDER_CONFIDENCE.Items.OfType<string>().ToArray().Contains(certainty))
-            {
-                cmbORDER_CONFIDENCE.SelectedItem = certainty;
-            }
             dateINQUIRY_DATE.Value = ConstructionData.引合日;
             dateESTIMATE_SEND_DATE.Value = ConstructionData.見積送付日;
             dateORDER_RCEIPT_DATE.Value = ConstructionData.注文書受領日;
@@ -189,6 +184,7 @@ namespace HatFClient.Views.ConstructionProject
             result.ConstructionName = txtCONSTRUCTION_NAME.Text;
             result.ConstructionKana = txtCONSTRUCTION_KANA.Text;
 
+            /*
             for (int i = 0; i < cmbORDER_CONFIDENCE.Items.Count; i++)
             {
                 if (cmbORDER_CONFIDENCE.Items[i].ToString() == cmbORDER_CONFIDENCE.Text)
@@ -197,6 +193,7 @@ namespace HatFClient.Views.ConstructionProject
                     break;
                 }
             }
+            */
 
             // Valueプロパティがobject型を返すため、null許容のDateTimeに安全にキャスト
             result.InquiryDate = dateINQUIRY_DATE.Value as DateTime?;

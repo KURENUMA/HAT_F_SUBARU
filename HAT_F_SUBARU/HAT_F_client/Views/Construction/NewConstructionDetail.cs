@@ -206,6 +206,8 @@ namespace HatFClient.Views.ConstructionProject
 
             result.ConstructionCode = txtCONSTRUCTTON_CODE.Text;
             result.TeamCd = txtTEAM_CD.Text;
+
+            /*
             //TODO DBの型を変更するまでの対応
             if(!string.IsNullOrEmpty(txtMANAGER_ID.Text))
             {
@@ -219,6 +221,7 @@ namespace HatFClient.Views.ConstructionProject
                     result.EmpId = null;
                 }
             }
+            */
             
             int stateIndex = -1;
             for (int i = 0; i < cmbORDER_STATE.Items.Count; i++)
