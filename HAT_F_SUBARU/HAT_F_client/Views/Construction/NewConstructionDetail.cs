@@ -57,7 +57,6 @@ namespace HatFClient.Views.ConstructionProject
             {
                 FormStyleHelper.SetWorkWindowStyle(this);
             }
-            //cmbORDER_CONFIDENCE.Items.AddRange(new[] { "A", "B", "C", "受注", "違注" });
             cmbORDER_STATE.Items.AddRange(new[] { "引合", "見積作成", "見積提出", "受注済", "完了" });
 
             // 種別の設定
@@ -285,7 +284,7 @@ namespace HatFClient.Views.ConstructionProject
             {
                 bool insert = false;
                 insert = new string[]
-                { "仕入先コード","商品名", "数量","単位","バラ数"
+                { "仕入先コード","受注確度","商品名", "数量","単位","バラ数"
                 ,"定価単価","納期","売上掛率","売上単価","仕入掛率","仕入単価" }
                 .Any(col => grd_D.GetData(rowIndex, col) != null);
                 if (insert == false) continue;
@@ -295,6 +294,7 @@ namespace HatFClient.Views.ConstructionProject
                 data.Koban = rowIndex;
                 data.AppropState = (short?)grd_D.GetData(rowIndex, "ステータス") ?? 0; //0:未計上を設定
                 data.ShiresakiCd = grd_D.GetData(rowIndex, "仕入先コード")?.ToString();
+                data.OrderConfidence = grd_D.GetData(rowIndex, "受注確度")?.ToString();
                 data.SyohinName = grd_D.GetData(rowIndex, "商品名")?.ToString();
                 data.Suryo = (int?)grd_D.GetData(rowIndex, "数量") ?? null;
                 data.Tani = grd_D.GetData(rowIndex, "単位")?.ToString();
@@ -767,6 +767,7 @@ namespace HatFClient.Views.ConstructionProject
                 grd_D[row, "ステータス"] = item.AppropState;
                 grd_D[row, "仕入先コード"] = item.ShiresakiCd;
                 grd_D[row, "仕入先名"] = item.ShiresakiName;
+                grd_D[row, "受注確度"] = item.OrderConfidence;
                 grd_D[row, "商品名"] = item.SyohinName;
                 grd_D[row, "数量"] = item.Suryo;
                 grd_D[row, "単位"] = item.Tani;
@@ -787,10 +788,11 @@ namespace HatFClient.Views.ConstructionProject
                 row++;
             }
 
-            SetCombo();
+            // 受注確度のコンボボックスを設定
+            SetOrderConfidenceComboBox();
 
             //先頭列にチェックボックスを追加
-            CreateCheckBox(grd_D, row -1);
+            CreateCheckBox(grd_D, row - 1);
 
             if (grd_D.Cols[2] != null)
             {
@@ -798,7 +800,7 @@ namespace HatFClient.Views.ConstructionProject
                 {
                     { (short)short.MinValue, "" },
                     { (short)0, "未計上" },
-                    { (short)1, "計上済" } 
+                    { (short)1, "計上済" }
                 };
             }
             grd_D.AutoResize = true;
@@ -806,6 +808,24 @@ namespace HatFClient.Views.ConstructionProject
             grd_D.Cols["ステータス"].AllowEditing = false;
             grd_D.Cols["ステータス"].Style.TextAlign = TextAlignEnum.CenterCenter;
             grd_D.Cols["ステータス"].Style.BackColor = Color.Gray;
+        }
+
+        private void SetOrderConfidenceComboBox()
+        {
+            // 受注確度のコンボボックスに設定する項目
+            string[] orderConfidenceOptions = new string[] { "A", "B", "C", "受注", "違注" };
+
+            // コンボリストを作成
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < orderConfidenceOptions.Length; i++)
+            {
+                sb.Append(orderConfidenceOptions[i]);
+                // c1FlexGridのComboListに設定する際に|で値を分割する。
+                if (i < orderConfidenceOptions.Length - 1) sb.Append("|");
+            }
+
+            // "受注確度"列にコンボボックスを設定
+            grd_D.Cols["受注確度"].ComboList = sb.ToString();
         }
 
         /// <summary>利率を算出して表示する</summary>
@@ -844,7 +864,7 @@ namespace HatFClient.Views.ConstructionProject
                                 break;
                         }
                     }
-                    break;
+                break;
 
                 case "商品名":
                     using (Views.MasterSearch.MS_Syohin dlg = new())
@@ -861,7 +881,7 @@ namespace HatFClient.Views.ConstructionProject
                                 break;
                         }
                     }
-                    break;
+                break;
             }
         }
 
@@ -1144,22 +1164,6 @@ namespace HatFClient.Views.ConstructionProject
                 }
             }
             return dt;
-        }
-
-        private void SetCombo()
-        {
-            StringBuilder sb = new StringBuilder();
-            // 倉庫
-            var a = clientRepo.Options.DivSokos.Select(o => o.WhCode + ":" + o.WhName).ToList();
-
-            for(int i = 0; i< a.Count; i++) 
-            {
-                sb.Append(a[i]);
-                //c1FlexGridのComboListに設定する際に|で値を分割する。
-                if (i < a.Count - 1) sb.Append("|");
-            }
-
-            grd_D.Cols["倉庫"].ComboList = sb.ToString();
         }
     }
     public class ConstructionAppSheetData
