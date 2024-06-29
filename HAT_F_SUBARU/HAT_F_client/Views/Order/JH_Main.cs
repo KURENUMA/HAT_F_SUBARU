@@ -62,29 +62,31 @@ namespace HatFClient.Views.Order
         /// <summary>出荷指示書印刷済み</summary>
         private bool? DenShippingPrinted
         {
-            get => GetDTNullableValue<bool>(nameof(FosJyuchuH.DenShippingPrinted));
+            get => GetDTNullableValue<bool>(getCurHeader(), nameof(FosJyuchuH.DenShippingPrinted));
             set => getCurHeader()[nameof(FosJyuchuH.DenShippingPrinted)] = (object)value ?? DBNull.Value;
         }
 
         /// <summary>DataTableから値型の値を取得する</summary>
         /// <typeparam name="T">取得する型</typeparam>
+        /// <param name="row">DataRow</param>
         /// <param name="name">列名</param>
         /// <returns>値</returns>
-        private T? GetDTNullableValue<T>(string name)
+        private T? GetDTNullableValue<T>(DataRow row, string name)
             where T : struct
         {
-            var value = getCurHeader()[name];
+            var value = row[name];
             return value == DBNull.Value ? null : (T)value;
         }
 
         /// <summary>DataTableから参照型の値を取得する</summary>
         /// <typeparam name="T">取得する型</typeparam>
+        /// <param name="row">DataRow</param>
         /// <param name="name">列名</param>
         /// <returns>値</returns>
-        private T GetDTValue<T>(string name)
+        private T GetDTValue<T>(DataRow row, string name)
             where T : class
         {
-            var value = getCurHeader()[name];
+            var value = row[name];
             return value == DBNull.Value ? null : (T)value;
         }
         #endregion
@@ -1832,11 +1834,18 @@ namespace HatFClient.Views.Order
         private void SetOrderState(JHOrderState jHOrderState)
         {
             var label = _orderStateRepo.Entities.Find(opt => opt.Key == jHOrderState);
-            // F12:受注照合済みの場合は出荷指示書の印刷済み状態を表示
+            // 伝票区分が[15:取次]または[21:直送]＝外部に発注
+            string denFlg = cmbDEN_FLG.GetSelectedCode();
+            var isNeedOrder = new[] { "15", "21" }.Contains(denFlg);
+            // F12:受注照合済みの場合は伝区に応じて追加情報を表示
             if (jHOrderState.IsCompleted)
             {
-                var printedLabel = DenShippingPrinted == true ? "印刷済" : "未印刷";
-                this.txtroHattyuJyoutaiName.Text = $"{label?.Name}（出荷指示書{printedLabel}）";
+                var hasCompletedDetail = GetCurDetails()
+                    .Any(x => GetDTNullableValue<short>(x, "GCompleteFlg") == 1);
+                var printedLabel = DenShippingPrinted == true ? "（出荷指示書印刷済）" : "（出荷指示書未印刷）";
+
+                var displayLabel = hasCompletedDetail ? "（売上確定済）" : (denFlg == "21" ? string.Empty : printedLabel);
+                this.txtroHattyuJyoutaiName.Text = $"{label?.Name}{displayLabel}";
             }
             else
             {
@@ -5127,6 +5136,20 @@ namespace HatFClient.Views.Order
             var denSort = curHeader["DenSort"]?.ToString();
             return GetDetailRow(saveKey, denSort, denNoLine);
         }
+
+        /// <summary>現ページの明細行DataRowをすべて取得 </summary>
+        /// <returns>明細行DataRow</returns>
+        private List<DataRow> GetCurDetails()
+        {
+            var curHeader = getCurHeader();
+            var saveKey = curHeader["SaveKey"]?.ToString();
+            var denSort = curHeader["DenSort"]?.ToString();
+            return dtDetail_jhMain.AsEnumerable()
+                .Where(x => x["SaveKey"]?.ToString() == saveKey)
+                .Where(x => x["DenSort"]?.ToString() == denSort)
+                .ToList();
+        }
+
         /// <summary>
         /// 明細行のDataRowを取得
         /// </summary>

@@ -156,8 +156,8 @@
             this.lblScreenMode.Name = "lblScreenMode";
             this.lblScreenMode.Size = new System.Drawing.Size(153, 26);
             this.lblScreenMode.TabIndex = 0;
-            this.lblScreenMode.Text = "売上調整";
-            this.lblScreenMode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblScreenMode.Text = "赤黒登録";
+            this.lblScreenMode.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // grdApprovalHistory
             // 
@@ -493,7 +493,7 @@
             this.Controls.Add(this.groupBox1);
             this.MinimumSize = new System.Drawing.Size(1241, 918);
             this.Name = "CreditNote";
-            this.Text = "売上調整";
+            this.Text = "赤黒登録";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CreditNote_FormClosing);
             this.Load += new System.EventHandler(this.CreditNote_Load);
             ((System.ComponentModel.ISupportInitialize)(this.grdSalesAdjustments)).EndInit();
