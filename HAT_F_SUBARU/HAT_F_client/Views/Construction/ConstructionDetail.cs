@@ -874,27 +874,20 @@ namespace HatFClient.Views.ConstructionProject
         {
             DataTable dt = new DataTable();
 
-            OleDbConnection connection = new OleDbConnection();
-            OleDbCommand command = new OleDbCommand();
-            connection.ConnectionString = "Provider = Microsoft.ACE.OLEDB.12.0; Data Source = " + inputpath;
-            try
+            using (OleDbConnection connection = new OleDbConnection("Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + inputpath))
             {
-                connection.Open();
-                command.CommandText = "SELECT * FROM " + tablename;
-                command.Connection = connection;
-                OleDbDataReader reader = command.ExecuteReader();
-                dt.Load(reader);
-            }
-            catch
-            {
-            }
-            finally
-            {
-                command.Dispose();
-                connection.Close();
+                using (OleDbCommand command = new OleDbCommand("SELECT * FROM " + tablename, connection))
+                {
+                    connection.Open();
+                    using (OleDbDataReader reader = command.ExecuteReader())
+                    {
+                        dt.Load(reader);
+                    }
+                }
             }
             return dt;
         }
+
         private void CreateCheckBox(C1FlexGrid grid, int count)
         {
             // 新しい列を先頭に挿入
@@ -1140,17 +1133,15 @@ namespace HatFClient.Views.ConstructionProject
         {
             string result = string.Empty;
             Microsoft.Office.Interop.Excel.Application excel = new Microsoft.Office.Interop.Excel.Application();
-            try
-            {
-                result = excel.GetPhonetic(str);
-            }
-            finally
-            {
-                //エラー時にExcelのプロセスが残らないために必要
-                excel.Quit();
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(excel);
-            }
+
+            result = excel.GetPhonetic(str);
+
+            // エラー時にExcelのプロセスが残らないために必要
+            excel.Quit();
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(excel);
+
             return result;
         }
+
     }
 }

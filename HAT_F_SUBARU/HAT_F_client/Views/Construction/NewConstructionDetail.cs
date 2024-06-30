@@ -116,6 +116,11 @@ namespace HatFClient.Views.ConstructionProject
                 grd_D.Visible = false;
                 btnADD_ROW.Visible = false;
                 btnDELETE_ROW.Visible = false;
+                btnAccounting.Visible = false;
+                lblUpdate2.Visible = false;
+                btnCopy.Visible = false;
+                btnTransfer.Visible = false;
+                groupBox3.Visible = false;
             }
 
             if (currentMode == ScreenMode.Edit)
@@ -735,16 +740,13 @@ namespace HatFClient.Views.ConstructionProject
         {
             string result = string.Empty;
             Microsoft.Office.Interop.Excel.Application excel = new Microsoft.Office.Interop.Excel.Application();
-            try
-            {
-                result = excel.GetPhonetic(str);
-            }
-            finally
-            {
-                //エラー時にExcelのプロセスが残らないために必要
-                excel.Quit();
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(excel);
-            }
+
+            result = excel.GetPhonetic(str);
+
+            // エラー時にExcelのプロセスが残らないために必要
+            excel.Quit();
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(excel);
+
             return result;
         }
 
