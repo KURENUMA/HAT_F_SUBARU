@@ -470,7 +470,7 @@ namespace HatFClient.Views.Warehousing
                         shippingForUpdates);   // 更新データ
 
                     return apiResponse;
-                });
+                }, true);
 
                 if (apiResultUupdate.Failed)
                 {
