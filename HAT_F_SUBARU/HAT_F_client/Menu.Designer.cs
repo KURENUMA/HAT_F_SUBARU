@@ -648,7 +648,6 @@
             // 
             this.btnRedBlackProcessing.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnRedBlackProcessing.BackColor = System.Drawing.SystemColors.Window;
-            this.btnRedBlackProcessing.Enabled = false;
             this.btnRedBlackProcessing.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.btnRedBlackProcessing.Location = new System.Drawing.Point(252, 69);
             this.btnRedBlackProcessing.Name = "btnRedBlackProcessing";

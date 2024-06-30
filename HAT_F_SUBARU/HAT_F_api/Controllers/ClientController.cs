@@ -1821,18 +1821,35 @@ namespace HAT_F_api.Controllers
             });
         }
 
-        /// <summary>売上調整情報を取得する</summary>
-        /// <param name="tokuiCd">得意先コード（必須）</param>
-        /// <param name="invoicedDateFrom">請求日（省略可）</param>
-        /// <param name="invoicedDateTo">請求日（省略可）</param>
-        /// <returns>売上調整情報</returns>
-        [HttpGet("sales-adjustment")]
-        public async Task<ActionResult<ApiResponse<List<ViewSalesAdjustment>>>> GetSalesAdjustmentsAsync(
-            [FromQuery] string tokuiCd, [FromQuery] DateTime? invoicedDateFrom, [FromQuery] DateTime? invoicedDateTo)
+        /// <summary>売上データ調整情報を取得する（汎用検索）</summary>
+        /// <param name="searchItems">検索条件</param>
+        /// <param name="rows">取得行数</param>
+        /// <param name="page">ページ位置</param>
+        /// <returns>売上データ調整情報</returns>
+        [HttpPost("sales-adjustment")]
+        public async Task<ActionResult<ApiResponse<List<ViewSalesAdjustment>>>> 
+            GetSalesAdjustmentsAsync([FromBody] List<GenSearchItem> searchItems, [FromQuery] int rows = MAX_ROWS, [FromQuery] int page = 1)
         {
             return await ApiLogicRunner.RunAsync(async () =>
             {
-                return await _hatFSearchService.GetSalesAdjustmentsAsync(tokuiCd, invoicedDateFrom, invoicedDateTo);
+                var query = GenSearchUtil.DoGenSearch(_context.ViewSalesAdjustments, searchItems)
+                    .OrderBy(x => x.承認要求番号)
+                    .OrderBy(x => x.得意先コード)
+                    .ThenByDescending(x => x.請求年月)
+                    .ThenBy(x => x.区分);
+                return await GenSearchUtil.AddPaging(query, rows, page).ToListAsync();
+            });
+        }
+
+        /// <summary>売上調整情報を取得する</summary>
+        /// <param name="approvalId">承認要求番号（必須）</param>
+        /// <returns>売上調整情報</returns>
+        [HttpGet("sales-adjustment")]
+        public async Task<ActionResult<ApiResponse<List<ViewSalesAdjustment>>>> GetSalesAdjustmentsAsync([FromQuery] string approvalId)
+        {
+            return await ApiLogicRunner.RunAsync(async () =>
+            {
+                return await _hatFSearchService.GetSalesAdjustmentsAsync(approvalId);
             });
         }
 
@@ -1840,14 +1857,13 @@ namespace HAT_F_api.Controllers
         /// <param name="salesAdjustments">売上調整情報</param>
         /// <returns>更新内容を反映したビュー</returns>
         [HttpPut("sales-adjustment")]
-        public async Task<ActionResult<ApiResponse<List<ViewSalesAdjustment>>>> PutSalesAdjustmentsAsync(
+        public async Task<ActionResult<ApiResponse<bool>>> PutSalesAdjustmentsAsync(
             [FromBody]List<ViewSalesAdjustment> salesAdjustments)
         {
             return await ApiLogicRunner.RunAsync(async () =>
             {
-                var updatedList = await _hatFUpdateService.PutSalesAdjustmentsAsync(salesAdjustments);
-                return await _hatFSearchService.GetSalesAdjustmentsAsync(
-                    updatedList.First().TokuiCd, updatedList.First().InvoicedDate, updatedList.First().InvoicedDate);
+                await _hatFUpdateService.PutSalesAdjustmentsAsync(salesAdjustments);
+                return true;
             });
         }
         /// <summary>

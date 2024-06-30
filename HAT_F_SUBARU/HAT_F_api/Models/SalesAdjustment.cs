@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace HAT_F_api.Models;
 
 /// <summary>
-/// 売上データ調整
+/// 売上データ赤黒
 /// </summary>
 public partial class SalesAdjustment
 {
@@ -14,19 +14,14 @@ public partial class SalesAdjustment
     public string SalesAdjustmentNo { get; set; }
 
     /// <summary>
-    /// 物件コード
-    /// </summary>
-    public string ConstructionCode { get; set; }
-
-    /// <summary>
-    /// 得意先コード
+    /// 得意先コード（顧客マスタを参照する）
     /// </summary>
     public string TokuiCd { get; set; }
 
     /// <summary>
-    /// 調整区分,1:協賛金 2:保険 3:経費 4:商品購入
+    /// 区分,1:協賛金 2:保険 3:経費 4:商品購入
     /// </summary>
-    public short? AdjustmentCategory { get; set; }
+    public short? Category { get; set; }
 
     /// <summary>
     /// 摘要
@@ -39,9 +34,9 @@ public partial class SalesAdjustment
     public string AccountTitle { get; set; }
 
     /// <summary>
-    /// 調整金額
+    /// 金額
     /// </summary>
-    public decimal? AdjustmentAmount { get; set; }
+    public decimal? Amount { get; set; }
 
     /// <summary>
     /// 消費税:B:10%,8:8%,Z:非課税
@@ -54,9 +49,9 @@ public partial class SalesAdjustment
     public short? TaxRate { get; set; }
 
     /// <summary>
-    /// 請求日
+    /// 請求年月
     /// </summary>
-    public DateTime? InvoicedDate { get; set; }
+    public DateTime? InvoicedYearMonth { get; set; }
 
     /// <summary>
     /// 社員ID
