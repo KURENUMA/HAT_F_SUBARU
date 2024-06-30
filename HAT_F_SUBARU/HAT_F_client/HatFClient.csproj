@@ -577,6 +577,12 @@
     <Compile Include="Views\MasterEdit\ME_SupplierDetail.Designer.cs">
       <DependentUpon>ME_SupplierDetail.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\MasterSearch\MS_Tokui2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\MasterSearch\MS_Tokui2.Designer.cs">
+      <DependentUpon>MS_Tokui2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\ReturnReceiving\ReturnReceivingDetail.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1175,6 +1181,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\MasterSearch\MS_Employee.resx">
       <DependentUpon>MS_Employee.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MasterSearch\MS_Tokui2.resx">
+      <DependentUpon>MS_Tokui2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Order\JH_Main.resx">
       <DependentUpon>JH_Main.cs</DependentUpon>
