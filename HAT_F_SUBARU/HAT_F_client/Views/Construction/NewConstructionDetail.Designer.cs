@@ -124,7 +124,7 @@
             // btnUnlock
             // 
             this.btnUnlock.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnUnlock.Location = new System.Drawing.Point(1136, 84);
+            this.btnUnlock.Location = new System.Drawing.Point(1136, 67);
             this.btnUnlock.Name = "btnUnlock";
             this.btnUnlock.Size = new System.Drawing.Size(112, 23);
             this.btnUnlock.TabIndex = 99;
@@ -135,7 +135,7 @@
             // lblLockInfo
             // 
             this.lblLockInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblLockInfo.Location = new System.Drawing.Point(1104, 55);
+            this.lblLockInfo.Location = new System.Drawing.Point(1104, 38);
             this.lblLockInfo.Name = "lblLockInfo";
             this.lblLockInfo.Size = new System.Drawing.Size(152, 26);
             this.lblLockInfo.TabIndex = 20;

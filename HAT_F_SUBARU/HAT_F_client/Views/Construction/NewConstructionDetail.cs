@@ -440,9 +440,13 @@ namespace HatFClient.Views.ConstructionProject
                         {
                             grd_D[item.Koban, "ステータス"] = item.AppropState;
                             grd_D[item.Koban, "子番"] = item.Koban;
-                            grd_D.SetCellCheck(item.Koban, 1, CheckEnum.Unchecked);
+                            //grd_D.SetCellCheck(item.Koban, 1, CheckEnum.Unchecked);
                         }
                     }
+
+                    // チェックボックスの設定とステータス列の色設定を呼び出す
+                    CreateCheckBox(grd_D, grd_D.Rows.Count - 1);
+                    SetStatusColumnColors(grd_D);
 
                 }
                 else if (currentMode == ScreenMode.NewEntry)
@@ -788,15 +792,11 @@ namespace HatFClient.Views.ConstructionProject
                 row++;
             }
 
-            // 受注確度のコンボボックスを設定
-            SetOrderConfidenceComboBox();
+            int statusColIndex = grd_D.Cols["ステータス"].Index;
 
-            //先頭列にチェックボックスを追加
-            CreateCheckBox(grd_D, row - 1);
-
-            if (grd_D.Cols[2] != null)
+            if (grd_D.Cols[statusColIndex] != null)
             {
-                grd_D.Cols[2].DataMap = new ListDictionary()
+                grd_D.Cols[statusColIndex].DataMap = new ListDictionary()
                 {
                     { (short)short.MinValue, "" },
                     { (short)0, "未計上" },
@@ -808,7 +808,26 @@ namespace HatFClient.Views.ConstructionProject
             grd_D.Cols["ステータス"].AllowEditing = false;
             grd_D.Cols["ステータス"].Style.TextAlign = TextAlignEnum.CenterCenter;
             grd_D.Cols["ステータス"].Style.BackColor = Color.Gray;
+
+            // 新しい列を先頭に挿入
+            grd_D.Cols.Insert(0);
+            grd_D.Cols[1].Width = 35;
+
+            // 挿入した列の設定
+            grd_D.Cols[1].Name = "Select";
+            grd_D.Cols[1].Caption = "選択";
+            grd_D.Cols[1].AllowEditing = true;
+
+            // ステータス列の色を設定
+            SetStatusColumnColors(grd_D);
+
+            //チェックボックスを更新
+            CreateCheckBox(grd_D, row - 1);
+
+            // 受注確度のコンボボックスを設定
+            SetOrderConfidenceComboBox();
         }
+
 
         private void SetOrderConfidenceComboBox()
         {
@@ -887,21 +906,52 @@ namespace HatFClient.Views.ConstructionProject
 
         private void CreateCheckBox(C1FlexGrid grid, int count)
         {
-            // 新しい列を先頭に挿入
-            grid.Cols.Insert(0);
-            grid.Cols[1].Width = 35;
-
-            // 挿入した列の設定
-            grid.Cols[1].Name = "Select";
-            grid.Cols[1].Caption = "選択";
-            grid.Cols[1].AllowEditing = true;
-
             for (int row = 1; row < count + 1; row++)
             {
-                grid.SetCellCheck(row, 1, CheckEnum.Unchecked);
+                // "ステータス"列の値を取得
+                var statusValue = grid[row, "ステータス"]?.ToString();
+
+                // "ステータス"列の値が"計上済"でない場合にのみチェックボックスを設定
+                if (statusValue != "1") // 1 が "計上済" に対応
+                {
+                    grid.SetCellCheck(row, 1, CheckEnum.Unchecked);
+                }
+                else
+                {
+                    grid.SetCellCheck(row, 1, CheckEnum.None);
+                    grid.Rows[row].AllowEditing = false;
+                }
             }
             grid.Cols["Select"].ImageAlign = ImageAlignEnum.CenterCenter;
         }
+
+        private void SetStatusColumnColors(C1FlexGrid grid)
+        {
+            // ステータス列のインデックスを取得
+            int statusColIndex = grid.Cols["ステータス"].Index;
+
+            for (int row = 1; row < grid.Rows.Count; row++)
+            {
+                var statusValue = grid[row, statusColIndex]?.ToString();
+
+                if (statusValue == "1")
+                {
+                    grid.SetCellStyle(row, statusColIndex, CreateCellStyle(Color.SkyBlue));
+                }
+                else
+                {
+                    grid.SetCellStyle(row, statusColIndex, CreateCellStyle(Color.LightYellow));
+                }
+            }
+        }
+
+        private CellStyle CreateCellStyle(Color backColor)
+        {
+            CellStyle style = grd_D.Styles.Add("CustomStyle" + backColor.ToString());
+            style.BackColor = backColor;
+            return style;
+        }
+
 
         private void btnAppSheet_Click(object sender, EventArgs e)
         {
@@ -939,9 +989,9 @@ namespace HatFClient.Views.ConstructionProject
         private void btnDELETE_ROW_Click(object sender, EventArgs e)
         {
             //行削除時に行がずれないように後ろから削除する。
-            for (int row = grd_D.Rows.Count -1; row >= 1; row--)
+            for (int row = grd_D.Rows.Count - 1; row >= 1; row--)
             {
-                if (grd_D.GetCellCheck(row, 1) == CheckEnum.Checked)
+                if (grd_D.GetCellCheck(row, 1) == CheckEnum.Checked) // 先頭列に変更
                 {
                     grd_D.Rows.Remove(row);
                 }
@@ -1017,6 +1067,10 @@ namespace HatFClient.Views.ConstructionProject
                 grd_D[data.Koban, "ステータス"] = "計上済";
                 updatelist.Add(data);
             }
+
+            // チェックボックスの設定とステータス列の色設定を呼び出す
+            CreateCheckBox(grd_D, grd_D.Rows.Count - 1);
+            SetStatusColumnColors(grd_D);
 
             // API呼び出しによる更新
             var update = await ApiHelper.UpdateAsync(this, () =>
@@ -1147,7 +1201,7 @@ namespace HatFClient.Views.ConstructionProject
         private DataTable GetCheckedData(C1FlexGrid grid)
         {
             DataTable dt = new DataTable();
-            for (int col = 2; col < grid.Cols.Count; col++)
+            for (int col = 1; col < grid.Cols.Count; col++)
             {
                 dt.Columns.Add(grid.Cols[col].Caption);
             }
@@ -1156,7 +1210,7 @@ namespace HatFClient.Views.ConstructionProject
                 if (grid.GetCellCheck(row, 1) == CheckEnum.Checked)
                 {
                     DataRow dr = dt.NewRow();
-                    for (int col = 2; col < grid.Cols.Count; col++)
+                    for (int col = 1; col < grid.Cols.Count; col++)
                     {
                         dr[grid.Cols[col].Caption] = grid[row, col];
                     }
