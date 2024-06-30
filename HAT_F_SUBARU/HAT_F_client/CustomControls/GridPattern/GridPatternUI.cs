@@ -15,16 +15,6 @@ namespace HatFClient.CustomControls
         {
             InitializeComponent();
         }
-        [Obsolete("いつか消します")]
-        public void Init(GridPatternRepo _patternRepo, EventHandler<PatternInfo> onSelectHandler)
-        {
-            // SET REPO
-            this.patternRepo = _patternRepo;
-            // SET SELECT HANDLER
-            OnPatternSelected += onSelectHandler;
-
-            initPatternUI();
-        }
         public void Init(GridPatternRepo _patternRepo)
         {
             // SET REPO
@@ -95,6 +85,7 @@ namespace HatFClient.CustomControls
             {
                 Pattern = "新規パターン",
                 ClassName = patternRepo.ModelName,
+                ExceptColumns = patternRepo.ExceptColumns,
             };
             ShowPatternSettingDialog(pattern);
         }
