@@ -98,24 +98,12 @@
     <Compile Include="..\HAT_F_api\Models\DivAuth.cs" Link="Models\DivAuth.cs" />
     <Compile Include="..\HAT_F_api\Models\DivBin.cs" Link="Models\DivBin.cs" />
     <Compile Include="..\HAT_F_api\Models\DivDelivery.cs" Link="Models\DivDelivery.cs" />
-    <Compile Include="..\HAT_F_api\Models\DivDenpyo.cs" Link="Models\DivDenpyo.cs" />
-    <Compile Include="..\HAT_F_api\Models\DivEmployee.cs" Link="Models\DivEmployee.cs" />
     <Compile Include="..\HAT_F_api\Models\DivFare.cs" Link="Models\DivFare.cs" />
-    <Compile Include="..\HAT_F_api\Models\DivGenba.cs" Link="Models\DivGenba.cs" />
-    <Compile Include="..\HAT_F_api\Models\DivHachu.cs" Link="Models\DivHachu.cs" />
     <Compile Include="..\HAT_F_api\Models\DivInvoiceIssue.cs" Link="Models\DivInvoiceIssue.cs" />
-    <Compile Include="..\HAT_F_api\Models\DivKman.cs" Link="Models\DivKman.cs" />
-    <Compile Include="..\HAT_F_api\Models\DivKoujiten.cs" Link="Models\DivKoujiten.cs" />
-    <Compile Include="..\HAT_F_api\Models\DivNohin.cs" Link="Models\DivNohin.cs" />
-    <Compile Include="..\HAT_F_api\Models\DivOpsSyohin.cs" Link="Models\DivOpsSyohin.cs" />
     <Compile Include="..\HAT_F_api\Models\DivOrder.cs" Link="Models\DivOrder.cs" />
-    <Compile Include="..\HAT_F_api\Models\DivShiresaki.cs" Link="Models\DivShiresaki.cs" />
     <Compile Include="..\HAT_F_api\Models\DivSlip.cs" Link="Models\DivSlip.cs" />
-    <Compile Include="..\HAT_F_api\Models\DivSoko.cs" Link="Models\DivSoko.cs" />
     <Compile Include="..\HAT_F_api\Models\DivStockLocation.cs" Link="Models\DivStockLocation.cs" />
     <Compile Include="..\HAT_F_api\Models\DivTaxRate.cs" Link="Models\DivTaxRate.cs" />
-    <Compile Include="..\HAT_F_api\Models\DivTokui.cs" Link="Models\DivTokui.cs" />
-    <Compile Include="..\HAT_F_api\Models\DivUnchin.cs" Link="Models\DivUnchin.cs" />
     <Compile Include="..\HAT_F_api\Models\DivUriage.cs" Link="Models\DivUriage.cs" />
     <Compile Include="..\HAT_F_api\Models\DivUserRole.cs" Link="Models\DivUserRole.cs" />
     <Compile Include="..\HAT_F_api\Models\Employee.cs" Link="Models\Employee.cs" />
