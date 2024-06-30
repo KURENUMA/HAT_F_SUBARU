@@ -37,13 +37,13 @@ namespace HatFClient.Views.ImportDeliveryData
         {
             PictureBox pictureBox = sender as PictureBox;
             Graphics g = e.Graphics;
-            Pen pen = new Pen(Color.Black, 2); // 黒色で太さ2のペンを作成
 
-            // 枠線の描画
-            g.DrawRectangle(pen, 0, 0, pictureBox.Width - 1, pictureBox.Height - 1);
-
-            // 不要になったリソースの解放
-            pen.Dispose();
+            // 黒色で太さ2のペンを作成
+            using (Pen pen = new Pen(Color.Black, 2))
+            {
+                // 枠線の描画
+                g.DrawRectangle(pen, 0, 0, pictureBox.Width - 1, pictureBox.Height - 1);
+            }
         }
 
 
@@ -61,7 +61,7 @@ namespace HatFClient.Views.ImportDeliveryData
             }
         }
 
-        private async void btnIMG_EXCEL_ClickAsync(object sender, EventArgs e)
+        private /*async*/ void btnIMG_EXCEL_ClickAsync(object sender, EventArgs e)
         {
             if (pictureBox1.Image != null)
             {

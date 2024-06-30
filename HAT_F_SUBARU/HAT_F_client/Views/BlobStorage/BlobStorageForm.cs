@@ -140,21 +140,25 @@ namespace HAT_F_client.Views.BlobStorage
             var result = MessageBox.Show("選択したファイルをクラウドから削除してもよろしいですか？", "ファイル削除", MessageBoxButtons.YesNo);
             if (result == DialogResult.Yes) {
                 var deleteList = blobRepo.BlobFileInfos.Where(b => b.Checked).ToList();
-                var progressDialog = new FormProgress();
-                progressDialog.SetProgress("", 0);
-                progressDialog.Show();
-                double unit = 100 / deleteList.Count();
-                for(var i = 0; i < deleteList.Count(); i++) {
-                    int progress = (int)Math.Round(i * unit);
-                    var blobFileInfo = deleteList.ElementAt(i);
-                    progressDialog.SetProgress(blobFileInfo.Name, progress);
 
-                    await blobRepo.Delete(blobFileInfo);
+                using (var progressDialog = new FormProgress())
+                {
+                    progressDialog.SetProgress("", 0);
+                    progressDialog.Show();
+                    double unit = 100 / deleteList.Count();
+                    for (var i = 0; i < deleteList.Count(); i++)
+                    {
+                        int progress = (int)Math.Round(i * unit);
+                        var blobFileInfo = deleteList.ElementAt(i);
+                        progressDialog.SetProgress(blobFileInfo.Name, progress);
 
-                    dataGridView1.Refresh();
+                        await blobRepo.Delete(blobFileInfo);
+
+                        dataGridView1.Refresh();
+                    }
+                    progressDialog.Close();
+                    progressDialog.Dispose();
                 }
-                progressDialog.Close();
-                progressDialog.Dispose();
 
                 dataGridView1.Refresh();
                 MessageBox.Show("削除しました。", "ファイル削除", MessageBoxButtons.OK); 
@@ -177,22 +181,26 @@ namespace HAT_F_client.Views.BlobStorage
                 {
                     // 選択されたパスを使用して何かを行う
                     var downloadList = blobRepo.BlobFileInfos.Where(b => b.Checked).ToList();
-                    var progressDialog = new FormProgress();
-                    progressDialog.SetProgress("", 0);
-                    progressDialog.Show();
-                    double unit = downloadList.Count() > 0 ? 100 / downloadList.Count() : 100;
-                    for(var i = 0; i < downloadList.Count(); i++) {
-                        int progress = (int)Math.Round(i * unit);
-                        var blobFileInfo = downloadList.ElementAt(i);
-                        progressDialog.SetProgress(blobFileInfo.Name, progress);
-                        await blobRepo.Download(folderBrowserDialog.SelectedPath, blobFileInfo);
-                        blobFileInfo.Checked = false;
+
+                    using (var progressDialog = new FormProgress())
+                    {
+                        progressDialog.SetProgress("", 0);
+                        progressDialog.Show();
+                        double unit = downloadList.Count() > 0 ? 100 / downloadList.Count() : 100;
+                        for (var i = 0; i < downloadList.Count(); i++)
+                        {
+                            int progress = (int)Math.Round(i * unit);
+                            var blobFileInfo = downloadList.ElementAt(i);
+                            progressDialog.SetProgress(blobFileInfo.Name, progress);
+                            await blobRepo.Download(folderBrowserDialog.SelectedPath, blobFileInfo);
+                            blobFileInfo.Checked = false;
 
 
-                        dataGridView1.Refresh();
+                            dataGridView1.Refresh();
+                        }
+                        progressDialog.Close();
+                        progressDialog.Dispose();
                     }
-                    progressDialog.Close();
-                    progressDialog.Dispose();
 
                     dataGridView1.Refresh();
                     MessageBox.Show("ダウンロードしました。", "ダウンロード", MessageBoxButtons.OK); 

@@ -189,22 +189,25 @@ namespace HatFClient.CustomControls.BlobStrage
             if (result == DialogResult.Yes)
             {
                 var deleteList = blobRepo.BlobFileInfos.Where(b => b.Checked).ToList();
-                var progressDialog = new FormProgress();
-                progressDialog.SetProgress("", 0);
-                progressDialog.Show();
-                double unit = 100 / deleteList.Count();
-                for (var i = 0; i < deleteList.Count(); i++)
+
+                using (var progressDialog = new FormProgress())
                 {
-                    int progress = (int)Math.Round(i * unit);
-                    var blobFileInfo = deleteList.ElementAt(i);
-                    progressDialog.SetProgress(blobFileInfo.Name, progress);
+                    progressDialog.SetProgress("", 0);
+                    progressDialog.Show();
+                    double unit = 100 / deleteList.Count();
+                    for (var i = 0; i < deleteList.Count(); i++)
+                    {
+                        int progress = (int)Math.Round(i * unit);
+                        var blobFileInfo = deleteList.ElementAt(i);
+                        progressDialog.SetProgress(blobFileInfo.Name, progress);
 
-                    await blobRepo.Delete(blobFileInfo);
+                        await blobRepo.Delete(blobFileInfo);
 
-                    dgvFiles.Refresh();
+                        dgvFiles.Refresh();
+                    }
+                    progressDialog.Close();
+                    progressDialog.Dispose();
                 }
-                progressDialog.Close();
-                progressDialog.Dispose();
 
                 dgvFiles.Refresh();
                 MessageBox.Show("削除しました。", "ファイル削除", MessageBoxButtons.OK);
@@ -227,23 +230,26 @@ namespace HatFClient.CustomControls.BlobStrage
                 {
                     // 選択されたパスを使用して何かを行う
                     var downloadList = blobRepo.BlobFileInfos.Where(b => b.Checked).ToList();
-                    var progressDialog = new FormProgress();
-                    progressDialog.SetProgress("", 0);
-                    progressDialog.Show();
-                    double unit = downloadList.Count() > 0 ? 100 / downloadList.Count() : 100;
-                    for (var i = 0; i < downloadList.Count(); i++)
+
+                    using (var progressDialog = new FormProgress())
                     {
-                        int progress = (int)Math.Round(i * unit);
-                        var blobFileInfo = downloadList.ElementAt(i);
-                        progressDialog.SetProgress(blobFileInfo.Name, progress);
-                        await blobRepo.Download(folderBrowserDialog.SelectedPath, blobFileInfo);
-                        blobFileInfo.Checked = false;
+                        progressDialog.SetProgress("", 0);
+                        progressDialog.Show();
+                        double unit = downloadList.Count() > 0 ? 100 / downloadList.Count() : 100;
+                        for (var i = 0; i < downloadList.Count(); i++)
+                        {
+                            int progress = (int)Math.Round(i * unit);
+                            var blobFileInfo = downloadList.ElementAt(i);
+                            progressDialog.SetProgress(blobFileInfo.Name, progress);
+                            await blobRepo.Download(folderBrowserDialog.SelectedPath, blobFileInfo);
+                            blobFileInfo.Checked = false;
 
 
-                        dgvFiles.Refresh();
+                            dgvFiles.Refresh();
+                        }
+                        progressDialog.Close();
+                        progressDialog.Dispose();
                     }
-                    progressDialog.Close();
-                    progressDialog.Dispose();
 
                     dgvFiles.Refresh();
                     MessageBox.Show("ダウンロードしました。", "ダウンロード", MessageBoxButtons.OK);
