@@ -16,4 +16,4 @@ using System.Runtime.InteropServices;
 
 // モデル管理バージョン
 // メジャー.yyMM.通番.0
-[assembly: AssemblyVersion("0.2406.20.0")]
+[assembly: AssemblyVersion("0.2406.21.0")]

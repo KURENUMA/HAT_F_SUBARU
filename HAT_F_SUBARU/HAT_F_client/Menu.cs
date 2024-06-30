@@ -396,5 +396,12 @@ namespace HatFClient
             form.Show();
             form.Activate();
         }
+
+        private void btnDeliverySchedules_Click(object sender, EventArgs e)
+        {
+            var form = FormFactory.GetModelessForm<DeliverySchedules_Main>();
+            form.Show();
+            form.Activate();
+        }
     }
 }

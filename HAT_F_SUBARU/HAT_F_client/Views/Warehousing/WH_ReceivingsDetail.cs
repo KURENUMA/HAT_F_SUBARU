@@ -216,6 +216,15 @@ namespace HatFClient.Views.Warehousing
                 // グリッド編集済行の色分け
                 SetGridRowModifiedStyle();
             }
+
+            this.DialogResult = DialogResult.OK;
+            this.Close();
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.Cancel;
+            this.Close();
         }
     }
 
