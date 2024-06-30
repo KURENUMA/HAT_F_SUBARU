@@ -266,18 +266,9 @@ namespace HatFClient.Views.Warehousing
             var grid = projectGrid1.c1FlexGrid1;
             if (grid.Rows.Count < 2) { return; }
 
-            //var detail = FormFactory.GetModelessForm<WH_ReceivingsDetailUpdate>();
-            //string denNo = grid.GetData(grid.RowSel, "伝票番号").ToString();
-            //await detail.LoadDataAndShowAsync(denNo);
-
-
             var detail = FormFactory.GetModelessForm<WH_ReceivingsDetail>();
             string denNo = grid.GetData(grid.RowSel, "伝票番号").ToString();
             await detail.LoadDataAndShowAsync(denNo);
         }
     }
-    //public class TemplateModelListPage
-    //{
-    //    public List<HAT_F_api.Models.ViewReadySale> requests { get; set; }
-    //}
 }
