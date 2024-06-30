@@ -36,7 +36,6 @@
             this.textFilterStr = new System.Windows.Forms.TextBox();
             this.lblProjectAllCount = new System.Windows.Forms.Label();
             this.gridPatternUI = new HatFClient.CustomControls.GridPatternUI();
-            this.btnAdjustment = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnSearch
@@ -127,18 +126,6 @@
             this.gridPatternUI.Size = new System.Drawing.Size(444, 71);
             this.gridPatternUI.TabIndex = 39;
             // 
-            // btnAdjustment
-            // 
-            this.btnAdjustment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAdjustment.Location = new System.Drawing.Point(1018, 88);
-            this.btnAdjustment.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btnAdjustment.Name = "btnAdjustment";
-            this.btnAdjustment.Size = new System.Drawing.Size(103, 23);
-            this.btnAdjustment.TabIndex = 38;
-            this.btnAdjustment.Text = "赤黒登録";
-            this.btnAdjustment.UseVisualStyleBackColor = true;
-            this.btnAdjustment.Click += new System.EventHandler(this.BtnAdjustment_Click);
-            // 
             // FixedSales_Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -150,7 +137,6 @@
             this.Controls.Add(this.textFilterStr);
             this.Controls.Add(this.lblProjectAllCount);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.btnAdjustment);
             this.Controls.Add(this.btnExcel出力);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.btnSearch);
@@ -175,6 +161,5 @@
         private System.Windows.Forms.Button btnExcel出力;
         private System.Windows.Forms.Label lblProjectAllCount;
         private CustomControls.GridPatternUI gridPatternUI;
-        private System.Windows.Forms.Button btnAdjustment;
     }
 }

@@ -134,7 +134,6 @@ namespace HatFClient.Views.Sales
         {
             gridManager.OnDataSourceChange += GdProjectList_RowColChange;
             this.gridPatternUI.OnPatternSelected += OnPatternSelected;
-            projectGrid1.c1FlexGrid1.DoubleClick += C1FlexGrid1_DoubleClick;
         }
 
         /// <summary>現在のセルが変更された後に発生します ( RowプロパティとColプロパティ)。</summary>
@@ -265,37 +264,6 @@ namespace HatFClient.Views.Sales
             {
                 action(projectGrid1.c1FlexGrid1.Cols[column]);
             }
-        }
-
-        /// <summary>グリッドのダブルクリック</summary>
-        /// <param name="sender">イベント発生元</param>
-        /// <param name="e">イベント情報</param>
-        private void C1FlexGrid1_DoubleClick(object sender, EventArgs e)
-        {
-            btnAdjustment.PerformClick();
-        }
-
-        /// <summary>売上調整ボタン</summary>
-        /// <param name="sender">イベント発生元</param>
-        /// <param name="e">イベント情報</param>
-        private void BtnAdjustment_Click(object sender, EventArgs e)
-        {
-            CreditNote.CreditNote form = FormFactory.GetModelessFormCache<CreditNote.CreditNote>();
-            if (form == null)
-            {
-                // 初回表示時のみ初期値をセットする
-                var dataSource = projectGrid1.c1FlexGrid1.Rows[projectGrid1.c1FlexGrid1.RowSel].DataSource as DataRowView;
-                form = FormFactory.GetModelessForm<CreditNote.CreditNote>();
-
-                form.ConstructionCode = dataSource[nameof(ViewFixedSale.物件コード)].ToString();
-                form.ConstructionName = dataSource[nameof(ViewFixedSale.物件名)].ToString();
-                form.TokuiCd = dataSource[nameof(ViewFixedSale.得意先コード)].ToString();
-                form.TokuiName = dataSource[nameof(ViewFixedSale.得意先)].ToString();
-                // TODO とりあえず来月の末日。ビューから請求日を取得する
-                form.InvoicedDate = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1).AddMonths(2).AddDays(-1);
-            }
-            form.Show();
-            form.Activate();
         }
     }
 }
