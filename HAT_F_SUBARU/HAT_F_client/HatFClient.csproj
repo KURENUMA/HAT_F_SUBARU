@@ -408,6 +408,9 @@
       <DependentUpon>TextBoxReadOnly.cs</DependentUpon>
     </Compile>
     <Compile Include="CustomControls\GridPattern\PatternInfo.cs" />
+    <Compile Include="CustomControls\YearMonthEdit.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Extensions\DataRowExtension.cs" />
     <Compile Include="Extensions\StringExtension.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
