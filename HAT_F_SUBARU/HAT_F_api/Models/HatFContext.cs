@@ -5703,7 +5703,7 @@ public partial class HatFContext : DbContext
         {
             entity.HasKey(e => e.SalesAdjustmentNo).HasName("SALES_ADJUSTMENT_PKC");
 
-            entity.ToTable("SALES_ADJUSTMENT", tb => tb.HasComment("売上データ調整"));
+            entity.ToTable("SALES_ADJUSTMENT", tb => tb.HasComment("売上データ赤黒"));
 
             entity.Property(e => e.SalesAdjustmentNo)
                 .HasMaxLength(30)
@@ -5713,22 +5713,17 @@ public partial class HatFContext : DbContext
                 .HasMaxLength(30)
                 .HasComment("勘定科目")
                 .HasColumnName("ACCOUNT_TITLE");
-            entity.Property(e => e.AdjustmentAmount)
+            entity.Property(e => e.Amount)
                 .HasDefaultValue(0m)
-                .HasComment("調整金額")
+                .HasComment("金額")
                 .HasColumnType("decimal(11, 2)")
-                .HasColumnName("ADJUSTMENT_AMOUNT");
-            entity.Property(e => e.AdjustmentCategory)
-                .HasComment("調整区分,1:協賛金 2:保険 3:経費 4:商品購入")
-                .HasColumnName("ADJUSTMENT_CATEGORY");
+                .HasColumnName("AMOUNT");
             entity.Property(e => e.ApprovalId)
                 .HasMaxLength(20)
                 .HasColumnName("APPROVAL_ID");
-            entity.Property(e => e.ConstructionCode)
-                .IsRequired()
-                .HasMaxLength(20)
-                .HasComment("物件コード")
-                .HasColumnName("CONSTRUCTION_CODE");
+            entity.Property(e => e.Category)
+                .HasComment("区分,1:協賛金 2:保険 3:経費 4:商品購入")
+                .HasColumnName("CATEGORY");
             entity.Property(e => e.CreateDate)
                 .HasDefaultValueSql("(getdate())")
                 .HasComment("作成日時")
@@ -5744,10 +5739,10 @@ public partial class HatFContext : DbContext
             entity.Property(e => e.EmpId)
                 .HasComment("社員ID")
                 .HasColumnName("EMP_ID");
-            entity.Property(e => e.InvoicedDate)
-                .HasComment("請求日")
+            entity.Property(e => e.InvoicedYearMonth)
+                .HasComment("請求年月")
                 .HasColumnType("datetime")
-                .HasColumnName("INVOICED_DATE");
+                .HasColumnName("INVOICED_YEAR_MONTH");
             entity.Property(e => e.TaxFlg)
                 .HasMaxLength(1)
                 .HasComment("消費税:B:10%,8:8%,Z:非課税")
@@ -5758,7 +5753,7 @@ public partial class HatFContext : DbContext
             entity.Property(e => e.TokuiCd)
                 .IsRequired()
                 .HasMaxLength(6)
-                .HasComment("得意先コード")
+                .HasComment("得意先コード（顧客マスタを参照する）")
                 .HasColumnName("TOKUI_CD");
             entity.Property(e => e.UpdateDate)
                 .HasDefaultValueSql("(getdate())")
@@ -7405,15 +7400,14 @@ public partial class HatFContext : DbContext
                 .IsRequired()
                 .HasMaxLength(6);
             entity.Property(e => e.得意先名).HasMaxLength(40);
+            entity.Property(e => e.承認者).HasMaxLength(20);
             entity.Property(e => e.承認要求番号).HasMaxLength(20);
             entity.Property(e => e.摘要).HasMaxLength(100);
+            entity.Property(e => e.最終承認者).HasMaxLength(20);
             entity.Property(e => e.消費税).HasMaxLength(1);
-            entity.Property(e => e.物件コード)
-                .IsRequired()
-                .HasMaxLength(20);
-            entity.Property(e => e.物件名).HasMaxLength(50);
-            entity.Property(e => e.調整金額).HasColumnType("decimal(11, 2)");
-            entity.Property(e => e.請求日).HasColumnType("datetime");
+            entity.Property(e => e.申請者).HasMaxLength(20);
+            entity.Property(e => e.請求年月).HasColumnType("datetime");
+            entity.Property(e => e.金額).HasColumnType("decimal(11, 2)");
         });
 
         modelBuilder.Entity<ViewSalesCorrection>(entity =>

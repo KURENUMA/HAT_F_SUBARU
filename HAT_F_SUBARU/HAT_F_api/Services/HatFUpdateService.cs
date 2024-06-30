@@ -679,15 +679,14 @@ namespace HAT_F_api.Services
             var mapper = new Mapper(new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<ViewSalesAdjustment, SalesAdjustment>()
-                    .ForMember(x => x.ConstructionCode, x => x.MapFrom(source => source.物件コード))
                     .ForMember(x => x.TokuiCd, x => x.MapFrom(source => source.得意先コード))
-                    .ForMember(x => x.AdjustmentCategory, x => x.MapFrom(source => source.調整区分))
+                    .ForMember(x => x.Category, x => x.MapFrom(source => source.区分))
                     .ForMember(x => x.Description, x => x.MapFrom(source => source.摘要))
                     .ForMember(x => x.AccountTitle, x => x.MapFrom(source => source.勘定科目))
-                    .ForMember(x => x.AdjustmentAmount, x => x.MapFrom(source => source.調整金額))
+                    .ForMember(x => x.Amount, x => x.MapFrom(source => source.金額))
                     .ForMember(x => x.TaxFlg, x => x.MapFrom(source => source.消費税))
                     .ForMember(x => x.TaxRate, x => x.MapFrom(source => source.消費税率))
-                    .ForMember(x => x.InvoicedDate, x => x.MapFrom(source => source.請求日))
+                    .ForMember(x => x.InvoicedYearMonth, x => x.MapFrom(source => source.請求年月))
                     .ForMember(x => x.ApprovalId, x => x.MapFrom(source => source.承認要求番号))
                     .ForMember(x => x.SalesAdjustmentNo, x => x.Ignore())
                     .ForMember(x => x.CreateDate, x => x.Ignore())

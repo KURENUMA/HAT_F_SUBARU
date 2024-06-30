@@ -1,14 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using ClosedXML.Excel;
+﻿using ClosedXML.Excel;
 using HAT_F_api.CustomModels;
 using HAT_F_api.Models;
 using HAT_F_client.Views.BlobStorage;
@@ -18,6 +8,17 @@ using HatFClient.CustomControls;
 using HatFClient.Extensions;
 using HatFClient.Repository;
 using HatFClient.ValueObject;
+using HatFClient.Views.MasterSearch;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Diagnostics;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace HatFClient.Views.Order
 {
@@ -3236,18 +3237,13 @@ namespace HatFClient.Views.Order
                     }
                     break;
                 case nameof(txtTOKUI_CD):
-                    using (Views.MasterSearch.MS_Tokui dlg = new())
+                    using (var form = new MS_Tokui2())
                     {
-                        dlg.TxtTEAM_CD = this.txtTEAM_CD.Text;
-                        dlg.TxtTOKUI_CD = this.txtTOKUI_CD.Text;
-                        switch (dlg.ShowDialog())
+                        form.CustCode = this.txtTOKUI_CD.Text.Trim();
+                        if (DialogHelper.IsPositiveResult(form.ShowDialog(this)))
                         {
-                            case DialogResult.OK:
-                                this.txtTOKUI_CD.Text = dlg.StrMsTokuiCode;
-                                this.txtroTOKUI_NAME.Text = dlg.StrMsTokuiName;
-                                break;
-                            default:
-                                break;
+                            this.txtTOKUI_CD.Text = form.CustCode;
+                            this.txtroTOKUI_NAME.Text = form.CustName;
                         }
                     }
                     break;

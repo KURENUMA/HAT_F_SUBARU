@@ -6,6 +6,7 @@ using HatFClient.Constants;
 using HatFClient.Models;
 using HatFClient.Repository;
 using HatFClient.Views.Cooperate;
+using HatFClient.Views.MasterSearch;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,6 +16,7 @@ using System.Windows.Forms;
 
 namespace HatFClient.Views.CreditNote
 {
+    /// <summary>赤黒登録画面</summary>
     public partial class CreditNote : Form
     {
         /// <summary>権限管理</summary>
@@ -32,15 +34,10 @@ namespace HatFClient.Views.CreditNote
 
         #region 公開プロパティ
 
-        /// <summary>物件コード</summary>
+        /// <summary>編集モード</summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public string ConstructionCode { get; set; }
-
-        /// <summary>物件名</summary>
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public string ConstructionName { get; set; }
+        public bool IsEditMode { get; set; }
 
         /// <summary>得意先コード</summary>
         [Browsable(false)]
@@ -63,28 +60,26 @@ namespace HatFClient.Views.CreditNote
         /// <summary>請求日</summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public DateTime? InvoicedDate
+        public DateTime? InvoicedYearMonth
         {
-            get => string.IsNullOrEmpty(txtInvoicedDate.Text) ? null : DateTime.ParseExact(txtInvoicedDate.Text, "yy/MM/dd", null);
-            set => txtInvoicedDate.Text = value?.ToString("yy/MM/dd") ?? string.Empty;
+            get => ymInvoice.Value;
+            set => ymInvoice.Value = value;
         }
+
+        /// <summary>承認要求番号</summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public string ApprovalId { get; set; }
 
         #endregion 公開プロパティ
 
         #region グリッド列アクセス用プロパティ
-        private Column clm物件コード => grdSalesAdjustments.Cols["物件コード"];
-        private Column clm物件名 => grdSalesAdjustments.Cols["物件名"];
-        private Column clm得意先コード => grdSalesAdjustments.Cols["得意先コード"];
-        private Column clm得意先名 => grdSalesAdjustments.Cols["得意先名"];
-        private Column clm調整区分 => grdSalesAdjustments.Cols["調整区分"];
+        private Column clm区分 => grdSalesAdjustments.Cols["区分"];
         private Column clm摘要 => grdSalesAdjustments.Cols["摘要"];
         private Column clm勘定科目 => grdSalesAdjustments.Cols["勘定科目"];
-        private Column clm調整金額 => grdSalesAdjustments.Cols["調整金額"];
+        private Column clm金額 => grdSalesAdjustments.Cols["金額"];
         private Column clm消費税 => grdSalesAdjustments.Cols["消費税"];
         private Column clm消費税率 => grdSalesAdjustments.Cols["消費税率"];
-        private Column clm請求日 => grdSalesAdjustments.Cols["請求日"];
-        private Column clm社員ID => grdSalesAdjustments.Cols["社員ID"];
-        private Column clm社員名 => grdSalesAdjustments.Cols["社員名"];
 
         private Column clmHistoryEmpName => grdApprovalHistory.Cols["EmpName"];
         private Column clmHistoryApprovalResult => grdApprovalHistory.Cols["ApprovalResult"];
@@ -131,6 +126,7 @@ namespace HatFClient.Views.CreditNote
                     { btnApproval , new [] { HatFUserRole.ApplicationSaPurchaseApproval }} ,
                     { btnRemand , new [] { HatFUserRole.ApplicationSaPurchaseApproval }} ,
                 });
+
             }
         }
 
@@ -160,7 +156,7 @@ namespace HatFClient.Views.CreditNote
             }
 
             // グリッドの調整区分をコンボボックスにする
-            clm調整区分.DataMap = JsonResources.SalesAdjustmentCategories
+            clm区分.DataMap = JsonResources.SalesAdjustmentCategories
                 .ToDictionary(x => x.Key, x => $"{x.Key}:{x.Value}");
 
             // 承認履歴グリッドの承認ステータス
@@ -170,11 +166,19 @@ namespace HatFClient.Views.CreditNote
             // 承認者のコンボボックス設定
             InitializeComboBoxAsync(approvableUsers.Value);
 
-            if (!await SearchAsync())
+            if (IsEditMode)
             {
-                Close();
+                if (!await SearchAsync())
+                {
+                    Close();
+                }
+                // TODO 新規登録時の仮フォルダ対応とかBlobStrageRepoのシングルトン問題とか後回し
+                //blobStrageForm1.Init($"SalesAdjustment_{TokuiCd}_{InvoicedYearMonth:yyyyMMdd}");
             }
-            blobStrageForm1.Init($"SalesAdjustment_{TokuiCd}_{InvoicedDate:yyyyMMdd}");
+            else
+            {
+                grdSalesAdjustments.DataSource = new BindingList<ViewSalesAdjustment>();
+            }
         }
 
         /// <summary>画面終了時</summary>
@@ -214,14 +218,12 @@ namespace HatFClient.Views.CreditNote
         /// <returns>成否</returns>
         private async Task<bool> SearchAsync()
         {
-            // 売上調整一覧を取得
+            // 赤黒一覧を取得
             var salesAdjustments = await ApiHelper.FetchAsync(this, async () =>
             {
                 return await Program.HatFApiClient.GetAsync<List<ViewSalesAdjustment>>(ApiResources.HatF.Client.SalesAdjustment, new
                 {
-                    TokuiCd,
-                    InvoicedDateFrom = InvoicedDate,
-                    InvoicedDateTo = InvoicedDate,
+                    ApprovalId
                 });
             });
             if (salesAdjustments.Failed)
@@ -231,19 +233,16 @@ namespace HatFClient.Views.CreditNote
 
             // 日単位で申請、承認するため、売上調整一覧のすべての行に同じ承認要求番号が設定されている
             ApprovalSuite approvalSuite = null;
-            if (!string.IsNullOrEmpty(salesAdjustments.Value.FirstOrDefault()?.承認要求番号))
+            var url = string.Format(ApiResources.HatF.Approval.Get, salesAdjustments.Value.First().承認要求番号);
+            var approvalSuiteResult = await ApiHelper.FetchAsync(this, async () =>
             {
-                var url = string.Format(ApiResources.HatF.Approval.Get, salesAdjustments.Value.First().承認要求番号);
-                var approvalSuiteResult = await ApiHelper.FetchAsync(this, async () =>
-                {
-                    return await Program.HatFApiClient.GetAsync<ApprovalSuite>(url);
-                });
-                if (approvalSuiteResult.Failed)
-                {
-                    return false;
-                }
-                approvalSuite = approvalSuiteResult.Value;
+                return await Program.HatFApiClient.GetAsync<ApprovalSuite>(url);
+            });
+            if (approvalSuiteResult.Failed)
+            {
+                return false;
             }
+            approvalSuite = approvalSuiteResult.Value;
 
             UpdateScreen(salesAdjustments.Value, approvalSuite);
             return true;
@@ -254,6 +253,9 @@ namespace HatFClient.Views.CreditNote
         /// <param name="approvalSuite">承認情報</param>
         private void UpdateScreen(IList<ViewSalesAdjustment> salesAdjustments, ApprovalSuite approvalSuite)
         {
+            // 得意先名を設定
+            txtTokuiName.Text = salesAdjustments.FirstOrDefault()?.得意先名;
+
             // 売上調整一覧をグリッドにバインドする
             grdSalesAdjustments.DataSource = new BindingList<ViewSalesAdjustment>(salesAdjustments);
             grdSalesAdjustments.AutoSizeCols();
@@ -269,12 +271,6 @@ namespace HatFClient.Views.CreditNote
             grdApprovalHistory.DataSource = approvalSuite?.ApprovalProcedures;
             SelectAuthorizer(cmbAuthorizer, approvalSuite?.Approval.Approver1EmpId);
             SelectAuthorizer(cmbAuthorizer2, approvalSuite?.Approval.Approver2EmpId);
-
-            // 申請中や承認済みは編集不可。ステータス無か差し戻された場合のみ編集可
-            var canEdit = !CurrentStatus.HasValue;
-            grdSalesAdjustments.AllowEditing = canEdit;
-            grdSalesAdjustments.AllowAddNew = canEdit;
-            grdSalesAdjustments.AllowDelete = canEdit;
 
             EnableControls();
         }
@@ -295,11 +291,27 @@ namespace HatFClient.Views.CreditNote
             var dataSource = grdSalesAdjustments.DataSource as BindingList<ViewSalesAdjustment>;
             var currentEmployeeId = LoginRepo.GetInstance().CurrentUser.EmployeeId;
 
+            // 得意先コードと請求年月は、一度登録されたら申請前でも編集不可
+            txtTokuiCd.ReadOnly = IsEditMode;
+            ymInvoice.ReadOnly = IsEditMode;
+            btnSearchCustomers.Visible = !IsEditMode;
+
             // 申請ボタンは、グリッドに行があって承認者が2人選択されていなければ押せない
-            // 承認後は再申請も可能
-            btnApplication.Enabled = dataSource?.Any() == true && 
+            btnApplication.Enabled = dataSource?.Any() == true &&
                 cmbAuthorizer.SelectedItem != null && cmbAuthorizer2.SelectedItem != null &&
-                (!CurrentStatus.HasValue || CurrentStatus == ApprovalStatus.FinalApprove);
+                !CurrentStatus.HasValue&&
+                !string.IsNullOrEmpty(txtTokuiCd.Text.Trim()) &&
+                ymInvoice.Value.HasValue;
+
+            txtComment.Enabled =
+                // 申請前は入力可能
+                !CurrentStatus.HasValue ? true : 
+                // 申請中の場合、コメントは最終承認者が選択されていて、承認者が自分でなければ入力できない
+                CurrentStatus == ApprovalStatus.Request ? cmbAuthorizer2.SelectedItem != null && _approvalSuite?.Approval.Approver1EmpId == currentEmployeeId :
+                // 承認中の場合、最終承認者が自分でなければ入力できない
+                CurrentStatus == ApprovalStatus.Approve ? _approvalSuite?.Approval.Approver2EmpId == currentEmployeeId :
+                // 最終承認済みは入力不可
+                false;
 
             // 差戻ボタンは申請中または承認中で、承認者が自分でなければ押せない
             btnRemand.Enabled =
@@ -314,20 +326,25 @@ namespace HatFClient.Views.CreditNote
                 false;
 
             // 承認者2人は、未申請の状態でなければ選択できない
-            cmbAuthorizer.Enabled = !CurrentStatus.HasValue || CurrentStatus == ApprovalStatus.FinalApprove;
-            cmbAuthorizer2.Enabled = !CurrentStatus.HasValue || CurrentStatus == ApprovalStatus.FinalApprove;
+            cmbAuthorizer.Enabled = !CurrentStatus.HasValue;
+            cmbAuthorizer2.Enabled = !CurrentStatus.HasValue;
 
-            // ファイルアップロードと削除は申請前と承認済みの場合のみ可能
+            // グリッドは、申請前のみ編集可能、差し戻された場合も編集可
+            grdSalesAdjustments.AllowAddNew = !CurrentStatus.HasValue;
+            grdSalesAdjustments.AllowEditing = !CurrentStatus.HasValue;
+            grdSalesAdjustments.AllowDelete = !CurrentStatus.HasValue;
+
+            // ファイルアップロードと削除は申請前のみ可能
             // ダウンロードはいつでもできる
-            blobStrageForm1.CanUpload = !CurrentStatus.HasValue || CurrentStatus == ApprovalStatus.FinalApprove;
-            blobStrageForm1.CanDelete = !CurrentStatus.HasValue || CurrentStatus == ApprovalStatus.FinalApprove;
+            blobStrageForm1.CanUpload = !CurrentStatus.HasValue;
+            blobStrageForm1.CanDelete = !CurrentStatus.HasValue;
         }
 
         /// <summary>合計金額を算出する</summary>
         private void CalcTotalAmount()
         {
             var dataSource = grdSalesAdjustments.DataSource as BindingList<ViewSalesAdjustment>;
-            txtTotalAmount.Text = string.Format($"{dataSource.Sum(x => x.調整金額):C0}");
+            txtTotalAmount.Text = string.Format($"{dataSource.Sum(x => x.金額):C0}");
         }
 
         /// <summary>キャンセルボタン</summary>
@@ -346,25 +363,70 @@ namespace HatFClient.Views.CreditNote
             EnableControls();
         }
 
+        /// <summary>得意先検索ボタン</summary>
+        /// <param name="sender">イベント発生元</param>
+        /// <param name="e">イベント情報</param>
+        private void BtnSearchCustomers_Click(object sender, EventArgs e)
+        {
+            using (var form = new MS_Tokui2())
+            {
+                form.CustCode = txtTokuiCd.Text.Trim();
+                if (DialogHelper.IsPositiveResult(form.ShowDialog(this)))
+                {
+                    txtTokuiCd.Text = form.CustCode;
+                    txtTokuiName.Text = form.CustName;
+                }
+            }
+        }
+
+        /// <summary>得意先コード変更</summary>
+        /// <param name="sender">イベント発生元</param>
+        /// <param name="e">イベント情報</param>
+        private void TxtTokuiCd_TextChanged(object sender, EventArgs e)
+        {
+            EnableControls();
+        }
+
+        /// <summary>請求年月変更</summary>
+        /// <param name="sender">イベント発生元</param>
+        /// <param name="e">イベント情報</param>
+        private void YmInvoice_ValueChanged(object sender, EventArgs e)
+        {
+            EnableControls();
+        }
+
+        /// <summary>入力確認</summary>
+        /// <returns>成否</returns>
+        private async Task<bool> ValidateInputAsync()
+        {
+            // 得意先コードの有無確認
+            var customers = await ApiHelper.FetchAsync(this, async () =>
+            {
+                var url = string.Format(ApiResources.HatF.MasterEditor.CustomersMst, txtTokuiCd.Text.Trim());
+                return await Program.HatFApiClient.GetAsync<List<CustomersMstEx>>(url);
+            });
+            if (customers.Failed)
+            {
+                return false;
+            }
+            if (!customers.Value.Any())
+            {
+                DialogHelper.WarningMessage(this, "得意先情報が存在しません。");
+                return false;
+            }
+
+            // 請求年月
+            if (ymInvoice.Value < new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1))
+            {
+                DialogHelper.WarningMessage(this, "請求年月に過去を指定することはできません。");
+                return false;
+            }
+            return true;
+        }
+
         #endregion メイン画面制御
 
         #region グリッド制御
-
-        /// <summary>行追加</summary>
-        /// <param name="sender">イベント発生元</param>
-        /// <param name="e">イベント情報</param>
-        private void GrdSalesAdjustments_AfterAddRow(object sender, RowColEventArgs e)
-        {
-            // 新規行の初期値をセットする
-            var dataSource = grdSalesAdjustments.Rows[e.Row].DataSource as ViewSalesAdjustment;
-            dataSource.物件コード = ConstructionCode;
-            dataSource.物件名 = ConstructionName;
-            dataSource.得意先コード = TokuiCd;
-            dataSource.得意先名 = TokuiName;
-            dataSource.請求日 = InvoicedDate;
-
-            EnableControls();
-        }
 
         /// <summary>行削除前</summary>
         /// <param name="sender">イベント発生元</param>
@@ -406,7 +468,7 @@ namespace HatFClient.Views.CreditNote
                 dataSource.消費税率 = tax?.TaxRate;
                 grdSalesAdjustments.Invalidate();
             }
-            else if (e.Col == clm調整金額.Index)
+            else if (e.Col == clm金額.Index)
             {
                 CalcTotalAmount();
             }
@@ -451,6 +513,10 @@ namespace HatFClient.Views.CreditNote
         /// <param name="e">イベント情報</param>
         private async void BtnApplication_Click(object sender, EventArgs e)
         {
+            if (!await ValidateInputAsync())
+            {
+                return;
+            }
             if (!DialogHelper.YesNoQuestion(this, "申請してよろしいですか？", true))
             {
                 return;
@@ -458,6 +524,8 @@ namespace HatFClient.Views.CreditNote
             if (await ApplicationAsync())
             {
                 DialogHelper.InformationMessage(this, "申請しました。");
+                IsEditMode = true;
+                EnableControls();
             }
         }
 
@@ -471,6 +539,14 @@ namespace HatFClient.Views.CreditNote
             var comment = txtComment.Text;
             var approverId = (cmbAuthorizer.SelectedItem as Employee).EmpId;
             var approverId2 = (cmbAuthorizer2.SelectedItem as Employee).EmpId;
+
+            // 送信情報に画面の得意先コードと請求年月を反映する
+            foreach (var item in dataSource)
+            {
+                item.得意先コード = txtTokuiCd.Text.Trim();
+                item.請求年月 = ymInvoice.Value;
+            }
+
             var approvalSuite = await ApiHelper.UpdateAsync(this, async () =>
             {
                 var url = string.IsNullOrEmpty(approvalId) ?
@@ -492,6 +568,7 @@ namespace HatFClient.Views.CreditNote
             }
 
             // 最新情報を表示するために再検索
+            ApprovalId = approvalSuite.Value.Approval.ApprovalId;
             if (!await SearchAsync())
             {
                 return false;
@@ -503,12 +580,8 @@ namespace HatFClient.Views.CreditNote
         /// <returns>成否</returns>
         private async Task<bool> RemandAsync()
         {
-            // 日単位で申請、承認するため、売上調整一覧のすべての行に同じ承認要求番号が設定されている
-            var dataSource = grdSalesAdjustments.DataSource as BindingList<ViewSalesAdjustment>;
-            var approvalId = dataSource.First().承認要求番号;
-
             var comment = txtComment.Text;
-            var url = string.Format(ApiResources.HatF.Approval.Update, approvalId, _approvalType);
+            var url = string.Format(ApiResources.HatF.Approval.Update, ApprovalId, _approvalType);
             var approvalSuite = await ApiHelper.UpdateAsync(this, async () =>
             {
                 return await Program.HatFApiClient.PutAsync<ApprovalSuite>(url, new ApprovalRequest()
@@ -535,12 +608,8 @@ namespace HatFClient.Views.CreditNote
         /// <returns>成否</returns>
         private async Task<bool> ApprovalAsync()
         {
-            // 日単位で申請、承認するため、売上調整一覧のすべての行に同じ承認要求番号が設定されている
-            var dataSource = grdSalesAdjustments.DataSource as BindingList<ViewSalesAdjustment>;
-            var approvalId = dataSource.First().承認要求番号;
-
             var comment = txtComment.Text;
-            var url = string.Format(ApiResources.HatF.Approval.Update, approvalId, _approvalType);
+            var url = string.Format(ApiResources.HatF.Approval.Update, ApprovalId, _approvalType);
             var requestType = CurrentStatus == ApprovalStatus.Approve ? ApprovalResult.FinalApprove : ApprovalResult.Approve;
 
             var approvalSuite = await ApiHelper.UpdateAsync(this, async () =>
@@ -675,12 +744,24 @@ namespace HatFClient.Views.CreditNote
         /// <param name="e">イベント情報</param>
         private async void BtnSave_Click(object sender, EventArgs e)
         {
+            if (!await ValidateInputAsync())
+            {
+                return;
+            }
             if (!DialogHelper.YesNoQuestion(this, "保存してよろしいですか？", true))
             {
                 return;
             }
 
             var salesAdjustments = grdSalesAdjustments.DataSource as BindingList<ViewSalesAdjustment>;
+
+            // 送信情報に画面の得意先コードと請求年月を反映する
+            foreach (var item in salesAdjustments)
+            {
+                item.得意先コード = txtTokuiCd.Text.Trim();
+                item.請求年月 = ymInvoice.Value;
+            }
+
             // 売上調整データをDB登録する
             var result = await ApiHelper.UpdateAsync(this, async () =>
             {
@@ -694,6 +775,7 @@ namespace HatFClient.Views.CreditNote
             }
             // 最新情報をバインドする
             await SearchAsync();
+            EnableControls();
         }
 
         #endregion デバッグ

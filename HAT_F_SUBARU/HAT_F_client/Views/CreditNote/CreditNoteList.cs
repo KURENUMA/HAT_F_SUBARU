@@ -1,206 +1,249 @@
 ﻿using C1.Win.C1FlexGrid;
-using DocumentFormat.OpenXml.Drawing.Charts;
+using Dma.DatasourceLoader.Models;
 using HAT_F_api.Models;
 using HatFClient.Common;
 using HatFClient.Constants;
 using HatFClient.CustomControls.Grids;
 using HatFClient.CustomModels;
+using HatFClient.Models;
 using HatFClient.Repository;
 using HatFClient.Shared;
 using HatFClient.ViewModels;
-using HatFClient.Views.Sales;
+using HatFClient.Views.MasterSearch;
 using HatFClient.Views.Search;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using HatFClient.Views.CreditNote;
-using HatFClient.Views.Purchase;
 
 namespace HatFClient.Views.SalesCorrection
 {
+    /// <summary>赤黒登録一覧画面</summary>
     public partial class CreditNoteList : Form
     {
-        // TODO: 画面固有のvGridManagervを定義
-        private class CreditNoteListManager : GridManagerBase<ViewSalesCorrection> { }
+        private class CreditNoteListManager : GridManagerBase<ViewSalesAdjustment> { }
 
-        // TODO: TemplateGridManager から画面用の固有型へ変更 (GridManagerBase<T>の継承で作れます)
-        private CreditNoteListManager gridManager = new CreditNoteListManager();
+        private CreditNoteListManager _gridManager = new CreditNoteListManager();
 
-        //データテーブルレイアウト
-        private GridOrderManager gridOrderManager;
+        /// <summary>検索結果表示用グリッド</summary>
+        private DefaultGrid _grid;
 
-        public event System.EventHandler Search;
+        /// <summary>詳細検索画面の選択肢リスト</summary>
+        private List<ColumnMappingConfig> _criteriaDefinitions = CriteriaHelper.CreateCriteriaDefinitions<ViewSalesAdjustment>(
+            x => x.売上調整番号,
+            x => x.承認要求番号,
+            x => x.得意先コード,
+            x => x.得意先名,
+            x => x.請求年月);
 
-        /// <remarks>
-        /// 「OnSearch(EventArgs.Empty)」でイベントを発生させます
-        /// </remarks>
-        public virtual void OnSearch(System.EventArgs e)
-        {
-            Search?.Invoke(this, e);
-        }
+        /// <summary>パターン編集画面に表示される列の型情報</summary>
+        private static readonly Type TARGET_MODEL = typeof(ViewSalesAdjustment);
 
-        // 検索用の変数
-        private DefaultGridPage projectGrid1;   // TODO: TemplateGridPage⇒DefaultGridPage
-        private static readonly Type TARGET_MODEL = typeof(HAT_F_api.Models.ViewSalesCorrection);
+        /// <summary>Excelファイル名テンプレート</summary>
         private const string OUTFILE_NAME = "赤黒登録一覧_yyyyMMdd_HHmmss";
 
+        /// <summary>コンストラクタ</summary>
         public CreditNoteList()
         {
-            InitializeComponent();           
+            InitializeComponent();
 
             if (!this.DesignMode)
             {
-                // TODO:追加
+                FormStyleHelper.SetWorkWindowStyle(this);
+
                 InitializeFetching();
 
-                // INIT PATTERN
                 var employeeCode = LoginRepo.GetInstance().CurrentUser.EmployeeCode;
                 var patternRepo = new GridPatternRepo(employeeCode, TARGET_MODEL.FullName);
+                patternRepo.ExceptColumns.AddRange(new[]
+                {
+                    nameof(ViewSalesAdjustment.売上調整番号),
+                    nameof(ViewSalesAdjustment.承認要求番号),
+                });
                 this.gridPatternUI.Init(patternRepo);
             }
         }
 
-        /// <summary>
-        /// データ取得処理の初期化
-        /// </summary>
+        /// <summary>データ取得処理の初期化</summary>
         private void InitializeFetching()
         {
-            gridManager.TargetForm = this;
-            
+            _gridManager.TargetForm = this;
+            _gridManager.SetPageSize(int.MaxValue);
+
             // 一覧取得処理
-            gridManager.FetchFuncAsync = async (filter) => {
+            _gridManager.FetchFuncAsync = async (filter) =>
+            {
                 // API(ページング条件付与)
-                string url = ApiHelper.AddPagingQuery(ApiResources.HatF.Search.SalesCorrection, gridManager.CurrentPage, gridManager.PageSize);
+                string url = ApiHelper.AddUnlimitedQuery(ApiResources.HatF.Client.SalesAdjustment);
                 var conditions = filter.Select(f => f.AsFilterOption()).ToList();
 
-                var apiResponse = await Program.HatFApiClient.PostAsync<List<ViewSalesCorrection>>(
+                var apiResponse = await Program.HatFApiClient.PostAsync<List<ViewSalesAdjustment>>(
                     url,   // 一覧取得API
                     JsonConvert.SerializeObject(conditions));   // 検索条件
                 return apiResponse;
             };
-
-            // 件数取得処理
-            // ページング有画面は必要
-            // ページングがない画面は null(初期値) をセットしておく
-
-            gridManager.FetchCountFuncAsync = async (filter) =>
-            {
-                string url = ApiResources.HatF.Search.SalesCorrectionCount;
-                var conditions = filter.Select(f => f.AsFilterOption()).ToList();
-
-                var count = await Program.HatFApiClient.PostAsync<int>(
-                    url,   // 件数取得API
-                    JsonConvert.SerializeObject(conditions));   // 検索条件は一覧取得と同じ
-                return count;
-            };
-
         }
 
+        /// <summary>画面初期化</summary>
+        /// <param name="sender">イベント発生元</param>
+        /// <param name="e">イベント情報</param>
         private void CreditNoteList_Load(object sender, EventArgs e)
         {
-            // TODO:引数を変更
-            gridOrderManager = new GridOrderManager(CriteriaHelper.CreateCriteriaDefinitions<ViewSalesCorrection>());
+            _grid = new DefaultGrid(_gridManager, false)
+            {
+                Dock = DockStyle.Fill,
+                Visible = false,
+            };
+            _grid.c1FlexGrid1.AllowFiltering = true;
+            _grid.c1FlexGrid1.SelectionMode = SelectionModeEnum.Default;
+            _grid.c1FlexGrid1.MouseDoubleClick += C1FlexGrid1_MouseDoubleClick;
+            this.panel1.Controls.Add(_grid);
 
-            //TODO: TemplateGridPage⇒DefaultGridPage差し替え（用件に合わなければTemplateGridPageをカスタム）
-            projectGrid1 = new DefaultGridPage(gridManager, gridOrderManager);  
-
-            projectGrid1.Dock = DockStyle.Fill;
-            projectGrid1.Visible = false;
-            projectGrid1.c1FlexGrid1.AllowFiltering = true;
-            projectGrid1.c1FlexGrid1.MouseDoubleClick += C1FlexGrid1_MouseDoubleClick;
-
-            this.panel1.Controls.Add(projectGrid1);
+            _gridManager.OnDataSourceChange += Grid_DataSourceChange;
+            this.gridPatternUI.OnPatternSelected += OnPatternSelected;
 
             InitializeColumns();
-            projectGrid1.Visible = true;
-            rowsCount.Visible = true;
-            btnSearch.Enabled = true;
+            _grid.Visible = true;
+            btnAdvancedSearch.Enabled = true;
 
-            InitializeEvents();
         }
 
+        /// <summary>画面終了</summary>
+        /// <param name="sender">イベント発生元</param>
+        /// <param name="e">イベント情報</param>
+        private void CreditNoteList_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            FormFactory.GetModelessFormCache<CreditNote.CreditNote>()?.Close();
+        }
+
+        /// <summary>グリッド上でのダブルクリック/summary>
+        /// <param name="sender">イベント発生元</param>
+        /// <param name="e">イベント情報</param>
         private void C1FlexGrid1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            if (btnDetail.Enabled == true)
-            {
-                btnDetail.PerformClick();
-            }
+            btnDetail.PerformClick();
         }
 
-        private void InitializeEvents()
+        /// <summary>データソースの変更</summary>
+        /// <param name="sender">イベント発生元</param>
+        /// <param name="e">イベント情報</param>
+        private void Grid_DataSourceChange(object sender, EventArgs e)
         {
-            gridManager.OnDataSourceChange += GdProjectList_RowColChange;
-            this.gridPatternUI.OnPatternSelected += OnPatternSelected;
-        }
-
-
-        private void GdProjectList_RowColChange(object sender, EventArgs e)
-        {
-            System.Diagnostics.Debug.WriteLine("GdProjectList_RowColChange");
-
-            //件数出力
-            var rows = gridManager.Dt.Rows.Count;
-            this.rowsCount.Text = rows + "件表示中";
-            if (projectGrid1.GetProjectCount() != -1)
-            {
-                this.lblProjectAllCount.Text = "検索結果：" + projectGrid1.GetProjectCount().ToString() + "件";
-            }
-            else
-            {
-                this.lblProjectAllCount.Text = "検索結果：";
-            }
-
-            this.textFilterStr.Text = projectGrid1.GetFilterOptionStr();
+            // 件数出力
+            this.lblProjectAllCount.Text = _grid.GetProjectCount() != 1 ? $"検索結果：{_grid.GetProjectCount()}件" : "検索結果：";
+            this.textFilterStr.Text = _grid.GetFilterOptionStr();
+            this.btnDetail.Enabled = _grid.GetProjectCount() > 0;
             InitializeColumns();
         }
 
-        private void BtnTabClose_Click(object sender, EventArgs e)
+        /// <summary>検索ボタン</summary>
+        /// <param name="sender">イベント発生元</param>
+        /// <param name="e">イベント情報</param>
+        private async void BtnSearch_Click(object sender, EventArgs e)
         {
-            this.Close();
+            await _gridManager.Reload(BaseConditionToCriteria().ToList());
         }
 
-        private void BtnSearch_Click(object sender, EventArgs e)
+        /// <summary>詳細検索ボタン</summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BtnAdvancedSearch_Click(object sender, EventArgs e)
         {
-            using (var searchFrm = new FrmAdvancedSearch(CriteriaHelper.CreateCriteriaDefinitions<ViewSalesCorrection>()))
+            using (var searchFrm = new FrmAdvancedSearch(_criteriaDefinitions))
             {
                 searchFrm.StartPosition = FormStartPosition.CenterParent;
+                searchFrm.AddDropDownItems(MakeDropDownInfo().ToList());
 
                 searchFrm.OnSearch += async (sender, e) =>
                 {
-                    await gridManager.Reload(searchFrm.FilterCriterias);
+                    if (!ValidateRequireCondition(searchFrm))
+                    {
+                        e.Cancel = true;
+                        return;
+                    }
+                    await _gridManager.Reload(MixFilterCriteria(searchFrm.FilterCriterias));
                 };
 
                 searchFrm.OnSearchAndSave += async (sender, e) =>
                 {
-                    gridManager.SetFilters(searchFrm.FilterCriterias);
-                    await gridManager.Reload(searchFrm.FilterCriterias);
+                    if (!ValidateRequireCondition(searchFrm))
+                    {
+                        e.Cancel = true;
+                        return;
+                    }
+                    _gridManager.SetFilters(searchFrm.FilterCriterias);
+                    await _gridManager.Reload(MixFilterCriteria(searchFrm.FilterCriterias));
                 };
 
                 searchFrm.OnReset += (sender, e) =>
                 {
-                    gridManager.SetFilters(new List<FilterCriteria>());
+                    _gridManager.SetFilters(new List<FilterCriteria>());
                 };
 
                 if (DialogHelper.IsPositiveResult(searchFrm.ShowDialog()))
                 {
-                    GdProjectList_RowColChange(this, EventArgs.Empty);
+                    Grid_DataSourceChange(this, EventArgs.Empty);
                 }
             }
         }
 
-        private void searchFrm_FormClosed(object sender, FormClosedEventArgs e)
+        /// <summary>基本検索条件を<see cref="FilterCriteria"/>オブジェクトに変換する</summary>
+        /// <returns><see cref="FilterCriteria"/></returns>
+        private IEnumerable<FilterCriteria> BaseConditionToCriteria()
         {
-            GdProjectList_RowColChange(this, EventArgs.Empty);
+            var index = _criteriaDefinitions.FindIndex(x => x.FieldName == nameof(ViewSalesAdjustment.得意先コード));
+            yield return new FilterCriteria(_criteriaDefinitions, index, FilterOperators.Contains, txtCustCode.Text.Trim(), false);
+
+            if (ymInvoicedFrom.Value.HasValue && ymInvoicedTo.Value.HasValue)
+            {
+                index = _criteriaDefinitions.FindIndex(x => x.FieldName == nameof(ViewSalesAdjustment.請求年月));
+                yield return new FilterCriteria(_criteriaDefinitions, index, ymInvoicedFrom.Value.Value, ymInvoicedTo.Value.Value, false);
+            }
+            else if (ymInvoicedFrom.Value.HasValue)
+            {
+                index = _criteriaDefinitions.FindIndex(x => x.FieldName == nameof(ViewSalesAdjustment.請求年月));
+                yield return new FilterCriteria(_criteriaDefinitions, index, FilterOperators.Gte, ymInvoicedFrom.Value.Value, false);
+            }
+            else if (ymInvoicedTo.Value.HasValue)
+            {
+                index = _criteriaDefinitions.FindIndex(x => x.FieldName == nameof(ViewSalesAdjustment.請求年月));
+                yield return new FilterCriteria(_criteriaDefinitions, index, FilterOperators.Lte, ymInvoicedTo.Value.Value, false);
+            }
         }
 
+        /// <summary>基本検索条件と詳細検索条件を合成する</summary>
+        /// <param name="manager">グリッド管理オブジェクト</param>
+        /// <returns>合成結果</returns>
+        private List<FilterCriteria> MixFilterCriteria(List<FilterCriteria> filters)
+        {
+            return filters
+                .Except(filters.Where(x => x.SelectedColumn.FieldName == nameof(ViewSalesAdjustment.得意先コード)))
+                .Except(filters.Where(x => x.SelectedColumn.FieldName == nameof(ViewSalesAdjustment.請求年月)))
+                .Concat(BaseConditionToCriteria()).ToList();
+        }
+
+        /// <summary>必須検索条件のチェックを行う</summary>
+        /// <param name="parentForm">メッセージを表示する親画面</param>
+        /// <returns>成否</returns>
+        private bool ValidateRequireCondition(Form parentForm)
+        {
+            if (string.IsNullOrEmpty(txtCustCode.Text.Trim()))
+            {
+                DialogHelper.WarningMessage(parentForm, "得意先コードは必須項目です。");
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>表示パターン変更</summary>
+        /// <param name="sender">イベント発生元</param>
+        /// <param name="e">イベント情報</param>
         private void OnPatternSelected(object sender, PatternInfo e)
         {
-            updateDataTable();
+            InitializeColumns();
         }
 
         private async void updateDataTable()
@@ -208,10 +251,11 @@ namespace HatFClient.Views.SalesCorrection
             //gridManager.OnDataSourceChange += GdProjectList_RowColChange;
 
             // 非同期でデータ取得    
-            await gridManager.Reload(new List<FilterCriteria>());
-            GdProjectList_RowColChange(this, EventArgs.Empty);
+            await _gridManager.Reload(new List<FilterCriteria>());
+            Grid_DataSourceChange(this, EventArgs.Empty);
         }
 
+        /// <summary>グリッド列初期化</summary>
         private void InitializeColumns()
         {
             var pattern = gridPatternUI.SelectedPattern;
@@ -221,51 +265,140 @@ namespace HatFClient.Views.SalesCorrection
             }
 
             // ヘッダの設定
-            projectGrid1.c1FlexGrid1.Clear();
-            BindingList<ColumnInfo> configs = pattern.Columns;
+            _grid.c1FlexGrid1.Clear();
+            var configs = pattern.Columns;
 
-            projectGrid1.c1FlexGrid1.Cols.Count = configs.Count + 1;
-            projectGrid1.c1FlexGrid1.Cols[0].Caption = "";
-            projectGrid1.c1FlexGrid1.Cols[0].Width = 30;
+            _grid.c1FlexGrid1.Cols.Count = configs.Count + 1;
+            _grid.c1FlexGrid1.Cols[0].Caption = string.Empty;
+            _grid.c1FlexGrid1.Cols[0].Width = 30;
 
             int columnIndexOffset = 1;
             for (int i = 0; i < configs.Count; i++)
             {
                 var config = configs[i];
-                var col = projectGrid1.c1FlexGrid1.Cols[i + columnIndexOffset];
+                var col = _grid.c1FlexGrid1.Cols[i + columnIndexOffset];
 
                 col.Caption = config.Label;
                 col.Width = config.Width;
                 col.StyleNew.TextAlign = (TextAlignEnum)config.TextAlignment;
                 col.Name = config.VarName;
                 col.AllowFiltering = AllowFiltering.None;
+                col.DataMap = null;
+                col.Format = string.Empty;
             }
+
+            GridHelper.ColumnAction(_grid.c1FlexGrid1, nameof(ViewSalesAdjustment.請求年月), c =>
+            {
+                c.Format = "yy/MM";
+            });
+            GridHelper.ColumnAction(_grid.c1FlexGrid1, nameof(ViewSalesAdjustment.区分), c =>
+            {
+                c.DataMap = JsonResources.SalesAdjustmentCategories.ToDictionary(x => x.Key, x => $"{x.Key}:{x.Value}");
+            });
+            GridHelper.ColumnAction(_grid.c1FlexGrid1, nameof(ViewSalesAdjustment.金額), c =>
+            {
+                GridStyleHelper.SetColumnStyle(GridStyleHelper.GridColumnStyleEnum.Currency, c);
+            });
+            GridHelper.ColumnAction(_grid.c1FlexGrid1, nameof(ViewSalesAdjustment.消費税), c =>
+            {
+                c.TextAlign = TextAlignEnum.LeftCenter;
+            });
+            GridHelper.ColumnAction(_grid.c1FlexGrid1, nameof(ViewSalesAdjustment.承認状態), c =>
+            {
+                var map = Enum.GetValues(typeof(ApprovalStatus)).OfType<ApprovalStatus>()
+                    .ToDictionary(x => (int)x, x => EnumUtil.GetDescription(x));
+                c.DataMap = map;
+            });
         }
 
-        private void btnExcel出力_Click(object sender, EventArgs e)
+        /// <summary>Excel出力ボタン</summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BtnExcelPrint_Click(object sender, EventArgs e)
         {
-            string fName = Path.Combine(System.Windows.Forms.Application.LocalUserAppDataPath, DateTime.Now.ToString(OUTFILE_NAME) + ".xlsx");
-            projectGrid1.c1FlexGrid1.SaveExcel(fName, FileFlags.IncludeFixedCells);
+            string fName = Path.Combine(Application.LocalUserAppDataPath, DateTime.Now.ToString(OUTFILE_NAME) + ".xlsx");
+            _grid.c1FlexGrid1.SaveExcel(fName, FileFlags.IncludeFixedCells);
 
             AppLauncher.OpenExcel(fName);
         }
 
-        private void btnDetail_Click(object sender, EventArgs e)
+        /// <summary>新規赤黒登録ボタン</summary>
+        /// <param name="sender">イベント発生元</param>
+        /// <param name="e">イベント情報</param>
+        private void BtnNew_Click(object sender, EventArgs e)
         {
-            var grid = projectGrid1.c1FlexGrid1;
-            if (grid.Rows.Count < 2) { return; }
+            // 新規登録なので、既に開いている画面が編集モードだったら一度閉じる
+            var existForm = FormFactory.GetModelessFormCache<CreditNote.CreditNote>();
+            if (existForm?.IsEditMode == true)
+            {
+                existForm.Close();
+            }
 
-            CreditNote.CreditNote detail = FormFactory.GetModelessForm<CreditNote.CreditNote>();
-            //detail.Condition.Hat注文番号 = grid.GetData(grid.RowSel, "Hat注文番号").ToString();
-            detail.Condition.Hat注文番号 = null;
-            detail.Show();
-            //detail.Init(xxxxxx);
-            detail.Activate();
+            var form = FormFactory.GetModelessForm<CreditNote.CreditNote>(x =>
+            {
+                x.IsEditMode = false;
+            });
+            form.Show();
+            form.Activate();
         }
 
-        private void CreditNoteList_FormClosed(object sender, FormClosedEventArgs e)
+        /// <summary>赤黒詳細ボタン</summary>
+        /// <param name="sender">イベント発生元</param>
+        /// <param name="e">イベント情報</param>
+        private void BtnDetail_Click(object sender, EventArgs e)
         {
-            FormFactory.GetModelessFormCache<CreditNote.CreditNote>()?.Close();
+            // 編集なので、既に開いている画面が新規モードだったら一度閉じる
+            var existForm = FormFactory.GetModelessFormCache<CreditNote.CreditNote>();
+            if (existForm?.IsEditMode == false)
+            {
+                existForm.Close();
+            }
+
+            var dataSource = _grid.c1FlexGrid1.Rows[_grid.c1FlexGrid1.RowSel].DataSource as DataRowView;
+            var form = FormFactory.GetModelessForm<CreditNote.CreditNote>(x =>
+            {
+                x.IsEditMode = true;
+                x.TokuiCd = dataSource[nameof(ViewSalesAdjustment.得意先コード)]?.ToString();
+                x.TokuiName = dataSource[nameof(ViewSalesAdjustment.得意先名)]?.ToString();
+                x.InvoicedYearMonth = (DateTime)dataSource[nameof(ViewSalesAdjustment.請求年月)];
+                x.ApprovalId = dataSource[nameof(ViewSalesAdjustment.承認要求番号)]?.ToString();
+            });
+            form.Show();
+            form.Activate();
+        }
+
+        /// <summary>詳細検索画面での選択肢としてドロップダウン項目にするものを用意する</summary>
+        /// <returns>ドロップダウン選択肢情報</returns>
+        private IEnumerable<SearchDropDownInfo> MakeDropDownInfo()
+        {
+            yield return new SearchDropDownInfo
+            {
+                FieldName = nameof(ViewSalesAdjustment.区分),
+                DropDownItems = JsonResources.SalesAdjustmentCategories.ToDictionary(x => $"{x.Key}:{x.Value}", x => x.Key.ToString()),
+            };
+        }
+
+        /// <summary>得意先検索ボタン</summary>
+        /// <param name="sender">イベント発生元</param>
+        /// <param name="e">イベント情報</param>
+        private void BtnSearchCustomers_Click(object sender, EventArgs e)
+        {
+            using (var form = new MS_Tokui2())
+            {
+                form.CustCode = txtCustCode.Text.Trim();
+                if (DialogHelper.IsPositiveResult(form.ShowDialog(this)))
+                {
+                    txtCustCode.Text = form.CustCode;
+                }
+            }
+        }
+
+        /// <summary>得意先コードの変更</summary>
+        /// <param name="sender">イベント発生元</param>
+        /// <param name="e">イベント情報</param>
+        private void TxtCustCode_TextChanged(object sender, EventArgs e)
+        {
+            btnSearch.Enabled = !string.IsNullOrEmpty(txtCustCode.Text.Trim());
         }
     }
 }

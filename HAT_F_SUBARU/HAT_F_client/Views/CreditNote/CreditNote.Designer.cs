@@ -56,12 +56,14 @@
             this.label2 = new System.Windows.Forms.Label();
             this.txtTokuiName = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.txtInvoicedDate = new System.Windows.Forms.TextBox();
             this.btnSave = new System.Windows.Forms.Button();
+            this.btnSearchCustomers = new System.Windows.Forms.Button();
+            this.ymInvoice = new HatFClient.CustomControls.YearMonthEdit();
             ((System.ComponentModel.ISupportInitialize)(this.grdSalesAdjustments)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grdApprovalHistory)).BeginInit();
             this.flowLayoutPanel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ymInvoice)).BeginInit();
             this.SuspendLayout();
             // 
             // grdSalesAdjustments
@@ -81,9 +83,8 @@
             this.grdSalesAdjustments.Name = "grdSalesAdjustments";
             this.grdSalesAdjustments.Rows.Count = 1;
             this.grdSalesAdjustments.Size = new System.Drawing.Size(1199, 355);
-            this.grdSalesAdjustments.TabIndex = 9;
+            this.grdSalesAdjustments.TabIndex = 10;
             this.grdSalesAdjustments.AfterEdit += new C1.Win.C1FlexGrid.RowColEventHandler(this.GrdSalesAdjustments_AfterEdit);
-            this.grdSalesAdjustments.AfterAddRow += new C1.Win.C1FlexGrid.RowColEventHandler(this.GrdSalesAdjustments_AfterAddRow);
             this.grdSalesAdjustments.BeforeDeleteRow += new C1.Win.C1FlexGrid.RowColEventHandler(this.GrdSalesAdjustments_BeforeDeleteRow);
             this.grdSalesAdjustments.AfterDeleteRow += new C1.Win.C1FlexGrid.RowColEventHandler(this.GrdSalesAdjustments_AfterDeleteRow);
             // 
@@ -103,7 +104,7 @@
             this.btnUnlock.Location = new System.Drawing.Point(1091, 25);
             this.btnUnlock.Name = "btnUnlock";
             this.btnUnlock.Size = new System.Drawing.Size(120, 23);
-            this.btnUnlock.TabIndex = 7;
+            this.btnUnlock.TabIndex = 8;
             this.btnUnlock.Text = "読み取り専用解除";
             this.btnUnlock.UseVisualStyleBackColor = true;
             this.btnUnlock.Visible = false;
@@ -117,9 +118,10 @@
             this.btnContact.MinimumSize = new System.Drawing.Size(0, 20);
             this.btnContact.Name = "btnContact";
             this.btnContact.Size = new System.Drawing.Size(120, 23);
-            this.btnContact.TabIndex = 8;
+            this.btnContact.TabIndex = 9;
             this.btnContact.Text = "担当者へ連絡";
             this.btnContact.UseVisualStyleBackColor = true;
+            this.btnContact.Visible = false;
             this.btnContact.Click += new System.EventHandler(this.BtnContact_Click);
             // 
             // txtTokuiCd
@@ -128,9 +130,9 @@
             this.txtTokuiCd.Location = new System.Drawing.Point(73, 55);
             this.txtTokuiCd.MinimumSize = new System.Drawing.Size(4, 20);
             this.txtTokuiCd.Name = "txtTokuiCd";
-            this.txtTokuiCd.ReadOnly = true;
             this.txtTokuiCd.Size = new System.Drawing.Size(73, 23);
             this.txtTokuiCd.TabIndex = 3;
+            this.txtTokuiCd.TextChanged += new System.EventHandler(this.TxtTokuiCd_TextChanged);
             // 
             // label10
             // 
@@ -157,7 +159,7 @@
             this.lblScreenMode.Size = new System.Drawing.Size(153, 26);
             this.lblScreenMode.TabIndex = 0;
             this.lblScreenMode.Text = "赤黒登録";
-            this.lblScreenMode.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblScreenMode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // grdApprovalHistory
             // 
@@ -251,7 +253,7 @@
             this.groupBox1.Location = new System.Drawing.Point(15, 478);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(1196, 389);
-            this.groupBox1.TabIndex = 12;
+            this.groupBox1.TabIndex = 14;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "売上確定済み情報の訂正承認";
             // 
@@ -292,6 +294,7 @@
             // 
             this.blobStrageForm1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.blobStrageForm1.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.blobStrageForm1.Enabled = false;
             this.blobStrageForm1.Location = new System.Drawing.Point(45, 173);
             this.blobStrageForm1.Name = "blobStrageForm1";
             this.blobStrageForm1.Size = new System.Drawing.Size(529, 210);
@@ -411,7 +414,7 @@
             this.txtTotalAmount.Name = "txtTotalAmount";
             this.txtTotalAmount.ReadOnly = true;
             this.txtTotalAmount.Size = new System.Drawing.Size(159, 23);
-            this.txtTotalAmount.TabIndex = 11;
+            this.txtTotalAmount.TabIndex = 13;
             this.txtTotalAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label2
@@ -424,7 +427,7 @@
             this.label2.MinimumSize = new System.Drawing.Size(0, 20);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(55, 20);
-            this.label2.TabIndex = 10;
+            this.label2.TabIndex = 12;
             this.label2.Text = "合計金額";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -443,33 +446,60 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.label3.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label3.Location = new System.Drawing.Point(376, 56);
+            this.label3.Location = new System.Drawing.Point(466, 56);
             this.label3.MinimumSize = new System.Drawing.Size(0, 20);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(43, 20);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "請求日";
+            this.label3.Size = new System.Drawing.Size(55, 20);
+            this.label3.TabIndex = 6;
+            this.label3.Text = "請求年月";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // txtInvoicedDate
-            // 
-            this.txtInvoicedDate.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.txtInvoicedDate.Location = new System.Drawing.Point(429, 55);
-            this.txtInvoicedDate.MinimumSize = new System.Drawing.Size(4, 20);
-            this.txtInvoicedDate.Name = "txtInvoicedDate";
-            this.txtInvoicedDate.ReadOnly = true;
-            this.txtInvoicedDate.Size = new System.Drawing.Size(73, 23);
-            this.txtInvoicedDate.TabIndex = 6;
             // 
             // btnSave
             // 
             this.btnSave.Location = new System.Drawing.Point(866, 450);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(110, 23);
-            this.btnSave.TabIndex = 13;
+            this.btnSave.TabIndex = 11;
             this.btnSave.Text = "[デバッグ用]保存";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.BtnSave_Click);
+            // 
+            // btnSearchCustomers
+            // 
+            this.btnSearchCustomers.Location = new System.Drawing.Point(363, 54);
+            this.btnSearchCustomers.Name = "btnSearchCustomers";
+            this.btnSearchCustomers.Size = new System.Drawing.Size(88, 23);
+            this.btnSearchCustomers.TabIndex = 5;
+            this.btnSearchCustomers.Text = "得意先検索";
+            this.btnSearchCustomers.UseVisualStyleBackColor = true;
+            this.btnSearchCustomers.Click += new System.EventHandler(this.BtnSearchCustomers_Click);
+            // 
+            // ymInvoice
+            // 
+            this.ymInvoice.CustomFormat = "yy/MM";
+            this.ymInvoice.DataType = typeof(System.DateTime);
+            this.ymInvoice.DisplayFormat.CustomFormat = "yy/MM";
+            this.ymInvoice.DisplayFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat;
+            this.ymInvoice.DisplayFormat.Inherit = ((C1.Win.C1Input.FormatInfoInheritFlags)(((((C1.Win.C1Input.FormatInfoInheritFlags.NullText | C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) 
+            | C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) 
+            | C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) 
+            | C1.Win.C1Input.FormatInfoInheritFlags.CalendarType)));
+            this.ymInvoice.EditFormat.CustomFormat = "yy/MM";
+            this.ymInvoice.EditFormat.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat;
+            this.ymInvoice.EditFormat.Inherit = ((C1.Win.C1Input.FormatInfoInheritFlags)(((((C1.Win.C1Input.FormatInfoInheritFlags.NullText | C1.Win.C1Input.FormatInfoInheritFlags.EmptyAsNull) 
+            | C1.Win.C1Input.FormatInfoInheritFlags.TrimStart) 
+            | C1.Win.C1Input.FormatInfoInheritFlags.TrimEnd) 
+            | C1.Win.C1Input.FormatInfoInheritFlags.CalendarType)));
+            this.ymInvoice.EditMask = "99/99";
+            this.ymInvoice.EmptyAsNull = true;
+            this.ymInvoice.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.ymInvoice.FormatType = C1.Win.C1Input.FormatTypeEnum.CustomFormat;
+            this.ymInvoice.Location = new System.Drawing.Point(527, 53);
+            this.ymInvoice.Name = "ymInvoice";
+            this.ymInvoice.Size = new System.Drawing.Size(62, 23);
+            this.ymInvoice.TabIndex = 7;
+            this.ymInvoice.Tag = null;
+            this.ymInvoice.ValueChanged += new System.EventHandler(this.YmInvoice_ValueChanged);
             // 
             // CreditNote
             // 
@@ -477,11 +507,12 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.ClientSize = new System.Drawing.Size(1225, 879);
+            this.Controls.Add(this.btnSearchCustomers);
+            this.Controls.Add(this.ymInvoice);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.txtTotalAmount);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txtTokuiName);
-            this.Controls.Add(this.txtInvoicedDate);
             this.Controls.Add(this.txtTokuiCd);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label10);
@@ -501,6 +532,7 @@
             this.flowLayoutPanel1.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ymInvoice)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -526,7 +558,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtTokuiName;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox txtInvoicedDate;
         private System.Windows.Forms.Button btnRemand;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label14;
@@ -537,5 +568,7 @@
         private System.Windows.Forms.TextBox txtApprovalStatus;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Button btnSave;
+        private CustomControls.YearMonthEdit ymInvoice;
+        private System.Windows.Forms.Button btnSearchCustomers;
     }
 }

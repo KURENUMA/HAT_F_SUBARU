@@ -1,5 +1,6 @@
 ﻿using Dma.DatasourceLoader.Creator;
 using Dma.DatasourceLoader.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -35,7 +36,16 @@ namespace HatFClient.Views.Search
 
                 var itemName = f.Item3;
                 var itemOperator = f.Item2.Operator;
-                var itemValue = f.Item2.Value;
+                object itemValue = string.Empty;
+                if(f.Item2.Operator == "間")
+                {
+                    var (from, to) = ((DateTime, DateTime))f.Item2.Value;
+                    itemValue = $"{from:yyyy/MM/dd}～{to:yyyy/MM/dd}";
+                }
+                else
+                {
+                    itemValue = (f.Item2.Value is DateTime dt) ? dt.ToString("yyyy/MM/dd") : f.Item2.Value;
+                }
 
                 if (dropDownItems != null)
                 {

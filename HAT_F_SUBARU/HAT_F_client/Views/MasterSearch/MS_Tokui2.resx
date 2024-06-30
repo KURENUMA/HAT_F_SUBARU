@@ -117,10 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="grdSalesAdjustments.ColumnInfo" xml:space="preserve">
-    <value>7,1,0,0,0,-1,Columns:1{Name:"区分";Caption:"区分";Style:"DataType:System.Int16;TextAlign:GeneralCenter;";}	2{Name:"摘要";Caption:"摘要";MaxLength:100;Style:"DataType:System.String;TextAlign:LeftCenter;";}	3{Name:"勘定科目";Caption:"勘定科目";MaxLength:30;Style:"DataType:System.String;TextAlign:LeftCenter;";}	4{Name:"金額";Caption:"金額";Style:"Format:""C0"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	5{Name:"消費税";Caption:"消費税";MaxLength:1;Style:"Format:""A"";DataType:System.String;TextAlign:LeftCenter;";}	6{Name:"消費税率";Caption:"消費税率";AllowEditing:False;Style:"BackColor:LightGray;";}	</value>
-  </data>
-  <data name="grdApprovalHistory.ColumnInfo" xml:space="preserve">
-    <value>5,1,0,0,0,-1,Columns:1{Name:"EmpName";Caption:"申請者／承認者";AllowEditing:False;Style:"DataType:System.String;TextAlign:LeftCenter;";}	2{Name:"ApprovalResult";Caption:"承認動作";AllowEditing:False;Style:"DataType:System.Int32;TextAlign:GeneralCenter;";}	3{Width:241;Name:"ApprovalComment";Caption:"コメント";Style:"DataType:System.String;TextAlign:LeftCenter;";}	4{Name:"ApprovalDate";Caption:"登録日";Style:"Format:""yy/MM/dd HH:mm"";DataType:System.DateTime;TextAlign:LeftCenter;";}	</value>
-  </data>
+  <metadata name="clmCustCode.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="clmCustName.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="clmCustKana.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="clmFax.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="clmTel.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
 </root>

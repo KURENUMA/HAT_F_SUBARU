@@ -1153,17 +1153,12 @@ namespace HAT_F_api.Services
         }
 
         /// <summary>売上調整情報を取得する</summary>
-        /// <param name="tokuiCd">得意先コード（必須）</param>
-        /// <param name="invoicedDateFrom">請求日（省略可）</param>
-        /// <param name="invoicedDateTo">請求日（省略可）</param>
+        /// <param name="approvalId">承認要求番号（必須）</param>
         /// <returns>売上調整情報</returns>
-        public async Task<List<ViewSalesAdjustment>> GetSalesAdjustmentsAsync
-            (string tokuiCd, DateTime? invoicedDateFrom, DateTime? invoicedDateTo)
+        public async Task<List<ViewSalesAdjustment>> GetSalesAdjustmentsAsync(string approvalId)
         {
             return await _hatFContext.ViewSalesAdjustments
-                .Where(x => x.得意先コード == tokuiCd)
-                .Where(x => !invoicedDateFrom.HasValue || invoicedDateFrom <= x.請求日)
-                .Where(x => !invoicedDateTo.HasValue || x.請求日 <= invoicedDateTo)
+                .Where(x => x.承認要求番号 == approvalId)
                 .ToListAsync();
         }
 

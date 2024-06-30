@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading;
 
@@ -50,6 +51,34 @@ namespace HatFClient.Views.Search
         /// <summary>文字列のみの発注状態一覧実体</summary>
         public static Dictionary<string, string> StringOrderStates => _stringOrderStates.Value;
 
+        /// <summary>検索画面に表示される選択肢を作成する</summary>
+        /// <typeparam name="T">検索条件クラスの型</typeparam>
+        /// <param name="forGenSearch">汎用検索用として作成するか</param>
+        /// <param name="invisibleProperties">検索画面で非表示にするプロパティをラムダ式で表現する</param>
+        /// <returns>選択肢リスト</returns>
+        public static List<ColumnMappingConfig> CreateCriteriaDefinitions<T>(bool forGenSearch, params Expression<Func<T, object>>[] invisibleProperties)
+        {
+            var result = CreateCriteriaDefinitions<T>(forGenSearch);
+            foreach (var property in invisibleProperties)
+            {
+                var body = property.Body as MemberExpression ?? (property.Body as UnaryExpression)?.Operand as MemberExpression;
+                result.First(x => x.FieldName == body.Member.Name).Visible = false;
+            }
+            return result;
+        }
+
+        /// <summary>検索画面に表示される選択肢を作成する</summary>
+        /// <typeparam name="T">検索条件クラスの型</typeparam>
+        /// <param name="invisibleProperties">検索画面で非表示にするプロパティをラムダ式で表現する</param>
+        /// <returns>選択肢リスト</returns>
+        public static List<ColumnMappingConfig> CreateCriteriaDefinitions<T>(params Expression<Func<T,object>>[] invisibleProperties)
+        {
+            return CreateCriteriaDefinitions<T>(false, invisibleProperties);
+        }
+
+        /// <summary>検索画面に表示される選択肢を作成する</summary>
+        /// <typeparam name="T">検索条件クラスの型</typeparam>
+        /// <returns>選択肢リスト</returns>
         public static List<ColumnMappingConfig> CreateCriteriaDefinitions<T>()
         {
             return CreateCriteriaDefinitions<T>(false);

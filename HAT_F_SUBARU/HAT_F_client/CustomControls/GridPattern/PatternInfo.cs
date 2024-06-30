@@ -30,6 +30,9 @@ namespace HatFClient.CustomModels
         public string ClassName { get; set; }
         public BindingList<ColumnInfo> Columns { get; set; } = new BindingList<ColumnInfo>();
 
+        /// <summary>選択不可とする列</summary>
+        public IEnumerable<string> ExceptColumns { get; set; }
+
         private Type ClassType { get; set; }
 
         public List<string> getUnusedVarNames()
@@ -41,7 +44,11 @@ namespace HatFClient.CustomModels
                 ClassType = asm.GetType(ClassName);
             }
             PropertyInfo[] props = ClassType.GetProperties();
-            return props.Where(p => !usedNames.Contains(p.Name)).Select(p => p.Name).ToList();
+            return props
+                .Where(p => !usedNames.Contains(p.Name))
+                .Select(p => p.Name)
+                .Except(ExceptColumns)
+                .ToList();
         }
 
         public void addColumnByName(string varName)
@@ -97,6 +104,7 @@ namespace HatFClient.CustomModels
             {
                 Pattern = $"{src.Pattern}のコピー",
                 ClassName = src.ClassName,
+                ExceptColumns = src.ExceptColumns,
             };
             foreach (var item in src.Columns)
             {
@@ -105,12 +113,13 @@ namespace HatFClient.CustomModels
             return copy;
         }
 
-        public static PatternInfo createFullPattern(string className, string pattern)
+        public static PatternInfo createFullPattern(string className, string pattern, IEnumerable<string> exceptColumns)
         {
             var patternInfo = new PatternInfo()
             {
                 Pattern = pattern,
                 ClassName = className,
+                ExceptColumns = exceptColumns,
             };
             // SET ALL AVAILABLE FIELDS
             var fields = patternInfo.getUnusedVarNames();

@@ -15,6 +15,10 @@ namespace HatFClient.Repository
         private string UserId { get; set; }
         public string ModelName { get; set; }
 
+        /// <summary>除外する列名</summary>
+        public List<string> ExceptColumns { get; } = new List<string>();
+
+
         internal GridPatternRepo(string userId, string modelName)
         {
             UserId = userId;
@@ -42,7 +46,7 @@ namespace HatFClient.Repository
             if (!result.Any())
             {
                 // ファイルが存在しない場合またはリストが0件の場合に全フィールドをセットしたデフォルトパターンを一つ生成
-                result.Add(PatternInfo.createFullPattern(ModelName, "デフォルト"));
+                result.Add(PatternInfo.createFullPattern(ModelName, "デフォルト", ExceptColumns));
                 MakeSaveDirectory();
                 File.WriteAllText(fName, JsonConvert.SerializeObject(result));
             }

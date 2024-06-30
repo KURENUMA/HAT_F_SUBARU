@@ -15,12 +15,21 @@ namespace HatFClient.Views
         /// <returns>フォームのインスタンス</returns>
         public static T GetModelessForm<T>()
             where T : Form, new()
+            => GetModelessForm<T>(null);
+
+        /// <summary>モードレス用に唯一のインスタンスを取得する</summary>
+        /// <typeparam name="T">フォームの型</typeparam>
+        /// <param name="firstAction">インスタンスを新規生成した場合の処理</param>
+        /// <returns>フォームのインスタンス</returns>
+        public static T GetModelessForm<T>(Action<T> firstAction)
+            where T : Form, new()
         {
             if (!_modelessForms.ContainsKey(typeof(T)))
             {
                 var form = new T();
                 _modelessForms.Add(typeof(T), form);
                 form.FormClosed += (s, e) => _modelessForms.Remove(typeof(T));
+                firstAction?.Invoke(form);
             }
             return _modelessForms[typeof(T)] as T;
         }
