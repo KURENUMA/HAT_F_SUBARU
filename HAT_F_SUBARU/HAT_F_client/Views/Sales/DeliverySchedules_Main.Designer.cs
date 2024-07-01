@@ -34,7 +34,7 @@
             this.textFilterStr = new System.Windows.Forms.TextBox();
             this.lblProjectAllCount = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.btnSearchCompanys = new System.Windows.Forms.Button();
+            this.btnSearchCustomer = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.btnSearch = new System.Windows.Forms.Button();
@@ -114,15 +114,15 @@
             this.label2.TabIndex = 0;
             this.label2.Text = "得意先コード*";
             // 
-            // btnSearchCompanys
+            // btnSearchCustomer
             // 
-            this.btnSearchCompanys.Location = new System.Drawing.Point(200, 10);
-            this.btnSearchCompanys.Name = "btnSearchCompanys";
-            this.btnSearchCompanys.Size = new System.Drawing.Size(88, 23);
-            this.btnSearchCompanys.TabIndex = 2;
-            this.btnSearchCompanys.Text = "得意先検索";
-            this.btnSearchCompanys.UseVisualStyleBackColor = true;
-            this.btnSearchCompanys.Click += new System.EventHandler(this.BtnSearchCompanys_Click);
+            this.btnSearchCustomer.Location = new System.Drawing.Point(200, 10);
+            this.btnSearchCustomer.Name = "btnSearchCustomer";
+            this.btnSearchCustomer.Size = new System.Drawing.Size(88, 23);
+            this.btnSearchCustomer.TabIndex = 2;
+            this.btnSearchCustomer.Text = "得意先検索";
+            this.btnSearchCustomer.UseVisualStyleBackColor = true;
+            this.btnSearchCustomer.Click += new System.EventHandler(this.BtnSearchCustomer_Click);
             // 
             // label3
             // 
@@ -250,7 +250,7 @@
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.btnSearchCompanys);
+            this.Controls.Add(this.btnSearchCustomer);
             this.Controls.Add(this.gridPatternUI);
             this.Controls.Add(this.textFilterStr);
             this.Controls.Add(this.lblProjectAllCount);
@@ -280,7 +280,7 @@
         private CustomControls.GridPatternUI gridPatternUI;
         private CustomControls.TextBoxChar txtCompCode;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button btnSearchCompanys;
+        private System.Windows.Forms.Button btnSearchCustomer;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private CustomControls.C1DateInputEx dtNoubiTo;

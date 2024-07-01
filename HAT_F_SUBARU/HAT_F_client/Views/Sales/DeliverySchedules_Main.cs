@@ -323,15 +323,14 @@ namespace HatFClient.Views.Sales
         /// <summary>得意先検索</summary>
         /// <param name="sender">イベント発生元</param>
         /// <param name="e">イベント情報</param>
-        private void BtnSearchCompanys_Click(object sender, EventArgs e)
+        private void BtnSearchCustomer_Click(object sender, EventArgs e)
         {
-            using (var form = new MS_Tokui())
+            using (var form = new MS_Tokui2())
             {
-                form.TxtTEAM_CD = LoginRepo.GetInstance().CurrentUser.TeamCode;
-                form.TxtTOKUI_CD = txtCompCode.Text;
+                form.CustCode = txtCompCode.Text;
                 if (DialogHelper.IsPositiveResult(form.ShowDialog(this)))
                 {
-                    txtCompCode.Text = form.StrMsTokuiCode;
+                    txtCompCode.Text = form.CustCode;
                 }
             }
         }
