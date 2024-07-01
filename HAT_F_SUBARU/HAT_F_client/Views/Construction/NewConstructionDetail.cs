@@ -1054,10 +1054,17 @@ namespace HatFClient.Views.ConstructionProject
             }
 
             // ページがある場合、CommitPagesAsyncを実行
+            //var commitPagesResult = await ApiHelper.FetchAsync(this, () =>
+            //{
+            //    return CommitPagesAsync(pages);
+            //});
+
             var commitPagesResult = await ApiHelper.FetchAsync(this, () =>
             {
-                return CommitPagesAsync(pages);
+                return UpdatePagesAsync(pages);
             });
+
+            if (commitPagesResult.Failed == true) return;
 
             // ページの情報を更新
             var updatelist = new List<HAT_F_api.Models.ConstructionDetail>();
@@ -1066,17 +1073,30 @@ namespace HatFClient.Views.ConstructionProject
                 var data = new HAT_F_api.Models.ConstructionDetail();
                 data.ConstructionCode = constructionCode;
                 data.Koban = Convert.ToInt32(dr["子番"]);
-                grd_D[data.Koban, "ステータス"] = "計上済";
                 updatelist.Add(data);
             }
-
-            // チェックボックスの設定とステータス列の色設定を呼び出す
-            CreateCheckBox(grd_D, grd_D.Rows.Count - 1);
-            SetStatusColumnColors(grd_D);
 
             // API呼び出しによる更新
             var update = await ApiHelper.UpdateAsync(this, () =>
                 Program.HatFApiClient.PutAsync<int>(ApiResources.HatF.Client.UpdateConstructionDetailGridKoban, updatelist));
+
+            if (update.Failed == true) return;
+
+            foreach (DataRow dr in GetCheckedData(grd_D).Rows)
+            {
+                grd_D[Convert.ToInt32(dr["子番"]), "ステータス"] = (short)1;
+            }
+
+            grd_D.Cols[grd_D.Cols["ステータス"].Index].DataMap = new ListDictionary()
+                {
+                    { (short)short.MinValue, "" },
+                    { (short)0, "未計上" },
+                    { (short)1, "計上済" }
+                };
+
+            // チェックボックスの設定とステータス列の色設定を呼び出す
+            CreateCheckBox(grd_D, grd_D.Rows.Count - 1);
+            SetStatusColumnColors(grd_D);
         }
 
         public List<FosJyuchuPage> getFosJyuchPages()
@@ -1134,7 +1154,7 @@ namespace HatFClient.Views.ConstructionProject
             int DenSort = 1;
             foreach (var subGroup in pageList)
             {
-                FosJyuchuPage page = new FosJyuchuPage(false)
+                FosJyuchuPage page = new FosJyuchuPage(true)
                 {
                     FosJyuchuH = new FosJyuchuH(),
                     FosJyuchuDs = new List<FosJyuchuD>(),
@@ -1144,16 +1164,41 @@ namespace HatFClient.Views.ConstructionProject
                 page.FosJyuchuH.DenState = "5"; //固定
                 page.FosJyuchuH.DenNo = "00000" + DenSort; //一意の６桁番号　TODO 変更予定
                 page.FosJyuchuH.ConstructionCode = constructionCode; //物件コード
-                page.FosJyuchuH.DenFlg = "11"; //TODO 後で変更
+                page.FosJyuchuH.DenFlg = "21";
+                page.FosJyuchuH.SupplierType = 2;
+                page.FosJyuchuH.SokoCd = "07";
+                page.FosJyuchuH.Bincd = "000";
+                page.FosJyuchuH.Unchin = "0";
+                page.FosJyuchuH.Nohin = "1";
+                page.FosJyuchuH.Hkbn = "0";
+
+                
+                //TODO H注番
+                //var denFlg = 21;
+                ////var key = txtHAT_ORDER_NO.Text.SafeSubstring(0, 4);
+                //int next = await _sequenceNumberService.GetNextNumberAsync(SequenceNumber.FosJyuchuHOrderNo);
+                //var key = "";
+                //var hatOrderNo = await ApiHelper.FetchAsync(this, () =>
+                //{
+                //    return Program.HatFApiClient.PostAsync<string>(ApiResources.HatF.Client.GetNextHatOrderNo, new Dictionary<string, object>()
+                //{
+                //    {nameof(key), key },
+                //    {nameof(denFlg), denFlg },
+                //}, null);
+                //});
+
+                //page.FosJyuchuH.HatOrderNo = hatOrderNo.Value;
 
                 page.FosJyuchuH.Jyu2 = txtMANAGER_ID.Text;
                 page.FosJyuchuH.Nyu2 = txtMANAGER_ID.Text;
                 page.FosJyuchuH.TeamCd = txtTEAM_CD.Text;
+                page.FosJyuchuH.TokuiCd = txtTOKUI_CD.Text;
+                page.FosJyuchuH.KmanCd = txtKMAN_CD.Text;
 
                 //GRIDからFosJyuchuHに入れる
                 DataRow hdr = subGroup[0];
                 page.FosJyuchuH.ShiresakiCd = hdr["仕入先コード"].ToString();
-                page.FosJyuchuH.ShiresakiName = hdr["仕入先名"].ToString();
+                //page.FosJyuchuH.ShiresakiName = hdr["仕入先名"].ToString();
                 page.FosJyuchuH.Nouki = HatFComParts.DoParseDateTime(hdr["納期"]);
 
                 int DenNoCount = 1;
@@ -1188,12 +1233,27 @@ namespace HatFClient.Views.ConstructionProject
         {
             FosJyuchuPages fosJyuchuPages = new FosJyuchuPages
             {
-                TargetPage = pages.Count -1,
+                TargetPage = pages.Count - 1,
                 Pages = pages,
             };
 
             return await fosJyuchuRepo.putOrderCommit(fosJyuchuPages);
         }
+
+        public async Task<ApiResponse<List<FosJyuchuPage>>> UpdatePagesAsync(List<FosJyuchuPage> pages)
+        {
+            FosJyuchuPages fosJyuchuPages = new FosJyuchuPages
+            {
+                Pages = pages,
+            };
+            string strSaveKey = "";
+            var url = string.Format(ApiResources.HatF.Client.UpdateOrder, strSaveKey);
+
+            return await Program.HatFApiClient.PutAsync<List<FosJyuchuPage>>(ApiResources.HatF.Client.UpdateOrder, fosJyuchuPages);
+
+
+        }
+
 
         /// <summary>
         /// gridからチェック済みのデータを取得する
