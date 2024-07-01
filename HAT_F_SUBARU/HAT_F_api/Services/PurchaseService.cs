@@ -356,7 +356,7 @@ namespace HAT_F_api.Services
                 // 新規
                 if (exists == null)
                 {
-                    var newNo = await _sequenceNumberService.GetNextNumberAsync(SequenceNumber.PuImportNo);
+                    var newNo = await _sequenceNumberService.GetNextNumberAsync(SequenceNumber.PuImportPuImportNo);
                     item.PuImportNo = $"PUI{newNo:D7}";
 
                     var syohin = !string.IsNullOrEmpty(item.ProdCode) ? await _hatFContext.ComSyohinMsts

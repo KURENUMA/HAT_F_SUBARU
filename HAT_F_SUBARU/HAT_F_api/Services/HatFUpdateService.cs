@@ -709,7 +709,7 @@ namespace HAT_F_api.Services
                 if (exists == null)
                 {
                     var newItem = new SalesAdjustment();
-                    var newNo = await _sequenceNumberService.GetNextNumberAsync(SequenceNumber.PuImportNo);
+                    var newNo = await _sequenceNumberService.GetNextNumberAsync(SequenceNumber.SalesAdjustmentSalesAdjustmentNo);
 
                     mapper.Map(item, newItem);
                     newItem.SalesAdjustmentNo = $"SA{newNo:D8}";

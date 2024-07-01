@@ -55,10 +55,10 @@
 
         /// <summary>仕入取込データ</summary>
         [TargetSequenceObject("PU_IMPORT_PU_IMPORT_NO")]
-        PuImportNo,
+        PuImportPuImportNo,
 
         /// <summary>売上調整番号</summary>
         [TargetSequenceObject("SALES_ADJUSTMENT_SALES_ADJUSTMENT_NO")]
-        SalesAdjustmentNo,
+        SalesAdjustmentSalesAdjustmentNo,
     }
 }
