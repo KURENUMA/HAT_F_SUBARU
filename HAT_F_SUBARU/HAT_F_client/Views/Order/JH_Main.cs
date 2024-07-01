@@ -1343,36 +1343,42 @@ namespace HatFClient.Views.Order
         /// <param name="jhOrderState">発注状態</param>
         private void CngEditModeHeader(JHOrderState jhOrderState)
         {
-            // 出荷指示書が印刷されるまでは編集が可能
-            var printed = DenShippingPrinted == true;
-            this.txtJYU2.Enabled = jhOrderState.IsValid && !printed;
-            this.txtNYU2.Enabled = jhOrderState.IsValid && !printed;
-            this.cmbDEN_FLG.Enabled = jhOrderState.IsValid && !printed;
-            this.txtTEAM_CD.Enabled = jhOrderState.IsValid && !printed;
-            this.txtTOKUI_CD.Enabled = jhOrderState.IsValid && !printed;
-            this.txtKMAN_CD.Enabled = jhOrderState.IsValid && !printed;
-            this.cmbSOKO_CD.Enabled = jhOrderState.IsValid && !printed && cmbDEN_FLG.GetSelectedCode() != "21";
-            this.txtGENBA_CD.Enabled = jhOrderState.IsValid && !printed;
-            this.cmbBINCD.Enabled = jhOrderState.IsValid && !printed;
-            this.cmbUNCHIN.Enabled = jhOrderState.IsValid && !printed;
-            this.cmbNOHIN.Enabled = jhOrderState.IsValid && !printed;
-            this.chkKESSAI.Enabled = jhOrderState.IsValid && !printed;
-            this.dateNOUKI.Enabled = jhOrderState.IsValid && !printed;
-            this.txtCUST_ORDERNO.Enabled = jhOrderState.IsValid && !printed;
-            this.txtNOTE_HOUSE.Enabled = jhOrderState.IsValid && !printed;
+            // 伝票区分が[15:取次]または[21:直送]＝外部に発注
+            string denFlg = cmbDEN_FLG.GetSelectedCode();
+            var isNeedOrder = new[] { "15", "21" }.Contains(denFlg);
+            // 出荷指示書が印刷されるまでは編集が可能。直送の場合は自社から出荷しないのでfalse
+            var printed = (denFlg != "21") && (DenShippingPrinted == true);
+            var hasCompletedDetail = GetCurDetails()
+                .Any(x => GetDTNullableValue<short>(x, "GCompleteFlg") == 1);
 
-            this.chkHeaderBunrui.Enabled = jhOrderState.IsValid && !printed;
+            this.txtJYU2.Enabled = jhOrderState.IsValid && !(printed || hasCompletedDetail);
+            this.txtNYU2.Enabled = jhOrderState.IsValid && !(printed || hasCompletedDetail);
+            this.cmbDEN_FLG.Enabled = jhOrderState.IsValid && !(printed || hasCompletedDetail);
+            this.txtTEAM_CD.Enabled = jhOrderState.IsValid && !(printed || hasCompletedDetail);
+            this.txtTOKUI_CD.Enabled = jhOrderState.IsValid && !(printed || hasCompletedDetail);
+            this.txtKMAN_CD.Enabled = jhOrderState.IsValid && !(printed || hasCompletedDetail);
+            this.cmbSOKO_CD.Enabled = jhOrderState.IsValid && !(printed || hasCompletedDetail) && cmbDEN_FLG.GetSelectedCode() != "21";
+            this.txtGENBA_CD.Enabled = jhOrderState.IsValid && !(printed || hasCompletedDetail);
+            this.cmbBINCD.Enabled = jhOrderState.IsValid && !(printed || hasCompletedDetail);
+            this.cmbUNCHIN.Enabled = jhOrderState.IsValid && !(printed || hasCompletedDetail);
+            this.cmbNOHIN.Enabled = jhOrderState.IsValid && !(printed || hasCompletedDetail);
+            this.chkKESSAI.Enabled = jhOrderState.IsValid && !(printed || hasCompletedDetail);
+            this.dateNOUKI.Enabled = jhOrderState.IsValid && !(printed || hasCompletedDetail);
+            this.txtCUST_ORDERNO.Enabled = jhOrderState.IsValid && !(printed || hasCompletedDetail);
+            this.txtNOTE_HOUSE.Enabled = jhOrderState.IsValid && !(printed || hasCompletedDetail);
 
-            this.txtANSWER_NAME.Enabled = jhOrderState.IsValid && !printed;
-            this.txtRECV_POSTCODE.Enabled = jhOrderState.IsValid && !printed;
-            this.txtRECV_ADD1.Enabled = jhOrderState.IsValid && !printed;
-            this.txtRECV_ADD2.Enabled = jhOrderState.IsValid && !printed;
-            this.txtRECV_ADD3.Enabled = jhOrderState.IsValid && !printed;
-            this.txtRECV_TEL.Enabled = jhOrderState.IsValid && !printed;
-            this.txtRECV_NAME1.Enabled = jhOrderState.IsValid && !printed;
-            this.txtRECV_NAME2.Enabled = jhOrderState.IsValid && !printed;
+            this.chkHeaderBunrui.Enabled = jhOrderState.IsValid && !(printed || hasCompletedDetail);
 
-            this.btnClearAddress.Visible = jhOrderState.IsValid && !printed;
+            this.txtANSWER_NAME.Enabled = jhOrderState.IsValid && !(printed || hasCompletedDetail);
+            this.txtRECV_POSTCODE.Enabled = jhOrderState.IsValid && !(printed || hasCompletedDetail);
+            this.txtRECV_ADD1.Enabled = jhOrderState.IsValid && !(printed || hasCompletedDetail);
+            this.txtRECV_ADD2.Enabled = jhOrderState.IsValid && !(printed || hasCompletedDetail);
+            this.txtRECV_ADD3.Enabled = jhOrderState.IsValid && !(printed || hasCompletedDetail);
+            this.txtRECV_TEL.Enabled = jhOrderState.IsValid && !(printed || hasCompletedDetail);
+            this.txtRECV_NAME1.Enabled = jhOrderState.IsValid && !(printed || hasCompletedDetail);
+            this.txtRECV_NAME2.Enabled = jhOrderState.IsValid && !(printed || hasCompletedDetail);
+
+            this.btnClearAddress.Visible = jhOrderState.IsValid && !(printed || hasCompletedDetail);
 
             this.txtDEN_NO.Enabled = jhOrderState == JHOrderState.PreOrder;
             this.chkOKURI_FLAG.Enabled = jhOrderState == JHOrderState.PreOrder;
@@ -1387,77 +1393,81 @@ namespace HatFClient.Views.Order
         /// <param name="jhOrderState">発注状態</param>
         private void CngEditModeDetail(JHOrderState jhOrderState)
         {
-            // 出荷指示書が印刷されるまでは編集が可能
-            var printed = DenShippingPrinted == true;
             // 伝票区分が[15:取次]または[21:直送]＝外部に発注
             string denFlg = cmbDEN_FLG.GetSelectedCode();
             var isNeedOrder = new[] { "15", "21" }.Contains(denFlg);
+            // 出荷指示書が印刷されるまでは編集が可能。直送の場合は自社から出荷しないのでfalse
+            var printed = (denFlg != "21") && (DenShippingPrinted == true);
+            var hasCompletedDetail = GetCurDetails()
+                .Any(x => GetDTNullableValue<short>(x, "GCompleteFlg") == 1);
 
-            for (int i = 1; i <= 6; i++)
+            foreach (var row in _detailRows)
             {
-                JH_Main_Detail jH_Main_Detail = GetUcName(i);
+                row.txtKoban.Enabled = jhOrderState.IsValid && !(printed || hasCompletedDetail);
+                row.txtSYOHIN_CD.Enabled = jhOrderState.IsValid && !(printed || hasCompletedDetail);
+                row.btnSearch.Enabled = jhOrderState.IsValid && !(printed || hasCompletedDetail);
+                row.cmbURIKUBN.Enabled = jhOrderState.IsValid && !(printed || hasCompletedDetail);
+                row.numSURYO.Enabled = jhOrderState.IsValid && !(printed || hasCompletedDetail);
+                row.txtTANI.Enabled = jhOrderState.IsValid && !(printed || hasCompletedDetail);
+                row.decTEI_TAN.Enabled = jhOrderState.IsValid && !(printed || hasCompletedDetail);
+                row.dateNOUKI.Enabled = jhOrderState.IsValid && !(printed || hasCompletedDetail);
+                row.decSII_ANSW_TAN.Enabled = jhOrderState.IsValid && !(printed || hasCompletedDetail);
+                row.txtURI_KIGOU.Enabled = jhOrderState.IsValid && !(printed || hasCompletedDetail);
+                row.decURI_KAKE.Enabled = jhOrderState.IsValid && !(printed || hasCompletedDetail);
+                row.decURI_TAN.Enabled = jhOrderState.IsValid && !(printed || hasCompletedDetail);
+                row.txtSHIRESAKI_CD.Enabled = jhOrderState.IsValid && !(printed || hasCompletedDetail);
+                row.txtSII_KIGOU.Enabled = jhOrderState.IsValid && !(printed || hasCompletedDetail);
+                row.decSII_KAKE.Enabled = jhOrderState.IsValid && !(printed || hasCompletedDetail);
+                row.decSII_TAN.Enabled = jhOrderState.IsValid && !(printed || hasCompletedDetail);
+                row.txtLBIKO.Enabled = jhOrderState.IsValid && !(printed || hasCompletedDetail);
+                row.txtTAX_FLG.Enabled = jhOrderState.IsValid && !(printed || hasCompletedDetail);
 
-                jH_Main_Detail.txtKoban.Enabled = jhOrderState.IsValid && !printed;
-                jH_Main_Detail.txtSYOHIN_CD.Enabled = jhOrderState.IsValid && !printed;
-                jH_Main_Detail.btnSearch.Enabled = jhOrderState.IsValid && !printed;
-                jH_Main_Detail.cmbURIKUBN.Enabled = jhOrderState.IsValid && !printed;
-                jH_Main_Detail.numSURYO.Enabled = jhOrderState.IsValid && !printed;
-                jH_Main_Detail.txtTANI.Enabled = jhOrderState.IsValid && !printed;
-                jH_Main_Detail.decTEI_TAN.Enabled = jhOrderState.IsValid && !printed;
-                jH_Main_Detail.dateNOUKI.Enabled = jhOrderState.IsValid && !printed;
-                jH_Main_Detail.decSII_ANSW_TAN.Enabled = jhOrderState.IsValid && !printed;
-                jH_Main_Detail.txtURI_KIGOU.Enabled = jhOrderState.IsValid && !printed;
-                jH_Main_Detail.decURI_KAKE.Enabled = jhOrderState.IsValid && !printed;
-                jH_Main_Detail.decURI_TAN.Enabled = jhOrderState.IsValid && !printed;
-                jH_Main_Detail.txtSHIRESAKI_CD.Enabled = jhOrderState.IsValid && !printed;
-                jH_Main_Detail.txtSII_KIGOU.Enabled = jhOrderState.IsValid && !printed;
-                jH_Main_Detail.decSII_KAKE.Enabled = jhOrderState.IsValid && !printed;
-                jH_Main_Detail.decSII_TAN.Enabled = jhOrderState.IsValid && !printed;
-                jH_Main_Detail.txtLBIKO.Enabled = jhOrderState.IsValid && !printed;
-                jH_Main_Detail.txtTAX_FLG.Enabled = jhOrderState.IsValid && !printed;
+                row.numBARA.Enabled = (jhOrderState.IsValid && !(printed || hasCompletedDetail) && isNeedOrder && row.SyobunCd.Length > 0);
 
-                jH_Main_Detail.numBARA.Enabled = (jhOrderState.IsValid && !printed && isNeedOrder && jH_Main_Detail.SyobunCd.Length > 0);
-
-                jH_Main_Detail.btnSiireBikou.Enabled = (jH_Main_Detail.SyobunCd.Length > 0 || jH_Main_Detail.SyohinCode.Length > 0);
+                row.btnSiireBikou.Enabled = (row.SyobunCd.Length > 0 || row.SyohinCode.Length > 0);
             }
         }
 
         private void CngEditModeHeaderDenFlg(JHOrderState jhOrderState)
         {
-            string strDEN_FLG = (this.cmbDEN_FLG.GetSelectedCode() == null) ? @"" : this.cmbDEN_FLG.GetSelectedCode();
-            // 出荷指示書が印刷されるまでは編集が可能
-            var printed = DenShippingPrinted == true;
             // 伝票区分が[15:取次]または[21:直送]＝外部に発注
-            var isNeedOrder = new[] { "15", "21" }.Contains(strDEN_FLG);
+            string denFlg = cmbDEN_FLG.GetSelectedCode();
+            var isNeedOrder = new[] { "15", "21" }.Contains(denFlg);
+            // 出荷指示書が印刷されるまでは編集が可能。直送の場合は自社から出荷しないのでfalse
+            var printed = (denFlg != "21") && (DenShippingPrinted == true);
+            var hasCompletedDetail = GetCurDetails()
+                .Any(x => GetDTNullableValue<short>(x, "GCompleteFlg") == 1);
 
-            this.cmbHKBN.Enabled = jhOrderState.IsValid && !printed && isNeedOrder;
-            this.txtSHIRESAKI_CD.Enabled = jhOrderState.IsValid && !printed && isNeedOrder;
-            this.txtSIRAINM.Enabled = jhOrderState.IsValid && !printed && isNeedOrder;
-            this.dateHAT_NYUKABI.Enabled = jhOrderState.IsValid && !printed && isNeedOrder;
-            this.txtORDER_MEMO1.Enabled = jhOrderState.IsValid && !printed && isNeedOrder;
-            this.txtHAT_ORDER_NO.Enabled = jhOrderState.IsValid && !printed;
-            this.btnNewHatOrderNo.Enabled = jhOrderState.IsValid && !printed;
+            this.cmbHKBN.Enabled = jhOrderState.IsValid && !(printed || hasCompletedDetail) && isNeedOrder;
+            this.txtSHIRESAKI_CD.Enabled = jhOrderState.IsValid && !(printed || hasCompletedDetail) && isNeedOrder;
+            this.txtSIRAINM.Enabled = jhOrderState.IsValid && !(printed || hasCompletedDetail) && isNeedOrder;
+            this.dateHAT_NYUKABI.Enabled = jhOrderState.IsValid && !(printed || hasCompletedDetail) && isNeedOrder;
+            this.txtORDER_MEMO1.Enabled = jhOrderState.IsValid && !(printed || hasCompletedDetail) && isNeedOrder;
+            this.txtHAT_ORDER_NO.Enabled = jhOrderState.IsValid && !(printed || hasCompletedDetail);
+            this.btnNewHatOrderNo.Enabled = jhOrderState.IsValid && !(printed || hasCompletedDetail);
 
-            this.chkHeaderBunrui.Enabled = jhOrderState.IsValid && !printed && isNeedOrder;
+            this.chkHeaderBunrui.Enabled = jhOrderState.IsValid && !(printed || hasCompletedDetail) && isNeedOrder;
         }
 
         /// <summary>発注状態と伝区による、明細部分のEnable制御</summary>
         /// <param name="jhOrderState">発注状態</param>
         private void CngEditModeDetailDenFlg(JHOrderState jhOrderState)
         {
-            // 出荷指示書が印刷されるまでは編集が可能
-            var printed = DenShippingPrinted == true;
             // 伝票区分が[15:取次]または[21:直送]＝外部に発注
             string denFlg = cmbDEN_FLG.GetSelectedCode();
             var isNeedOrder = new[] { "15", "21" }.Contains(denFlg);
+            // 出荷指示書が印刷されるまでは編集が可能。直送の場合は自社から出荷しないのでfalse
+            var printed = (denFlg != "21") && (DenShippingPrinted == true);
+            var hasCompletedDetail = GetCurDetails()
+                .Any(x => GetDTNullableValue<short>(x, "GCompleteFlg") == 1);
 
-            for (int i = 1; i <= 6; i++)
+            foreach(var row in _detailRows)
             {
-                var jH_Main_Detail = GetUcName(i);
-
-                jH_Main_Detail.txtSYOBUN_CD.Enabled = jhOrderState.IsValid && !printed && isNeedOrder;
-                jH_Main_Detail.txtKoban.Enabled = jhOrderState.IsValid && !printed;
-                jH_Main_Detail.cmbSOKO_CD.Enabled = (jhOrderState.IsValid && !printed && new[] { "11", "12", "13", "15" }.Contains(denFlg));
+                row.txtSYOBUN_CD.Enabled = jhOrderState.IsValid && !(printed || hasCompletedDetail) && isNeedOrder;
+                row.txtKoban.Enabled = jhOrderState.IsValid && !(printed || hasCompletedDetail);
+                row.cmbSOKO_CD.Enabled = (jhOrderState.IsValid && 
+                    !(printed || hasCompletedDetail) && 
+                    new[] { "11", "12", "13", "15" }.Contains(denFlg));
             }
         }
         private void ForEditMode_CmbDenFlg_Validated(object sender, EventArgs e)
