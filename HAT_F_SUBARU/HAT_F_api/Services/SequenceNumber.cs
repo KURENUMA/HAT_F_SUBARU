@@ -58,7 +58,19 @@
         PuImportNo,
 
         /// <summary>売上調整番号</summary>
-        [TargetSequenceObject("SALES_ADJUSTMENT_SALES_ADJUSTMENT_NO")]
+        [TargetSequenceObject("PURCHASE_ORDERS_PO_NO")]
         SalesAdjustmentNo,
+
+        /// <summary>
+        /// 発注データ.発注番号
+        /// </summary>
+        [TargetSequenceObject("SALES_ADJUSTMENT_SALES_ADJUSTMENT_NO")]
+        SalesAdjustmentSalesAdjustmentNo,
+
+        /// <summary>
+        /// 発注データ明細.発注番号
+        /// </summary>
+        [TargetSequenceObject("PO_DETAILS_PO_NO")]
+        PoDetailsPoNo,
     }
 }
