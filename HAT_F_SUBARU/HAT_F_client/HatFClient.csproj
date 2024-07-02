@@ -435,7 +435,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Repository\BlobRepo.cs" />
     <Compile Include="Repository\BlobStrageRepo.cs" />
     <Compile Include="Repository\EmployeeRepo.cs" />
     <Compile Include="Repository\PurchaseRepo.cs" />
