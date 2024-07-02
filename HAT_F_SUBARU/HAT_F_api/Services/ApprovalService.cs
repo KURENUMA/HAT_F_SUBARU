@@ -387,17 +387,17 @@ namespace HAT_F_api.Services
                 var approvalTarget = new ApprovalTarget();
                 approvalTarget.ApprovalTargetId = approvalTargetId;
                 approvalTarget.ApprovalTargetSub = rowNo;
-                approvalTarget.PuNo = correction.PuNo;
-                approvalTarget.PuRowNo = correction.PuRowNo;
-                approvalTarget.SupCode = correction.SupCode;
-                approvalTarget.SupSubNo = correction.SupSubNo;
-                approvalTarget.PoPrice = correction.PoPrice;
-                approvalTarget.PuQuantity = correction.PuQuantity;
-                approvalTarget.SalesNo = correction.SalesNo;
-                approvalTarget.RowNo = correction.RowNo;
-                approvalTarget.Quantity = correction.Quantity;
-                approvalTarget.Unitprice = correction.Unitprice;
-                approvalTarget.CompCode = correction.CompCode;
+                //approvalTarget.PuNo = correction.PuNo;
+                //approvalTarget.PuRowNo = correction.PuRowNo;
+                //approvalTarget.SupCode = correction.SupCode;
+                //approvalTarget.SupSubNo = correction.SupSubNo;
+                //approvalTarget.PoPrice = correction.PoPrice;
+                //approvalTarget.PuQuantity = correction.PuQuantity;
+                //approvalTarget.SalesNo = correction.SalesNo;
+                //approvalTarget.RowNo = correction.RowNo;
+                //approvalTarget.Quantity = correction.Quantity;
+                //approvalTarget.Unitprice = correction.Unitprice;
+                //approvalTarget.CompCode = correction.CompCode;
                 approvalTarget.Creator = request.EmpId;
 
                 approvalTargets.Add(approvalTarget);
@@ -432,17 +432,17 @@ namespace HAT_F_api.Services
                 {
                     approvalTarget.ApprovalTargetId = approvalTargetId;
                     approvalTarget.ApprovalTargetSub = rowNo;
-                    approvalTarget.PuNo = correction.PuNo;
-                    approvalTarget.PuRowNo = correction.PuRowNo;
-                    approvalTarget.SupCode = correction.SupCode;
-                    approvalTarget.SupSubNo = correction.SupSubNo;
-                    approvalTarget.PoPrice = correction.PoPrice;
-                    approvalTarget.PuQuantity = correction.PuQuantity;
-                    approvalTarget.SalesNo = correction.SalesNo;
-                    approvalTarget.RowNo = correction.RowNo;
-                    approvalTarget.Quantity = correction.Quantity;
-                    approvalTarget.Unitprice = correction.Unitprice;
-                    approvalTarget.CompCode = correction.CompCode;
+                    //approvalTarget.PuNo = correction.PuNo;
+                    //approvalTarget.PuRowNo = correction.PuRowNo;
+                    //approvalTarget.SupCode = correction.SupCode;
+                    //approvalTarget.SupSubNo = correction.SupSubNo;
+                    //approvalTarget.PoPrice = correction.PoPrice;
+                    //approvalTarget.PuQuantity = correction.PuQuantity;
+                    //approvalTarget.SalesNo = correction.SalesNo;
+                    //approvalTarget.RowNo = correction.RowNo;
+                    //approvalTarget.Quantity = correction.Quantity;
+                    //approvalTarget.Unitprice = correction.Unitprice;
+                    //approvalTarget.CompCode = correction.CompCode;
                     approvalTarget.Creator = request.EmpId;
 
                     approvalTargets.Add(approvalTarget);
@@ -455,17 +455,17 @@ namespace HAT_F_api.Services
                     approvalTarget = await _hatFContext.ApprovalTargets.Where(x => x.ApprovalTargetId == correction.ApprovalTargetId
                                                                                     && x.ApprovalTargetSub == correction.ApprovalTargetSub).FirstAsync();
 
-                    approvalTarget.PuNo = correction.PuNo;
-                    approvalTarget.PuRowNo = correction.PuRowNo;
-                    approvalTarget.SupCode = correction.SupCode;
-                    approvalTarget.SupSubNo = correction.SupSubNo;
-                    approvalTarget.PoPrice = correction.PoPrice;
-                    approvalTarget.PuQuantity = correction.PuQuantity;
-                    approvalTarget.SalesNo = correction.SalesNo;
-                    approvalTarget.RowNo = correction.RowNo;
-                    approvalTarget.Quantity = correction.Quantity;
-                    approvalTarget.Unitprice = correction.Unitprice;
-                    approvalTarget.CompCode = correction.CompCode;
+                    //approvalTarget.PuNo = correction.PuNo;
+                    //approvalTarget.PuRowNo = correction.PuRowNo;
+                    //approvalTarget.SupCode = correction.SupCode;
+                    //approvalTarget.SupSubNo = correction.SupSubNo;
+                    //approvalTarget.PoPrice = correction.PoPrice;
+                    //approvalTarget.PuQuantity = correction.PuQuantity;
+                    //approvalTarget.SalesNo = correction.SalesNo;
+                    //approvalTarget.RowNo = correction.RowNo;
+                    //approvalTarget.Quantity = correction.Quantity;
+                    //approvalTarget.Unitprice = correction.Unitprice;
+                    //approvalTarget.CompCode = correction.CompCode;
                     approvalTarget.Updater = request.EmpId;
 
                     approvalTargets.Add(approvalTarget);
