@@ -36,6 +36,7 @@
             this.textFilterStr = new System.Windows.Forms.TextBox();
             this.lblProjectAllCount = new System.Windows.Forms.Label();
             this.gridPatternUI = new HatFClient.CustomControls.GridPatternUI();
+            this.btnDetail = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnSearch
@@ -126,12 +127,25 @@
             this.gridPatternUI.Size = new System.Drawing.Size(444, 71);
             this.gridPatternUI.TabIndex = 39;
             // 
+            // btnDetail
+            // 
+            this.btnDetail.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDetail.Location = new System.Drawing.Point(1018, 88);
+            this.btnDetail.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnDetail.Name = "btnDetail";
+            this.btnDetail.Size = new System.Drawing.Size(103, 23);
+            this.btnDetail.TabIndex = 43;
+            this.btnDetail.Text = "詳細";
+            this.btnDetail.UseVisualStyleBackColor = true;
+            this.btnDetail.Click += new System.EventHandler(this.btnDetail_Click);
+            // 
             // FixedSales_Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.ClientSize = new System.Drawing.Size(1269, 921);
+            this.Controls.Add(this.btnDetail);
             this.Controls.Add(this.gridPatternUI);
             this.Controls.Add(this.rowsCount);
             this.Controls.Add(this.textFilterStr);
@@ -141,7 +155,7 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.btnSearch);
             this.Margin = new System.Windows.Forms.Padding(2);
-            this.MinimumSize = new System.Drawing.Size(1285, 960);
+            this.MinimumSize = new System.Drawing.Size(1285, 766);
             this.Name = "FixedSales_Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "売上確定一覧";
@@ -161,5 +175,6 @@
         private System.Windows.Forms.Button btnExcel出力;
         private System.Windows.Forms.Label lblProjectAllCount;
         private CustomControls.GridPatternUI gridPatternUI;
+        private System.Windows.Forms.Button btnDetail;
     }
 }

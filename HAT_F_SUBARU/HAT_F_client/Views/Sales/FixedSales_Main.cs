@@ -102,6 +102,7 @@ namespace HatFClient.Views.Sales
                 Visible = false,
             };
             projectGrid1.c1FlexGrid1.AllowFiltering = false;
+            projectGrid1.c1FlexGrid1.MouseDoubleClick += C1FlexGrid1_MouseDoubleClick;
             // TODO: 暫定でFormStyleHelperでやっていることと同じことをする
             if (bool.TryParse(HatFConfigReader.GetAppSetting("Theme:Enabled"), out bool themaEnabled))
             {
@@ -121,12 +122,20 @@ namespace HatFClient.Views.Sales
             InitializeEvents();
         }
 
+        private void C1FlexGrid1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (btnDetail.Enabled == true)
+            {
+                btnDetail.PerformClick();
+            }
+        }
+
         /// <summary>画面終了時</summary>
         /// <param name="sender">イベント発生元</param>
         /// <param name="e">イベント情報</param>
         private void FixedSales_Main_FormClosing(object sender, FormClosingEventArgs e)
         {
-            FormFactory.GetModelessFormCache<CreditNote.CreditNote>()?.Close();
+            FormFactory.GetModelessFormCache<SalesEdit>()?.Close();
         }
 
         /// <summary>イベント初期化</summary>
@@ -264,6 +273,19 @@ namespace HatFClient.Views.Sales
             {
                 action(projectGrid1.c1FlexGrid1.Cols[column]);
             }
+        }
+
+        private void btnDetail_Click(object sender, EventArgs e)
+        {
+            var grid = projectGrid1.c1FlexGrid1;
+            if (grid.Rows.Count < 2) { return; }
+
+            SalesEdit detail = FormFactory.GetModelessForm<SalesEdit>();
+            detail.Condition.Hat注文番号 = grid.GetData(grid.RowSel, "Hat注文番号").ToString();
+
+            detail.Show();
+            //detail.Init(xxxxxx);
+            detail.Activate();
         }
     }
 }
