@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace HAT_F_client.Views.BlobStorage
+namespace HatFClient.CustomControls.BlobStrage
 {
     public partial class FormProgress : Form
     {

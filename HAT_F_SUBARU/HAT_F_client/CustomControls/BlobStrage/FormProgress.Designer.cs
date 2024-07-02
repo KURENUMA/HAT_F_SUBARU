@@ -1,4 +1,4 @@
-﻿namespace HAT_F_client.Views.BlobStorage
+﻿namespace HatFClient.CustomControls.BlobStrage
 {
     partial class FormProgress
     {

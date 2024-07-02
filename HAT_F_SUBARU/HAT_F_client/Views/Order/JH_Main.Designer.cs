@@ -148,7 +148,6 @@
             this.radioHAT = new System.Windows.Forms.RadioButton();
             this.radioHAT_EXCEPT = new System.Windows.Forms.RadioButton();
             this.panelSUPPLIER = new System.Windows.Forms.Panel();
-            this.btnBlob = new System.Windows.Forms.Button();
             this.txtHAT_ORDER_NO = new HatFClient.CustomControls.TextBoxChar();
             this.txtroHattyuJyoutai = new HatFClient.CustomControls.TextBoxReadOnly();
             this.dateHAT_NYUKABI = new HatFClient.CustomControls.C1DateInputEx();
@@ -1574,19 +1573,6 @@
             this.panelSUPPLIER.Size = new System.Drawing.Size(164, 33);
             this.panelSUPPLIER.TabIndex = 27;
             // 
-            // btnBlob
-            // 
-            this.btnBlob.Font = new System.Drawing.Font("Meiryo UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.btnBlob.Location = new System.Drawing.Point(1151, 107);
-            this.btnBlob.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.btnBlob.Name = "btnBlob";
-            this.btnBlob.Size = new System.Drawing.Size(112, 30);
-            this.btnBlob.TabIndex = 128;
-            this.btnBlob.TabStop = false;
-            this.btnBlob.Text = "ファイル";
-            this.btnBlob.UseVisualStyleBackColor = true;
-            this.btnBlob.Click += new System.EventHandler(this.BtnBlob_Click);
-            // 
             // txtHAT_ORDER_NO
             // 
             this.txtHAT_ORDER_NO.BackColor = System.Drawing.SystemColors.Window;
@@ -2334,7 +2320,6 @@
 
         #endregion
         
-        private System.Windows.Forms.Button btnBlob;
         private System.Windows.Forms.Button btnFnc01;
         private System.Windows.Forms.Button btnFnc03;
         private System.Windows.Forms.Button btnFnc05;

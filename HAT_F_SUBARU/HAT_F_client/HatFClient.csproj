@@ -451,16 +451,10 @@
     <Compile Include="ViewModels\TemplateGridManager.cs" />
     <Compile Include="ViewModels\TemplateGridManagerPage.cs" />
     <Compile Include="ViewModels\TemplateGridManagerUpdate.cs" />
-    <Compile Include="Views\BlobStorage\BlobStorageForm.cs">
+    <Compile Include="CustomControls\BlobStrage\FormProgress.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Views\BlobStorage\BlobStorageForm.Designer.cs">
-      <DependentUpon>BlobStorageForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\BlobStorage\FormProgress.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\BlobStorage\FormProgress.Designer.cs">
+    <Compile Include="CustomControls\BlobStrage\FormProgress.Designer.cs">
       <DependentUpon>FormProgress.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\Construction\ConstructionDetail.cs">

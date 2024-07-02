@@ -1,7 +1,6 @@
 ﻿using ClosedXML.Excel;
 using HAT_F_api.CustomModels;
 using HAT_F_api.Models;
-using HAT_F_client.Views.BlobStorage;
 using HatFClient.Common;
 using HatFClient.Constants;
 using HatFClient.CustomControls;
@@ -545,21 +544,6 @@ namespace HatFClient.Views.Order
             await CompleteAndValidateAsync(1);
         }
 
-        private void BtnBlob_Click(object sender, System.EventArgs e)
-        {
-            this.btnBlob.Focus();
-            if (txtDEN_NO.Text.Length == 6)
-            {
-                BlobStorageForm blobStorageForm = new BlobStorageForm();
-                blobStorageForm.DenNo = txtDEN_NO.Text;
-                blobStorageForm.Show();
-
-            }
-            else
-            {
-                MessageBox.Show("伝票番号を指定して下さい");
-            }
-        }
         private async void BtnClose_Click(object sender, System.EventArgs e)
         {
             if (!BoolIsChkStatusOnInit() && !BoolChkDetailDataInput())
