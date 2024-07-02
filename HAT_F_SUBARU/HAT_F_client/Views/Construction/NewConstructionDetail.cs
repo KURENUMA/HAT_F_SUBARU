@@ -4,6 +4,7 @@ using HAT_F_api.Models;
 using HatFClient.Common;
 using HatFClient.Constants;
 using HatFClient.CustomControls;
+using HatFClient.Extensions;
 using HatFClient.Repository;
 using HatFClient.Views.MasterSearch;
 using Newtonsoft.Json;
@@ -405,6 +406,18 @@ namespace HatFClient.Views.ConstructionProject
             if (string.IsNullOrEmpty(txtCONSTRUCTTON_CODE.Text))
             {
                 DialogHelper.WarningMessage(this, "物件コードが入力されていません。");
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(txtTEAM_CD.Text))
+            {
+                DialogHelper.WarningMessage(this, "販課（チーム）が入力されていません。");
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(txtMANAGER_ID.Text))
+            {
+                DialogHelper.WarningMessage(this, "担当者が入力されていません。");
                 return false;
             }
 
@@ -1044,20 +1057,25 @@ namespace HatFClient.Views.ConstructionProject
         /// <param name="e"></param>
         private async void btnAccounting_ClickAsync(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(txtTEAM_CD.Text))
+            {
+                DialogHelper.WarningMessage(this, "販課（チーム）が入力されていません。");
+                return;
+            }
+
+            if (string.IsNullOrEmpty(txtMANAGER_ID.Text))
+            {
+                DialogHelper.WarningMessage(this, "担当者が入力されていません。");
+                return;
+            }
             // チェックされたデータを取得
-            var pages = getFosJyuchPages();
+            var pages = await getFosJyuchPagesAsync();
 
             // ページが空の場合、処理を中断
             if (pages.Count == 0)
             {
                 return;
             }
-
-            // ページがある場合、CommitPagesAsyncを実行
-            //var commitPagesResult = await ApiHelper.FetchAsync(this, () =>
-            //{
-            //    return CommitPagesAsync(pages);
-            //});
 
             var commitPagesResult = await ApiHelper.FetchAsync(this, () =>
             {
@@ -1099,7 +1117,7 @@ namespace HatFClient.Views.ConstructionProject
             SetStatusColumnColors(grd_D);
         }
 
-        public List<FosJyuchuPage> getFosJyuchPages()
+        public async Task<List<FosJyuchuPage>> getFosJyuchPagesAsync()
         {
             DataTable dt = GetCheckedData(grd_D);
 
@@ -1172,22 +1190,7 @@ namespace HatFClient.Views.ConstructionProject
                 page.FosJyuchuH.Nohin = "1";
                 page.FosJyuchuH.Hkbn = "0";
 
-                
-                //TODO H注番
-                //var denFlg = 21;
-                ////var key = txtHAT_ORDER_NO.Text.SafeSubstring(0, 4);
-                //int next = await _sequenceNumberService.GetNextNumberAsync(SequenceNumber.FosJyuchuHOrderNo);
-                //var key = "";
-                //var hatOrderNo = await ApiHelper.FetchAsync(this, () =>
-                //{
-                //    return Program.HatFApiClient.PostAsync<string>(ApiResources.HatF.Client.GetNextHatOrderNo, new Dictionary<string, object>()
-                //{
-                //    {nameof(key), key },
-                //    {nameof(denFlg), denFlg },
-                //}, null);
-                //});
-
-                //page.FosJyuchuH.HatOrderNo = hatOrderNo.Value;
+                page.FosJyuchuH.HatOrderNo = await GetHatFOrderNoAsync();
 
                 page.FosJyuchuH.Jyu2 = txtMANAGER_ID.Text;
                 page.FosJyuchuH.Nyu2 = txtMANAGER_ID.Text;
@@ -1226,32 +1229,42 @@ namespace HatFClient.Views.ConstructionProject
             return pages;
         }
 
-        /// <summary>確定させるためにページ情報を変更する</summary>
-        /// <param name="pages">ページ情報</param>
-        /// <returns>ページ情報</returns>
-        public async Task<ApiResponse<List<FosJyuchuPage>>> CommitPagesAsync(List<FosJyuchuPage> pages)
+        /// <summary>
+        /// F注番採番
+        /// </summary>
+        /// <returns>F注番</returns>
+        private async Task<string> GetHatFOrderNoAsync()
         {
-            FosJyuchuPages fosJyuchuPages = new FosJyuchuPages
+            string result = "";
+            var denFlg = "21";
+            var key = $"{txtTEAM_CD.Text}{txtMANAGER_ID.Text}".SafeSubstring(0, 4);
+            var hatOrderNo = await ApiHelper.FetchAsync(this, () =>
             {
-                TargetPage = pages.Count - 1,
-                Pages = pages,
-            };
-
-            return await fosJyuchuRepo.putOrderCommit(fosJyuchuPages);
+                return Program.HatFApiClient.PostAsync<string>(ApiResources.HatF.Client.GetNextHatOrderNo, new Dictionary<string, object>()
+                {
+                    {nameof(key), key },
+                    {nameof(denFlg), denFlg },
+                }, null);
+            });
+            if (hatOrderNo.Successed)
+            {
+                result = hatOrderNo.Value;
+            }
+            return result;
         }
 
+        /// <summary>
+        /// 受発注情報保存
+        /// </summary>
+        /// <param name="pages"></param>
+        /// <returns></returns>
         public async Task<ApiResponse<List<FosJyuchuPage>>> UpdatePagesAsync(List<FosJyuchuPage> pages)
         {
             FosJyuchuPages fosJyuchuPages = new FosJyuchuPages
             {
                 Pages = pages,
             };
-            string strSaveKey = "";
-            var url = string.Format(ApiResources.HatF.Client.UpdateOrder, strSaveKey);
-
             return await Program.HatFApiClient.PutAsync<List<FosJyuchuPage>>(ApiResources.HatF.Client.UpdateOrder, fosJyuchuPages);
-
-
         }
 
 
